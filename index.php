@@ -7,4 +7,3 @@ define ( 'APP_DEBUG', True );
 define ( 'APP_NAME', 'Orange' );
 define ( 'APP_PATH', './Apps/' );
 require './ORG/ThinkPHP/ThinkPHP.php';//啊啊啊
-////dsadsafsaf
