@@ -14,4 +14,8 @@ return array(
 		'MODULE_ALLOW_LIST'  => array('Home','Admin'),
 		/*多级过滤  */
 		'DEFAULT_FILTER'        => 'strip_tags,htmlspecialchars',
+		//url重写
+		'URL_MODEL'             =>  2,
+		//分隔符
+ 		'URL_PATHINFO_DEPR'     =>  '-',
 );
