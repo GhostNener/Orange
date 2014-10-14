@@ -14,6 +14,22 @@
 <body>
 	<!--顶-->
 	<div id="wrap">
+			<div class="container">
+			<div class="collapse navbar-collapse" >
+				<ul class="nav navbar-nav">
+					<li class="active">
+						<a href="<?php echo U('Index/index');?>">Home</a>
+					</li>
+					<li>
+						<a href="<?php echo U('GoodsCategory/index');?>">分类管理</a>
+					</li>
+					<li>
+						<a href="#">其他</a>
+					</li>
+				</ul>
+			</div>
+			<!-- /.navbar-collapse -->
+		</div>
 		<div class="container">
 			<!-- 分类管理-->
 			<div class="text-center">

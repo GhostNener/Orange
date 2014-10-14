@@ -18,7 +18,7 @@
 			<div class="collapse navbar-collapse" >
 				<ul class="nav navbar-nav">
 					<li class="active">
-						<a href="#">Home</a>
+						<a href="<?php echo U('Index/index');?>">Home</a>
 					</li>
 					<li>
 						<a href="<?php echo U('GoodsCategory/index');?>">分类管理</a>

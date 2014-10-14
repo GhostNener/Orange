@@ -15,6 +15,22 @@
 	<!--顶-->
 	<div id="wrap">
 		<div class="container">
+			<div class="collapse navbar-collapse" >
+				<ul class="nav navbar-nav">
+					<li class="active">
+						<a href="<?php echo U('Index/index');?>">Home</a>
+					</li>
+					<li>
+						<a href="<?php echo U('GoodsCategory/index');?>">分类管理</a>
+					</li>
+					<li>
+						<a href="#">其他</a>
+					</li>
+				</ul>
+			</div>
+			<!-- /.navbar-collapse -->
+		</div>
+		<div class="container">
 			<div class="text-center">
 				<h1>关键字管理</h1>
 			</div>
@@ -44,7 +60,7 @@
 					<div class="col-sm-10">
 						<input type="text" class="form-control " id="Status" placeholder=" Status  "name="Status" value="<?php echo ($model["Status"]); ?>" Readonly></div>
 				</div>
-								<div class="form-group">
+				<div class="form-group">
 					<label for="Hot" class="col-sm-2 control-label">Status</label>
 					<div class="col-sm-10">
 						<input type="num" class="form-control " id="Hot" placeholder=" Hot  "name="Hot" value="<?php echo ($model["Hot"]); ?>" readonly></div>
