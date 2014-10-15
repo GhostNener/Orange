@@ -12,7 +12,7 @@ require './ORG/phpAnalysis/SeachDic.class.php';
  */
 class TestDicController extends Controller {
 	public function index() {
-		$this->assign("time",microtime (true))->display ( 'index/testdic' );
+		$this->assign("time",microtime (true))->display ( 'Index/testdic' );
 	}
 	public function dic() {
 		$t1=microtime (true);

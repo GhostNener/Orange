@@ -36,7 +36,7 @@ class GoodsCategoryController extends Controller {
 		$list = $model->where ( $wherrArr )->limit ( $Page->firstRow . ',' . $Page->listRows )->select ();
 		$this->assign ( 'list', $list );
 		$this->assign ( 'page', $showPage );
-		$this->display ( 'index/category' );
+		$this->display ( 'Index/category' );
 	}
 	/**
 	 * 删除
@@ -87,7 +87,7 @@ class GoodsCategoryController extends Controller {
 						'CategoryId' => $id 
 				);
 				$this->assign ( 'model', $model );
-				$this->assign ( 'modif', 'update' )->display ( 'index/modifcategory' );
+				$this->assign ( 'modif', 'update' )->display ( 'Index/modifcategory' );
 			} else {
 				$this->error ( "操作失败", U ( 'index' ) );
 			}
@@ -102,7 +102,7 @@ class GoodsCategoryController extends Controller {
 	 *        
 	 */
 	public function add() {
-		$this->assign ( 'modif', 'add' )->display ( 'index/modifcategory' );
+		$this->assign ( 'modif', 'add' )->display ( 'Index/modifcategory' );
 	}
 	/**
 	 * 保存
