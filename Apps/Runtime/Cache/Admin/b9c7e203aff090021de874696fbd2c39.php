@@ -60,24 +60,12 @@
 					<div class="col-sm-10">
 						<input type="text" class="form-control " id="Status" placeholder=" Status  "name="Status" value="<?php echo ($model["Status"]); ?>" Readonly></div>
 				</div>
-				<div class="form-group ">
-					<label  class="col-sm-2 control-label">Keyword</label>
-					<div class="col-sm-10" >
-						<label class="checkbox-inline">
-							<a class="btn btn-default" href="<?php echo U('GoodsCategoryKeyword/index',array('CategoryId'=> $model['Id']));?>"
-								<?php if($modif == 'add'): ?>disabled="disabled"<?php endif; ?>
-								>关键字管理
-							</a>
-						</label>
-					</div>
-				</div>
 				<div class="form-group">
 					<div class="col-sm-offset-2 col-sm-10">
 						<button type="submit" class="btn btn-default">保存</button>
 						<a class="btn btn-default" href="<?php echo U('index');?>">返回</a>
 					</div>
 				</div>
-
 			</form>
 		</div>
 

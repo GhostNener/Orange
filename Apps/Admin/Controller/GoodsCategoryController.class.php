@@ -15,7 +15,7 @@ use Org\Util\String;
 class GoodsCategoryController extends Controller {
 	/**
 	 * 首页
-	 * 
+	 *
 	 * @author NENER
 	 */
 	public function index() {
@@ -40,7 +40,7 @@ class GoodsCategoryController extends Controller {
 	}
 	/**
 	 * 删除
-	 * 
+	 *
 	 * @author NENER
 	 */
 	public function del() {
@@ -72,7 +72,7 @@ class GoodsCategoryController extends Controller {
 	}
 	/**
 	 * 查询要修改的数据
-	 * 
+	 *
 	 * @author NENER
 	 */
 	public function update() {
@@ -97,15 +97,17 @@ class GoodsCategoryController extends Controller {
 	}
 	/**
 	 * 渲染add模板
-	 *  @author NENER
-	 *   */
+	 * 
+	 * @author NENER
+	 *        
+	 */
 	public function add() {
 		$this->assign ( 'modif', 'add' )->display ( 'index/modifcategory' );
 	}
 	/**
 	 * 保存
 	 * 包含更新 ，添加
-	 * 
+	 *
 	 * @author NENER
 	 */
 	public function save() {
@@ -121,30 +123,30 @@ class GoodsCategoryController extends Controller {
 			$this->error ( "非法操作" );
 		}
 		$model = M ( 'goods_category' );
-		$data['Title'] = I ( 'Title' );
-		$data['Presentation'] = I ( 'Presentation' );
+		$data ['Title'] = I ( 'Title' );
+		$data ['Presentation'] = I ( 'Presentation' );
 		if ($modif == "add") {
-			$data['Status']=10;
-			$dal=M();
-			$dal->startTrans();
-			$r1=$model->data($data)->add();
-			$dataKey['CategoryId']=$r1;
-			$dataKey['Keyword']=$data['Title'];
-			$dataKey['Status']=10;
-			$dataKey['Hot']=0;
-			$r2=M('goods_category_keyword')->data($dataKey)->add();
-			if($r1&&$r2){
-				$dal->commit();
-			}else {
-				$dal->rollback();
+			$data ['Status'] = 10;
+			$dal = M ();
+			$dal->startTrans ();
+			$r1 = $model->data ( $data )->add ();
+			$dataKey ['CategoryId'] = $r1;
+			$dataKey ['Keyword'] = $data ['Title'];
+			$dataKey ['Status'] = 10;
+			$dataKey ['Hot'] = 0;
+			$r2 = M ( 'goods_category_keyword' )->data ( $dataKey )->add ();
+			if ($r1 && $r2) {
+				$dal->commit ();
+			} else {
+				$dal->rollback ();
 				$this->error ( "操作失败" );
 			}
 		} else {
 			$whereArr = array (
 					'Id' => ( int ) I ( "post.Id" ) 
 			);
-			$model->where ( $whereArr )->save ($data);
-		}		
-		$this->success('操作成功',U('index'));
+			$model->where ( $whereArr )->save ( $data );
+		}
+		$this->success ( '操作成功', U ( 'index' ) );
 	}
 }

@@ -24,13 +24,19 @@ class GoodsCategoryKeywordController extends Controller {
 				),
 				'CategoryId' => $id 
 		);
+		$cmodel = M ( 'goods_category' )->where ( array (
+				'Id' => $id 
+		) )->find ();
+		$this->assign ( 'cmodel', $cmodel );
 		$model = M ( 'goods_category_keyword' );
+		
 		// 总数
 		$allCount = $model->where ( $wherrArr )->count ();
 		// 分页
-		$Page = new \Think\Page ( $allCount, 20 );
+		$Page = new \Think\Page ( $allCount, 10 );
 		$showPage = $Page->show ();
 		// 分页查询
+		
 		$list = $model->where ( $wherrArr )->limit ( $Page->firstRow . ',' . $Page->listRows )->select ();
 		$this->assign ( 'list', $list );
 		$this->assign ( 'page', $showPage );
@@ -47,7 +53,10 @@ class GoodsCategoryKeywordController extends Controller {
 		if (! $id) {
 			$this->error ( "操作失败" );
 		}
-		$this->assign ( 'CategoryId', $id );
+		$cmodel = M ( 'goods_category' )->where ( array (
+				'Id' => $id 
+		) )->find ();
+		$this->assign ( 'cmodel', $cmodel );
 		$this->assign ( 'modif', 'add' )->display ( 'index/modifcategory_keyword' );
 	}
 	/**
@@ -64,7 +73,10 @@ class GoodsCategoryKeywordController extends Controller {
 			$model = M ( 'goods_category_keyword' )->where ( $whereArr )->find ();
 			if ($model) {
 				$this->assign ( 'model', $model );
-				$this->assign ( 'CategoryId', $model ['CategoryId'] );
+				$cmodel = M ( 'goods_category' )->where ( array (
+						'Id' => $model ['CategoryId'] 
+				) )->find ();
+				$this->assign ( 'cmodel', $cmodel );
 				$this->assign ( 'modif', 'update' )->display ( 'index/modifcategory_keyword' );
 			} else {
 				$this->error ( "操作失败", U ( 'index' ) );
@@ -127,8 +139,7 @@ class GoodsCategoryKeywordController extends Controller {
 			$data ['Status'] = 10;
 			$data ['Hot'] = 0;
 			if (M ( 'goods_category_keyword' )->where ( array (
-					'Keyword' => $data ['Keyword'],
-					'CategoryId' => $data ['CategoryId'] 
+					'Keyword' => $data ['Keyword'] 
 			) )->select ()) {
 				$this->error ( "关键字已存在" );
 			}

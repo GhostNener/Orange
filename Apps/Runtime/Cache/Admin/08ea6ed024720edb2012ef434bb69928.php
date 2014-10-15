@@ -32,7 +32,7 @@
 		</div>
 		<div class="container">
 			<div class="text-center">
-				<h1>关键字管理</h1>
+				<h1><?php echo ($cmodel['Title']); ?>-关键字管理</h1>
 			</div>
 			<br>
 
@@ -48,7 +48,7 @@
 				<div class="form-group">
 					<label for="CategoryId" class="col-sm-2 control-label">CategoryId</label>
 					<div class="col-sm-10">
-						<input type="text" class="form-control " id="CategoryId" placeholder=" CategoryId  " name="CategoryId" value="<?php echo ($CategoryId); ?>" readonly></div>
+						<input type="text" class="form-control " id="CategoryId" placeholder=" CategoryId  " name="CategoryId" value="<?php echo ($cmodel['Id']); ?>" readonly></div>
 				</div>
 				<div class="form-group">
 					<label for="Keyword" class="col-sm-2 control-label">Keyword</label>
@@ -61,14 +61,14 @@
 						<input type="text" class="form-control " id="Status" placeholder=" Status  "name="Status" value="<?php echo ($model["Status"]); ?>" Readonly></div>
 				</div>
 				<div class="form-group">
-					<label for="Hot" class="col-sm-2 control-label">Status</label>
+					<label for="Hot" class="col-sm-2 control-label">Hot</label>
 					<div class="col-sm-10">
 						<input type="num" class="form-control " id="Hot" placeholder=" Hot  "name="Hot" value="<?php echo ($model["Hot"]); ?>" readonly></div>
 				</div>
 				<div class="form-group">
 					<div class="col-sm-offset-2 col-sm-10">
 						<button type="submit" class="btn btn-default">保存</button>
-						<a class="btn btn-default" href="<?php echo U('index',array('CategoryId'=>$CategoryId));?>">返回</a>
+						<a class="btn btn-default" href="<?php echo U('index',array('CategoryId'=>$cmodel['Id']));?>">返回</a>
 					</div>
 				</div>
 
