@@ -17,7 +17,7 @@
     $(document).ready(function () {
 		function del(delName,delId){			//点击删除链接，ajax
     	var imgId='#'+delName;
-		var url=$('#url').attr('appurl')+'/del';		//删除图片的路径
+		var url=$('#url').attr('appurl')+'/delimg';		//删除图片的路径
          $.post(url,{'Id':delId},function(data){		//ajax后台
             $(imgId).html(data.info);						//输出后台返回信息
             $(imgId).hide(800);							//自动隐藏

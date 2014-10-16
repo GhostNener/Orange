@@ -17,7 +17,7 @@
     $(document).ready(function () {
 		function del(delName,delId){			//点击删除链接，ajax
     	var imgId='#'+delName;
-		var url=$('#url').attr('appurl')+'/del';		//删除图片的路径
+		var url=$('#url').attr('appurl')+'/delimg';		//删除图片的路径
          $.post(url,{'Id':delId},function(data){		//ajax后台
             $(imgId).html(data.info);						//输出后台返回信息
             $(imgId).hide(800);							//自动隐藏
@@ -74,10 +74,8 @@
 			<br>
 
 			<!-- 分类管理-->
-			<form class="form-horizontal" role="form"  method="post">
+			<form class="form-horizontal" action="<?php echo U('save');?>" role="form"  method="post" multiple="true">
 				<div class="form-group">
-					<input type="hidden" class="form-control "  name="UserId" value="13" Readonly>
-					<input type="hidden" class="form-control "  name="Status" value="0" Readonly>
 					<label for="Title" class="col-sm-2 control-label">Title</label>
 					<div class="col-sm-10">
 						<input type="text" class="form-control " id="Title" placeholder=" Title  " name="Title" ></div>
@@ -92,6 +90,28 @@
 					<div class="col-sm-10">
 						<textarea class="form-control " name="Presentation" id="Presentation" cols="30" rows="10"></textarea>
 					</div>
+				</div>
+				<div class="form-group">
+					<label for="Category" class="col-sm-2 control-label">Category</label>
+					<div class="col-sm-10">
+						<select class="form-control " name="Category" id="Category">
+							<?php if(is_array($clist)): foreach($clist as $key=>$v): ?><option value="<?php echo ($v['Id']); ?>"><?php echo ($v['Title']); ?></option><?php endforeach; endif; ?>
+						</select>
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="Address" class="col-sm-2 control-label">Address</label>
+					<div class="col-sm-8">
+						<select class="form-control " name="Address" id="Address">
+							<?php if(is_array($clist)): foreach($clist as $key=>$v): ?><option value="<?php echo ($v['Id']); ?>"><?php echo ($v['Title']); ?></option><?php endforeach; endif; ?>
+
+						</select>
+					</div>
+					<div class="col-sm-2">
+					 <div class="pull-left">
+							<a href="" class="btn btn-default">添加地址</a>
+						</div>
+						</div>
 				</div>
 				<div class="form-group">
 					<input  type="hidden"  class="form-control " id="url" publicurl="/Orange/Public" appurl="/Orange/Home/Goods"  rooturl="/Orange" Readonly>

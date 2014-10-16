@@ -103,6 +103,7 @@ Released under the MIT License <http://www.opensource.org/licenses/mit-license.p
 .image .photo{
 	float:left;
 	width:80px;
+	padding-right: 10px;
 
 }
 .image .del{

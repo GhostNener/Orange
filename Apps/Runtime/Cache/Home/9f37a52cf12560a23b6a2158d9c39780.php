@@ -19,10 +19,7 @@
 			<div class="collapse navbar-collapse">
 				<ul class="nav navbar-nav">
 					<li class="active"><a href="<?php echo U('Index/index');?>">Home</a></li>
-					<li class="active"><a href="<?php echo U('TestDic/index');?>">词典测试</a></li>
-				
-					<li><a href="<?php echo U('Goods/index');?>">商品管理</a></li>
-						<li><a class="pull-right" href="<?php echo U('Admin/Index/index');?>">后台</a></li>
+					<li><a href="<?php echo U('Goods/add');?>">发布商品</a></li>
 				</ul>
 			</div>
 			<!-- /.navbar-collapse -->
@@ -30,7 +27,7 @@
 		<div class="container">
 			<!-- 分类管理-->
 			<div class="text-center">
-				<h1><a href="<?php echo U('Index/index');?>">Home</a></h1>
+				<h1><a href="<?php echo U('Goods/add');?>">发布商品</a></h1>
 			</div>
 			<br> <br>
 		</div>

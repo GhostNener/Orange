@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit();?><!DOCTYPE html>
+<?php if (!defined('THINK_PATH')) exit();?>﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
@@ -14,8 +14,6 @@
 <body>
 	<!--顶-->
 	<div id="wrap">
-		<!-- 分类管理-->
-
 		<div class="container">
 			<div class="collapse navbar-collapse" >
 				<ul class="nav navbar-nav">
@@ -26,11 +24,49 @@
 						<a href="<?php echo U('GoodsCategory/index');?>">分类管理</a>
 					</li>
 					<li>
-						<a href="<?php echo U('Home/Index/index');?>">返回前台</a>
+						<a href="<?php echo U('Home/Index/index');?>">前台</a>
 					</li>
 				</ul>
 			</div>
-			<!-- /.navbar-collapse -->		
+			<!-- /.navbar-collapse -->
+		</div>
+		<div class="container">
+
+			<div class="text-center">
+				<h1>分类管理</h1>
+			</div>
+			<br>
+			<!-- 分类管理-->
+			<form class="form-horizontal" role="form" action="<?php echo U('save');?>" method="post">
+				<div class="form-group">
+					<input type="hidden" class="form-control "  name="modif" value="<?php echo ($modif); ?>" Readonly>
+					<label for="Id" class="col-sm-2 control-label">Id</label>
+					<div class="col-sm-10">
+						<input type="text" class="form-control " id="cid" placeholder=" Id  " name="Id" value="<?php echo ($model["Id"]); ?>" 
+					Readonly></div>
+				</div>
+				<div class="form-group">
+					<label for="ctitle" class="col-sm-2 control-label">Title</label>
+					<div class="col-sm-10">
+						<input type="text" class="form-control " id="ctitle" placeholder=" Title  " name="Title" value="<?php echo ($model["Title"]); ?>" ></div>
+				</div>
+				<div class="form-group">
+					<label for="Presentation" class="col-sm-2 control-label">Presentation</label>
+					<div class="col-sm-10">
+						<input type="text" class="form-control " id="Presentation" placeholder=" Presentation  "name="Presentation" value="<?php echo ($model["Presentation"]); ?>" ></div>
+				</div>
+				<div class="form-group">
+					<label for="Status" class="col-sm-2 control-label">Status</label>
+					<div class="col-sm-10">
+						<input type="text" class="form-control " id="Status" placeholder=" Status  "name="Status" value="<?php echo ($model["Status"]); ?>" Readonly></div>
+				</div>
+				<div class="form-group">
+					<div class="col-sm-offset-2 col-sm-10">
+						<button type="submit" class="btn btn-default">保存</button>
+						<a class="btn btn-default" href="<?php echo U('index');?>">返回</a>
+					</div>
+				</div>
+			</form>
 		</div>
 
 	</div>
