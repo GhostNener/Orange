@@ -1,15 +1,15 @@
-﻿<!DOCTYPE html>
+<?php if (!defined('THINK_PATH')) exit();?>﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
 	<title>Orange</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" href="__PUBLIC__/css/bootstrap-theme.css"/>
-	<link rel="stylesheet" href="__PUBLIC__/css/bootstrap.css"/>
-	<link rel="stylesheet" href="__PUBLIC__/css/huaxi_css.css" />
-	<link rel="shortcut icon" href="__PUBLIC__/Img/favicon.png" type="image/x-icon"/>
-	<script src="__PUBLIC__/js/jquery-1.8.0.min.js"></script>
-	<script src="__PUBLIC__/js/bootstrap.js"></script>
+	<link rel="stylesheet" href="/Orange/Public/css/bootstrap-theme.css"/>
+	<link rel="stylesheet" href="/Orange/Public/css/bootstrap.css"/>
+	<link rel="stylesheet" href="/Orange/Public/css/huaxi_css.css" />
+	<link rel="shortcut icon" href="/Orange/Public/Img/favicon.png" type="image/x-icon"/>
+	<script src="/Orange/Public/js/jquery-1.8.0.min.js"></script>
+	<script src="/Orange/Public/js/bootstrap.js"></script>
 </head>
 <body>
 	<!--顶-->
@@ -18,13 +18,13 @@
 			<div class="collapse navbar-collapse" >
 				<ul class="nav navbar-nav">
 					<li class="active">
-						<a href="{:U('Index/index')}">Home</a>
+						<a href="<?php echo U('Index/index');?>">Home</a>
 					</li>
 					<li>
-						<a href="{:U('GoodsCategory/index')}">分类管理</a>
+						<a href="<?php echo U('GoodsCategory/index');?>">分类管理</a>
 					</li>
 					<li>
-					<a href="{:U('Home/Index/index')}">前台</a>
+						<a href="<?php echo U('Home/Index/index');?>">前台</a>
 					</li>
 				</ul>
 			</div>
@@ -33,44 +33,38 @@
 		<div class="container">
 			<!-- 分类管理-->
 			<div class="text-center">
-				<h1>分类列表</h1>
+				<h1><?php echo ($cmodel['Title']); ?>-关键字列表</h1>
 			</div>
 			<br>
 			<div>
-				<a href="{:U('add')}" class="btn btn-default">添加</a>
-								<a href="{:U('CategoryDic/crate')}" class="btn btn-default ">词典生成</a>
+				<a href="<?php echo U('add',array('CategoryId'=>$CategoryId));?>" class="btn btn-default">添加</a>
+				<a href="<?php echo U('GoodsCategory/index');?>" class="btn btn-default">返回分类</a>
 			</div>
 			<br>
 			<table class="table table-bordered">
-				<tr >
+				<tr>
 					<th class="text-center">Id</th>
-					<th class="text-center">Title</th>
-					<th class="text-center">Pre</th>
+					<th class="text-center">CategoryId</th>
+					<th class="text-center">Keyword</th>
 					<th class="text-center">Status</th>
-					<th colspan="3" class="text-center">Operate</th>
+					<th>Hot</th>
+					<th colspan="2" class="text-center">Operate</th>
 				</tr>
-				<foreach name='list' item='v'>
-					<tr>
-						<td>{$v.Id}</td>
-						<td>{$v.Title}</td>
-						<td>{$v.Presentation}</td>
-						<td>{$v.Status}</td>
+				<?php if(is_array($list)): foreach($list as $key=>$v): ?><tr>
+						<td><?php echo ($v["Id"]); ?></td>
+						<td><?php echo ($v["CategoryId"]); ?></td>
+						<td><?php echo ($v["Keyword"]); ?></td>
+						<td><?php echo ($v["Status"]); ?></td>
+						<td><?php echo ($v["Hot"]); ?></td>
 						<td>
-							<a class="btn btn-default" href="{:U(del,array('Id'=>$v['Id']))}">删除</a>
+							<a class="btn btn-default" href="<?php echo U(del,array('Id'=>$v['Id'],'CategoryId'=>$CategoryId));?>">删除</a>
 						</td>
 						<td>
-							<a class="btn btn-default" href="{:U(update,array('Id'=>$v['Id']))}">编辑</a>
+							<a class="btn btn-default" href="<?php echo U(update,array('Id'=>$v['Id']));?>">编辑</a>
 						</td>
-						<td>
-							<a class="btn btn-default" href="{:U('GoodsCategoryKeyword/index',array('CategoryId'=>
-								$v['Id']))}"
-								>关键字管理
-							</a>
-						</td>
-					</tr>
-				</foreach>
+					</tr><?php endforeach; endif; ?>
 			</table>
-			{$page}
+			<?php echo ($page); ?>
 		</div>
 
 	</div>

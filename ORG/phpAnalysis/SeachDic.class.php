@@ -3,9 +3,11 @@ ini_set ( 'display_errors', 'On' );
 ini_set ( 'memory_limit', '64M' );
 require './ORG/phpAnalysis/phpanalysis.class.php';
 /**
- * 检索字典 
+ * 检索字典
+ * 
  * @author NENER
- *  */
+ *        
+ */
 class SeachDic {
 	
 	// 岐义处理
@@ -19,6 +21,7 @@ class SeachDic {
 	// 是否预载全部词条
 	public $pri_dict = false;
 	public function seach($str) {
+		$str = strtolower ( $str );
 		// 初始化类
 		PhpAnalysis::$loadInit = false;
 		$pa = new PhpAnalysis ( 'utf-8', 'utf-8', $this->pri_dict );
@@ -29,7 +32,7 @@ class SeachDic {
 		$pa->differMax = $this->do_multi; // 多元切分
 		$pa->unitWord = $this->do_unit; // 新词识别
 		$pa->StartAnalysis ( $this->do_fork ); // 岐义处理
-		// 执行分词 并返回分词结果
+		                                       // 执行分词 并返回分词结果
 		$okresult = $pa->GetFinallyResult ( '$', $this->do_prop );
 		return $this->StrToArr ( $okresult );
 	}

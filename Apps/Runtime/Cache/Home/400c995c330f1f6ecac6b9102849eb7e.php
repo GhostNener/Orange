@@ -1,15 +1,15 @@
-<!DOCTYPE html>
+<?php if (!defined('THINK_PATH')) exit();?><!DOCTYPE html>
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
 	<title>Orange</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" href="__PUBLIC__/css/bootstrap-theme.css"/>
-	<link rel="stylesheet" href="__PUBLIC__/css/bootstrap.css"/>
-	<link rel="stylesheet" href="__PUBLIC__/css/huaxi_css.css" />
-	<link rel="shortcut icon" href="__PUBLIC__/Img/favicon.png" type="image/x-icon"/>
-	<script src="__PUBLIC__/js/jquery-1.8.0.min.js"></script>
-	<script src="__PUBLIC__/js/bootstrap.js"></script>
+	<link rel="stylesheet" href="/Orange/Public/css/bootstrap-theme.css"/>
+	<link rel="stylesheet" href="/Orange/Public/css/bootstrap.css"/>
+	<link rel="stylesheet" href="/Orange/Public/css/huaxi_css.css" />
+	<link rel="shortcut icon" href="/Orange/Public/Img/favicon.png" type="image/x-icon"/>
+	<script src="/Orange/Public/js/jquery-1.8.0.min.js"></script>
+	<script src="/Orange/Public/js/bootstrap.js"></script>
 </head>
 <body>
 	<!--顶-->
@@ -18,13 +18,13 @@
 			<div class="collapse navbar-collapse" >
 				<ul class="nav navbar-nav">
 					<li class="active">
-						<a href="{:U('Index/index')}">Home</a>
+						<a href="<?php echo U('Index/index');?>">Home</a>
 					</li>
 						<li class="active">
-						<a href="{:U('TestDic/index')}">词典测试</a>
+						<a href="<?php echo U('TestDic/index');?>">词典测试</a>
 					</li>
 					<li>
-					<a href="{:U('Admin/Index/index')}">后台</a>
+					<a href="<?php echo U('Admin/Index/index');?>">后台</a>
 					</li>
 				</ul>
 			</div>

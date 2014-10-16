@@ -1,15 +1,15 @@
-﻿<!DOCTYPE html>
+<?php if (!defined('THINK_PATH')) exit();?>﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
 	<title>Orange</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" href="__PUBLIC__/css/bootstrap-theme.css"/>
-	<link rel="stylesheet" href="__PUBLIC__/css/bootstrap.css"/>
-	<link rel="stylesheet" href="__PUBLIC__/css/huaxi_css.css" />
-	<link rel="shortcut icon" href="__PUBLIC__/Img/favicon.png" type="image/x-icon"/>
-	<script src="__PUBLIC__/js/jquery-1.8.0.min.js"></script>
-	<script src="__PUBLIC__/js/bootstrap.js"></script>
+	<link rel="stylesheet" href="/Orange/Public/css/bootstrap-theme.css"/>
+	<link rel="stylesheet" href="/Orange/Public/css/bootstrap.css"/>
+	<link rel="stylesheet" href="/Orange/Public/css/huaxi_css.css" />
+	<link rel="shortcut icon" href="/Orange/Public/Img/favicon.png" type="image/x-icon"/>
+	<script src="/Orange/Public/js/jquery-1.8.0.min.js"></script>
+	<script src="/Orange/Public/js/bootstrap.js"></script>
 </head>
 <body>
 	<!--顶-->
@@ -18,54 +18,60 @@
 			<div class="collapse navbar-collapse" >
 				<ul class="nav navbar-nav">
 					<li class="active">
-						<a href="{:U('Index/index')}">Home</a>
+						<a href="<?php echo U('Index/index');?>">Home</a>
 					</li>
 					<li>
-						<a href="{:U('GoodsCategory/index')}">分类管理</a>
+						<a href="<?php echo U('GoodsCategory/index');?>">分类管理</a>
 					</li>
 					<li>
-						<a href="{:U('Home/Index/index')}">前台</a>
+					<a href="<?php echo U('Home/Index/index');?>">前台</a>
 					</li>
 				</ul>
 			</div>
 			<!-- /.navbar-collapse -->
 		</div>
 		<div class="container">
-
 			<div class="text-center">
-				<h1>分类管理</h1>
+				<h1><?php echo ($cmodel['Title']); ?>-关键字管理</h1>
 			</div>
 			<br>
+
 			<!-- 分类管理-->
-			<form class="form-horizontal" role="form" action="{:U('save')}" method="post">
+			<form class="form-horizontal" role="form" action="<?php echo U('save');?>" method="post">
 				<div class="form-group">
-					<input type="hidden" class="form-control "  name="modif" value="{$modif}" Readonly>
+					<input type="hidden" class="form-control "  name="modif" value="<?php echo ($modif); ?>" Readonly>
 					<label for="Id" class="col-sm-2 control-label">Id</label>
 					<div class="col-sm-10">
-						<input type="text" class="form-control " id="cid" placeholder=" Id  " name="Id" value="{$model.Id}" 
+						<input type="text" class="form-control " id="cid" placeholder=" Id  " name="Id" value="<?php echo ($model["Id"]); ?>" 
 					Readonly></div>
 				</div>
 				<div class="form-group">
-					<label for="ctitle" class="col-sm-2 control-label">Title</label>
+					<label for="CategoryId" class="col-sm-2 control-label">CategoryId</label>
 					<div class="col-sm-10">
-						<input type="text" class="form-control " id="ctitle" placeholder=" Title  " name="Title" value="{$model.Title}" ></div>
+						<input type="text" class="form-control " id="CategoryId" placeholder=" CategoryId  " name="CategoryId" value="<?php echo ($cmodel['Id']); ?>" readonly></div>
 				</div>
 				<div class="form-group">
-					<label for="Presentation" class="col-sm-2 control-label">Presentation</label>
+					<label for="Keyword" class="col-sm-2 control-label">Keyword</label>
 					<div class="col-sm-10">
-						<input type="text" class="form-control " id="Presentation" placeholder=" Presentation  "name="Presentation" value="{$model.Presentation}" ></div>
+						<input type="text" class="form-control " id="Keyword" placeholder=" Keyword  "name="Keyword" value="<?php echo ($model["Keyword"]); ?>" ></div>
 				</div>
 				<div class="form-group">
 					<label for="Status" class="col-sm-2 control-label">Status</label>
 					<div class="col-sm-10">
-						<input type="text" class="form-control " id="Status" placeholder=" Status  "name="Status" value="{$model.Status}" Readonly></div>
+						<input type="text" class="form-control " id="Status" placeholder=" Status  "name="Status" value="<?php echo ($model["Status"]); ?>" Readonly></div>
+				</div>
+				<div class="form-group">
+					<label for="Hot" class="col-sm-2 control-label">Hot</label>
+					<div class="col-sm-10">
+						<input type="num" class="form-control " id="Hot" placeholder=" Hot  "name="Hot" value="<?php echo ($model["Hot"]); ?>" readonly></div>
 				</div>
 				<div class="form-group">
 					<div class="col-sm-offset-2 col-sm-10">
 						<button type="submit" class="btn btn-default">保存</button>
-						<a class="btn btn-default" href="{:U('index')}">返回</a>
+						<a class="btn btn-default" href="<?php echo U('index',array('CategoryId'=>$cmodel['Id']));?>">返回</a>
 					</div>
 				</div>
+
 			</form>
 		</div>
 

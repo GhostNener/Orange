@@ -50,7 +50,7 @@ class Cratedic {
 				$flag = true;
 				fwrite ( $fp, "@关键字词典,0,@\n" );
 			}
-			$strTemp = $k ['Keyword'] . ',' . $k ['CategoryId'] . "\n";
+			$strTemp = strtolower($k ['Keyword']) . ',' . $k ['CategoryId'] . "\n";
 			fwrite ( $fp, $strTemp );
 		}
 		fclose ( $fp );

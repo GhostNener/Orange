@@ -1,15 +1,15 @@
-<!DOCTYPE html>
+<?php if (!defined('THINK_PATH')) exit();?>﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
 	<title>Orange</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" href="__PUBLIC__/css/bootstrap-theme.css"/>
-	<link rel="stylesheet" href="__PUBLIC__/css/bootstrap.css"/>
-	<link rel="stylesheet" href="__PUBLIC__/css/huaxi_css.css" />
-	<link rel="shortcut icon" href="__PUBLIC__/Img/favicon.png" type="image/x-icon"/>
-	<script src="__PUBLIC__/js/jquery-1.8.0.min.js"></script>
-	<script src="__PUBLIC__/js/bootstrap.js"></script>
+	<link rel="stylesheet" href="/Orange/Public/css/bootstrap-theme.css"/>
+	<link rel="stylesheet" href="/Orange/Public/css/bootstrap.css"/>
+	<link rel="stylesheet" href="/Orange/Public/css/huaxi_css.css" />
+	<link rel="shortcut icon" href="/Orange/Public/Img/favicon.png" type="image/x-icon"/>
+	<script src="/Orange/Public/js/jquery-1.8.0.min.js"></script>
+	<script src="/Orange/Public/js/bootstrap.js"></script>
 </head>
 <body>
 	<!--顶-->
@@ -18,13 +18,10 @@
 			<div class="collapse navbar-collapse" >
 				<ul class="nav navbar-nav">
 					<li class="active">
-						<a href="{:U('Index/index')}">Home</a>
-					</li>
-						<li class="active">
-						<a href="{:U('TestDic/index')}">词典测试</a>
+						<a href="<?php echo U('Index/index');?>">Home</a>
 					</li>
 					<li>
-					<a href="{:U('Admin/Index/index')}">后台</a>
+						<a href="#">其他</a>
 					</li>
 				</ul>
 			</div>
@@ -34,12 +31,25 @@
 			<!-- 分类管理-->
 			<div class="text-center">
 				<h1>词典测试</h1>
+				<?php echo ($time); ?>
 			</div>
 			<br>
 
 			<br>
 
+			<form class="form-horizontal" role="form" action="<?php echo U('dic');?>" method="post">
+				<div class="form-group">
+					<label for="text" class="col-sm-2 control-label">text</label>
+					<div class="col-sm-10">
+						<input type="text" class="form-control " id="text" placeholder=" text  " name="text"></div>
+				</div>
 
+				<div class="form-group">
+					<div class="col-sm-offset-2 col-sm-10">
+						<button type="submit" class="btn btn-default">提交</button>
+					</div>
+				</div>
+			</form>
 		</div>
 
 	</div>

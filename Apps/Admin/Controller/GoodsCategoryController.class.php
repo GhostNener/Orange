@@ -61,7 +61,7 @@ class GoodsCategoryController extends Controller {
 			$r2 = $dal->execute ( "update goods_category_keyword set Status=-1 where CategoryId=" . $id );
 			if ($r1 && $r2) { // 成功
 				$dal->commit (); // 提交事务
-				$this->success ( "操作成功", U ( 'index' ) );
+				$this->success ( "操作成功", U ( 'index' ), 1 );
 			} else {
 				$dal->rollback (); // 否则回滚
 				$this->error ( "操作失败", U ( 'index' ) );
@@ -97,7 +97,7 @@ class GoodsCategoryController extends Controller {
 	}
 	/**
 	 * 渲染add模板
-	 * 
+	 *
 	 * @author NENER
 	 *        
 	 */
@@ -147,6 +147,6 @@ class GoodsCategoryController extends Controller {
 			);
 			$model->where ( $whereArr )->save ( $data );
 		}
-		$this->success ( '操作成功', U ( 'index' ) );
+		$this->success ( '操作成功', U ( 'index' ),1 );
 	}
 }

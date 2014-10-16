@@ -107,7 +107,9 @@ class GoodsCategoryKeywordController extends Controller {
 				$this->error ( "至少保留一个关键字" );
 			}
 			if ($model->where ( $whereArr )->delete ()) {
-				$this->success ( "操作成功" );
+				$this->success ( "操作成功", U ( 'index', array (
+						'CategoryId' => $cid 
+				) ), 1 );
 			}
 		} else {
 			$this->error ( "页面不存在" );
@@ -133,13 +135,14 @@ class GoodsCategoryKeywordController extends Controller {
 		}
 		$model = M ( 'goods_category_keyword' );
 		$data ['CategoryId'] = I ( 'CategoryId' );
-		$data ['Keyword'] = I ( 'Keyword' );
+		$data ['Keyword'] = strtolower ( I ( 'Keyword' ) );
 		$data ['Hot'] = ( int ) I ( 'Hot' );
 		if ($modif == "add") {
 			$data ['Status'] = 10;
 			$data ['Hot'] = 0;
 			if (M ( 'goods_category_keyword' )->where ( array (
-					'Keyword' => $data ['Keyword'] 
+					'Keyword' => $data ['Keyword'],
+					'Status' => 10 
 			) )->select ()) {
 				$this->error ( "关键字已存在" );
 			}
@@ -154,6 +157,6 @@ class GoodsCategoryKeywordController extends Controller {
 		}
 		$this->success ( '操作成功', U ( 'index', array (
 				'CategoryId' => $data ['CategoryId'] 
-		) ) );
+		) ), 1 );
 	}
 }

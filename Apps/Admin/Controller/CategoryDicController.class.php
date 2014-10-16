@@ -18,7 +18,7 @@ class CategoryDicController extends Controller {
 	 * @author NENER
 	 */
 	public function crate() {
-		//获取关键字数据
+		// 获取关键字数据
 		$arr = M ( 'goods_category_keyword' )->where ( array (
 				'Status' => 10 
 		) )->select ();
@@ -27,7 +27,7 @@ class CategoryDicController extends Controller {
 		}
 		$cr = new \Cratedic ();
 		if ($cr->buildDic ( $arr )) {
-			$this->success ( "操作成功\n共" . count ( $arr ) . '个关键字', U ( 'GoodsCategory/index' ) );
+			$this->success ( "操作成功\n共" . count ( $arr ) . '个关键字', U ( 'GoodsCategory/index' ), 1 );
 		} else {
 			$this->error ( '操作失败', U ( 'GoodsCategory/index' ) );
 		}
