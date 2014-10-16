@@ -17,5 +17,5 @@ return array(
 		//url重写
 		'URL_MODEL'             =>  2,
 		//分隔符
- 		'URL_PATHINFO_DEPR'     =>  '-',
+ 		'URL_PATHINFO_DEPR'     =>  '/',
 );

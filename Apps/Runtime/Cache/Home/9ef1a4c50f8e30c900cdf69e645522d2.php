@@ -21,7 +21,7 @@
 						<a href="<?php echo U('Index/index');?>">Home</a>
 					</li>
 					<li>
-						<a href="#">其他</a>
+							<a href="<?php echo U('Admin/Index/index');?>">后台</a>
 					</li>
 				</ul>
 			</div>
