@@ -20,7 +20,6 @@ class GoodsController extends Controller {
 	public function add() {
 		//查询分类
 		$clist=M('goods_category')->where(array('Status'=>10))->select();
-		cookie ( 'GoodsId', '', time () - 600 );
 		cookie ( 'GoodsId', - 1, 600 );
 		$time = date ( DATE_RFC822 );
 		$this->assign ( 'time', $time );
@@ -39,7 +38,6 @@ class GoodsController extends Controller {
 			$where ['Id'] = $goodsid;
 			$z = $goods->where ( $where )->save ();
 			if ($z) {
-				cookie ( 'GoodsId', '', time () - 600 );
 				cookie ( 'GoodsId', - 1, 600 );
 				$this->success ( '添加商品成功' );
 			} else {
@@ -47,6 +45,38 @@ class GoodsController extends Controller {
 			}
 		}else {
 			$this->error ( '信息为空' );
+		}
+	}
+		/**
+	 * 保存
+	 */
+	public function saveimg() {
+		if (!IS_POST) {
+			$this->error ( '页面不存在' );
+		}
+		$goodsid=I('_gid');
+		$imgid=I('_imgid');
+		$dal=M();
+		$dal->startTrans ();
+		if(!$goodsid||$goodsid<=0){						
+			$goodsid=M('goods')->add( array('UserId' =>123,'Status'=>0 ));					
+		}
+		if($goodsid){
+			$imgmodel=M('goods_img');
+			$imgmodel->GoodsId=$goodsid;
+		$rst=$imgmodel->where (array('Id' =>$imgid  ))->save();
+		if($rst){
+			$dal->commit ();
+			$this->success($goodsid) ;
+			return;
+		}else{
+			$dal->rollback ();
+		M('goods_img')->where(array('Id'=>$imgid ))->delete();
+				$this->error('0') ;
+		}
+		}else{
+			$dal->rollback ();
+			$this->error('0') ;
 		}
 	}
 	
@@ -61,10 +91,11 @@ class GoodsController extends Controller {
 			$config = C ( 'IMG_UPLOAD_CONFIG' );
 			$upload = new \Think\Upload ( $config ); // 实例化上传类
 			$images = $upload->upload ();
+			$goodsid ;
 			// 判断是否有图
 			if ($images) {
 				// 判断COOKIE
-				if (! cookie ( 'GoodsId' ) || ( int ) cookie ( 'GoodsId' ) <= 0) {
+				/*if (! cookie ( 'GoodsId' ) || ( int ) cookie ( 'GoodsId' ) <= 0) {
 					// 插入临时的商品记录
 					$rstg = M ( 'goods' )->data ( array (
 							'UserId' => 5,
@@ -78,21 +109,22 @@ class GoodsController extends Controller {
 						$this->error ( "error" );
 						return;
 					}
-				}
+				}*/
 				// 获得商品ID
-				$goodsid = cookie ( 'GoodsId' );
+
 				// 图片保存名
 				$imgname = $images ['Filedata'] ['savename'];
 				// 图片保存路径
 				$imgurl = $config ['savePath'] . $imgname;
 				$data = array (
-						'GoodsId' => $goodsid,
+						'GoodsId' =>0,
 						'URL' => $imgurl,
 						'Title' => $imgname,
 						'Status' => 0 
 				);
-				if (M ( 'goods_img' )->add ( $data )) {
-					echo $imgurl;
+				$rst=M ( 'goods_img' )->add ( $data );
+				if ($rst) {
+					echo json_encode(array( $rst, $imgurl));
 				} else {
 					$this->error ( "error" );
 				}

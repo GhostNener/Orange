@@ -4,25 +4,25 @@
 	<meta charset="UTF-8">
 	<title>Orange</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="/Orange/Public/css/uploadify.css">
 	<link rel="stylesheet" href="/Orange/Public/css/bootstrap-theme.css" />
 	<link rel="stylesheet" href="/Orange/Public/css/bootstrap.css" />
 	<link rel="stylesheet" href="/Orange/Public/css/huaxi_css.css" />
 	<link rel="shortcut icon" href="/Orange/Public/Img/favicon.png"
 	type="image/x-icon" />
 	<script src="/Orange/Public/js/jquery-1.8.0.min.js"></script>
+		<script src="/Orange/Public/js/jquery.uploadify.min.js?ver='<?php echo time();?>';?"></script>
 	<script src="/Orange/Public/js/bootstrap.js"></script>
-	<script src="/Orange/Public/js/jquery.uploadify.min.js?ver='<?php echo time();?>';?"></script>
-	<link rel="stylesheet" href="/Orange/Public/css/uploadify.css">
 	<script type="text/javascript">
-    $(document).ready(function () {
-		function del(delName,delId){			//点击删除链接，ajax
-    	var imgId='#'+delName;
+	function del(div_id,imgurl){			//点击删除链接，ajax
+    	var imgId='#'+div_id;
 		var url=$('#url').attr('appurl')+'/delimg';		//删除图片的路径
-         $.post(url,{'Id':delId},function(data){		//ajax后台
+         $.post(url,{'URL':imgurl},function(data){		//ajax后台
             $(imgId).html(data.info);						//输出后台返回信息
             $(imgId).hide(800);							//自动隐藏
         },'json');										//josn格式
 	}
+    $(document).ready(function () {
 		$('#file_upload').uploadify({
 			'formData'     : {
 				'timestamp' : '<?php echo ($time); ?>',            //时间
@@ -37,18 +37,47 @@
 			'swf'      : $('#url').attr('publicurl')+'/Img/uploadify.swf',	//加载swf
 			'uploader' : $('#url').attr('appurl')+'/uploadify',					//上传路径
 			'buttonText' :'文件上传',									//按钮的文字
-			'onUploadSuccess' : function(file, data, response) {			//成功上传返回
-           	var imgId=Math.random()+(new Date()).valueOf();		
+			'onUploadSuccess' : function(file, data, response) {
+				if(data){
+					 data=$.parseJSON(data);
+					if(!($.isNumeric(data[0]))){
+						alert('上传失败！');
+						return;
+					}
+					var gid=$('#url').attr('gid');
+					if(1){
+						var postimgurl=$('#url').attr('appurl')+'/saveimg';
+						$.post(postimgurl,{
+							'_imgid':data[0],
+								'_gid':gid
+
+						},function(datainfo){
+						if(datainfo.info){
+							$('#url').attr('gid',datainfo.info);
+	//成功上传返回
+           	var imgId='_'+(parseInt(Math.random() *100)+(new Date()).valueOf());		
            	var tempPath=$('#url').attr('publicurl');						
            	//data  url
            	//插入到image标签内，显示图片的缩略图           
-			$('#image').append('<div id="'+imgId+'" class="photo "><a href="'+data+'"  target="_blank"><img src="'+tempPath+data+'"  height=80 width=80 /></a><div class="del"><a href="javascript:void(0)" onclick=del("'+imgId+'","'+data+'");return false;>删除</a></div></div>');
+			$('#image').append('<div id="'+imgId+'" class="photo" style="margin-right: 3px;margin-left: 3px" ><img src="'+tempPath+data[1]+'"  height=80 width=80 /><div class="del"><a class="a_imgdel" href="javascript:void(0)"onclick=del("'+imgId+'","'+data[1]+'");return false; imgurl="'+data[1]+'">删除</a></div></div>');return;
+		}else{
+			alert('上传失败！');
+			return;
+		}
+						});						
+					}
+				}else{
+			alert('上传失败！');
+			return;
+		}
+
 			}
 		});
     })
 </script>
 </head>
 <body>
+<a class="a_imgdel" href="javascript:void(0)"  imgurl="'+data[1]+'">删除</a>
 	<!--顶-->
 	<div id="wrap">
 		<div class="container">
@@ -74,7 +103,7 @@
 			<br>
 
 			<!-- 分类管理-->
-			<form class="form-horizontal" action="<?php echo U('save');?>" role="form"  method="post" multiple="true">
+			<form class="form-horizontal" action="<?php echo U('save');?>" role="form"  method="post" multiple="true" >
 				<div class="form-group">
 					<label for="Title" class="col-sm-2 control-label">Title</label>
 					<div class="col-sm-10">
@@ -114,11 +143,11 @@
 						</div>
 				</div>
 				<div class="form-group">
-					<input  type="hidden"  class="form-control " id="url" publicurl="/Orange/Public" appurl="/Orange/Home/Goods"  rooturl="/Orange" Readonly>
+					<input  type="hidden"  class="form-control " id="url" publicurl="/Orange/Public" appurl="/Orange/Home/Goods"  rooturl="/Orange" gid="0" Readonly>
 					<label for="file_upload" class="col-sm-2 control-label">file_upload</label>
 					<div class="col-sm-10">
 						<input id="file_upload" name="file_upload" type="file" multiple="true">
-						<div id="image" class="image"></div>
+						<div id="image" class="image col-sm-12"></div>
 					</div>
 				</div>
 				<div class="form-group">

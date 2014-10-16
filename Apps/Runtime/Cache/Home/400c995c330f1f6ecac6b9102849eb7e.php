@@ -19,8 +19,7 @@
 			<div class="collapse navbar-collapse">
 				<ul class="nav navbar-nav">
 					<li class="active"><a href="<?php echo U('Index/index');?>">Home</a></li>
-					<li class="active"><a href="<?php echo U('TestDic/index');?>">词典测试</a></li>
-				
+					<li class="active"><a href="<?php echo U('TestDic/index');?>">词典测试</a></li>				
 					<li><a href="<?php echo U('Goods/index');?>">商品管理</a></li>
 						<li><a class="pull-right" href="<?php echo U('Admin/Index/index');?>">后台</a></li>
 				</ul>
