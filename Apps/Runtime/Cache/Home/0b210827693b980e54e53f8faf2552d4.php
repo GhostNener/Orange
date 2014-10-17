@@ -18,15 +18,26 @@
     	var imgId='#'+div_id;
 		var url=$('#url').attr('appurl')+'/delimg';		//删除图片的路径
          $.post(url,{'URL':imgurl},function(data){		//ajax后台
-            $(imgId).html(data.info);						//输出后台返回信息
-            $(imgId).hide(800);							//自动隐藏
+        	 if(data.info==1){
+        		 $(imgId).html(data.info);
+        		 $(imgId).remove();	
+                 var imgcount=parseInt($('#imgcount').val());
+                 if((imgcount-1)<=0){
+                	 imgcount=0;
+                 }else{imgcount=imgcount-1;}
+                 $('#imgcount').val((imgcount));
+        	 }else{
+        		 alert("删除失败\n"+data.info);
+        	 }
+           						//输出后台返回信息
+           						//自动隐藏
         },'json');										//josn格式
 	}
     $(document).ready(function () {
 		$('#file_upload').uploadify({
 			'formData'     : {
-				'timestamp' : '<?php echo ($time); ?>',            //时间
-				'token'     : '<?php echo (md5($time )); ?>',		//加密字段
+				'timestamp' : (new Date()).valueOf(),            //时间
+				'token'     : (new Date()).valueOf(),		//加密字段
 				'url'		: $('#url').attr('appurl')+'/upload/',	//url
 				'imageUrl'	: $('#url').attr('rooturl')			//root
 			},
@@ -59,7 +70,10 @@
            	var tempPath=$('#url').attr('publicurl');						
            	//data  url
            	//插入到image标签内，显示图片的缩略图           
-			$('#image').append('<div id="'+imgId+'" class="photo" style="margin-right: 3px;margin-left: 3px" ><img src="'+tempPath+data[1]+'"  height=80 width=80 /><div class="del"><a class="a_imgdel" href="javascript:void(0)"onclick=del("'+imgId+'","'+data[1]+'");return false; imgurl="'+data[1]+'">删除</a></div></div>');return;
+			$('#image').append('<div id="'+imgId+'" class="photo" style="margin-right: 3px;margin-left: 3px" ><img src="'+tempPath+data[1]+'"  height=80 width=80 /><div class="del"><a class="a_imgdel" href="javascript:void(0)"onclick=del("'+imgId+'","'+data[1]+'");return false; imgurl="'+data[1]+'">删除</a></div></div>');
+           var imgcount=parseInt($('#imgcount').val());
+           $('#imgcount').val((imgcount+1));
+           	return;
 		}else{
 			alert('上传失败！');
 			return;
@@ -104,6 +118,7 @@
 
 			<!-- 分类管理-->
 			<form class="form-horizontal" action="<?php echo U('save');?>" role="form"  method="post" multiple="true" >
+			<input  type="hidden"  class="form-control " id="imgcount" name="imgcount" value="0" Readonly>
 				<div class="form-group">
 					<label for="Title" class="col-sm-2 control-label">Title</label>
 					<div class="col-sm-10">
@@ -133,7 +148,6 @@
 					<div class="col-sm-8">
 						<select class="form-control " name="Address" id="Address">
 							<?php if(is_array($clist)): foreach($clist as $key=>$v): ?><option value="<?php echo ($v['Id']); ?>"><?php echo ($v['Title']); ?></option><?php endforeach; endif; ?>
-
 						</select>
 					</div>
 					<div class="col-sm-2">

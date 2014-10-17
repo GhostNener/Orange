@@ -18,18 +18,17 @@ class GoodsController extends Controller {
 	 * 渲染商品添加页面
 	 */
 	public function add() {
-		//查询分类
-		$clist=M('goods_category')->where(array('Status'=>10))->select();
-		cookie ( 'GoodsId', - 1, 600 );
-		$time = date ( DATE_RFC822 );
-		$this->assign ( 'time', $time );
-		$this->assign('clist',$clist)->display ('modifgoods');
+		// 查询分类
+		$clist = M ( 'goods_category' )->where ( array (
+				'Status' => 10 
+		) )->select ();
+		$this->assign ( 'clist', $clist )->display ( 'modifgoods' );
 	}
 	/**
 	 * 保存
 	 */
 	public function save() {
-		if (!IS_POST) {
+		if (! IS_POST) {
 			$this->error ( '页面不存在' );
 		}
 		if (! empty ( $_POST )) {
@@ -43,40 +42,60 @@ class GoodsController extends Controller {
 			} else {
 				$this->error ( '添加商品失败' );
 			}
-		}else {
+		} else {
 			$this->error ( '信息为空' );
 		}
 	}
-		/**
+	/**
 	 * 保存
 	 */
 	public function saveimg() {
-		if (!IS_POST) {
+		if (! IS_POST) {
 			$this->error ( '页面不存在' );
 		}
-		$goodsid=I('_gid');
-		$imgid=I('_imgid');
-		$dal=M();
-		$dal->startTrans ();
-		if(!$goodsid||$goodsid<=0){						
-			$goodsid=M('goods')->add( array('UserId' =>123,'Status'=>0 ));					
+		$goodsid = I ( '_gid' );
+		$imgid = I ( '_imgid' );
+		$delmodel = M ( 'goods_img' )->where ( array (
+				'Id' => $imgid 
+		) )->find ();
+		$delur = './Public/' . $imgmodel ['URL'];
+		$dal = M ();
+		$dal->startTrans (); // 事务
+		if (! $goodsid || $goodsid <= 0) {
+			$goodsid = M ( 'goods' )->add ( array (
+					'UserId' => 123,
+					'Status' => 0 
+			) );
 		}
-		if($goodsid){
-			$imgmodel=M('goods_img');
-			$imgmodel->GoodsId=$goodsid;
-		$rst=$imgmodel->where (array('Id' =>$imgid  ))->save();
-		if($rst){
-			$dal->commit ();
-			$this->success($goodsid) ;
-			return;
-		}else{
+		if ($goodsid) {
+			$imgmodel = M ( 'goods_img' );
+			$imgmodel->GoodsId = $goodsid;
+			$rst = $imgmodel->where ( array (
+					'Id' => $imgid 
+			) )->save ();
+			if ($rst) {
+				$dal->commit ();
+				$this->success ( $goodsid );
+				return;
+			} else {
+				$dal->rollback ();
+				/*
+				 * 删除物理路径图片 还没写
+				 */
+				
+				unlink ( $delur );
+				M ( 'goods_img' )->where ( array (
+						'Id' => $imgid 
+				) )->delete ();
+				$this->error ( '0' );
+			}
+		} else {
 			$dal->rollback ();
-		M('goods_img')->where(array('Id'=>$imgid ))->delete();
-				$this->error('0') ;
-		}
-		}else{
-			$dal->rollback ();
-			$this->error('0') ;
+			/*
+			 * 删除物理路径图片 还没写
+			 */
+			unlink ( $delur );
+			$this->error ( '0' );
 		}
 	}
 	
@@ -91,40 +110,24 @@ class GoodsController extends Controller {
 			$config = C ( 'IMG_UPLOAD_CONFIG' );
 			$upload = new \Think\Upload ( $config ); // 实例化上传类
 			$images = $upload->upload ();
-			$goodsid ;
 			// 判断是否有图
 			if ($images) {
-				// 判断COOKIE
-				/*if (! cookie ( 'GoodsId' ) || ( int ) cookie ( 'GoodsId' ) <= 0) {
-					// 插入临时的商品记录
-					$rstg = M ( 'goods' )->data ( array (
-							'UserId' => 5,
-							'Status' => 0 
-					) )->add ();
-					if ($rstg) {
-						// 设置cookie
-						cookie ( 'GoodsId', ( int ) $rstg, 600 );
-						$goodsid = $rstg;
-					} else {
-						$this->error ( "error" );
-						return;
-					}
-				}*/
-				// 获得商品ID
-
 				// 图片保存名
 				$imgname = $images ['Filedata'] ['savename'];
 				// 图片保存路径
 				$imgurl = $config ['savePath'] . $imgname;
 				$data = array (
-						'GoodsId' =>0,
+						'GoodsId' => 0,
 						'URL' => $imgurl,
 						'Title' => $imgname,
 						'Status' => 0 
 				);
-				$rst=M ( 'goods_img' )->add ( $data );
+				$rst = M ( 'goods_img' )->add ( $data );
 				if ($rst) {
-					echo json_encode(array( $rst, $imgurl));
+					echo json_encode ( array (
+							$rst,
+							$imgurl 
+					) );
 				} else {
 					$this->error ( "error" );
 				}
@@ -140,13 +143,13 @@ class GoodsController extends Controller {
 	 * 删除图片
 	 */
 	public function delimg() {
-		if(!IS_POST){
+		if (! IS_POST) {
 			$this->error ( "页面不存在" );
 		}
 		if (! I ( 'URL' )) {
 			// 没有获得要删除的图片
 			$this->error ( "没有获得要删除的图片" );
-		}		
+		}
 		$giurl = I ( 'URL' );
 		$url = './Public/' . $giurl;
 		$rst = M ( 'goods_img' )->where ( array (
@@ -157,6 +160,6 @@ class GoodsController extends Controller {
 			return;
 		}
 		unlink ( $url );
-		$this->success ( "成功" );
+		$this->success ( 1 );
 	}
 }
