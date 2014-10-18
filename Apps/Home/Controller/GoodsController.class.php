@@ -3,12 +3,12 @@
 namespace Home\Controller;
 
 use Think\Controller;
-
+require './ORG/phpAnalysis/SeachDic.class.php';
 /**
  * 前台商品管理
  *
  * @author DongZ
- *        
+ *
  */
 class GoodsController extends Controller {
 	public function index() {
@@ -18,10 +18,16 @@ class GoodsController extends Controller {
 	 * 渲染商品添加页面
 	 */
 	public function add() {
+		$userid=0;
 		// 查询分类
 		$clist = M ( 'goods_category' )->where ( array (
 				'Status' => 10 
 		) )->select ();
+		//查询地址
+		$alist = M ( 'user_address' )->order('IsDefault DESC')->where ( array (
+				'Status' => 10 ,'UserId'=>$userid
+		) )->select ();
+		$this->assign ( 'alist', $alist );
 		$this->assign ( 'clist', $clist )->display ( 'modifgoods' );
 	}
 	/**
@@ -31,19 +37,46 @@ class GoodsController extends Controller {
 		if (! IS_POST) {
 			$this->error ( '页面不存在' );
 		}
-		if (! empty ( $_POST )) {
-			$goods = M ( 'goods' );
-			$goodsid = cookie ( 'GoodsId' );
-			$where ['Id'] = $goodsid;
-			$z = $goods->where ( $where )->save ();
-			if ($z) {
-				cookie ( 'GoodsId', - 1, 600 );
-				$this->success ( '添加商品成功' );
-			} else {
-				$this->error ( '添加商品失败' );
-			}
-		} else {
-			$this->error ( '信息为空' );
+		if (empty ( $_POST )) {	$this->error ( '信息为空' );
+		}
+		$postarr=I('post.');
+		if(!$postarr['imgcount']||!is_numeric($postarr['imgcount'])||(int)$postarr['imgcount']<=0){
+			$this->error ( '没有上传图片' );
+		}
+		$goodsid=$postarr['GoodsId'];
+		if(!$goodsid||!is_numeric($goodsid)||(int)$goodsid<=0){
+			$this->error ( '操作失败' );
+		}
+		$keyid=I('keyid');
+		//需要提交的商品参数
+		$data=array(
+		'Title'=>$postarr['Title'],
+		'Price'=>$postarr['Price'],
+		'CostPrice'=>$postarr['CostPrice'],
+		'Presentation'=>$postarr['Presentation'],
+		'CategoryId'=>$postarr['CategoryId'],
+		'AddressId'=>$postarr['AddressId'],
+		'Server'=>$postarr['Server'],
+		'ModeBargain'=>$postarr['ModeBargain'],
+		'Status'=>10
+		);
+		$dal=M();
+		$dal->startTrans();
+		$goods = M ( 'goods' );
+		//保存商品订单
+		$rst1 = $goods->where ( array('Id'=>$goodsid) )->save ($data);
+		//修改该商品图片状态
+		$rst2=M('goods_img')->where(array('GoodsId'=>$goodsid))->save(array('Status'=>10,'Title'=>$postarr['Title']));
+		if(is_numeric($keyid)&&(int)$keyid>0){
+			//修改新添加的关键字为审核状态
+			$rst3=M('goods_category_keyword')->where(array('Id'=>$keyid))->save(array('Status'=>1,'CategoryId'=>$postarr['CategoryId']));
+		}
+		if($rst1&&$rst2){
+			$dal->commit();
+			$this->success ( 1 );
+		}else {
+			$dal->rollback();
+			$this->error ( '添加商品失败' );
 		}
 	}
 	/**
@@ -58,87 +91,77 @@ class GoodsController extends Controller {
 		$delmodel = M ( 'goods_img' )->where ( array (
 				'Id' => $imgid 
 		) )->find ();
-		$delur = './Public/' . $imgmodel ['URL'];
+		$delur = '.' . $imgmodel ['URL'];
 		$dal = M ();
 		$dal->startTrans (); // 事务
+		/*User ID 暂时还没获取*/
+		$userid=0;
 		if (! $goodsid || $goodsid <= 0) {
 			$goodsid = M ( 'goods' )->add ( array (
-					'UserId' => 123,
+					'UserId' => $userid,
 					'Status' => 0 
 			) );
 		}
-		if ($goodsid) {
-			$imgmodel = M ( 'goods_img' );
-			$imgmodel->GoodsId = $goodsid;
-			$rst = $imgmodel->where ( array (
+		if (!$goodsid) {
+			$dal->rollback ();
+			unlink ( $delur );
+			$this->error ( '删除失败' );
+		}
+		$imgmodel = M ( 'goods_img' );
+		$imgmodel->GoodsId = $goodsid;
+		$rst = $imgmodel->where ( array (
 					'Id' => $imgid 
-			) )->save ();
-			if ($rst) {
-				$dal->commit ();
-				$this->success ( $goodsid );
-				return;
-			} else {
-				$dal->rollback ();
-				/*
-				 * 删除物理路径图片 还没写
-				 */
-				
-				unlink ( $delur );
-				M ( 'goods_img' )->where ( array (
-						'Id' => $imgid 
-				) )->delete ();
-				$this->error ( '0' );
-			}
+		) )->save ();
+		if ($rst) {
+			$dal->commit ();
+			$this->success ( $goodsid );
+			return;
 		} else {
 			$dal->rollback ();
-			/*
-			 * 删除物理路径图片 还没写
-			 */
 			unlink ( $delur );
-			$this->error ( '0' );
+			M ( 'goods_img' )->where ( array (
+						'Id' => $imgid 
+			) )->delete ();
+			$this->error ( '删除失败' );
 		}
 	}
-	
+
 	/**
 	 * 上传商品图片
 	 *
 	 * @author NENER 修改
 	 */
 	public function uploadify() {
-		if (! empty ( $_FILES )) {
-			// 载入图片上传配置
-			$config = C ( 'IMG_UPLOAD_CONFIG' );
-			$upload = new \Think\Upload ( $config ); // 实例化上传类
-			$images = $upload->upload ();
-			// 判断是否有图
-			if ($images) {
-				// 图片保存名
-				$imgname = $images ['Filedata'] ['savename'];
-				// 图片保存路径
-				$imgurl = $config ['savePath'] . $imgname;
-				$data = array (
+		if (empty ( $_FILES )) {$this->error ( "页面不存在" );}
+		// 载入图片上传配置
+		$config = C ( 'IMG_UPLOAD_CONFIG' );
+		$upload = new \Think\Upload ( $config ); // 实例化上传类
+		$images = $upload->upload ();
+		// 判断是否有图
+		if (!$images) {$this->error ( $upload->getError () );}
+		// 图片保存名
+		$imgname = $images ['Filedata'] ['savename'];
+		// 图片保存相对路径
+		$imgurl = '/'.$config ['rootPath'].$config ['savePath'] . $imgname;
+		$data = array (
 						'GoodsId' => 0,
 						'URL' => $imgurl,
-						'Title' => $imgname,
+						'Title' => '',
 						'Status' => 0 
-				);
-				$rst = M ( 'goods_img' )->add ( $data );
-				if ($rst) {
-					echo json_encode ( array (
-							$rst,
-							$imgurl 
-					) );
-				} else {
-					$this->error ( "error" );
-				}
-			} else {
-				$this->error ( $upload->getError () );
-			}
+		);
+		$rst = M ( 'goods_img' )->add ( $data );
+		if ($rst) {
+			//返回图片Id 以及图片URL
+			echo json_encode ( array (
+			$rst,
+			$imgurl
+			) );
+			return;
 		} else {
-			$this->error ( "页面不存在" );
+			$this->error ( "error" );
 		}
 	}
-	
+
 	/**
 	 * 删除图片
 	 */
@@ -146,20 +169,81 @@ class GoodsController extends Controller {
 		if (! IS_POST) {
 			$this->error ( "页面不存在" );
 		}
-		if (! I ( 'URL' )) {
+		if (! I ( 'URL' )||!I('Id')) {
 			// 没有获得要删除的图片
 			$this->error ( "没有获得要删除的图片" );
 		}
-		$giurl = I ( 'URL' );
-		$url = './Public/' . $giurl;
+		$url = I ( 'URL' );
 		$rst = M ( 'goods_img' )->where ( array (
-				'URL' => $giurl 
+				'Id' => (int)I('Id') 
 		) )->delete ();
 		if (! $rst) {
 			$this->error ( "删除失败" );
 			return;
 		}
-		unlink ( $url );
+		unlink ( '.'.$url );
 		$this->success ( 1 );
+	}
+	public function getcategory(){
+		if(!IS_POST){
+			$this->error ( "页面不存在" );
+		}
+		$str=I('Title');
+		if(!$str){
+			$this->error (0);
+		}
+		$seach = new \SeachDic ();
+		$arr = $seach->seach ( $str );
+		if (! $arr) {
+			//如果查不到 则添加一个临时记录
+			if (!M ( 'goods_category_keyword' )->where ( array (
+					'Keyword' => strtolower ($str),
+					'Status' => array('gt',-1)
+			) )->find()) {
+				//不存在相同关键字 就插入新纪录
+				$keyid=M('goods_category_keyword')->data(array('CategoryId'=>0,'Keyword'=>strtolower ($str),'Status'=>0))->add();
+			}
+			if(!$keyid){
+				$keyid=0;
+			}
+			//返回第一个参数0 表示查不到 并返回一个Id分类
+			$this->error(json_encode(array(0,$keyid)));
+		}
+		foreach ( $arr as $k => $v ) {
+			$model[] = M ( 'goods_category' )->field(array('Id','Title'))->where ( array (
+					'Id' => $k ,
+					'Status'=>10
+			) )->find ();
+		}
+		/*如果数据库和字典不一致
+		 * 字典中存在，数据库不存在  则做处理
+		 * */
+		if(!$model){
+			if (!M ( 'goods_category_keyword' )->where ( array (
+					'Keyword' => strtolower ($str),
+					'Status' => array('gt',-1)
+			) )->find()) {
+				$keyid=M('goods_category_keyword')->data(array('CategoryId'=>0,'Keyword'=>strtolower ($str),'Status'=>0))->add();
+			}
+			if(!$keyid){
+				$keyid=0;
+			}
+			$this->error(json_encode(array(0,$keyid)));
+		}
+		//如果只查到一个  就返回Id
+		if(count($model)==1){
+			//返回 第一个参数1表示只查到一个
+			$this->success(json_encode(array(1,(int)$model[0]['Id'])));
+		}
+		$wherearr=array('Status'=>10);
+		//动态生成where
+		foreach ($model as $key => $value) {
+			$wherearr[]=array('Id'=>array('neq',$value['Id']));
+		}
+		$clist=M('goods_category')->field(array('Id','Title'))->where($wherearr)->select();
+		if($clist){
+			$newlist=array_merge($model,$clist);
+		}
+		$this->success( json_encode(array(2,$newlist)));
 	}
 }

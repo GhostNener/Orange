@@ -10,7 +10,7 @@ use Org\Util\String;
  * 后台商品分类管理
  *
  * @author NENER
- *        
+ *
  */
 class GoodsCategoryController extends Controller {
 	/**
@@ -22,10 +22,7 @@ class GoodsCategoryController extends Controller {
 		$model = M ( 'goods_category' );
 		// 查询条件
 		$wherrArr = array (
-				'Status' => array (
-						'eq',
-						10 
-				) 
+				'Status' =>10 
 		);
 		// 总数
 		$allCount = $model->where ( $wherrArr )->count ();
@@ -45,30 +42,29 @@ class GoodsCategoryController extends Controller {
 	 */
 	public function del() {
 		$id = ( int ) I ( 'get.Id' );
-		if ($id) {
-			$whereArr = array (
-					'Id' => $id 
-			);
-			$dal = M ();
-			$dal->startTrans (); // 开始事务
-			$model = M ( 'goods_category' );
-			$model->Status = - 1;
-			$r1 = $model->where ( $whereArr )->save (); // 操作1
-			$whereArrKw = array (
-					'CategoryId' => $id 
-			);
-			// 操作2
-			$r2 = $dal->execute ( "update goods_category_keyword set Status=-1 where CategoryId=" . $id );
-			if ($r1 && $r2) { // 成功
-				$dal->commit (); // 提交事务
-				$this->success ( "操作成功", U ( 'index' ), 1 );
-			} else {
-				$dal->rollback (); // 否则回滚
-				$this->error ( "操作失败", U ( 'index' ) );
-			}
-		} else {
-			$this->error ( "页面不存在", U ( 'index' ) );
+		if (!$id) {$this->error ( "页面不存在", U ( 'index' ) );
 		}
+		$whereArr = array (
+					'Id' => $id 
+		);
+		$dal = M ();
+		$dal->startTrans (); // 开始事务
+		$model = M ( 'goods_category' );
+		$model->Status = - 1;
+		$r1 = $model->where ( $whereArr )->save (); // 操作1
+		$whereArrKw = array (
+					'CategoryId' => $id 
+		);
+		// 操作2
+		$r2 = $dal->execute ( "update goods_category_keyword set Status=-1 where CategoryId=" . $id );
+		if ($r1 && $r2) { // 成功
+			$dal->commit (); // 提交事务
+			$this->success ( "操作成功", U ( 'index' ), 1 );
+		} else {
+			$dal->rollback (); // 否则回滚
+			$this->error ( "操作失败", U ( 'index' ) );
+		}
+			
 	}
 	/**
 	 * 查询要修改的数据
@@ -77,29 +73,29 @@ class GoodsCategoryController extends Controller {
 	 */
 	public function update() {
 		$id = ( int ) I ( 'get.Id' );
-		if ($id) {
-			$whereArr = array (
+		if (!$id) {	$this->error ( "操作失败", U ( 'index' ) );
+		}
+		$whereArr = array (
 					'Id' => $id 
-			);
-			$model = M ( 'goods_category' )->where ( $whereArr )->find ();
-			if ($model) {
-				$whereArrKeyword = array (
+		);
+		$model = M ( 'goods_category' )->where ( $whereArr )->find ();
+		if ($model) {
+			$whereArrKeyword = array (
 						'CategoryId' => $id 
-				);
-				$this->assign ( 'model', $model );
-				$this->assign ( 'modif', 'update' )->display ( 'Index/modifcategory' );
-			} else {
-				$this->error ( "操作失败", U ( 'index' ) );
-			}
+			);
+			$this->assign ( 'model', $model );
+			$this->assign ( 'modif', 'update' )->display ( 'Index/modifcategory' );
 		} else {
 			$this->error ( "操作失败", U ( 'index' ) );
 		}
+
+
 	}
 	/**
 	 * 渲染add模板
 	 *
 	 * @author NENER
-	 *        
+	 *
 	 */
 	public function add() {
 		$this->assign ( 'modif', 'add' )->display ( 'Index/modifcategory' );
@@ -117,36 +113,32 @@ class GoodsCategoryController extends Controller {
 		$modifArr = array (
 				"add",
 				"update" 
-		);
-		$modif = strtolower ( I ( 'post.modif' ) );
-		if (! in_array ( $modif, $modifArr )) {
-			$this->error ( "非法操作" );
-		}
-		$model = M ( 'goods_category' );
-		$data ['Title'] = I ( 'Title' );
-		$data ['Presentation'] = I ( 'Presentation' );
-		if ($modif == "add") {
-			$data ['Status'] = 10;
-			$dal = M ();
-			$dal->startTrans ();
-			$r1 = $model->data ( $data )->add ();
-			$dataKey ['CategoryId'] = $r1;
-			$dataKey ['Keyword'] = $data ['Title'];
-			$dataKey ['Status'] = 10;
-			$dataKey ['Hot'] = 0;
-			$r2 = M ( 'goods_category_keyword' )->data ( $dataKey )->add ();
-			if ($r1 && $r2) {
-				$dal->commit ();
-			} else {
-				$dal->rollback ();
-				$this->error ( "操作失败" );
-			}
-		} else {
-			$whereArr = array (
+				);
+				$modif = strtolower ( I ( 'post.modif' ) );
+				if (! in_array ( $modif, $modifArr )) {
+					$this->error ( "非法操作" );
+				}
+				$model = M ( 'goods_category' );
+				$data=array('Title'=>I ( 'Title' ),'Presentation'=>I ( 'Presentation' ));
+				if ($modif == "add") {
+					$data ['Status'] = 10;
+					$dal = M ();
+					$dal->startTrans ();
+					$r1 = $model->data ( $data )->add ();
+					$dataKey=array('CategoryId'=>$r1,'Keyword'=>$data ['Title'],'Status'=>10,'Hot'=>0);
+					$r2 = M ( 'goods_category_keyword' )->data ( $dataKey )->add ();
+					if ($r1 && $r2) {
+						$dal->commit ();
+					} else {
+						$dal->rollback ();
+						$this->error ( "操作失败" );
+					}
+				} else {
+					$whereArr = array (
 					'Id' => ( int ) I ( "post.Id" ) 
-			);
-			$model->where ( $whereArr )->save ( $data );
-		}
-		$this->success ( '操作成功', U ( 'index' ),1 );
+					);
+					$model->where ( $whereArr )->save ( $data );
+				}
+				$this->success ( '操作成功', U ( 'index' ),1 );
 	}
 }

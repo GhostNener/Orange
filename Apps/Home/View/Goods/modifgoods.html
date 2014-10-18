@@ -4,39 +4,157 @@
 	<meta charset="UTF-8">
 	<title>Orange</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-		<link rel="stylesheet" href="__PUBLIC__/css/uploadify.css">
+	<link rel="stylesheet" href="__PUBLIC__/css/uploadify.css">
 	<link rel="stylesheet" href="__PUBLIC__/css/bootstrap-theme.css" />
 	<link rel="stylesheet" href="__PUBLIC__/css/bootstrap.css" />
 	<link rel="stylesheet" href="__PUBLIC__/css/huaxi_css.css" />
 	<link rel="shortcut icon" href="__PUBLIC__/Img/favicon.png"
 	type="image/x-icon" />
 	<script src="__PUBLIC__/js/jquery-1.8.0.min.js"></script>
-		<script src="__PUBLIC__/js/jquery.uploadify.min.js?ver='{:time()}';?"></script>
+	<script src="__PUBLIC__/js/jquery.uploadify.min.js?ver='{:time()}';?"></script>
 	<script src="__PUBLIC__/js/bootstrap.js"></script>
 	<script type="text/javascript">
-	function del(div_id,imgurl){			//点击删除链接，ajax
-    	var imgId='#'+div_id;
-		var url=$('#url').attr('appurl')+'/delimg';		//删除图片的路径
-         $.post(url,{'URL':imgurl},function(data){		//ajax后台
+	/*删除图片  第一个参数为图片父控件的Id  第二个参数为图片相对路径*/
+	function del(div_id,imgurl,imgId){
+    	var _pdivid='#'+div_id;
+		var _url=$('#url').attr('appurl')+'/delimg';		
+         $.post(_url,{'URL':imgurl,'Id':parseInt(imgId)},function(data){		
         	 if(data.info==1){
-        		 $(imgId).html(data.info);
-        		 $(imgId).remove();	
-                 var imgcount=parseInt($('#imgcount').val());
-                 if((imgcount-1)<=0){
-                	 imgcount=0;
-                 }else{imgcount=imgcount-1;}
-                 $('#imgcount').val((imgcount));
+        		 $(_pdivid).html(data.info);
+        		 $(_pdivid).remove();	
+                 var _imgcount=parseInt($('#imgcount').val());
+                 if((_imgcount-1)<=0){
+                	 _imgcount=0;
+                 }else{_imgcount=_imgcount-1;}
+                 $('#imgcount').val((_imgcount));
         	 }else{
         		 alert("删除失败\n"+data.info);
         	 }
-           						//输出后台返回信息
-           						//自动隐藏
-        },'json');										//josn格式
+        },'json');	
 	}
     $(document).ready(function () {
+    	/*标题焦点离开事件  获取分类*/
+$('#Title').blur(function(e){
+	var _Title=$.trim($('#Title').val());
+	if(!_Title){
+		return;
+	}
+	$.post($('#url').attr('appurl')+'/getcategory',{
+		'Title':_Title
+	},function(data){
+		/*收索失败*/
+		if(data.status==0||!data.status){
+			var _arr=$.parseJSON(data.info);
+			/*新的关键字*/
+			if(_arr[1]>1||parseInt(_arr[1])>1){
+				$('#keyid').val(_arr[1]);
+			}
+			return;
+		}
+		/*搜索成功 返回结果*/
+		if(data.status==1||data.status){
+			var _arr=$.parseJSON(data.info);
+			/*返回一个结果的时候 选中返回项*/
+			if(parseInt(_arr[0])==1){
+				$('#Category').children('option').each(function(){
+					if(parseInt($(this).val())==parseInt(_arr[1])){
+						$(this).attr('selected',true);
+					}
+				});
+				$('#keyid').val(0);
+				return;
+			}
+			/*返回多个结果  需要先清空 下拉列表 然后重新生成  生成按搜索顺序+剩下的分类顺序  木人选中第一项*/
+			if(parseInt(_arr[0])==2){
+				var _arr=$.parseJSON(data.info);
+				$('#Category').children('option').remove();
+				$(_arr[1]).each(function(i,v){
+					$('#Category').append("<option value="+v['Id']+">"+v['Title']+"</option>");
+				});
+				$('#keyid').val(0);
+				return;
+			}
+		}
+	},'json');
+});
+    	/*提交按钮*/
+    	$('#submitsave').click(function(e){
+    		/*判断是否传了图*/
+    		var _imgcount=$('#imgcount').val();
+    		if(parseInt(_imgcount)<=0){
+    			alert('至少上传一张图片！');
+    			return;
+    		}
+    	/*	判断是否填写的title*/
+    		var _Title=$.trim($('#Title').val());
+    		if(!_Title){
+    			$('#Title').focus();
+    			return;
+    		}
+    		/*判断是否填写价格*/
+    		var _Price=$.trim($('#Price').val());
+    		if(!$.isNumeric(_Price)||parseInt(_Price)<=0){
+    			$('#Price').val('');
+    			$('#Price').focus();
+    			return;
+    		}
+    		/*判断是否填写原价*/
+    		var _CostPrice=$.trim($('#CostPrice').val());
+    		if(!$.isNumeric(_CostPrice)||parseInt(_CostPrice)<=0){
+    			$('#CostPrice').val('');
+    			$('#CostPrice').focus();
+    			return;
+    		}
+    		/*简介*/
+    		var _Presentation=$.trim($('#Presentation').val());
+    		var _keyid=$('#keyid').val();
+    		if($.isNumeric(_keyid)){
+    			_keyid=parseInt(_keyid);
+    		}else{
+    			_keyid=0;
+    		}
+    		/*分类*/
+    		var _Category=$('#Category').val();
+    		var _Address=$('#Address').val();
+    		if(!$.isNumeric(_Address)||parseInt(_Address)<=0){
+    			$('#Address').focus();
+    			return;
+    		}
+    		var _GoodsId=$('#url').attr('gid');
+    		var _ModeBargain=$('#ModeBargain').val();  		
+    		var _Server=$('#Server').attr('checked');
+    		if(_Server){
+    			_Server=1;
+    		}else{_Server=0;}
+    		var btn_txt=$(this).val();
+    		$(this).attr('disabled',"true");
+    		$(this).val('....');
+    		$.post($('#url').attr('saveurl'),{
+    			'GoodsId':_GoodsId,
+    			'imgcount':_imgcount,
+    			'Title':_Title,
+    			'Price':_Price,
+    			'CostPrice':_CostPrice,
+    			'Presentation':_Presentation,
+    			'CategoryId':_Category,
+    			'AddressId':_Address,
+    			'ModeBargain':_ModeBargain,
+    			'Server':_Server,
+    			'keyid':_keyid
+    		},function(data){
+    			if(data.info==1){
+    				alert('Ok!');
+    				location.href=$('#url').attr('urlindex');;
+    			}else{
+    				alert(data.info);
+    			}
+    		});
+    		$(this).val(btn_txt);
+    		$(this).removeAttr('disabled');   		  		
+    	});
 		$('#file_upload').uploadify({
 			'formData'     : {
-				'timestamp' : (new Date()).valueOf(),            //时间
+				'timestamp' : (new Date()).valueOf(),            /*时间*/
 				'token'     : (new Date()).valueOf(),		//加密字段
 				'url'		: $('#url').attr('appurl')+'/upload/',	//url
 				'imageUrl'	: $('#url').attr('rooturl')			//root
@@ -49,42 +167,37 @@
 			'uploader' : $('#url').attr('appurl')+'/uploadify',					//上传路径
 			'buttonText' :'文件上传',									//按钮的文字
 			'onUploadSuccess' : function(file, data, response) {
-				if(data){
+				if(!data){alert('上传失败！');
+			return;
+		}
 					 data=$.parseJSON(data);
+					 /*data[0] 图片ID*/
+					 /*data[1] 图片相对url*/
 					if(!($.isNumeric(data[0]))){
 						alert('上传失败！');
 						return;
 					}
-					var gid=$('#url').attr('gid');
-					if(1){
-						var postimgurl=$('#url').attr('appurl')+'/saveimg';
-						$.post(postimgurl,{
+					var _gid=$('#url').attr('gid');
+						var _postimgurl=$('#url').attr('appurl')+'/saveimg';
+						$.post(_postimgurl,{
 							'_imgid':data[0],
-								'_gid':gid
-
+								'_gid':_gid
 						},function(datainfo){
-						if(datainfo.info){
+						if(parseInt(datainfo.status)==1){
+							/*成功上传返回*/
 							$('#url').attr('gid',datainfo.info);
-	//成功上传返回
-           	var imgId='_'+(parseInt(Math.random() *100)+(new Date()).valueOf());		
-           	var tempPath=$('#url').attr('publicurl');						
-           	//data  url
-           	//插入到image标签内，显示图片的缩略图           
-			$('#image').append('<div id="'+imgId+'" class="photo" style="margin-right: 3px;margin-left: 3px" ><img src="'+tempPath+data[1]+'"  height=80 width=80 /><div class="del"><a class="a_imgdel" href="javascript:void(0)"onclick=del("'+imgId+'","'+data[1]+'");return false; imgurl="'+data[1]+'">删除</a></div></div>');
-           var imgcount=parseInt($('#imgcount').val());
-           $('#imgcount').val((imgcount+1));
+           	var _imgId='_'+(parseInt(Math.random() *100)+(new Date()).valueOf());		
+           	var _tempPath=$('#url').attr('rooturl');						
+           	/*插入到image标签内，显示图片的缩略图 */          
+			$('#image').append('<div id="'+_imgId+'" class="photo" style="margin-right: 3px;margin-left: 3px" ><img src="'+_tempPath+data[1]+'"  height=80 width=80 /><div class="del"><a class="a_imgdel" href="javascript:void(0)"onclick=del("'+_imgId+'","'+data[1]+'","'+data[0]+'");return false; imgurl="'+data[1]+'">删除</a></div></div>');
+           var _imgcount=parseInt($('#imgcount').val());
+           $('#imgcount').val((_imgcount+1));
            	return;
 		}else{
 			alert('上传失败！');
 			return;
 		}
-						});						
-					}
-				}else{
-			alert('上传失败！');
-			return;
-		}
-
+						});									
 			}
 		});
     })
@@ -116,8 +229,9 @@
 			<br>
 
 			<!-- 分类管理-->
-			<form class="form-horizontal" action="{:U('save')}" role="form"  method="post" multiple="true" >
-			<input  type="hidden"  class="form-control " id="imgcount" name="imgcount" value="0" Readonly>
+			<form class="form-horizontal" action="" role="form"  method="post" multiple="true" >
+				<input  type="hidden"  class="form-control " id="imgcount" name="imgcount" value="0" Readonly>
+				<input  type="hidden"  class="form-control " id="keyid" name="keyid" value="0" Readonly>
 				<div class="form-group">
 					<label for="Title" class="col-sm-2 control-label">Title</label>
 					<div class="col-sm-10">
@@ -126,7 +240,12 @@
 				<div class="form-group">
 					<label for="Price" class="col-sm-2 control-label">Price</label>
 					<div class="col-sm-10">
-						<input type="text" class="form-control " id="Price" placeholder=" Price  " name="Price" ></div>
+						<input type="number" class="form-control " id="Price" placeholder=" Price  " name="Price" ></div>
+				</div>
+				<div class="form-group">
+					<label for="CostPrice" class="col-sm-2 control-label">CostPrice</label>
+					<div class="col-sm-10">
+						<input type="number" class="form-control " id="CostPrice" placeholder=" CostPrice  " name="CostPrice" ></div>
 				</div>
 				<div class="form-group">
 					<label for="Presentation" class="col-sm-2 control-label">Presentation</label>
@@ -148,19 +267,36 @@
 					<label for="Address" class="col-sm-2 control-label">Address</label>
 					<div class="col-sm-8">
 						<select class="form-control " name="Address" id="Address">
-							<foreach name="clist" item="v">
-								<option value="{$v['Id']}">{$v['Title']}</option>
+							<foreach name="alist" item="v">
+								<option value="{$v['Id']}">{$v['Address']}</option>
 							</foreach>
 						</select>
 					</div>
 					<div class="col-sm-2">
-					 <div class="pull-left">
-							<a href="" class="btn btn-default">添加地址</a>
+						<div class="pull-left">
+							<a href="{:U('User/addaddress')}" target="_blank" class="btn btn-default">添加地址</a>
 						</div>
-						</div>
+					</div>
 				</div>
 				<div class="form-group">
-					<input  type="hidden"  class="form-control " id="url" publicurl="__PUBLIC__" appurl="__URL__"  rooturl="__ROOT__" gid="0" Readonly>
+					<label for="ModeBargain" class="col-sm-2 control-label">ModeBargain</label>
+					<div class="col-sm-10">
+						<select class="form-control " name="ModeBargain" id="ModeBargain">
+							<option value="1">线上</option>
+							<option value="2">线下</option>
+							<option value="3">线上/线下</option>
+						</select>
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="Server" class="col-sm-2 control-label">Server</label>
+					<div class="col-sm-10">
+						<label class="checkbox-inline">
+							<input type="checkbox" id="Server" value="1">提供送货</label>
+					</div>
+				</div>
+				<div class="form-group">
+					<input  type="hidden"  class="form-control " id="url" publicurl="__PUBLIC__" appurl="__URL__"  rooturl="__ROOT__" gid="0" saveurl="{:U('save')}" urlindex="{:U('index')}" Readonly>
 					<label for="file_upload" class="col-sm-2 control-label">file_upload</label>
 					<div class="col-sm-10">
 						<input id="file_upload" name="file_upload" type="file" multiple="true">
@@ -169,14 +305,13 @@
 				</div>
 				<div class="form-group">
 					<div class="col-sm-offset-2 col-sm-10">
-						<button type="submit" class="btn btn-default">保存</button>
+						<button type="button" id="submitsave" class="btn btn-default">保存</button>
 						<a class="btn btn-default" href="#">返回</a>
 					</div>
 				</div>
 			</form>
 			<div></div>
 		</div>
-
 	</div>
 	<!---->
 	<div id="footer" class="text-center">
