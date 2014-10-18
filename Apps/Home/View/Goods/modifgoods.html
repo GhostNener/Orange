@@ -11,7 +11,11 @@
 	<link rel="shortcut icon" href="__PUBLIC__/Img/favicon.png"
 	type="image/x-icon" />
 	<script src="__PUBLIC__/js/jquery-1.8.0.min.js"></script>
-		<script src="__PUBLIC__/js/jquery.uploadify.min.js?ver='{:time()}';?"></script>
+	<script language="javascript" type="text/javascript">  
+    //防止客户端缓存文件，造成uploadify.js不更新，而引起的“喔唷，崩溃啦”  
+    document.write("<script type='text/javascript' "  
+            + "src='__PUBLIC__/js/jquery.uploadify.min.js?" + new Date() + "'></s" + "cript>");  
+	</script> 
 	<script src="__PUBLIC__/js/bootstrap.js"></script>
 	<script type="text/javascript">
 	function del(div_id,imgurl){			//点击删除链接，ajax
