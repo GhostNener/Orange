@@ -132,7 +132,8 @@ class GoodsController extends Controller {
 					$this->error ( "error" );
 				}
 			} else {
-				$this->error ( $upload->getError () );
+				$msg = $upload->getError();
+				echo json_encode(array($msg));
 			}
 		} else {
 			$this->error ( "页面不存在" );
