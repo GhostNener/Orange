@@ -33,7 +33,7 @@ return array (
 		 /*图片上传配置*/
 		'IMG_UPLOAD_CONFIG' => array (
 				'maxSize' => 5*1024*1024,
-				'rootPath' => '/Uploads/',
+				'rootPath' => './Uploads/',
 				'savePath' => 'GoodsImg/',
 				'saveName' => str_replace ( '.', '', microtime ( true ) ),
 				'exts' => array (
@@ -48,7 +48,7 @@ return array (
 		/*文件上传目录*/
 		'UPLOADS_FOLDER'=>__ROOT__."/Uploads",
 		/*商品图像上传主目录*/
-		'GOODS_IMG_ROOT'=>'/Uploads/GoodsImg/',
+		'GOODS_IMG_ROOT'=>'./Uploads/GoodsImg/',
 		/*原图*/
 		'GOODS_IMG_SOURCE'=>'Source/',
 		/*最大800*800*/

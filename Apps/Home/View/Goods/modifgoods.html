@@ -35,7 +35,8 @@
        		'fileSizeLimit' : '4MB',					//允许上传最大值
 			'swf'      : $('#url').attr('publicurl')+'/Img/uploadify.swf',	//加载swf
 			'uploader' : $('#url').attr('appurl')+'/uploadify',					//上传路径
-			'buttonText' :'文件上传',									//按钮的文字
+			'buttonText' :'文件上传',	
+			'uploadLimit':10,								//按钮的文字
 			'onUploadSuccess' : function(file, data, response) {
 				if(!data){alert('上传失败！');
 				return;

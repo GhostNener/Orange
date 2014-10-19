@@ -163,13 +163,13 @@ class GoodsController extends Controller {
 		// 图片保存名
 		$imgname = $images ['Filedata'] ['savename'];
 		// 图片保存相对路径
-		$imgurl = .$config ['rootPath'].$config ['savePath'] . $imgname;
-		$urlarr=$this->getallthumb('.'.$imgurl,$imgname);
+		$imgurl = $config ['rootPath'].$config ['savePath'] . $imgname;
+		$urlarr=$this->getallthumb($imgurl,$imgname);
 		$data = array (
 						'GoodsId' => 0,
-						'URL' => $urlarr[0],
-						'ThumbURL'=>$urlarr[1],
-						'SourceURL'=>$imgurl ,
+						'URL' => substr($urlarr[0],1),
+						'ThumbURL'=>substr($urlarr[1],1),
+						'SourceURL'=>substr($imgurl,1) ,
 						'Title' => '',
 						'Status' => 0 
 		);
@@ -177,7 +177,7 @@ class GoodsController extends Controller {
 		if ($rst) {
 			echo json_encode ( array (
 			$rst,
-			$urlarr[1]
+			substr($urlarr[1],1)
 			) );
 		} else {
 			echo json_encode(array(0,$upload->getError()));
@@ -188,13 +188,13 @@ class GoodsController extends Controller {
 	*/
 	private function getallthumb($url,$imgname){
 		$rooturl=C('GOODS_IMG_ROOT');
-		$url_8=.$rooturl.C('GOODS_IMG_800').$imgname;
-		$url_1=.$rooturl.C('GOODS_IMG_100').$imgname;
+		$url_8=$rooturl.C('GOODS_IMG_800').$imgname;
+		$url_1=$rooturl.C('GOODS_IMG_100').$imgname;
 		$imagedal = new \Think\Image();
 		$imagedal->open($url);
 		$size = $imagedal->size();
-		$imagedal->thumb(800, 800)->save('.'.$url_8);
-		$imagedal->thumb(100, 100,\Think\Image::IMAGE_THUMB_CENTER)->save('.'.$url_1);
+		$imagedal->thumb(800, 800)->save($url_8);
+		$imagedal->thumb(100, 100,\Think\Image::IMAGE_THUMB_CENTER)->save($url_1);
 		return array($url_8,$url_1);
 	}
 	/**
