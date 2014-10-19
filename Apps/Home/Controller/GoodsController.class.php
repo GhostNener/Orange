@@ -163,7 +163,7 @@ class GoodsController extends Controller {
 		// 图片保存名
 		$imgname = $images ['Filedata'] ['savename'];
 		// 图片保存相对路径
-		$imgurl = '/'.$config ['rootPath'].$config ['savePath'] . $imgname;
+		$imgurl = .$config ['rootPath'].$config ['savePath'] . $imgname;
 		$urlarr=$this->getallthumb('.'.$imgurl,$imgname);
 		$data = array (
 						'GoodsId' => 0,
@@ -188,8 +188,8 @@ class GoodsController extends Controller {
 	*/
 	private function getallthumb($url,$imgname){
 		$rooturl=C('GOODS_IMG_ROOT');
-		$url_8='/'.$rooturl.C('GOODS_IMG_800').$imgname;
-		$url_1='/'.$rooturl.C('GOODS_IMG_100').$imgname;
+		$url_8=.$rooturl.C('GOODS_IMG_800').$imgname;
+		$url_1=.$rooturl.C('GOODS_IMG_100').$imgname;
 		$imagedal = new \Think\Image();
 		$imagedal->open($url);
 		$size = $imagedal->size();
