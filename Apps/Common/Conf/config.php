@@ -24,13 +24,13 @@ return array (
 		),
     /* 多级过滤  */
     'DEFAULT_FILTER' => 'strip_tags,htmlspecialchars',
-		// url重写
+		 /*url重写*/
 		'URL_MODEL' => 2,
-		// url分隔符
+		 /*url分隔符*/
 		'URL_PATHINFO_DEPR' => '/',
 		// 图片上传配置
 		'IMG_UPLOAD_CONFIG' => array (
-				'maxSize' => 3145728,
+				'maxSize' => 5242880,
 				'rootPath' => 'Uploads',
 				'savePath' => '/GoodsImg/',
 				'saveName' => str_replace ( '.', '', microtime ( true ) ),
@@ -41,12 +41,19 @@ return array (
 						'jpeg' 
 				),
 				'autoSub' => false,
-				'subName' => array (
-						'date',
-						'Y-m-d' 
-				),
 				'hash' => false 
 		) ,
-		//文件上传目录
-		'UPLOADS_FOLDER'=>__ROOT__."/Uploads"
+		/*文件上传目录*/
+		'UPLOADS_FOLDER'=>__ROOT__."/Uploads",
+		/*商品图像上传主目录*/
+		'GOODS_IMG_ROOT'=>'Uploads/GoodsImg/',
+		/*原图*/
+		'GOODS_IMG_SOURCE'=>'Source/',
+		/*最大800*800*/
+		'GOODS_IMG_800'=>'800_800/',
+		/*缩略图100*100*/
+		'GOODS_IMG_100'=>'100_100/',
+
+		/*关闭自动模板布局*/
+		'LAYOUT_ON'=>false
 );

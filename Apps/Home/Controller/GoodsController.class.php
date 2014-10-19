@@ -12,7 +12,23 @@ require './ORG/phpAnalysis/SeachDic.class.php';
  */
 class GoodsController extends Controller {
 	public function index() {
-		$this->display ();
+		$userid=0;
+		$model = M ( 'goods' );
+		// 查询条件
+		$wherrArr = array (
+				'Status' =>10 ,
+				'UserId'=>$userid
+		);
+		// 总数
+		$allCount = $model->where ( $wherrArr )->count ();
+		// 分页
+		$Page = new \Think\Page ( $allCount, 10 );
+		$showPage = $Page->show ();
+		// 分页查询
+		$list = $model->where ( $wherrArr )->limit ( $Page->firstRow . ',' . $Page->listRows )->select ();
+		$this->assign ( 'list', $list );
+		$this->assign ( 'page', $showPage );
+		$this->display ('index');
 	}
 	/**
 	 * 渲染商品添加页面
@@ -57,7 +73,7 @@ class GoodsController extends Controller {
 		'CategoryId'=>$postarr['CategoryId'],
 		'AddressId'=>$postarr['AddressId'],
 		'Server'=>$postarr['Server'],
-		'ModeBargain'=>$postarr['ModeBargain'],
+		'TradeWay'=>$postarr['TradeWay'],
 		'Status'=>10
 		);
 		$dal=M();
@@ -91,7 +107,6 @@ class GoodsController extends Controller {
 		$delmodel = M ( 'goods_img' )->where ( array (
 				'Id' => $imgid 
 		) )->find ();
-		$delur = '.' . $imgmodel ['URL'];
 		$dal = M ();
 		$dal->startTrans (); // 事务
 		/*User ID 暂时还没获取*/
@@ -104,7 +119,7 @@ class GoodsController extends Controller {
 		}
 		if (!$goodsid) {
 			$dal->rollback ();
-			unlink ( $delur );
+			$this->delallimg($delmodel);
 			$this->error ( '删除失败' );
 		}
 		$imgmodel = M ( 'goods_img' );
@@ -118,14 +133,19 @@ class GoodsController extends Controller {
 			return;
 		} else {
 			$dal->rollback ();
-			unlink ( $delur );
+			$this->delallimg($delmodel);
 			M ( 'goods_img' )->where ( array (
 						'Id' => $imgid 
 			) )->delete ();
 			$this->error ( '删除失败' );
 		}
 	}
-
+	private function delallimg($delmodel){
+		if(!$delmodel){return;}
+		unlink ( '.'.$delmodel['SourceURL'] );
+		unlink ( '.'.$delmodel['URL'] );
+		unlink ( '.'.$delmodel['ThumbURL'] );
+	}
 	/**
 	 * 上传商品图片
 	 *
@@ -135,33 +155,45 @@ class GoodsController extends Controller {
 		if (empty ( $_FILES )) {$this->error ( "页面不存在" );}
 		// 载入图片上传配置
 		$config = C ( 'IMG_UPLOAD_CONFIG' );
+		$config['savePath']=$config['savePath'].C('GOODS_IMG_SOURCE');
 		$upload = new \Think\Upload ( $config ); // 实例化上传类
 		$images = $upload->upload ();
 		// 判断是否有图
-		if (!$images) {$this->error ( $upload->getError () );}
+		if (!$images) {echo json_encode(array(0,$upload->getError()));return;}
 		// 图片保存名
 		$imgname = $images ['Filedata'] ['savename'];
 		// 图片保存相对路径
 		$imgurl = '/'.$config ['rootPath'].$config ['savePath'] . $imgname;
+		$urlarr=$this->getallthumb('.'.$imgurl,$imgname);
 		$data = array (
 						'GoodsId' => 0,
-						'URL' => $imgurl,
+						'URL' => $urlarr[0],
+						'ThumbURL'=>$urlarr[1],
+						'SourceURL'=>$imgurl ,
 						'Title' => '',
 						'Status' => 0 
 		);
 		$rst = M ( 'goods_img' )->add ( $data );
 		if ($rst) {
-			//返回图片Id 以及图片URL
 			echo json_encode ( array (
 			$rst,
-			$imgurl
+			$urlarr[1]
 			) );
-			return;
 		} else {
-			$this->error ( "error" );
+			echo json_encode(array(0,$upload->getError()));
 		}
 	}
-
+	private function getallthumb($url,$imgname){
+		$rooturl=C('GOODS_IMG_ROOT');
+		$url_8='/'.$rooturl.C('GOODS_IMG_800').$imgname;
+		$url_1='/'.$rooturl.C('GOODS_IMG_100').$imgname;
+		$imagedal = new \Think\Image();
+		$imagedal->open($url);
+		$size = $imagedal->size();
+		$imagedal->thumb(800, 800)->save('.'.$url_8);
+		$imagedal->thumb(100, 100,\Think\Image::IMAGE_THUMB_CENTER)->save('.'.$url_1);
+		return array($url_8,$url_1);
+	}
 	/**
 	 * 删除图片
 	 */
@@ -169,19 +201,20 @@ class GoodsController extends Controller {
 		if (! IS_POST) {
 			$this->error ( "页面不存在" );
 		}
-		if (! I ( 'URL' )||!I('Id')) {
+		if (!I('Id')) {
 			// 没有获得要删除的图片
 			$this->error ( "没有获得要删除的图片" );
 		}
-		$url = I ( 'URL' );
 		$rst = M ( 'goods_img' )->where ( array (
 				'Id' => (int)I('Id') 
-		) )->delete ();
-		if (! $rst) {
+		) )->find();
+		if (! $rst||!M ( 'goods_img' )->where ( array (
+				'Id' => (int)I('Id') 
+		) )->delete()) {
 			$this->error ( "删除失败" );
 			return;
 		}
-		unlink ( '.'.$url );
+		$this->delallimg($rst);
 		$this->success ( 1 );
 	}
 	public function getcategory(){
@@ -245,5 +278,18 @@ class GoodsController extends Controller {
 			$newlist=array_merge($model,$clist);
 		}
 		$this->success( json_encode(array(2,$newlist)));
+	}
+	/**
+	 * 刷新地址
+	 * */
+	public function refreshadd() {
+		if(!IS_POST){
+			$this->error('页面不存在');
+		}
+		$userid=0;
+		$arr=M ( 'user_address' )->order('IsDefault DESC')->where ( array (
+				'Status' => 10 ,'UserId'=>$userid
+		) )->select ();
+		$this->success(json_encode($arr));
 	}
 }
