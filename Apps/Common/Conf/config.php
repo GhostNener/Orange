@@ -1,16 +1,17 @@
 <?php
 return array (
 		// '配置项'=>'配置值'
-		/*'DB_TYPE' => 'mysql', // 数据库类型
+		'DB_TYPE' => 'mysql', // 数据库类型
 		'DB_HOST' => '10.200.10.90', // 服务器地址
 		'DB_NAME' => 'juzidb', // 数据库名
 		'DB_USER' => 'rootZ', // 用户名
 		'DB_PWD' => '8520', // 密码
-		*/'DB_TYPE' => 'mysql',
-		 'DB_HOST' => '127.0.0.1', 
-		  'DB_NAME' => 'juzi',
-		   'DB_USER' => 'zhoumeng', 
-		    'DB_PWD' => '8520', 
+		
+		// 'DB_TYPE' => 'mysql',
+		//  'DB_HOST' => '127.0.0.1', 
+		//   'DB_NAME' => 'juzi',
+		//    'DB_USER' => 'zhoumeng', 
+		//     'DB_PWD' => '8520', 
 		    
 		 
 		/* 模块相关配置 */
@@ -20,6 +21,7 @@ return array (
 		),
 		'MODULE_ALLOW_LIST' => array (
 				'Home',
+				'Api',
 				'Admin' 
 		),
     /* 多级过滤  */

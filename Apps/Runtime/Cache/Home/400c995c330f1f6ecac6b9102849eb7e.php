@@ -4,13 +4,13 @@
 	<meta charset="UTF-8">
 	<title>Orange</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" href="/Orange/Public/css/bootstrap-theme.css" />
-	<link rel="stylesheet" href="/Orange/Public/css/bootstrap.css" />
-	<link rel="stylesheet" href="/Orange/Public/css/huaxi_css.css" />
-	<link rel="shortcut icon" href="/Orange/Public/Img/favicon.png"
+	<link rel="stylesheet" href="/orange/Public/css/bootstrap-theme.css" />
+	<link rel="stylesheet" href="/orange/Public/css/bootstrap.css" />
+	<link rel="stylesheet" href="/orange/Public/css/huaxi_css.css" />
+	<link rel="shortcut icon" href="/orange/Public/Img/favicon.png"
 	type="image/x-icon" />
-	<script src="/Orange/Public/js/jquery-1.8.0.min.js"></script>
-	<script src="/Orange/Public/js/bootstrap.js"></script>
+	<script src="/orange/Public/js/jquery-1.8.0.min.js"></script>
+	<script src="/orange/Public/js/bootstrap.js"></script>
 </head>
 <body>
 	<!--顶-->
