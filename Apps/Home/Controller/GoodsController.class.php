@@ -96,7 +96,7 @@ class GoodsController extends Controller {
 		}
 	}
 	/**
-	 * 保存
+	 * 保存图片 添加记录
 	 */
 	public function saveimg() {
 		if (! IS_POST) {
@@ -183,6 +183,9 @@ class GoodsController extends Controller {
 			echo json_encode(array(0,$upload->getError()));
 		}
 	}
+	/**
+	*压缩图像  返回路径
+	*/
 	private function getallthumb($url,$imgname){
 		$rooturl=C('GOODS_IMG_ROOT');
 		$url_8='/'.$rooturl.C('GOODS_IMG_800').$imgname;
@@ -217,6 +220,9 @@ class GoodsController extends Controller {
 		$this->delallimg($rst);
 		$this->success ( 1 );
 	}
+	/**
+	*获得分类
+	*/
 	public function getcategory(){
 		if(!IS_POST){
 			$this->error ( "页面不存在" );

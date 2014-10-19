@@ -28,7 +28,7 @@ return array (
 		'URL_MODEL' => 2,
 		 /*url分隔符*/
 		'URL_PATHINFO_DEPR' => '/',
-		// 图片上传配置
+		 /*图片上传配置*/
 		'IMG_UPLOAD_CONFIG' => array (
 				'maxSize' => 5242880,
 				'rootPath' => 'Uploads',
