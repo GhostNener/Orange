@@ -53,14 +53,14 @@ class GoodsController extends Controller {
 			echo json_encode ( $rstmsg );
 			return;
 		}
-		$str = I ( 'Title' );
+		$str =json_decode(I ('post.' ));
 		if (! $str) {
 			$rstmsg ['msg'] = '数据为空';
 			echo json_encode ( $rstmsg );
 			return;
 		}
 		$model = new goods_categoryModel ();
-		$rst = $model->getcategory ( $str );
+		$rst = $model->getcategory ( $str['Title'] );
 		echo json_encode ( $rst );
 		return;
 	}
@@ -81,7 +81,7 @@ class GoodsController extends Controller {
 			echo json_encode ( $rstmsg );
 			return;
 		}
-		$postarr = I ( 'post.' );
+		$postarr =json_decode( I ( 'post.' ));
 		$model = new goodsModel ();
 		$rst = $model->save( $postarr );
 		echo json_encode ( $rst );
@@ -103,8 +103,8 @@ class GoodsController extends Controller {
 			echo json_encode ( $rstmsg );
 			return;
 		}
-		$userid = 0;
-		$postarr = I ( 'post.' );
+		$userid = 0;//用户id
+		$postarr =json_decode( I ( 'post.' ));
 		/* 商品Id */
 		$postarr ['_gid'] = $postarr ['goodsid'];
 		$model = new goodsModel ();
@@ -144,13 +144,14 @@ class GoodsController extends Controller {
 			echo json_encode ( $msg );
 			return;
 		}
-		if (! I ( 'imgid' )) {
-			// 没有获得要删除的图片
+		$arr=json_decode(I('post.'));
+		if (! $arr['imgid']) {
+			$msg['msg']= '没有获得要删除的图片';
 			echo json_encode ( $msg );
 			return;
 		}
 		$model = new goodsModel ();
-		$rst = $model->delimg ( ( int ) I ( 'imgid' ) );
+		$rst = $model->delimg ( ( int ) $arr['imgid'] );
 		echo json_encode ( $rst );
 		return;
 	}
