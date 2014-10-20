@@ -169,12 +169,18 @@
     		},'json');});
 		/*提交按钮*/
     	$('#submitsave').click(function(e){
-    		/*判断是否传了图*/
-    		var _imgcount=$('#imgcount').val();
-    		if(parseInt(_imgcount)<=0){
-    			alert('至少上传一张图片！');
-    			return;
-    		}
+
+    		    		var _Server=new Array();
+			$('#Server').children('label').each(function(){
+
+				if($(this).children('input').attr('checked')){
+					_Server.push($(this).children('input').val());
+				}
+			});
+			_Server=_Server.join('|');
+			if(!_Server){
+				_Server=0;
+			}
     	/*	判断是否填写的title*/
     		var _Title=$.trim($('#Title').val());
     		if(!_Title){
@@ -212,10 +218,12 @@
     		}
     		var _GoodsId=$('#url').attr('gid');
     		var _TradeWay=$('#TradeWay').val();  		
-    		var _Server=$('#Server').attr('checked');
-    		if(_Server){
-    			_Server=1;
-    		}else{_Server=0;}
+    		    		/*判断是否传了图*/
+    		var _imgcount=$('#imgcount').val();
+    		if(parseInt(_imgcount)<=0){
+    			alert('至少上传一张图片！');
+    			return;
+    		}
     		var btn_txt=$(this).val();
     		$(this).attr('disabled',"true");
     		$(this).val('....');
@@ -314,8 +322,10 @@
 		<div class="form-group">
 			<label for="Server" class="col-sm-2 control-label">Server</label>
 			<div class="col-sm-10">
-				<label class="checkbox-inline">
-					<input type="checkbox" id="Server" value="1">提供送货</label>
+				<div id="Server">
+					<?php if(is_array($slist)): foreach($slist as $key=>$v): ?><label class="checkbox-inline">
+							<input type="checkbox" id="<?php echo ($v['Id']); ?>" value="<?php echo ($v['Id']); ?>"><?php echo ($v['Title']); ?></label><?php endforeach; endif; ?>
+				</div>
 			</div>
 		</div>
 		<div class="form-group">
