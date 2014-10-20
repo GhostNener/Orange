@@ -64,7 +64,7 @@ class GoodsController extends Controller {
 		$postarr = I ( 'post.' );
 		$model = new goodsModel ();
 		$rst = $model->save ( $postarr );
-		if ($rst ['status'] == 0) {
+		if ((int)$rst ['status'] == 0) {
 			$this->error ( $rst ['msg'] );
 		} else {
 			$this->success ( 1 );
@@ -81,7 +81,7 @@ class GoodsController extends Controller {
 		$postarr = I ( 'post.' );
 		$model = new goodsModel ();
 		$rst = $model->saveimg ( $postarr, $userid );
-		if ($rst ['status'] == 0) {
+		if ((int)$rst ['status'] == 0) {
 			$this->error ( $rst ['msg'] );
 		} else {
 			$this->success ( ( int ) $rst ['goodsid'] );
@@ -98,7 +98,7 @@ class GoodsController extends Controller {
 		}
 		$model = new goodsModel ();
 		$rst = $model->uploadimg ();
-		if ($rst ['status'] == 0) {
+		if ((int)$rst ['status'] == 0) {
 			echo json_encode ( array (
 					0,
 					$rst ['msg'] 
@@ -123,7 +123,7 @@ class GoodsController extends Controller {
 		}
 		$model = new goodsModel ();
 		$rst = $model->delimg ( ( int ) I ( 'Id' ) );
-		if ($rst ['status'] == 0) {
+		if ((int)$rst ['status'] == 0) {
 			$this->error ( $rst ['msg'] );
 		} else {
 			$this->success ( 1 );
@@ -142,7 +142,7 @@ class GoodsController extends Controller {
 		}
 		$model = new goods_categoryModel ();
 		$rst = $model->getcategory ( $str );
-		if ($rst ['status'] == 1) {
+		if ((int)$rst ['status'] == 1) {
 			$this->success ( json_encode ( array (
 					2,
 					$rst ['msg'] 

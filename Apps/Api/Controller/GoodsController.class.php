@@ -110,13 +110,13 @@ class GoodsController extends Controller {
 		$model = new goodsModel ();
 		$rst = $model->uploadimg ();
 		$rstmsg ['msg'] = '上传失败';
-		if ($rst ['status'] == 0) {
+		if ((int)$rst ['status'] == 0) {
 			echo json_encode ( $rstmsg );
 			return;
 		}
 		$postarr ['_imgid'] = $rst ['imgid'];
 		$rst = $model->saveimg ( $postarr, $userid );
-		if ($rst ['status'] == 0) {
+		if ((int)$rst ['status'] == 0) {
 			echo json_encode ( $rstmsg );
 			return;
 		} else {

@@ -34,7 +34,6 @@ class goods_categoryModel extends Model {
 	 */
 	public function getcategory($str) {
 		if (! $str) {
-			$this->error ( 0 );
 			return array (
 					'status' => 0,
 					'msg' => '数据为空' 
@@ -49,7 +48,7 @@ class goods_categoryModel extends Model {
 				'Title' => '其他',
 				'Status' => 10 
 		) )->find ();
-		if (! $other) {
+		if (!$other) {
 			return array (
 					'status' => 0,
 					'msg' => '数据为空' 

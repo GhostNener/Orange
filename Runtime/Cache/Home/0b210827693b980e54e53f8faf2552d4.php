@@ -201,6 +201,10 @@
     			$('#CostPrice').focus();
     			return;
     		}
+    		if(parseInt(_CostPrice)<parseInt(_Price)){
+    			$('#Price').focus();
+    			return;
+    		}
     		/*简介*/
     		var _Presentation=$.trim($('#Presentation').val());
     		var _keyid=$('#keyid').val();
