@@ -55,7 +55,7 @@ class GoodsController extends Controller {
 		}
 		$str = I ( 'Title' );
 		if (! $str) {
-			$rstmsg ['msg'] = '数据为空1';
+			$rstmsg ['msg'] = '数据为空';
 			echo json_encode ( $rstmsg );
 			return;
 		}
