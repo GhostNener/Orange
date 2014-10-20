@@ -10,6 +10,7 @@ use Think\Model;
  * @author NENER
  *        
  */
+require './ORG/phpAnalysis/SeachDic.class.php';
 class goods_categoryModel extends Model {
 	/**
 	 * 获取所有分类
@@ -33,7 +34,7 @@ class goods_categoryModel extends Model {
 	 * @return array：status，msg
 	 */
 	public function getcategory($str) {
-		if (! $str) {
+		if (!$str) {
 			return array (
 					'status' => 0,
 					'msg' => '数据为空' 
@@ -51,7 +52,7 @@ class goods_categoryModel extends Model {
 		if (!$other) {
 			return array (
 					'status' => 0,
-					'msg' => '数据为空' 
+					'msg' => '没有其他分类' 
 			);
 		}
 		if (! $arr) {

@@ -8,7 +8,7 @@ use Home\Model\goods_categoryModel;
 use Home\Model\user_addressModel;
 use Home\Model\goods_serviceModel;
 
-require './ORG/phpAnalysis/SeachDic.class.php';
+
 /**
  * 前台商品管理
  *

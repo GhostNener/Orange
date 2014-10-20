@@ -55,13 +55,13 @@ class GoodsController extends Controller {
 		}
 		$str = I ( 'Title' );
 		if (! $str) {
-			$rstmsg ['msg'] = '数据为空';
+			$rstmsg ['msg'] = '数据为空1';
 			echo json_encode ( $rstmsg );
 			return;
 		}
 		$model = new goods_categoryModel ();
 		$rst = $model->getcategory ( $str );
-		echo json_encode ( $rstmsg );
+		echo json_encode ( $rst );
 		return;
 	}
 	
@@ -117,7 +117,7 @@ class GoodsController extends Controller {
 		$postarr ['_imgid'] = $rst ['imgid'];
 		$rst = $model->saveimg ( $postarr, $userid );
 		if ((int)$rst ['status'] == 0) {
-			echo json_encode ( $rstmsg );
+			echo json_encode ( $rst );
 			return;
 		} else {
 			echo json_encode ( array (
