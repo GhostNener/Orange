@@ -53,7 +53,7 @@ class GoodsController extends Controller {
 			echo json_encode ( $rstmsg );
 			return;
 		}
-		$str =json_decode(I ('post.' ));
+		$str =json_decode(I ('post.' ),true);
 		if (! $str) {
 			$rstmsg ['msg'] = '数据为空';
 			echo json_encode ( $rstmsg );
@@ -81,7 +81,7 @@ class GoodsController extends Controller {
 			echo json_encode ( $rstmsg );
 			return;
 		}
-		$postarr =json_decode( I ( 'post.' ));
+		$postarr =json_decode( I ( 'post.' ),true);
 		$model = new goodsModel ();
 		$rst = $model->save( $postarr );
 		echo json_encode ( $rst );
@@ -104,7 +104,7 @@ class GoodsController extends Controller {
 			return;
 		}
 		$userid = 0;//用户id
-		$postarr =json_decode( I ( 'post.' ));
+		$postarr =json_decode( I ( 'post.' ),true);
 		/* 商品Id */
 		$postarr ['_gid'] = $postarr ['goodsid'];
 		$model = new goodsModel ();
@@ -144,7 +144,7 @@ class GoodsController extends Controller {
 			echo json_encode ( $msg );
 			return;
 		}
-		$arr=json_decode(I('post.'));
+		$arr=json_decode(I('post.'),true);
 		if (! $arr['imgid']) {
 			$msg['msg']= '没有获得要删除的图片';
 			echo json_encode ( $msg );
