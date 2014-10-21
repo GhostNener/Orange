@@ -21,6 +21,7 @@
 			<th class="text-center">Server</th>
 			<th class="text-center">TradeWay</th>
 			<th class="text-center">Status</th>
+			<th class="text-center">Show</th>
 		</tr>
 		<foreach name='list' item='v'>
 			<tr>
@@ -34,6 +35,7 @@
 				<td>{$v.Server}</td>
 				<td>{$v.TradeWay}</td>
 				<td>{$v.Status}</td>
+				<td><a href="__APP__/Goods/showgoods/Id/{$v.Id}">Show</a></td>
 			</tr>
 		</foreach>
 	</table>

@@ -298,4 +298,47 @@ class GoodsController extends Controller {
 		) )->select ();
 		$this->success(json_encode($arr));
 	}
+	
+	/**
+	 *展示商品 详情 及评论
+	 */
+	public function showgoods($Id){
+		$goods = D("goods");
+		$info = $goods->find($Id); //一维数组
+		$this -> assign('info', $info);
+				
+		//类别
+		$goods_category = D("goods_category");
+		$categoryId = $info['CategoryId'];
+		$cate = $goods_category->find($categoryId);
+        $this -> assign('cate', $cate);
+        
+        //评论
+        $goods_comment = D("goods_comment");
+		// 评论查询条件
+		$wherrArr = array (
+				'Status' =>10 ,
+				'GoodsId'=>$Id,
+		);
+		// 查询
+		$allComment = $goods_comment->where ( $wherrArr )->select ();
+        $this -> assign('allComment', $allComment);
+        $this -> display();
+	}
+	
+	/**
+	 *添加评论
+	 */
+	public function addComment(){
+		$goods_Comment = D("goods_Comment");
+		$data = array (
+						'GoodsId' => 5,
+						'Content' => ,
+						'CreateTime'=>data("y-M-d  H:s",time()),
+						'UserId'=> ,
+						'AssesseId' => 0,
+						'Status' => 10, 
+		);
+		$rst = M ( 'goods_img' )->add ( $data );
+	}
 }

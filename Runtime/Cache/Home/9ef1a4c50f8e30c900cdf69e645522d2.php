@@ -33,46 +33,30 @@
 				</ul>
 			</div>
 		</div>
-		
+		﻿
 <div class="container">
-	<!-- 分类管理-->
+	<!-- 词典测试-->
 	<div class="text-center">
-		<h1>商品列表</h1>
+		<h1>词典测试</h1>
+		<?php echo ($time); ?>
 	</div>
 	<br>
-	<div>
-		<a href="<?php echo U('add');?>" class="btn btn-default">添加</a>
-	</div>
+
 	<br>
-	<table class="table table-bordered">
-		<tr >
-			<th class="text-center">Id</th>
-			<th class="text-center">Title</th>
-			<th class="text-center">Price</th>
-			<th class="text-center">CostPrice</th>
-			<th class="text-center">Presentation</th>
-			<th class="text-center">CategoryId</th>
-			<th class="text-center">AddressId</th>
-			<th class="text-center">Server</th>
-			<th class="text-center">TradeWay</th>
-			<th class="text-center">Status</th>
-			<th class="text-center">Show</th>
-		</tr>
-		<?php if(is_array($list)): foreach($list as $key=>$v): ?><tr>
-				<td><?php echo ($v["Id"]); ?></td>
-				<td><?php echo ($v["Title"]); ?></td>
-				<td><?php echo ($v["Price"]); ?></td>
-				<td><?php echo ($v["CostPrice"]); ?></td>
-				<td><?php echo ($v["Presentation"]); ?></td>
-				<td><?php echo ($v["CategoryId"]); ?></td>
-				<td><?php echo ($v["AddressId"]); ?></td>
-				<td><?php echo ($v["Server"]); ?></td>
-				<td><?php echo ($v["TradeWay"]); ?></td>
-				<td><?php echo ($v["Status"]); ?></td>
-				<td><a href="/Orange/Goods/showgoods/Id/<?php echo ($v["Id"]); ?>">Show</a></td>
-			</tr><?php endforeach; endif; ?>
-	</table>
-	<?php echo ($page); ?>
+
+	<form class="form-horizontal" role="form" action="<?php echo U('dic');?>" method="post">
+		<div class="form-group">
+			<label for="text" class="col-sm-2 control-label">text</label>
+			<div class="col-sm-10">
+				<input type="text" class="form-control " id="text" placeholder=" text  " name="text"></div>
+		</div>
+
+		<div class="form-group">
+			<div class="col-sm-offset-2 col-sm-10">
+				<button type="submit" class="btn btn-default">提交</button>
+			</div>
+		</div>
+	</form>
 </div>
 	</div>
 	<!-- 底栏-->
