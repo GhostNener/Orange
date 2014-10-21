@@ -42,37 +42,47 @@
 	<!-- 分类管理-->
 	<form class="form-horizontal" role="form" action="" method="post">
 		<div class="form-group">
-			<input type="hidden" id="modif" class="form-control "  name="modif" value="{$modif}" Readonly>
-			<label for="Id" class="col-sm-2 control-label">Id</label>
+			<input type="hidden" id="modif" class="form-control " name="modif"
+				value="{$modif}" Readonly> <label for="Id"
+				class="col-sm-2 control-label">Id</label>
 			<div class="col-sm-10">
-				<input type="text" class="form-control " id="Id" placeholder=" Id  " name="Id" value="{$model.Id}" 
-					Readonly></div>
+				<input type="text" class="form-control " id="Id" placeholder=" Id  "
+					name="Id" value="{$model.Id}" Readonly>
+			</div>
 		</div>
 		<div class="form-group">
 			<label for="Tel" class="col-sm-2 control-label">Tel</label>
 			<div class="col-sm-10">
-				<input type="text" class="form-control " id="Tel" placeholder=" Tel  "name="Tel" value="{$model.Tel}" ></div>
+				<input type="text" class="form-control " id="Tel"
+					placeholder=" Tel  " name="Tel" value="{$model.Tel}">
+			</div>
 		</div>
 		<div class="form-group">
 			<label for="QQ" class="col-sm-2 control-label">QQ</label>
 			<div class="col-sm-10">
-				<input type="text" class="form-control " id="QQ" placeholder=" QQ  "name="QQ" value="{$model.QQ}" ></div>
+				<input type="text" class="form-control " id="QQ" placeholder=" QQ  "
+					name="QQ" value="{$model.QQ}">
+			</div>
 		</div>
 		<div class="form-group">
 			<label for="Address" class="col-sm-2 control-label">Address</label>
 			<div class="col-sm-10">
-				<input type="text" class="form-control " id="Address" placeholder=" Address  "name="Address" value="{$model.Address}" ></div>
+				<input type="text" class="form-control " id="Address"
+					placeholder=" Address  " name="Address" value="{$model.Address}">
+			</div>
 		</div>
 		<div class="form-group">
 			<label for="IsDefault" class="col-sm-2 control-label">IsDefault</label>
 			<div class="col-sm-10">
-				<label class="checkbox-inline">
-					<input type="checkbox" id="IsDefault" value="1">作为默认地址</label>
+				<label class="checkbox-inline"> <input type="checkbox"
+					id="IsDefault" value="1">作为默认地址
+				</label>
 			</div>
 		</div>
 		<div class="form-group">
 			<div class="col-sm-offset-2 col-sm-10">
-				<button id='addressSubmit' type="button" urlindex="{:U('index')}" acurl="{:U('saveaddress')}" class="btn btn-default">保存</button>
+				<button id='addressSubmit' type="button" urlindex="{:U('index')}"
+					acurl="{:U('saveaddress')}" class="btn btn-default">保存</button>
 				<a class="btn btn-default" href="{:U('index')}">返回</a>
 			</div>
 		</div>

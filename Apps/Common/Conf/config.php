@@ -21,7 +21,8 @@ return array (
 		'MODULE_ALLOW_LIST' => array (
 				'Home',
 				'Api',
-				'Admin' 
+				'Admin',
+				'Usercenter' 
 		),
     /* 多级过滤  */
     'DEFAULT_FILTER' => 'strip_tags,htmlspecialchars',

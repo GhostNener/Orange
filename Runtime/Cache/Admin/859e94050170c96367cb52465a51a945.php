@@ -1,4 +1,5 @@
-<?php if (!defined('THINK_PATH')) exit();?><!DOCTYPE html>
+<?php if (!defined('THINK_PATH')) exit();?>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -18,26 +19,20 @@
 		<div class="container">
 			<div class="collapse navbar-collapse">
 				<ul class="nav navbar-nav">
-					<li >
-						<a href="<?php echo U('Index/index');?>">Home</a>
-					</li>
-					<li>
-						<a href="<?php echo U('GoodsCategory/index');?>">分类管理</a>
-					</li>
-					<li>
-						<a href="<?php echo U('Home/Index/index');?>">返回前台</a>
-					</li>
+					<li><a href="<?php echo U('Index/index');?>">Home</a></li>
+					<li><a href="<?php echo U('GoodsCategory/index');?>">分类管理</a></li>
+					<li><a href="<?php echo U('Home/Index/index');?>">返回前台</a></li>
 				</ul>
 			</div>
 		</div>
-		
-<div class="container">
-	<div class="text-center">
-		<h1>
-			<a href="<?php echo U('index');?>">Home</a>
-		</h1>
-	</div>
-</div>
+
+		<div class="container">
+			<div class="text-center">
+				<h1>
+					<a href="<?php echo U('index');?>">Home</a>
+				</h1>
+			</div>
+		</div>
 	</div>
 	<!-- 底栏-->
 	<div id="footer" class="text-center">

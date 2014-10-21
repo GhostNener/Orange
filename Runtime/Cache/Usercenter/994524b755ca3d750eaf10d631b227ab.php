@@ -11,67 +11,48 @@
 	type="image/x-icon" />
 	<script src="/Orange/Public/js/jquery-1.8.0.min.js"></script>
 	<script src="/Orange/Public/js/bootstrap.js"></script>
+	<style>
+	.login{
+
+		margin: 200px  100px;
+	}
+</style>
 </head>
 <body>
 	<!--顶-->
 	<div id="wrap">
 		<div class="container">
-			<div class="collapse navbar-collapse">
-				<ul class="nav navbar-nav">
-					<li >
-						<a href="<?php echo U('Index/index');?>">Home</a>
-					</li>
-					<li >
-						<a href="<?php echo U('TestDic/index');?>">词典测试</a>
-					</li>
-					<li>
-						<a href="<?php echo U('Goods/index');?>">商品管理</a>
-					</li>
-					<li>
-						<a class="pull-right" href="<?php echo U('Admin/Index/index');?>">后台</a>
-					</li>
-				</ul>
+
+			<div class="login">
+				<form class="form-horizontal" role="form" action="<?php echo U('login');?>" method="post">
+					<div class="form-group">
+						<label for="inputEmail3" class="col-sm-2 control-label">UserName</label>
+						<div class="col-sm-10">
+							<input type="UserName" class="form-control" id="inputEmail3" placeholder="Email"></div>
+					</div>
+					<div class="form-group">
+						<label for="inputPassword3" class="col-sm-2 control-label">Password</label>
+						<div class="col-sm-10">
+							<input type="password" class="form-control" id="inputPassword3" placeholder="Password"></div>
+					</div>
+					<div class="form-group">
+						<div class="col-sm-offset-2 col-sm-10">
+							<div class="checkbox">
+								<label>
+									<input  type="checkbox">Remember me</label>
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-sm-offset-2 col-sm-10">
+							<button type="submit" class="btn btn-default">Sign in</button>
+							<a  href="<?php echo U('regist');?>" class="btn btn-default">Sign up</a>
+						</div>
+					</div>
+				</form>
 			</div>
+
 		</div>
-		
-<div class="container">
-	<!-- 分类管理-->
-	<div class="text-center">
-		<h1>商品列表</h1>
-	</div>
-	<br>
-	<div>
-		<a href="<?php echo U('add');?>" class="btn btn-default">添加</a>
-	</div>
-	<br>
-	<table class="table table-bordered">
-		<tr >
-			<th class="text-center">Id</th>
-			<th class="text-center">Title</th>
-			<th class="text-center">Price</th>
-			<th class="text-center">CostPrice</th>
-			<th class="text-center">Presentation</th>
-			<th class="text-center">CategoryId</th>
-			<th class="text-center">AddressId</th>
-			<th class="text-center">Server</th>
-			<th class="text-center">TradeWay</th>
-			<th class="text-center">Status</th>
-		</tr>
-		<?php if(is_array($list)): foreach($list as $key=>$v): ?><tr>
-				<td><?php echo ($v["Id"]); ?></td>
-				<td><?php echo ($v["Title"]); ?></td>
-				<td><?php echo ($v["Price"]); ?></td>
-				<td><?php echo ($v["CostPrice"]); ?></td>
-				<td><?php echo ($v["Presentation"]); ?></td>
-				<td><?php echo ($v["CategoryId"]); ?></td>
-				<td><?php echo ($v["AddressId"]); ?></td>
-				<td><?php echo ($v["Server"]); ?></td>
-				<td><?php echo ($v["TradeWay"]); ?></td>
-				<td><?php echo ($v["Status"]); ?></td>
-			</tr><?php endforeach; endif; ?>
-	</table>
-	<?php echo ($page); ?>
-</div>
 	</div>
 	<!-- 底栏-->
 	<div id="footer" class="text-center">

@@ -8,7 +8,7 @@ use Think\Controller;
  * 分类数据字典
  *
  * @author NENER
- *
+ *        
  */
 require './ORG/phpAnalysis/Cratedic.class.php';
 class CategoryDicController extends Controller {

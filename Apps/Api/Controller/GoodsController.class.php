@@ -19,8 +19,10 @@ class GoodsController extends Controller {
 	}
 	/**
 	 * 初始化添加
+	 *
 	 * @return array:status,category,service,address
-	 *   */
+	 *
+	 */
 	public function add() {
 		$userid = 0;
 		/* 分类 */
@@ -35,13 +37,13 @@ class GoodsController extends Controller {
 		echo json_encode ( array (
 				'status' => 1,
 				'category' => $clist,
-				'service'=>$slist,
-				'address'=>$alist
+				'service' => $slist,
+				'address' => $alist 
 		) );
 	}
 	/**
 	 * 根据标题获得分类
-	 * 
+	 *
 	 * @return array:status,msg:分类列表
 	 */
 	public function getcategory() {
@@ -53,15 +55,15 @@ class GoodsController extends Controller {
 			echo json_encode ( $rstmsg );
 			return;
 		}
-		$str =file_get_contents("php://input");
-		$str =json_decode($str,true);
+		$str = file_get_contents ( "php://input" );
+		$str = json_decode ( $str, true );
 		if (! $str) {
 			$rstmsg ['msg'] = '数据为空';
 			echo json_encode ( $rstmsg );
 			return;
 		}
 		$model = new goods_categoryModel ();
-		$rst = $model->getcategory ( $str['Title'] );
+		$rst = $model->getcategory ( $str ['Title'] );
 		echo json_encode ( $rst );
 		return;
 	}
@@ -82,10 +84,10 @@ class GoodsController extends Controller {
 			echo json_encode ( $rstmsg );
 			return;
 		}
-		$postarr=file_get_contents('php://input');
-		$postarr=json_decode($postarr,true);
+		$postarr = file_get_contents ( 'php://input' );
+		$postarr = json_decode ( $postarr, true );
 		$model = new goodsModel ();
-		$rst = $model->save( $postarr );
+		$rst = $model->save ( $postarr );
 		echo json_encode ( $rst );
 		return;
 	}
@@ -105,21 +107,21 @@ class GoodsController extends Controller {
 			echo json_encode ( $rstmsg );
 			return;
 		}
-		$userid = 0;//用户id
-		$postarr=file_get_contents('php://input');
-		$postarr =json_decode($postarr,true);
+		$userid = 0; // 用户id
+		$postarr = file_get_contents ( 'php://input' );
+		$postarr = json_decode ( $postarr, true );
 		/* 商品Id */
 		$postarr ['_gid'] = $postarr ['goodsid'];
 		$model = new goodsModel ();
 		$rst = $model->uploadimg ();
 		$rstmsg ['msg'] = '上传失败';
-		if ((int)$rst ['status'] == 0) {
+		if (( int ) $rst ['status'] == 0) {
 			echo json_encode ( $rstmsg );
 			return;
 		}
 		$postarr ['_imgid'] = $rst ['imgid'];
 		$rst = $model->saveimg ( $postarr, $userid );
-		if ((int)$rst ['status'] == 0) {
+		if (( int ) $rst ['status'] == 0) {
 			echo json_encode ( $rst );
 			return;
 		} else {
@@ -147,15 +149,15 @@ class GoodsController extends Controller {
 			echo json_encode ( $msg );
 			return;
 		}
-		$arr=file_get_contents('php://input');
-		$arr=json_decode($arr,true);
-		if (! $arr['imgid']) {
-			$msg['msg']= '没有获得要删除的图片';
+		$arr = file_get_contents ( 'php://input' );
+		$arr = json_decode ( $arr, true );
+		if (! $arr ['imgid']) {
+			$msg ['msg'] = '没有获得要删除的图片';
 			echo json_encode ( $msg );
 			return;
 		}
 		$model = new goodsModel ();
-		$rst = $model->delimg ( ( int ) $arr['imgid'] );
+		$rst = $model->delimg ( ( int ) $arr ['imgid'] );
 		echo json_encode ( $rst );
 		return;
 	}

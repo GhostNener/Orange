@@ -73,7 +73,7 @@ class goodsModel extends Model {
 					'Status' => 1,
 					'CategoryId' => $postarr ['CategoryId'] 
 			) );
-		}		
+		}
 		if ($rst1 && $rst2) {
 			$dal->commit ();
 			return array (
@@ -104,9 +104,9 @@ class goodsModel extends Model {
 					'msg' => '空数据' 
 			);
 		}
-		/*商品Id  */
+		/* 商品Id */
 		$goodsid = $postarr ['_gid'];
-		/*图像Id  */
+		/* 图像Id */
 		$imgid = $postarr ['_imgid'];
 		$dal = M ();
 		$dal->startTrans (); // 事务

@@ -14,7 +14,7 @@ class user_addressModel extends Model {
 	
 	/**
 	 * 获取地址
-	 * 
+	 *
 	 * @param int $userid：用户Id        	
 	 * @return array ：所有符合的地址列表
 	 */

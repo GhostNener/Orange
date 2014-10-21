@@ -4,7 +4,7 @@ ini_set ( 'memory_limit', '64M' );
 require './ORG/phpAnalysis/phpanalysis.class.php';
 /**
  * 检索字典
- * 
+ *
  * @author NENER
  *        
  */

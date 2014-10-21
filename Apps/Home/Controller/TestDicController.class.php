@@ -9,7 +9,7 @@ require './ORG/phpAnalysis/SeachDic.class.php';
  * 词典测试
  *
  * @author NENER
- *
+ *        
  */
 class TestDicController extends Controller {
 	public function index() {
