@@ -83,7 +83,7 @@
 					if(!_arr){return;}
 					$('#Address').children('option').remove();
 					$(_arr).each(function(i,v){
-						$('#Address').append("<option value="+v['Id']+">"+v['Tel']+"&nbsp;&nbsp;"+v['Address']+"</option>");
+						$('#Address').append("<option value="+v['Id']+" address="+v['address']+" >"+v['Tel']+"&nbsp;&nbsp;"+v['Address']+"</option>");
 					});
 					return;
 				}
@@ -146,6 +146,7 @@
 			if(!_Server){
 				_Server=0;
 			}
+
     	/*	判断是否填写的title*/
     		var _Title=$.trim($('#Title').val());
     		if(!_Title){
@@ -182,6 +183,22 @@
     		var _Category=$('#Category').val();
     		var _Address=$('#Address').val();
     		if(!$.isNumeric(_Address)||parseInt(_Address)<=0){
+    			$('#Address').focus();
+    			return;
+    		}
+    		$('#Address').children('option').each(function(){    			
+    			var tempadd=$.trim($(this).attr('address'));
+    			var tempval=parseInt($(this).val());
+    			if(tempval==parseInt(_Address)){
+    				if(!tempadd){
+    					alert("所选的地址为空！");
+    					_Address=0;
+    					$('#Address').focus();
+    					return;
+    				}
+    			}
+    		});
+    		if(!_Address){
     			$('#Address').focus();
     			return;
     		}
@@ -267,7 +284,7 @@
 			<div class="col-sm-8">
 				<select class="form-control " name="Address" id="Address">
 					<foreach name="alist" item="v">
-						<option value="{$v['Id']}">{$v['Tel']}&nbsp;&nbsp;{$v['Address']}</option>
+						<option value="{$v['Id']}" address="{$v['Address']}">{$v['Tel']}&nbsp;&nbsp;{$v['Address']}</option>
 					</foreach>
 				</select>
 			</div>
@@ -298,7 +315,7 @@
 				<div id="Server">
 					<foreach name="slist" item="v">
 						<label class="checkbox-inline">
-							<input type="checkbox" id="{$v['Id']}" value="{$v['Id']}">{$v['Title']}</label>
+							<input type="checkbox" value="{$v['Id']}">{$v['Title']}</label>
 					</foreach>
 				</div>
 			</div>

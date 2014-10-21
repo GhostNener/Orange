@@ -118,7 +118,7 @@
 					if(!_arr){return;}
 					$('#Address').children('option').remove();
 					$(_arr).each(function(i,v){
-						$('#Address').append("<option value="+v['Id']+">"+v['Tel']+"&nbsp;&nbsp;"+v['Address']+"</option>");
+						$('#Address').append("<option value="+v['Id']+" address="+v['address']+" >"+v['Tel']+"&nbsp;&nbsp;"+v['Address']+"</option>");
 					});
 					return;
 				}
@@ -181,6 +181,7 @@
 			if(!_Server){
 				_Server=0;
 			}
+
     	/*	判断是否填写的title*/
     		var _Title=$.trim($('#Title').val());
     		if(!_Title){
@@ -217,6 +218,22 @@
     		var _Category=$('#Category').val();
     		var _Address=$('#Address').val();
     		if(!$.isNumeric(_Address)||parseInt(_Address)<=0){
+    			$('#Address').focus();
+    			return;
+    		}
+    		$('#Address').children('option').each(function(){    			
+    			var tempadd=$.trim($(this).attr('address'));
+    			var tempval=parseInt($(this).val());
+    			if(tempval==parseInt(_Address)){
+    				if(!tempadd){
+    					alert("所选的地址为空！");
+    					_Address=0;
+    					$('#Address').focus();
+    					return;
+    				}
+    			}
+    		});
+    		if(!_Address){
     			$('#Address').focus();
     			return;
     		}
@@ -299,7 +316,7 @@
 			<label for="Address" class="col-sm-2 control-label">Address</label>
 			<div class="col-sm-8">
 				<select class="form-control " name="Address" id="Address">
-					<?php if(is_array($alist)): foreach($alist as $key=>$v): ?><option value="<?php echo ($v['Id']); ?>"><?php echo ($v['Tel']); ?>&nbsp;&nbsp;<?php echo ($v['Address']); ?></option><?php endforeach; endif; ?>
+					<?php if(is_array($alist)): foreach($alist as $key=>$v): ?><option value="<?php echo ($v['Id']); ?>" address="<?php echo ($v['Address']); ?>"><?php echo ($v['Tel']); ?>&nbsp;&nbsp;<?php echo ($v['Address']); ?></option><?php endforeach; endif; ?>
 				</select>
 			</div>
 			<div class="col-sm-2">
@@ -328,7 +345,7 @@
 			<div class="col-sm-10">
 				<div id="Server">
 					<?php if(is_array($slist)): foreach($slist as $key=>$v): ?><label class="checkbox-inline">
-							<input type="checkbox" id="<?php echo ($v['Id']); ?>" value="<?php echo ($v['Id']); ?>"><?php echo ($v['Title']); ?></label><?php endforeach; endif; ?>
+							<input type="checkbox" value="<?php echo ($v['Id']); ?>"><?php echo ($v['Title']); ?></label><?php endforeach; endif; ?>
 				</div>
 			</div>
 		</div>
