@@ -42,6 +42,7 @@ class SeachDic {
 	private function StrToArr($arr) {
 		foreach ( $arr as $k => $v ) {
 			$tempArr = explode ( '$|', $v );
+			
 			if ($tempArr && is_numeric ( trim ( $tempArr [1] ) )) {
 				$tempArr [1] = trim ( $tempArr [1] );
 				$tempArr [0] = trim ( $tempArr [0] );

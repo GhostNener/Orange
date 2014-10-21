@@ -118,7 +118,7 @@
 					if(!_arr){return;}
 					$('#Address').children('option').remove();
 					$(_arr).each(function(i,v){
-						$('#Address').append("<option value="+v['Id']+">"+v['Tel']+"&nbsp;&nbsp;"+v['Address']+"</option>");
+						$('#Address').append("<option value="+v['Id']+" address="+v['address']+" >"+v['Tel']+"&nbsp;&nbsp;"+v['Address']+"</option>");
 					});
 					return;
 				}
@@ -169,12 +169,19 @@
     		},'json');});
 		/*提交按钮*/
     	$('#submitsave').click(function(e){
-    		/*判断是否传了图*/
-    		var _imgcount=$('#imgcount').val();
-    		if(parseInt(_imgcount)<=0){
-    			alert('至少上传一张图片！');
-    			return;
-    		}
+
+    		    		var _Server=new Array();
+			$('#Server').children('label').each(function(){
+
+				if($(this).children('input').attr('checked')){
+					_Server.push($(this).children('input').val());
+				}
+			});
+			_Server=_Server.join('|');
+			if(!_Server){
+				_Server=0;
+			}
+
     	/*	判断是否填写的title*/
     		var _Title=$.trim($('#Title').val());
     		if(!_Title){
@@ -195,6 +202,10 @@
     			$('#CostPrice').focus();
     			return;
     		}
+    		if(parseInt(_CostPrice)<parseInt(_Price)){
+    			$('#Price').focus();
+    			return;
+    		}
     		/*简介*/
     		var _Presentation=$.trim($('#Presentation').val());
     		var _keyid=$('#keyid').val();
@@ -210,12 +221,30 @@
     			$('#Address').focus();
     			return;
     		}
+    		$('#Address').children('option').each(function(){    			
+    			var tempadd=$.trim($(this).attr('address'));
+    			var tempval=parseInt($(this).val());
+    			if(tempval==parseInt(_Address)){
+    				if(!tempadd){
+    					alert("所选的地址为空！");
+    					_Address=0;
+    					$('#Address').focus();
+    					return;
+    				}
+    			}
+    		});
+    		if(!_Address){
+    			$('#Address').focus();
+    			return;
+    		}
     		var _GoodsId=$('#url').attr('gid');
     		var _TradeWay=$('#TradeWay').val();  		
-    		var _Server=$('#Server').attr('checked');
-    		if(_Server){
-    			_Server=1;
-    		}else{_Server=0;}
+    		    		/*判断是否传了图*/
+    		var _imgcount=$('#imgcount').val();
+    		if(parseInt(_imgcount)<=0){
+    			alert('至少上传一张图片！');
+    			return;
+    		}
     		var btn_txt=$(this).val();
     		$(this).attr('disabled',"true");
     		$(this).val('....');
@@ -287,7 +316,7 @@
 			<label for="Address" class="col-sm-2 control-label">Address</label>
 			<div class="col-sm-8">
 				<select class="form-control " name="Address" id="Address">
-					<?php if(is_array($alist)): foreach($alist as $key=>$v): ?><option value="<?php echo ($v['Id']); ?>"><?php echo ($v['Tel']); ?>&nbsp;&nbsp;<?php echo ($v['Address']); ?></option><?php endforeach; endif; ?>
+					<?php if(is_array($alist)): foreach($alist as $key=>$v): ?><option value="<?php echo ($v['Id']); ?>" address="<?php echo ($v['Address']); ?>"><?php echo ($v['Tel']); ?>&nbsp;&nbsp;<?php echo ($v['Address']); ?></option><?php endforeach; endif; ?>
 				</select>
 			</div>
 			<div class="col-sm-2">
@@ -314,8 +343,10 @@
 		<div class="form-group">
 			<label for="Server" class="col-sm-2 control-label">Server</label>
 			<div class="col-sm-10">
-				<label class="checkbox-inline">
-					<input type="checkbox" id="Server" value="1">提供送货</label>
+				<div id="Server">
+					<?php if(is_array($slist)): foreach($slist as $key=>$v): ?><label class="checkbox-inline">
+							<input type="checkbox" value="<?php echo ($v['Id']); ?>"><?php echo ($v['Title']); ?></label><?php endforeach; endif; ?>
+				</div>
 			</div>
 		</div>
 		<div class="form-group">
