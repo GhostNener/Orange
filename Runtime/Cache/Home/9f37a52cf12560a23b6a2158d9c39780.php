@@ -56,6 +56,7 @@
 			<th class="text-center">Server</th>
 			<th class="text-center">TradeWay</th>
 			<th class="text-center">Status</th>
+			<th class="text-center">Show</th>
 		</tr>
 		<?php if(is_array($list)): foreach($list as $key=>$v): ?><tr>
 				<td><?php echo ($v["Id"]); ?></td>
@@ -68,6 +69,7 @@
 				<td><?php echo ($v["Server"]); ?></td>
 				<td><?php echo ($v["TradeWay"]); ?></td>
 				<td><?php echo ($v["Status"]); ?></td>
+				<td><a href="/Orange/Goods/showgoods/Id/<?php echo ($v["Id"]); ?>">Show</a></td>
 			</tr><?php endforeach; endif; ?>
 	</table>
 	<?php echo ($page); ?>

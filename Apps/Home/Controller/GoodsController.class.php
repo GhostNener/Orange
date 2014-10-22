@@ -169,4 +169,54 @@ class GoodsController extends Controller {
 		}
 		$this->success ( json_encode ( $rst ) );
 	}
+	
+	/**
+	 *展示商品 详情 及评论
+	 */
+	public function showgoods($Id){
+		$goods = D("goods");
+		$info = $goods->find($Id); //一维数组
+		$this -> assign('info', $info);
+				
+		//类别
+		$goods_category = D("goods_category");
+		$categoryId = $info['CategoryId'];
+		$cate = $goods_category->find($categoryId);
+        $this -> assign('cate', $cate);
+        
+        //评论
+        $goods_comment = D("goods_comment");
+		// 评论查询条件
+		$wherrArr = array (
+				'GoodsId'=>$Id,
+				'Status' =>10,
+		);
+		// 查询
+		$allComment = $goods_comment->where ( $wherrArr )->select ();
+        $this -> assign('allComment', $allComment);
+        $this -> display();
+	}
+	
+	/**
+	 *添加评论
+	 */
+	public function addComment(){
+		$goods_Comment = M("goods_comment");
+		$data = array (
+				'GoodsId' => $_POST['GoodsId'],
+				'Content' => $_POST['Content'],
+				'CreateTime'=> date("Y-m-d H:i:s", time()),
+				'UserId'=> $_POST['UserId'],
+				//'AssesseId' => $_POST['AssesseId'],
+				'Status' => 10, 
+		);
+		$z = $goods_Comment->add($data);
+		if($z){
+            //$this ->success('添加成功', U('Goods/showlist'));
+            echo "success";
+        } else {
+            //$this ->error('添加失败', U('Goods/showlist'));
+            echo "ddderror";
+        }
+	}
 }
