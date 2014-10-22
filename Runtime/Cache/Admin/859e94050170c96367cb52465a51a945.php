@@ -18,10 +18,10 @@
 		<div class="container">
 			<div class="collapse navbar-collapse">
 				<ul class="nav navbar-nav">
-					<li><a href="<?php echo U('Index/index');?>">Home</a></li>
-					<li><a href="<?php echo U('GoodsCategory/index');?>">分类管理</a></li>
+					<li><a href="<?php echo U('Admin/Index/index');?>">Home</a></li>
+					<li><a href="<?php echo U('Admin/GoodsCategory/index');?>">分类管理</a></li>
 					<li><a href="<?php echo U('Home/Index/index');?>">返回前台</a></li>
-					<li><a class="pull-right" href="<?php echo U('Usercenter/User/index');?>">登录测试</a>
+					<li><a class="pull-right" href="<?php echo U('Usercenter/User/index',array('isadmin'=>true));?>">登录</a>
 					</li>
 				</ul>
 			</div>

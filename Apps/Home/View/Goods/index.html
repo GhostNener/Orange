@@ -2,11 +2,11 @@
 <div class="container">
 	<!-- 分类管理-->
 	<div class="text-center">
-		<h1>商品列表</h1>
+		<h1>我的商品列表</h1>
 	</div>
 	<br>
 	<div>
-		<a href="{:U('add')}" class="btn btn-default">添加</a>
+		<a href="{:U('Home/Goods/add')}" class="btn btn-default">添加</a>
 	</div>
 	<br>
 	<table class="table table-bordered">
@@ -35,7 +35,7 @@
 				<td>{$v.Server}</td>
 				<td>{$v.TradeWay}</td>
 				<td>{$v.Status}</td>
-				<td><a href="{:U('Goods/showgoods',array('Id'=>$v['Id']))}">Show</a></td>
+				<td><a href="{:U('Home/Goods/showgoods',array('Id'=>$v['Id']))}">Show</a></td>
 			</tr>
 		</foreach>
 	</table>

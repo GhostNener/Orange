@@ -18,9 +18,9 @@
 		<div class="container">
 			<div class="collapse navbar-collapse">
 				<ul class="nav navbar-nav">
-					<li><a href="<?php echo U('Index/index');?>">Home</a></li>
-					<li><a href="<?php echo U('TestDic/index');?>">词典测试</a></li>
-					<li><a href="<?php echo U('Goods/index');?>">商品管理</a></li>
+					<li><a href="<?php echo U('Home/Index/index');?>">Home</a></li>
+					<li><a href="<?php echo U('Home/TestDic/index');?>">词典测试</a></li>
+					<li><a href="<?php echo U('Home/Goods/index');?>">商品管理</a></li>
 					<li><a class="pull-right" href="<?php echo U('Admin/Index/index');?>">后台</a>
 					</li>
 					<li><a class="pull-right" href="<?php echo U('Usercenter/User/index');?>">登录测试</a>
@@ -37,7 +37,7 @@
 	</div>
 	<br> <br>
 
-	<form class="form-horizontal" role="form" action="<?php echo U('dic');?>"
+	<form class="form-horizontal" role="form" action="<?php echo U('Home/TestDic/dic');?>"
 		method="post">
 		<div class="form-group">
 			<label for="text" class="col-sm-2 control-label">text</label>

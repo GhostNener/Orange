@@ -1,7 +1,37 @@
-<layout name="layout" />
+<?php if (!defined('THINK_PATH')) exit();?><!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Orange</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/Orange/Public/css/bootstrap-theme.css" />
+<link rel="stylesheet" href="/Orange/Public/css/bootstrap.css" />
+<link rel="stylesheet" href="/Orange/Public/css/huaxi_css.css" />
+<link rel="shortcut icon" href="/Orange/Public/Img/favicon.png"
+	type="image/x-icon" />
+<script src="/Orange/Public/js/jquery-1.8.0.min.js"></script>
+<script src="/Orange/Public/js/bootstrap.js"></script>
+</head>
+<body>
+	<!--顶-->
+	<div id="wrap">
+		<div class="container">
+			<div class="collapse navbar-collapse">
+				<ul class="nav navbar-nav">
+					<li><a href="<?php echo U('Home/Index/index');?>">Home</a></li>
+					<li><a href="<?php echo U('Home/TestDic/index');?>">词典测试</a></li>
+					<li><a href="<?php echo U('Home/Goods/index');?>">商品管理</a></li>
+					<li><a class="pull-right" href="<?php echo U('Admin/Index/index');?>">后台</a>
+					</li>
+					<li><a class="pull-right" href="<?php echo U('Usercenter/User/index');?>">登录测试</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+		
 
-<script src="__PUBLIC__/js/jquery.uploadify.min.js?{:time()}"></script>
-<link rel="stylesheet" href="__PUBLIC__/css/uploadify.css">
+<script src="/Orange/Public/js/jquery.uploadify.min.js?<?php echo time();?>"></script>
+<link rel="stylesheet" href="/Orange/Public/css/uploadify.css">
 <script type="text/javascript">
 	/*删除图片  第一个参数为图片父控件的Id  第二个参数为图片相对路径*/
 	function del(div_id,imgId){
@@ -305,9 +335,7 @@
 			<label for="Category" class="col-sm-2 control-label">Category</label>
 			<div class="col-sm-10">
 				<select class="form-control " name="Category" id="Category">
-					<foreach name="clist" item="v">
-					<option value="{$v['Id']}">{$v['Title']}</option>
-					</foreach>
+					<?php if(is_array($clist)): foreach($clist as $key=>$v): ?><option value="<?php echo ($v['Id']); ?>"><?php echo ($v['Title']); ?></option><?php endforeach; endif; ?>
 				</select>
 			</div>
 		</div>
@@ -315,9 +343,7 @@
 			<label for="Address" class="col-sm-2 control-label">Address</label>
 			<div class="col-sm-8">
 				<select class="form-control " name="Address" id="Address">
-					<foreach name="alist" item="v">
-					<option value="{$v['Id']}" address="{$v['Address']}">{$v['Tel']}&nbsp;&nbsp;{$v['Address']}</option>
-					</foreach>
+					<?php if(is_array($alist)): foreach($alist as $key=>$v): ?><option value="<?php echo ($v['Id']); ?>" address="<?php echo ($v['Address']); ?>"><?php echo ($v['Tel']); ?>&nbsp;&nbsp;<?php echo ($v['Address']); ?></option><?php endforeach; endif; ?>
 				</select>
 			</div>
 			<div class="col-sm-2">
@@ -325,7 +351,7 @@
 					<a id="refreshadd" class="btn btn-default" data-toggle="tooltip"
 						data-placement="top" title="刷新地址"> <span
 						class="glyphicon glyphicon-refresh"></span>
-					</a> <a href="{:U('Usercenter/User/addaddress')}" target="_blank"
+					</a> <a href="<?php echo U('Usercenter/User/addaddress');?>" target="_blank"
 						class="btn btn-default" data-toggle="tooltip" data-placement="top"
 						title="添加地址"> <span class="glyphicon glyphicon-plus"></span>
 					</a>
@@ -346,17 +372,17 @@
 			<label for="Server" class="col-sm-2 control-label">Server</label>
 			<div class="col-sm-10">
 				<div id="Server">
-					<foreach name="slist" item="v"> <label
+					<?php if(is_array($slist)): foreach($slist as $key=>$v): ?><label
 						class="checkbox-inline"> <input type="checkbox"
-						value="{$v['Id']}">{$v['Title']}
-					</label> </foreach>
+						value="<?php echo ($v['Id']); ?>"><?php echo ($v['Title']); ?>
+					</label><?php endforeach; endif; ?>
 				</div>
 			</div>
 		</div>
 		<div class="form-group">
 			<input type="hidden" class="form-control " id="url"
-				publicurl="__PUBLIC__" appurl="__URL__" rooturl="__ROOT__" gid="0"
-				saveurl="{:U('Home/Goods/save')}" urlindex="{:U('Home/Index/index')}" Readonly> <label
+				publicurl="/Orange/Public" appurl="/Orange/Home/Goods" rooturl="/Orange" gid="0"
+				saveurl="<?php echo U('Home/Goods/save');?>" urlindex="<?php echo U('Home/Index/index');?>" Readonly> <label
 				for="file_upload" class="col-sm-2 control-label">file_upload</label>
 			<div class="col-sm-10">
 				<input id="file_upload" name="file_upload" type="file"
@@ -367,8 +393,47 @@
 		<div class="form-group">
 			<div class="col-sm-offset-2 col-sm-10">
 				<button type="button" id="submitsave" class="btn btn-default">保存</button>
-				<a class="btn btn-default" href="{:U('Home/Index/index')}">返回</a>
+				<a class="btn btn-default" href="<?php echo U('Home/Index/index');?>">返回</a>
 			</div>
 		</div>
 	</form>
 </div>
+	</div>
+	<!-- 底栏-->
+	<div id="footer" class="text-center">
+		<div class="container">
+			<span>Power By Juzi</span> <a data-toggle="modal"
+				data-target="#fingertipModal">联系</a>
+			<div class="modal fade footer_contac" id="fingertipModal"
+				tabindex="-1" role="dialog" aria-labelledby="fingertipModalabel"
+				aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal"
+								aria-hidden="true">×</button>
+							<h4 class="modal-title" id="fingertipModalLabel">指尖科技</h4>
+						</div>
+						<div class="modal-body">
+							<p>
+								E-mail: <a style="text-decoration: none;"
+									href="mailto:493628086@qq.com">493628086@qq.com</a>
+							</p>
+							<p>
+								E-mail: <a style="text-decoration: none;"
+									href="mailto:714571611@qq.com">714571611@qq.com</a>
+							</p>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default"
+								data-dismiss="modal">关闭</button>
+						</div>
+					</div>
+					<!-- /.modal-content -->
+				</div>
+				<!-- /.modal-dialog -->
+			</div>
+		</div>
+	</div>
+</body>
+</html>

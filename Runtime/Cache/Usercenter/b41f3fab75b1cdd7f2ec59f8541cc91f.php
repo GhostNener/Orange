@@ -21,53 +21,20 @@
 					<li><a href="<?php echo U('Home/Index/index');?>">Home</a></li>
 					<li><a href="<?php echo U('Home/TestDic/index');?>">词典测试</a></li>
 					<li><a href="<?php echo U('Home/Goods/index');?>">商品管理</a></li>
-					<li><a class="pull-right" href="<?php echo U('Admin/Index/index');?>">后台</a>
+					<li><a class="pull-right" id='adminrul' href="<?php echo U('Admin/Index/index');?>">后台</a>
 					</li>
-					<li><a class="pull-right" href="<?php echo U('Usercenter/User/index');?>">登录测试</a>
+					<li><a class="pull-right" href="<?php echo U('Usercenter/User/index');?>">登录</a>
 					</li>
 				</ul>
 			</div>
 		</div>
 		
 <div class="container">
-	<!-- 分类管理-->
-	<div class="text-center">
-		<h1>我的商品列表</h1>
-	</div>
-	<br>
-	<div>
-		<a href="<?php echo U('Home/Goods/add');?>" class="btn btn-default">添加</a>
-	</div>
-	<br>
-	<table class="table table-bordered">
-		<tr>
-			<th class="text-center">Id</th>
-			<th class="text-center">Title</th>
-			<th class="text-center">Price</th>
-			<th class="text-center">CostPrice</th>
-			<th class="text-center">Presentation</th>
-			<th class="text-center">CategoryId</th>
-			<th class="text-center">AddressId</th>
-			<th class="text-center">Server</th>
-			<th class="text-center">TradeWay</th>
-			<th class="text-center">Status</th>
-			<th class="text-center">Show</th>
-		</tr>
-		<?php if(is_array($list)): foreach($list as $key=>$v): ?><tr>
-				<td><?php echo ($v["Id"]); ?></td>
-				<td><?php echo ($v["Title"]); ?></td>
-				<td><?php echo ($v["Price"]); ?></td>
-				<td><?php echo ($v["CostPrice"]); ?></td>
-				<td><?php echo ($v["Presentation"]); ?></td>
-				<td><?php echo ($v["CategoryId"]); ?></td>
-				<td><?php echo ($v["AddressId"]); ?></td>
-				<td><?php echo ($v["Server"]); ?></td>
-				<td><?php echo ($v["TradeWay"]); ?></td>
-				<td><?php echo ($v["Status"]); ?></td>
-				<td><a href="<?php echo U('Home/Goods/showgoods',array('Id'=>$v['Id']));?>">Show</a></td>
-			</tr><?php endforeach; endif; ?>
-	</table>
-	<?php echo ($page); ?>
+<div class="txt-center">
+	<h1>
+		还没做哦！！！
+	</h1>
+</div>
 </div>
 	</div>
 	<!-- 底栏-->

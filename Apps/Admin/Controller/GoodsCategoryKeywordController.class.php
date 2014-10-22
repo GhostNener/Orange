@@ -3,14 +3,14 @@
 namespace Admin\Controller;
 
 use Think\Controller;
-
+use Usercenter\Model\userModel;
 /**
  * 分类关键字管理
  *
  * @author NENER
  *        
  */
-class GoodsCategoryKeywordController extends Controller {
+class GoodsCategoryKeywordController extends BaseController {
 	public function index() {
 		$id = I ( 'CategoryId' );
 		if (! $id) {
