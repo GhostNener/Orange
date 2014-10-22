@@ -188,7 +188,7 @@ class GoodsController extends Controller {
 		// 评论查询条件
 		$wherrArr = array (
 				'GoodsId'=>$Id,
-				'Status' =>10,
+				'Status' =>10
 		);
 		// 查询
 		$allComment = $goods_comment->where ( $wherrArr )->select ();
@@ -207,7 +207,7 @@ class GoodsController extends Controller {
 				'CreateTime'=> date("Y-m-d H:i:s", time()),
 				'UserId'=> $_POST['UserId'],
 				//'AssesseId' => $_POST['AssesseId'],
-				'Status' => 10, 
+				'Status' => 10
 		);
 		$z = $goods_Comment->add($data);
 		if($z){

@@ -35,7 +35,7 @@
 				<td>{$v.Server}</td>
 				<td>{$v.TradeWay}</td>
 				<td>{$v.Status}</td>
-				<td><a href="__APP__/Goods/showgoods/Id/{$v.Id}">Show</a></td>
+				<td><a href="{:U('Goods/showgoods',array('Id'=>$v['Id']))}">Show</a></td>
 			</tr>
 		</foreach>
 	</table>

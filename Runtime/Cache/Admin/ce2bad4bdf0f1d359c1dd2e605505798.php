@@ -24,13 +24,41 @@
 				</ul>
 			</div>
 		</div>
-		
+		﻿
 <div class="container">
+	<!-- 分类管理-->
 	<div class="text-center">
-		<h1>
-			<a href="<?php echo U('index');?>">Home</a>
-		</h1>
+		<h1>分类列表</h1>
 	</div>
+	<br>
+	<div>
+		<a href="<?php echo U('add');?>" class="btn btn-default">添加</a> <a
+			href="<?php echo U('CategoryDic/crate');?>" class="btn btn-default ">词典生成</a>
+	</div>
+	<br>
+	<table class="table table-bordered">
+		<tr>
+			<th class="text-center">Id</th>
+			<th class="text-center">Title</th>
+			<th class="text-center">Pre</th>
+			<th class="text-center">Status</th>
+			<th colspan="3" class="text-center">Operate</th>
+		</tr>
+		<?php if(is_array($list)): foreach($list as $key=>$v): ?><tr>
+			<td><?php echo ($v["Id"]); ?></td>
+			<td><?php echo ($v["Title"]); ?></td>
+			<td><?php echo ($v["Presentation"]); ?></td>
+			<td><?php echo ($v["Status"]); ?></td>
+			<td><a class="btn btn-default"
+				href="<?php echo U(del,array('Id'=>$v['Id']));?>">删除</a></td>
+			<td><a class="btn btn-default"
+				href="<?php echo U(update,array('Id'=>$v['Id']));?>">编辑</a></td>
+			<td><a class="btn btn-default"
+				href="<?php echo U('GoodsCategoryKeyword/index',array('CategoryId'=> $v['Id']));?>">关键字管理
+			</a></td>
+		</tr><?php endforeach; endif; ?>
+	</table>
+	<?php echo ($page); ?>
 </div>
 	</div>
 	<!-- 底栏-->
