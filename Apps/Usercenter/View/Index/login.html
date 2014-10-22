@@ -1,21 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<title>Orange</title>
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" href="__PUBLIC__/css/bootstrap-theme.css" />
-	<link rel="stylesheet" href="__PUBLIC__/css/bootstrap.css" />
-	<link rel="stylesheet" href="__PUBLIC__/css/huaxi_css.css" />
-	<link rel="shortcut icon" href="__PUBLIC__/Img/favicon.png"
-	type="image/x-icon" />
-	<script src="__PUBLIC__/js/jquery-1.8.0.min.js"></script>
-	<script src="__PUBLIC__/js/bootstrap.js"></script>
-	<style>
+<layout name="layout" />
+<style>
 	.login{
 
 		margin: 200px  100px;
 	}
+	.verifycode{
+		cursor: pointer;
+	}
+
 </style>
 
 <script>
@@ -42,8 +34,8 @@
 		});
 		/*登录按钮*/
 		$('#loginbutton').click(function(e){
-			var _uid=$('#UserName').val();
-			if(!$.trim(_uid)){
+			var _uid=$.trim($('#UserName').val());
+			if(!_uid){
 				$('#UserName').val('');
 				$('#UserName').focus();
 				return;
@@ -54,6 +46,8 @@
 				$('#Password').focus();
 				return;
 			}
+			/*记住我*/
+			var _remember=parseInt($('#isremeber').val());
 			var _code=$.trim($('#verifycode').val());
 			var _status=parseInt($('#verifycode').attr('status'));
 			if(!_code||!_status){
@@ -61,8 +55,25 @@
 				$('#verifycode').focus();
 				return;
 			}
+			/**/
+
 			/*提交表单*/
-			$.post($('url').attr('login'),{},function(data){});
+			$.post($('#url').attr('login'),{
+				'Name':_uid,
+				'Password':_pwd,
+				'verifycode':_code,
+				'isremeber':_remember
+			},function(data){
+				if(data.status==1){
+					location.href=$('#url').attr('home');
+
+
+				}else{
+					reloadcode();
+					alert(data.info);
+
+				}
+			},'json');
 
 		});
 		/*记住我按钮*/
@@ -73,95 +84,58 @@
 				$('#isremeber').val(1);
 			}
 		});
+		$('.verifycode').click(function(e){
+			reloadcode();
+		});
+		/*刷新验证码*/
+		function reloadcode(){
+			var _src=$('#url').attr('getcode')+'?id='+ new Date().valueOf() ;
+			$('.verifycode').attr('src',_src);
+		}
 	});
 </script>
 
-</head>
-<body>
-	<!--顶-->
-	<div id="wrap">
-		<div class="container">
-			<div class="login">
-				<form class="form-horizontal" role="form" action="{:U('login')}" method="post">
-					<div class="form-group">
-						<label for="UserName" class="col-sm-2 control-label">用户名</label>
-						<div class="col-sm-10">
-							<input type="txt" class="form-control" id="UserName" placeholder="用户名"></div>
-					</div>
-					<div class="form-group">
-						<label for="Password" class="col-sm-2 control-label">密码</label>
-						<div class="col-sm-10">
-							<input type="password" class="form-control" id="Password" placeholder="密码"></div>
-					</div>
-					<div class="form-group has-feedback">
-						<label for="verifycode" class="col-sm-2 control-label">验证码</label>
-						<div class="col-sm-10 ">
-							<input type="txt" class="form-control " status="0" id="verifycode" placeholder="验证码"></div>
-					</div>
-					<div class="form-group">
-						<label for="verifycode" class="col-sm-2 control-label"></label>
-						<div class="col-sm-10">
-							<img src="{:U('Public/verifycode')}" alt=""></div>
-					</div>
-						<input type="hidden" value="0" getcoed="{:U('Public/verifycode')}" checkcode="{:U('Public/check_verify')}" login="{:U('login')}"  id="url">
-					<input type="hidden" value="0" name="rememberme"  id="isremeber">
-					<div class="form-group">
-						<div class="col-sm-offset-2 col-sm-10">
-							<div class="checkbox">
-								<label>
-									<input id="rememberme" type="checkbox">记住我</label>
-							</div>
-						</div>
-					</div>
-					<div class="form-group">
-						<div class="col-sm-offset-2 col-sm-10">
-							<button type="button" id="loginbutton" class="btn btn-default">登录</button>
-							<a  href="{:U('regist')}" class="btn btn-default">注册</a>
-						</div>
-					</div>
-				</form>
-			</div>
 
-		</div>
-	</div>
-	<!-- 底栏-->
-	<div id="footer" class="text-center">
-		<div class="container">
-			<span>Power By Juzi</span>
-			<a data-toggle="modal"
-				data-target="#fingertipModal">联系</a>
-			<div class="modal fade footer_contac" id="fingertipModal"
-				tabindex="-1" role="dialog" aria-labelledby="fingertipModalabel"
-				aria-hidden="true">
-				<div class="modal-dialog">
-					<div class="modal-content">
-						<div class="modal-header">
-							<button type="button" class="close" data-dismiss="modal"
-								aria-hidden="true">×</button>
-							<h4 class="modal-title" id="fingertipModalLabel">指尖科技</h4>
-						</div>
-						<div class="modal-body">
-							<p>
-								E-mail:
-								<a style="text-decoration: none;"
-									href="mailto:493628086@qq.com">493628086@qq.com</a>
-							</p>
-							<p>
-								E-mail:
-								<a style="text-decoration: none;"
-									href="mailto:714571611@qq.com">714571611@qq.com</a>
-							</p>
-						</div>
-						<div class="modal-footer">
-							<button type="button" class="btn btn-default"
-								data-dismiss="modal">关闭</button>
-						</div>
-					</div>
-					<!-- /.modal-content -->
-				</div>
-				<!-- /.modal-dialog -->
+<div class="container">
+	<div class="login">
+		<form class="form-horizontal" role="form" action="" method="post">
+			<div class="form-group">
+				<label for="UserName" class="col-sm-2 control-label">用户名</label>
+				<div class="col-sm-10">
+					<input type="txt" class="form-control" id="UserName" placeholder="用户名"></div>
 			</div>
-		</div>
+			<div class="form-group">
+				<label for="Password" class="col-sm-2 control-label">密码</label>
+				<div class="col-sm-10">
+					<input type="password" class="form-control" id="Password" placeholder="密码"></div>
+			</div>
+			<div class="form-group has-feedback">
+				<label for="verifycode" class="col-sm-2 control-label">验证码</label>
+				<div class="col-sm-10 ">
+					<input type="txt" class="form-control " status="0" id="verifycode" placeholder="验证码"></div>
+			</div>
+			<div class="form-group">
+				<label for="verifycode" class="col-sm-2 control-label"></label>
+				<div class="col-sm-10">
+					<img class="verifycode" src="{:U('Public/verifycode')}" alt="点击刷新" title="点击刷新"></div>
+			</div>
+			<input type="hidden" id="url" value="0" getcode="{:U('Public/verifycode')}" checkcode="{:U('Public/check_verify')}" login="{:U('User/login')}" home="{:U('Home/Index/index')}" >
+			<input type="hidden" value="0" name="rememberme"  id="isremeber">
+			<div class="form-group">
+				<div class="col-sm-offset-2 col-sm-10">
+					<div class="checkbox">
+						<label>
+							<input id="rememberme" type="checkbox">记住我</label>
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-offset-2 col-sm-10">
+					<button type="button" id="loginbutton" class="btn btn-default">登录</button>
+					<a  href="{:U('regist')}" class="btn btn-default">注册</a>
+				</div>
+			</div>
+		</form>
 	</div>
-</body>
-</html>
+
+</div>

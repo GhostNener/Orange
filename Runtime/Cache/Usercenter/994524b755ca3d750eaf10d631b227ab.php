@@ -16,6 +16,10 @@
 
 		margin: 200px  100px;
 	}
+	.verifycode{
+		cursor: pointer;
+	}
+
 </style>
 
 <script>
@@ -42,8 +46,8 @@
 		});
 		/*登录按钮*/
 		$('#loginbutton').click(function(e){
-			var _uid=$('#UserName').val();
-			if(!$.trim(_uid)){
+			var _uid=$.trim($('#UserName').val());
+			if(!_uid){
 				$('#UserName').val('');
 				$('#UserName').focus();
 				return;
@@ -54,6 +58,8 @@
 				$('#Password').focus();
 				return;
 			}
+			/*记住我*/
+			var _remember=parseInt($('#isremeber').val());
 			var _code=$.trim($('#verifycode').val());
 			var _status=parseInt($('#verifycode').attr('status'));
 			if(!_code||!_status){
@@ -61,7 +67,25 @@
 				$('#verifycode').focus();
 				return;
 			}
-			$.post
+			/**/
+
+			/*提交表单*/
+			$.post($('#url').attr('login'),{
+				'Name':_uid,
+				'Password':_pwd,
+				'verifycode':_code,
+				'isremeber':_remember
+			},function(data){
+				if(data.status==1){
+					location.href=$('#url').attr('home');
+
+
+				}else{
+					reloadcode();
+					alert(data.info);
+
+				}
+			},'json');
 
 		});
 		/*记住我按钮*/
@@ -72,6 +96,14 @@
 				$('#isremeber').val(1);
 			}
 		});
+		$('.verifycode').click(function(e){
+			reloadcode();
+		});
+		/*刷新验证码*/
+		function reloadcode(){
+			var _src=$('#url').attr('getcode')+'?id='+ new Date().valueOf() ;
+			$('.verifycode').attr('src',_src);
+		}
 	});
 </script>
 
@@ -81,7 +113,7 @@
 	<div id="wrap">
 		<div class="container">
 			<div class="login">
-				<form class="form-horizontal" role="form" action="<?php echo U('login');?>" method="post">
+				<form class="form-horizontal" role="form" action="" method="post">
 					<div class="form-group">
 						<label for="UserName" class="col-sm-2 control-label">用户名</label>
 						<div class="col-sm-10">
@@ -100,9 +132,9 @@
 					<div class="form-group">
 						<label for="verifycode" class="col-sm-2 control-label"></label>
 						<div class="col-sm-10">
-							<img src="<?php echo U('Public/verifycode');?>" alt=""></div>
+							<img class="verifycode" src="<?php echo U('Public/verifycode');?>" alt="点击刷新" title="点击刷新"></div>
 					</div>
-						<input type="hidden" value="0" getcoed="<?php echo U('Public/verifycode');?>" checkcode="<?php echo U('Public/check_verify');?>"  id="url">
+						<input type="hidden" id="url" value="0" getcode="<?php echo U('Public/verifycode');?>" checkcode="<?php echo U('Public/check_verify');?>" login="<?php echo U('User/login');?>" home="<?php echo U('Home/Index/index');?>" >
 					<input type="hidden" value="0" name="rememberme"  id="isremeber">
 					<div class="form-group">
 						<div class="col-sm-offset-2 col-sm-10">

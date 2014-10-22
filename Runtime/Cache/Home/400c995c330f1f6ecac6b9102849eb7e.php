@@ -1,16 +1,16 @@
-<!DOCTYPE html>
+<?php if (!defined('THINK_PATH')) exit();?><!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <title>Orange</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="__PUBLIC__/css/bootstrap-theme.css" />
-<link rel="stylesheet" href="__PUBLIC__/css/bootstrap.css" />
-<link rel="stylesheet" href="__PUBLIC__/css/huaxi_css.css" />
-<link rel="shortcut icon" href="__PUBLIC__/Img/favicon.png"
+<link rel="stylesheet" href="/Orange/Public/css/bootstrap-theme.css" />
+<link rel="stylesheet" href="/Orange/Public/css/bootstrap.css" />
+<link rel="stylesheet" href="/Orange/Public/css/huaxi_css.css" />
+<link rel="shortcut icon" href="/Orange/Public/Img/favicon.png"
 	type="image/x-icon" />
-<script src="__PUBLIC__/js/jquery-1.8.0.min.js"></script>
-<script src="__PUBLIC__/js/bootstrap.js"></script>
+<script src="/Orange/Public/js/jquery-1.8.0.min.js"></script>
+<script src="/Orange/Public/js/bootstrap.js"></script>
 </head>
 <body>
 	<!--顶-->
@@ -18,15 +18,22 @@
 		<div class="container">
 			<div class="collapse navbar-collapse">
 				<ul class="nav navbar-nav">
-					<li><a href="{:U('Index/index')}">Home</a></li>
-					<li><a href="{:U('GoodsCategory/index')}">分类管理</a></li>
-					<li><a href="{:U('Home/Index/index')}">返回前台</a></li>
-					<li><a class="pull-right" href="{:U('Usercenter/User/index')}">登录测试</a>
+					<li><a href="<?php echo U('Index/index');?>">Home</a></li>
+					<li><a href="<?php echo U('TestDic/index');?>">词典测试</a></li>
+					<li><a href="<?php echo U('Goods/index');?>">商品管理</a></li>
+					<li><a class="pull-right" href="<?php echo U('Admin/Index/index');?>">后台</a>
 					</li>
 				</ul>
 			</div>
 		</div>
-		{__CONTENT__}
+		
+<div class="container">
+	<div class="text-center">
+		<h1>
+			<a href="<?php echo U('Index/index');?>">Home</a>
+		</h1>
+	</div>
+</div>
 	</div>
 	<!-- 底栏-->
 	<div id="footer" class="text-center">
