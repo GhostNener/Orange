@@ -28,13 +28,31 @@
 				</ul>
 			</div>
 		</div>
-		
+		﻿
 <div class="container">
+	<!-- 词典测试-->
 	<div class="text-center">
-		<h1>
-			<a href="<?php echo U('Index/index');?>">Home</a>
-		</h1>
+		<h1>词典测试</h1>
+		<?php echo ($time); ?>
 	</div>
+	<br> <br>
+
+	<form class="form-horizontal" role="form" action="<?php echo U('dic');?>"
+		method="post">
+		<div class="form-group">
+			<label for="text" class="col-sm-2 control-label">text</label>
+			<div class="col-sm-10">
+				<input type="text" class="form-control " id="text"
+					placeholder=" text  " name="text">
+			</div>
+		</div>
+
+		<div class="form-group">
+			<div class="col-sm-offset-2 col-sm-10">
+				<button type="submit" class="btn btn-default">提交</button>
+			</div>
+		</div>
+	</form>
 </div>
 	</div>
 	<!-- 底栏-->

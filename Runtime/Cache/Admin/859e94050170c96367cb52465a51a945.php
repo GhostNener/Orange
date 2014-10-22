@@ -19,10 +19,8 @@
 			<div class="collapse navbar-collapse">
 				<ul class="nav navbar-nav">
 					<li><a href="<?php echo U('Index/index');?>">Home</a></li>
-					<li><a href="<?php echo U('TestDic/index');?>">词典测试</a></li>
-					<li><a href="<?php echo U('Goods/index');?>">商品管理</a></li>
-					<li><a class="pull-right" href="<?php echo U('Admin/Index/index');?>">后台</a>
-					</li>
+					<li><a href="<?php echo U('GoodsCategory/index');?>">分类管理</a></li>
+					<li><a href="<?php echo U('Home/Index/index');?>">返回前台</a></li>
 					<li><a class="pull-right" href="<?php echo U('Usercenter/User/index');?>">登录测试</a>
 					</li>
 				</ul>
@@ -32,7 +30,7 @@
 <div class="container">
 	<div class="text-center">
 		<h1>
-			<a href="<?php echo U('Index/index');?>">Home</a>
+			<a href="<?php echo U('index');?>">Home</a>
 		</h1>
 	</div>
 </div>

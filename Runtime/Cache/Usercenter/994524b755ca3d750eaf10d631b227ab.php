@@ -1,17 +1,18 @@
 <?php if (!defined('THINK_PATH')) exit();?><!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<title>Orange</title>
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" href="/Orange/Public/css/bootstrap-theme.css" />
-	<link rel="stylesheet" href="/Orange/Public/css/bootstrap.css" />
-	<link rel="stylesheet" href="/Orange/Public/css/huaxi_css.css" />
-	<link rel="shortcut icon" href="/Orange/Public/Img/favicon.png"
+<meta charset="UTF-8">
+<title>Orange</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/Orange/Public/css/bootstrap-theme.css" />
+<link rel="stylesheet" href="/Orange/Public/css/bootstrap.css" />
+<link rel="stylesheet" href="/Orange/Public/css/huaxi_css.css" />
+<link rel="shortcut icon" href="/Orange/Public/Img/favicon.png"
 	type="image/x-icon" />
-	<script src="/Orange/Public/js/jquery-1.8.0.min.js"></script>
-	<script src="/Orange/Public/js/bootstrap.js"></script>
-	<style>
+<script src="/Orange/Public/js/jquery-1.8.0.min.js"></script>
+<script src="/Orange/Public/js/bootstrap.js"></script>
+
+<style>
 	.login{
 
 		margin: 200px  100px;
@@ -112,54 +113,66 @@
 	<!--顶-->
 	<div id="wrap">
 		<div class="container">
-			<div class="login">
-				<form class="form-horizontal" role="form" action="" method="post">
-					<div class="form-group">
-						<label for="UserName" class="col-sm-2 control-label">用户名</label>
-						<div class="col-sm-10">
-							<input type="txt" class="form-control" id="UserName" placeholder="用户名"></div>
-					</div>
-					<div class="form-group">
-						<label for="Password" class="col-sm-2 control-label">密码</label>
-						<div class="col-sm-10">
-							<input type="password" class="form-control" id="Password" placeholder="密码"></div>
-					</div>
-					<div class="form-group has-feedback">
-						<label for="verifycode" class="col-sm-2 control-label">验证码</label>
-						<div class="col-sm-10 ">
-							<input type="txt" class="form-control " status="0" id="verifycode" placeholder="验证码"></div>
-					</div>
-					<div class="form-group">
-						<label for="verifycode" class="col-sm-2 control-label"></label>
-						<div class="col-sm-10">
-							<img class="verifycode" src="<?php echo U('Public/verifycode');?>" alt="点击刷新" title="点击刷新"></div>
-					</div>
-						<input type="hidden" id="url" value="0" getcode="<?php echo U('Public/verifycode');?>" checkcode="<?php echo U('Public/check_verify');?>" login="<?php echo U('User/login');?>" home="<?php echo U('Home/Index/index');?>" >
-					<input type="hidden" value="0" name="rememberme"  id="isremeber">
-					<div class="form-group">
-						<div class="col-sm-offset-2 col-sm-10">
-							<div class="checkbox">
-								<label>
-									<input id="rememberme" type="checkbox">记住我</label>
-							</div>
-						</div>
-					</div>
-					<div class="form-group">
-						<div class="col-sm-offset-2 col-sm-10">
-							<button type="button" id="loginbutton" class="btn btn-default">登录</button>
-							<a  href="<?php echo U('regist');?>" class="btn btn-default">注册</a>
-						</div>
-					</div>
-				</form>
+			<div class="collapse navbar-collapse">
+				<ul class="nav navbar-nav">
+					<li><a href="<?php echo U('Index/index');?>">Home</a></li>
+					<li><a href="<?php echo U('TestDic/index');?>">词典测试</a></li>
+					<li><a href="<?php echo U('Goods/index');?>">商品管理</a></li>
+					<li><a class="pull-right" href="<?php echo U('Admin/Index/index');?>">后台</a>
+					</li>
+					<li><a class="pull-right" href="<?php echo U('Usercenter/User/index');?>">登录测试</a>
+					</li>
+				</ul>
 			</div>
-
 		</div>
+<div class="container">
+	<div class="login">
+		<form class="form-horizontal" role="form" action="" method="post">
+			<div class="form-group">
+				<label for="UserName" class="col-sm-2 control-label">用户名</label>
+				<div class="col-sm-10">
+					<input type="txt" class="form-control" id="UserName" placeholder="用户名"></div>
+			</div>
+			<div class="form-group">
+				<label for="Password" class="col-sm-2 control-label">密码</label>
+				<div class="col-sm-10">
+					<input type="password" class="form-control" id="Password" placeholder="密码"></div>
+			</div>
+			<div class="form-group has-feedback">
+				<label for="verifycode" class="col-sm-2 control-label">验证码</label>
+				<div class="col-sm-10 ">
+					<input type="txt" class="form-control " status="0" id="verifycode" placeholder="验证码"></div>
+			</div>
+			<div class="form-group">
+				<label for="verifycode" class="col-sm-2 control-label"></label>
+				<div class="col-sm-10">
+					<img class="verifycode" src="<?php echo U('Public/verifycode');?>" alt="点击刷新" title="点击刷新"></div>
+			</div>
+			<input type="hidden" id="url" value="0" getcode="<?php echo U('Public/verifycode');?>" checkcode="<?php echo U('Public/check_verify');?>" login="<?php echo U('User/login');?>" home="<?php echo U('Home/Index/index');?>" >
+			<input type="hidden" value="0" name="rememberme"  id="isremeber">
+			<div class="form-group">
+				<div class="col-sm-offset-2 col-sm-10">
+					<div class="checkbox">
+						<label>
+							<input id="rememberme" type="checkbox">记住我</label>
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-offset-2 col-sm-10">
+					<button type="button" id="loginbutton" class="btn btn-default">登录</button>
+					<a  href="<?php echo U('regist');?>" class="btn btn-default">注册</a>
+				</div>
+			</div>
+		</form>
+	</div>
+
+</div>
 	</div>
 	<!-- 底栏-->
 	<div id="footer" class="text-center">
 		<div class="container">
-			<span>Power By Juzi</span>
-			<a data-toggle="modal"
+			<span>Power By Juzi</span> <a data-toggle="modal"
 				data-target="#fingertipModal">联系</a>
 			<div class="modal fade footer_contac" id="fingertipModal"
 				tabindex="-1" role="dialog" aria-labelledby="fingertipModalabel"
@@ -173,13 +186,11 @@
 						</div>
 						<div class="modal-body">
 							<p>
-								E-mail:
-								<a style="text-decoration: none;"
+								E-mail: <a style="text-decoration: none;"
 									href="mailto:493628086@qq.com">493628086@qq.com</a>
 							</p>
 							<p>
-								E-mail:
-								<a style="text-decoration: none;"
+								E-mail: <a style="text-decoration: none;"
 									href="mailto:714571611@qq.com">714571611@qq.com</a>
 							</p>
 						</div>
