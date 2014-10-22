@@ -8,7 +8,6 @@ use Home\Model\goods_categoryModel;
 use Home\Model\user_addressModel;
 use Home\Model\goods_serviceModel;
 
-
 /**
  * 前台商品管理
  *
@@ -41,8 +40,8 @@ class GoodsController extends Controller {
 	public function add() {
 		$userid = 0;
 		// 查询分类
-		$clist = new goods_categoryModel();
-		$clist=$clist->getall();
+		$clist = new goods_categoryModel ();
+		$clist = $clist->getall ();
 		// 查询地址
 		$alist = D ( 'user_address' )->order ( 'IsDefault DESC' )->where ( array (
 				'Status' => 10,
@@ -64,7 +63,7 @@ class GoodsController extends Controller {
 		$postarr = I ( 'post.' );
 		$model = new goodsModel ();
 		$rst = $model->save ( $postarr );
-		if ((int)$rst ['status'] == 0) {
+		if (( int ) $rst ['status'] == 0) {
 			$this->error ( $rst ['msg'] );
 		} else {
 			$this->success ( 1 );
@@ -81,7 +80,7 @@ class GoodsController extends Controller {
 		$postarr = I ( 'post.' );
 		$model = new goodsModel ();
 		$rst = $model->saveimg ( $postarr, $userid );
-		if ((int)$rst ['status'] == 0) {
+		if (( int ) $rst ['status'] == 0) {
 			$this->error ( $rst ['msg'] );
 		} else {
 			$this->success ( ( int ) $rst ['goodsid'] );
@@ -98,7 +97,7 @@ class GoodsController extends Controller {
 		}
 		$model = new goodsModel ();
 		$rst = $model->uploadimg ();
-		if ((int)$rst ['status'] == 0) {
+		if (( int ) $rst ['status'] == 0) {
 			echo json_encode ( array (
 					0,
 					$rst ['msg'] 
@@ -123,7 +122,7 @@ class GoodsController extends Controller {
 		}
 		$model = new goodsModel ();
 		$rst = $model->delimg ( ( int ) I ( 'Id' ) );
-		if ((int)$rst ['status'] == 0) {
+		if (( int ) $rst ['status'] == 0) {
 			$this->error ( $rst ['msg'] );
 		} else {
 			$this->success ( 1 );
@@ -142,7 +141,7 @@ class GoodsController extends Controller {
 		}
 		$model = new goods_categoryModel ();
 		$rst = $model->getcategory ( $str );
-		if ((int)$rst ['status'] == 1) {
+		if (( int ) $rst ['status'] == 1) {
 			$this->success ( json_encode ( array (
 					2,
 					$rst ['msg'] 

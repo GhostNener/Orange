@@ -11,28 +11,49 @@
 	type="image/x-icon" />
 	<script src="/Orange/Public/js/jquery-1.8.0.min.js"></script>
 	<script src="/Orange/Public/js/bootstrap.js"></script>
+	<style>
+	.login{
+
+		margin: 200px  100px;
+	}
+</style>
 </head>
 <body>
 	<!--顶-->
 	<div id="wrap">
 		<div class="container">
-			<div class="collapse navbar-collapse">
-				<ul class="nav navbar-nav">
-					<li >
-						<a href="<?php echo U('Index/index');?>">Home</a>
-					</li>
-					<li >
-						<a href="<?php echo U('TestDic/index');?>">词典测试</a>
-					</li>
-					<li>
-						<a href="<?php echo U('Goods/index');?>">商品管理</a>
-					</li>
-					<li>
-						<a class="pull-right" href="<?php echo U('Admin/Index/index');?>">后台</a>
-					</li>
-				</ul>
+
+			<div class="login">
+				<form class="form-horizontal" role="form" action="<?php echo U('login');?>" method="post">
+					<div class="form-group">
+						<label for="inputEmail3" class="col-sm-2 control-label">UserName</label>
+						<div class="col-sm-10">
+							<input type="UserName" class="form-control" id="inputEmail3" placeholder="Email"></div>
+					</div>
+					<div class="form-group">
+						<label for="inputPassword3" class="col-sm-2 control-label">Password</label>
+						<div class="col-sm-10">
+							<input type="password" class="form-control" id="inputPassword3" placeholder="Password"></div>
+					</div>
+					<div class="form-group">
+						<div class="col-sm-offset-2 col-sm-10">
+							<div class="checkbox">
+								<label>
+									<input  type="checkbox">Remember me</label>
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-sm-offset-2 col-sm-10">
+							<button type="submit" class="btn btn-default">Sign in</button>
+							<a  href="<?php echo U('regist');?>" class="btn btn-default">Sign up</a>
+						</div>
+					</div>
+				</form>
 			</div>
+
 		</div>
+<<<<<<< HEAD:Runtime/Cache/Home/9f37a52cf12560a23b6a2158d9c39780.php
 		
 <div class="container">
 	<!-- 分类管理-->
@@ -74,6 +95,8 @@
 	</table>
 	<?php echo ($page); ?>
 </div>
+=======
+>>>>>>> origin/master:Runtime/Cache/Usercenter/994524b755ca3d750eaf10d631b227ab.php
 	</div>
 	<!-- 底栏-->
 	<div id="footer" class="text-center">

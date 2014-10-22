@@ -20,7 +20,7 @@ class Cratedic {
 	 * @return boolean
 	 */
 	public function buildDic($arr) {
-		//txt文件路径
+		// txt文件路径
 		$txtpath = dirname ( __FILE__ ) . $this->dicAddon;
 		if (! ($this->expotrTxt ( $txtpath, $arr ))) {
 			return false;
@@ -33,11 +33,11 @@ class Cratedic {
 	}
 	/**
 	 * 关键字数据导出文本txt
-	 * 
+	 *
 	 * @param string $txtPath
 	 *        	导出的文件路径
 	 * @param array $arr关键字数据        	
-	 * @return boolean 
+	 * @return boolean
 	 */
 	private function expotrTxt($txtPath, $arr) {
 		$fp = fopen ( $txtPath, 'w' );
@@ -50,7 +50,7 @@ class Cratedic {
 				$flag = true;
 				fwrite ( $fp, "@关键字词典,0,@\n" );
 			}
-			$strTemp = strtolower($k ['Keyword']) . ',' . $k ['CategoryId'] . "\n";
+			$strTemp = strtolower ( $k ['Keyword'] ) . ',' . $k ['CategoryId'] . "\n";
 			fwrite ( $fp, $strTemp );
 		}
 		fclose ( $fp );

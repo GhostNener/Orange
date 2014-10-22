@@ -5,28 +5,39 @@
 	</div>
 	<br>
 	<!-- 分类管理-->
-	<form class="form-horizontal" role="form" action="{:U('save')}" method="post">
+	<form class="form-horizontal" role="form" action="{:U('save')}"
+		method="post">
 		<div class="form-group">
-			<input type="hidden" class="form-control "  name="modif" value="{$modif}" Readonly>
-			<label for="Id" class="col-sm-2 control-label">Id</label>
+			<input type="hidden" class="form-control " name="modif"
+				value="{$modif}" Readonly> <label for="Id"
+				class="col-sm-2 control-label">Id</label>
 			<div class="col-sm-10">
-				<input type="text" class="form-control " id="cid" placeholder=" Id  " name="Id" value="{$model.Id}" 
-					Readonly></div>
+				<input type="text" class="form-control " id="cid"
+					placeholder=" Id  " name="Id" value="{$model.Id}" Readonly>
+			</div>
 		</div>
 		<div class="form-group">
 			<label for="ctitle" class="col-sm-2 control-label">Title</label>
 			<div class="col-sm-10">
-				<input type="text" class="form-control " id="ctitle" placeholder=" Title  " name="Title" value="{$model.Title}" ></div>
+				<input type="text" class="form-control " id="ctitle"
+					placeholder=" Title  " name="Title" value="{$model.Title}">
+			</div>
 		</div>
 		<div class="form-group">
 			<label for="Presentation" class="col-sm-2 control-label">Presentation</label>
 			<div class="col-sm-10">
-				<input type="text" class="form-control " id="Presentation" placeholder=" Presentation  "name="Presentation" value="{$model.Presentation}" ></div>
+				<input type="text" class="form-control " id="Presentation"
+					placeholder=" Presentation  " name="Presentation"
+					value="{$model.Presentation}">
+			</div>
 		</div>
 		<div class="form-group">
 			<label for="Status" class="col-sm-2 control-label">Status</label>
 			<div class="col-sm-10">
-				<input type="text" class="form-control " id="Status" placeholder=" Status  "name="Status" value="{$model.Status}" Readonly></div>
+				<input type="text" class="form-control " id="Status"
+					placeholder=" Status  " name="Status" value="{$model.Status}"
+					Readonly>
+			</div>
 		</div>
 		<div class="form-group">
 			<div class="col-sm-offset-2 col-sm-10">

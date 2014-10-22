@@ -547,26 +547,54 @@ a>i.forum_reply:hover {
 /*按钮组*/
 /*默认按钮*/
 .btn
+
+
+
+
 :hover
 ,
 .btn
+
+
+
+
 :active
 ,
 {
 color
+
+
+
+
 :
+
+
  
+
+
 #fff
-;
 
-    
+
+
+
+;
 font-weight
+
+
+
+
 :
+
+
  
+
+
 normal
+
+
+
+
 ;
-
-
 }
 .btn-default {
 	color: #333;

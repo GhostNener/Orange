@@ -6,38 +6,52 @@
 	<br>
 
 	<!-- 分类管理-->
-	<form class="form-horizontal" role="form" action="{:U('save')}" method="post">
+	<form class="form-horizontal" role="form" action="{:U('save')}"
+		method="post">
 		<div class="form-group">
-			<input type="hidden" class="form-control "  name="modif" value="{$modif}" Readonly>
-			<label for="Id" class="col-sm-2 control-label">Id</label>
+			<input type="hidden" class="form-control " name="modif"
+				value="{$modif}" Readonly> <label for="Id"
+				class="col-sm-2 control-label">Id</label>
 			<div class="col-sm-10">
-				<input type="text" class="form-control " id="cid" placeholder=" Id  " name="Id" value="{$model.Id}" 
-					Readonly></div>
+				<input type="text" class="form-control " id="cid"
+					placeholder=" Id  " name="Id" value="{$model.Id}" Readonly>
+			</div>
 		</div>
 		<div class="form-group">
 			<label for="CategoryId" class="col-sm-2 control-label">CategoryId</label>
 			<div class="col-sm-10">
-				<input type="text" class="form-control " id="CategoryId" placeholder=" CategoryId  " name="CategoryId" value="{$cmodel['Id']}" readonly></div>
+				<input type="text" class="form-control " id="CategoryId"
+					placeholder=" CategoryId  " name="CategoryId"
+					value="{$cmodel['Id']}" readonly>
+			</div>
 		</div>
 		<div class="form-group">
 			<label for="Keyword" class="col-sm-2 control-label">Keyword</label>
 			<div class="col-sm-10">
-				<input type="text" class="form-control " id="Keyword" placeholder=" Keyword  "name="Keyword" value="{$model.Keyword}" ></div>
+				<input type="text" class="form-control " id="Keyword"
+					placeholder=" Keyword  " name="Keyword" value="{$model.Keyword}">
+			</div>
 		</div>
 		<div class="form-group">
 			<label for="Status" class="col-sm-2 control-label">Status</label>
 			<div class="col-sm-10">
-				<input type="text" class="form-control " id="Status" placeholder=" Status  "name="Status" value="{$model.Status}" Readonly></div>
+				<input type="text" class="form-control " id="Status"
+					placeholder=" Status  " name="Status" value="{$model.Status}"
+					Readonly>
+			</div>
 		</div>
 		<div class="form-group">
 			<label for="Hot" class="col-sm-2 control-label">Hot</label>
 			<div class="col-sm-10">
-				<input type="num" class="form-control " id="Hot" placeholder=" Hot  "name="Hot" value="{$model.Hot}" readonly></div>
+				<input type="num" class="form-control " id="Hot"
+					placeholder=" Hot  " name="Hot" value="{$model.Hot}" readonly>
+			</div>
 		</div>
 		<div class="form-group">
 			<div class="col-sm-offset-2 col-sm-10">
 				<button type="submit" class="btn btn-default">保存</button>
-				<a class="btn btn-default" href="{:U('index',array('CategoryId'=>$cmodel['Id']))}">返回</a>
+				<a class="btn btn-default"
+					href="{:U('index',array('CategoryId'=>$cmodel['Id']))}">返回</a>
 			</div>
 		</div>
 
