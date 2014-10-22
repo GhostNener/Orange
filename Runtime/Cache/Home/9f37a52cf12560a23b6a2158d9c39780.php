@@ -28,11 +28,44 @@
 		</div>
 		
 <div class="container">
+	<!-- 分类管理-->
 	<div class="text-center">
-		<h1>
-			<a href="<?php echo U('Index/index');?>">Home</a>
-		</h1>
+		<h1>商品列表</h1>
 	</div>
+	<br>
+	<div>
+		<a href="<?php echo U('add');?>" class="btn btn-default">添加</a>
+	</div>
+	<br>
+	<table class="table table-bordered">
+		<tr>
+			<th class="text-center">Id</th>
+			<th class="text-center">Title</th>
+			<th class="text-center">Price</th>
+			<th class="text-center">CostPrice</th>
+			<th class="text-center">Presentation</th>
+			<th class="text-center">CategoryId</th>
+			<th class="text-center">AddressId</th>
+			<th class="text-center">Server</th>
+			<th class="text-center">TradeWay</th>
+			<th class="text-center">Status</th>
+			<th class="text-center">Show</th>
+		</tr>
+		<?php if(is_array($list)): foreach($list as $key=>$v): ?><tr>
+				<td><?php echo ($v["Id"]); ?></td>
+				<td><?php echo ($v["Title"]); ?></td>
+				<td><?php echo ($v["Price"]); ?></td>
+				<td><?php echo ($v["CostPrice"]); ?></td>
+				<td><?php echo ($v["Presentation"]); ?></td>
+				<td><?php echo ($v["CategoryId"]); ?></td>
+				<td><?php echo ($v["AddressId"]); ?></td>
+				<td><?php echo ($v["Server"]); ?></td>
+				<td><?php echo ($v["TradeWay"]); ?></td>
+				<td><?php echo ($v["Status"]); ?></td>
+				<td><a href="<?php echo U('Goods/showgoods',array('Id'=>$v['Id']));?>">Show</a></td>
+			</tr><?php endforeach; endif; ?>
+	</table>
+	<?php echo ($page); ?>
 </div>
 	</div>
 	<!-- 底栏-->

@@ -24,15 +24,15 @@
 			<th class="text-center">时间</th>
 		</tr>
 		<?php if(is_array($allComment)): foreach($allComment as $key=>$c): ?><tr>
-				<td><?php echo ($c["UserId"]); ?></td>
+				<td><?php echo ($c["UserNick"]); ?></td>
 				<td><?php echo ($c["Content"]); ?></td>
-				<td><?php echo ($c["CreateTime"]); ?></td>
+				<td><?php echo (substr($c['CreateTime'],0,16)); ?></td>
 			</tr><?php endforeach; endif; ?>
 	</table><br/>
-	<form action="/Orange/Home/Goods/addComment" method="post" enctype="multipart/form-data">
+	<form action="/OrangeTS/Home/Goods/addComment" method="post" enctype="multipart/form-data">
 		<input type="hidden" name="GoodsId" value="<?php echo ($info["Id"]); ?>" />
 		<input type="hidden" name="UserId" value="1" />
-		<textarea name="Content" rows="5" cols="30"></textarea><br/>
+		<textarea name="Content" rows="5" cols="30" ></textarea><br/>
 		<input type="submit" value="我要评论">
 	</form>
 	

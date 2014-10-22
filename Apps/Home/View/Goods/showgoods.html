@@ -25,16 +25,16 @@
 		</tr>
 		<foreach name='allComment' item='c'>
 			<tr>
-				<td>{$c.UserId}</td>
+				<td>{$c.UserNick}</td>
 				<td>{$c.Content}</td>
-				<td>{$c.CreateTime}</td>
+				<td>{$c['CreateTime']|substr=0,16}</td>
 			</tr>
 		</foreach>
 	</table><br/>
 	<form action="__APP__/Home/Goods/addComment" method="post" enctype="multipart/form-data">
 		<input type="hidden" name="GoodsId" value="{$info.Id}" />
 		<input type="hidden" name="UserId" value="1" />
-		<textarea name="Content" rows="5" cols="30"></textarea><br/>
+		<textarea name="Content" rows="5" cols="30" ></textarea><br/>
 		<input type="submit" value="我要评论">
 	</form>
 	

@@ -187,11 +187,11 @@ class GoodsController extends Controller {
         $goods_comment = D("goods_comment");
 		// 评论查询条件
 		$wherrArr = array (
-				'GoodsId'=>$Id,
-				'Status' =>10
+				'c.GoodsId'=>$Id,
+				'c.Status' =>10,
 		);
 		// 查询
-		$allComment = $goods_comment->where ( $wherrArr )->select ();
+		$allComment = $goods_comment -> table('goods_comment c,user u') -> where(array($wherrArr,'u.Id=c.UserId')) ->field('u.Nick as UserNick,c.*') ->select ();
         $this -> assign('allComment', $allComment);
         $this -> display();
 	}
@@ -200,22 +200,14 @@ class GoodsController extends Controller {
 	 *添加评论
 	 */
 	public function addComment(){
-		$goods_Comment = M("goods_comment");
-		$data = array (
-				'GoodsId' => $_POST['GoodsId'],
-				'Content' => $_POST['Content'],
-				'CreateTime'=> date("Y-m-d H:i:s", time()),
-				'UserId'=> $_POST['UserId'],
-				//'AssesseId' => $_POST['AssesseId'],
-				'Status' => 10
-		);
-		$z = $goods_Comment->add($data);
-		if($z){
-            //$this ->success('添加成功', U('Goods/showlist'));
-            echo "success";
-        } else {
-            //$this ->error('添加失败', U('Goods/showlist'));
-            echo "ddderror";
-        }
+		$postarr = I ( 'post.' );
+		$model = new goodsModel ();
+		$rst = $model->addComment ( $postarr );
+		if (( int ) $rst ['status'] == 0) {
+			$this->error ( $rst ['msg'] );
+		} else {
+			$this->success ( 1 );
+		}
+		
 	}
 }
