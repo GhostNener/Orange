@@ -68,15 +68,23 @@ return array (
 		 * */
 		'USER_KEY_EFFECTIVE' => 30 * 24 * 60 * 60 ,
 		/*cookie前缀  */
-
-		'COOKIE_PREFIX' => 'ORANGER' 
-);
-		'COOKIE_PREFIX'=>'ORANGER',
+		'COOKIE_PREFIX' => 'ORANGER',
 		/*管理员所在组 name*/
-		'ADMIN_ROLE_NAME'=>'Administratoe',
+		'ADMIN_ROLE_NAME' => 'Administratoe',
 		/*记住我 cookie保存时间*/
-		'COOKIE_REMEMBER_TIME'=>30*24*60*60
-
-)
-;
+		'COOKIE_REMEMBER_TIME' => 30 * 24 * 60 * 60 ,
+		/* 普通用户用户组Id */
+		'USER_ROLEID' => 2,
+		/*  */
+		'ORANGER_MAIL' => array (
+				'SMTP_HOST' => 'smtp.ym.163.com', // SMTP服务器
+				'SMTP_PORT' => 25, // SMTP服务器端口
+				'SMTP_USER' => 'nener@bigoranger.com', // SMTP服务器用户名
+				'SMTP_PASS' => 'ofofs1209', // SMTP服务器密码
+				'FROM_EMAIL' => 'nener@bigoranger.com', // 发件人EMAIL
+				'FROM_NAME' => '橘子团队', // 发件人名称
+				'REPLY_EMAIL' => '', // 回复EMAIL（留空则为发件人EMAIL）
+				'REPLY_NAME' => ''  // 回复名称（留空则为发件人名称）
+	) 
+);
 

@@ -5,7 +5,7 @@ namespace Api\Controller;
 use Think\Controller;
 use Home\Model\goodsModel;
 use Home\Model\goods_categoryModel;
-use Home\Model\user_addressModel;
+use Usercenter\Model\user_addressModel;
 use Home\Model\goods_serviceModel;
 
 /**

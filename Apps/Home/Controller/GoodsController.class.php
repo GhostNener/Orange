@@ -1,13 +1,11 @@
 <?php
 
 namespace Home\Controller;
-
-use Think\Controller;
 use Home\Model\goodsModel;
 use Home\Model\goods_categoryModel;
-use Home\Model\user_addressModel;
+use Usercenter\Model\user_addressModel;
 use Home\Model\goods_serviceModel;
-use Usercenter\Model\userModel;
+
 /**
  * 前台商品管理
  *

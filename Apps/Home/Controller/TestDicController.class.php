@@ -4,7 +4,7 @@ namespace Home\Controller;
 
 use Think\Controller;
 
-require './ORG/phpAnalysis/SeachDic.class.php';
+require_once './ORG/phpAnalysis/SeachDic.class.php';
 /**
  * 词典测试
  *

@@ -16,36 +16,37 @@ class UserController extends Controller {
 	/**
 	 * 登录首页
 	 */
-	public function index($isadmin=false) {
+	public function index($isadmin = false) {
 		$model = new userModel ();
-		if ($model->islogin ($isadmin)) {
-			if($isadmin){
+		if ($model->islogin ( $isadmin )) {
+			if ($isadmin) {
 				$this->success ( '登录成功', U ( 'Admin/Index/index' ), 1 );
-			}else{
-			$this->success ( '登录成功', U ( 'Home/Index/index' ), 1 );
-		}
+			} else {
+				$this->success ( '登录成功', U ( 'Home/Index/index' ), 1 );
+			}
 		} else {
-			if($isadmin){
-				$this->assign('admin',true);
+			if ($isadmin) {
+				$this->assign ( 'admin', true );
 			}
 			$this->display ( 'Index/login' );
 		}
 	}
 	/**
-	 * 登录
+	 * 注册页面
 	 */
-
-public function regist(){
-	$this->display('Index/regist');
-}
-
+	public function regist() {
+		$this->display ( 'Index/regist' );
+	}
+	/**
+	 * 登录操作
+	 *   */
 	public function login() {
 		if (! IS_POST) {
 			$this->error ( "非法访问" );
 		}
 		$arr = I ( 'post.' );
-		/*是不是管理员*/
-		$isadmin=(bool)$arr['isadmin'];
+		/* 是不是管理员 */
+		$isadmin = ( bool ) $arr ['isadmin'];
 		$verifycode = $arr ['verifycode'];
 		/* 校验验证码 */
 		$rst = $this->check_verify ( $verifycode );
@@ -61,14 +62,43 @@ public function regist(){
 			cookie ( '_key', $rst ['key'] );
 			cookie ( '_uid', $rst ['uid'] );
 		} else {
-			cookie ( '_key', $rst ['key'], C('COOKIE_REMEMBER_TIME') );
-			cookie ( '_uid', $rst ['uid'], C('COOKIE_REMEMBER_TIME') );
-		}if($isadmin){
+			cookie ( '_key', $rst ['key'], C ( 'COOKIE_REMEMBER_TIME' ) );
+			cookie ( '_uid', $rst ['uid'], C ( 'COOKIE_REMEMBER_TIME' ) );
+		}
+		if ($isadmin) {
 			cookie ( 'admin_key', $rst ['key'] );
 			cookie ( 'admin_uid', $rst ['uid'] );
 		}
 		session ( $rst ['uid'], $rst ['key'] );
 		$this->success ( $rst ['msg'] );
+	}
+	
+	/**
+	 * 注册一个新用户
+	 */
+	public function signup() {
+		if (! IS_POST) {
+			$this->error ( '页面不存在' );
+		}
+		$arr = I ( 'post.' );
+		$model = new userModel ();
+		$rst = $model->regis ( $arr );
+		if (! ( int ) $rst ['status']) {
+			$this->error ( $rst ['msg'] );
+		}
+		//$rstmail=send_activate_mail('714571611@qq.com','你好橘子');
+		$this->success ( $rst ['msg'] );
+	}
+	
+	/*  */
+	public function active(){
+		if(!IS_GET){
+			$this->error('页面不存在',U('Home/Index/index'));
+		}
+		$arr=I('get.');
+		if(!$arr){
+			$this->error('页面不存在',U('Home/Index/index'));
+		}
 	}
 	/**
 	 * 验证验证码
@@ -83,13 +113,17 @@ public function regist(){
 		$rst = $verify->check ( $code, $id );
 		return $rst;
 	}
-/*添加地址*/
+	/**
+	 * 添加地址
+	 */
 	public function addaddress() {
 		$this->assign ( 'modif', 'add' )->display ( 'Index/modifaddress' );
 	}
-	/*保存地址*/
+	/**
+	 * 保存地址
+	 */
 	public function saveaddress() {
-		$userid = cookie('_uid');
+		$userid = cookie ( '_uid' );
 		$arr = I ( 'post.' );
 		if (! IS_POST || ! $arr) {
 			$this->error ( '页面不存在' );

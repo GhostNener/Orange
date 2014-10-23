@@ -88,11 +88,14 @@
 				return;
 			}
 			/**/
-if(!_isadmin){
-	_remember=_remember;
-}else{
-	_remember=0;
-}
+		if(!_isadmin){
+			_remember=_remember;
+		}else{
+			_remember=0;
+		}
+		    var btn_txt=$(this).val();
+    		$(this).attr('disabled',"true");
+    		$(this).val('....');
 			/*提交表单*/
 			$.post($('#url').attr('login'),{
 				'Name':_uid,
@@ -111,10 +114,11 @@ if(!_isadmin){
 				}else{
 					reloadcode();
 					alert(data.info);
-
+					 reloadcode();
 				}
 			},'json');
-
+    		$(this).val(btn_txt);
+    		$(this).removeAttr('disabled'); 
 		});
 		/*记住我按钮*/
 		$('#rememberme').click(function(e){
@@ -131,6 +135,11 @@ if(!_isadmin){
 		function reloadcode(){
 			var _src=$('#url').attr('getcode')+'?id='+ new Date().valueOf() ;
 			$('.verifycode').attr('src',_src);
+			$('#verifycode').parent().removeClass('has-error');
+			$('#verifycode').parent().removeClass('has-success');
+			//$('#verifycode').parent().addClass('has-error');
+			$('#verifycode').attr('status',0);
+
 		}
 	});
 </script>

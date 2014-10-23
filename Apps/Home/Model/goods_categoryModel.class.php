@@ -10,7 +10,7 @@ use Think\Model;
  * @author NENER
  *        
  */
-require './ORG/phpAnalysis/SeachDic.class.php';
+require_once  './ORG/phpAnalysis/SeachDic.class.php';
 class goods_categoryModel extends Model {
 	/**
 	 * 获取所有分类
