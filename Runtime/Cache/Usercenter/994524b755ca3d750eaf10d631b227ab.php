@@ -93,9 +93,9 @@
 		}else{
 			_remember=0;
 		}
-		    var btn_txt=$(this).val();
-    		$(this).attr('disabled',"true");
-    		$(this).val('....');
+		    var btn_txt=$('#loginbutton').val();
+    		$('#loginbutton').attr('disabled',"true");
+    		$('#loginbutton').val('....');
 			/*提交表单*/
 			$.post($('#url').attr('login'),{
 				'Name':_uid,
@@ -117,8 +117,8 @@
 					 reloadcode();
 				}
 			},'json');
-    		$(this).val(btn_txt);
-    		$(this).removeAttr('disabled'); 
+    		$('#loginbutton').val(btn_txt);
+    		$('#loginbutton').removeAttr('disabled'); 
 		});
 		/*记住我按钮*/
 		$('#rememberme').click(function(e){

@@ -235,7 +235,7 @@ class userModel extends Model {
 			$key = $this->getnewkey ( $send ['E-Mail'] );
 			$url = U ( 'Usercenter/User/active', array (
 					'key' => $key,
-					'uid' => strtoupper ( md5 ( $uid, true ) ) 
+					'uid' => time()
 			), true, true );
 			$url = '<a href=' . $url . '>点击激活帐号</a>';
 			if (! M ( 'user' )->where ( array (
@@ -287,6 +287,7 @@ class userModel extends Model {
 		} else {
 			$msg ['msg'] = '激活成功';
 			$msg ['status'] = 1;
+			return $msg;
 		}
 		return $msg;
 	}

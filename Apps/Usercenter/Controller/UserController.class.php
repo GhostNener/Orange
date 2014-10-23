@@ -102,7 +102,7 @@ class UserController extends Controller {
 		}
 		$model=new userModel();
 		$rst=$model->active($arr);
-		if($rst['status']){
+		if($rst['status']==1){
 			$this->success( '激活成功', U ( 'Home/Index/index' ) );
 		}else{
 		$this->error ( '页面不存在', U ( 'Home/Index/index' ) );
