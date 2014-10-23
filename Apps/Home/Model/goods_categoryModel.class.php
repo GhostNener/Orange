@@ -46,7 +46,7 @@ class goods_categoryModel extends Model {
 				'Id',
 				'Title' 
 		) )->where ( array (
-				'Title' => '其他',
+				'Title' => '其它',
 				'Status' => 10 
 		) )->find ();
 		if (! $other) {
