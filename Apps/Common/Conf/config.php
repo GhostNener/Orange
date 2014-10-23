@@ -68,6 +68,5 @@ return array (
 		 * */
 		'USER_KEY_EFFECTIVE' => 30 * 24 * 60 * 60 ,
 		/*cookie前缀  */
-		'COOKIE_PREFIX'=>'ORANGER'
-)
-;
+		'COOKIE_PREFIX' => 'ORANGER' 
+);

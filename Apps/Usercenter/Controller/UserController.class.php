@@ -55,7 +55,7 @@ class UserController extends Controller {
 	}
 	/**
 	 * 验证验证码
-	 * 
+	 *
 	 * @param unknown $code        	
 	 * @param string $id        	
 	 * @return boolean
