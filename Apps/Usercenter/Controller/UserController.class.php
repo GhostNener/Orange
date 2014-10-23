@@ -86,11 +86,12 @@ class UserController extends Controller {
 		if (! ( int ) $rst ['status']) {
 			$this->error ( $rst ['msg'] );
 		}
-		// $rstmail=send_activate_mail('714571611@qq.com','你好橘子');
-		$this->success ( $rst ['msg'] );
+		$this->success( $rst ['msg'] );
 	}
 	
-	/* */
+	/**
+	 * 激活
+	 *  */
 	public function active() {
 		if (! IS_GET) {
 			$this->error ( '页面不存在', U ( 'Home/Index/index' ) );
@@ -98,6 +99,13 @@ class UserController extends Controller {
 		$arr = I ( 'get.' );
 		if (! $arr) {
 			$this->error ( '页面不存在', U ( 'Home/Index/index' ) );
+		}
+		$model=new userModel();
+		$rst=$model->active($arr);
+		if($rst['status']){
+			$this->success( '激活成功', U ( 'Home/Index/index' ) );
+		}else{
+		$this->error ( '页面不存在', U ( 'Home/Index/index' ) );
 		}
 	}
 	/**

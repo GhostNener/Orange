@@ -129,7 +129,7 @@ class userModel extends Model {
 	}
 	/**
 	 * 检查手机号
-	 * 
+	 *
 	 * @param unknown $Name        	
 	 * @return boolean
 	 */
@@ -144,7 +144,7 @@ class userModel extends Model {
 	
 	/**
 	 * 检查邮件
-	 * 
+	 *
 	 * @param unknown $Name        	
 	 * @return boolean
 	 */
@@ -263,9 +263,9 @@ class userModel extends Model {
 	public function active($arr) {
 		$msg = array (
 				'status' => 0,
-				'msg' => '网页不存在' 
+				'msg' => '页面不存在' 
 		);
-		if (! $arr ['key'] || ! $arr ['uid'] || (strlen ( $arr ['uid'] ) < 32)) {
+		if (! $arr ['key']) {
 			return $msg;
 		}
 		$rst = M ( 'user' )->where ( array (
@@ -273,9 +273,6 @@ class userModel extends Model {
 				'Status' => 101 
 		) )->find ();
 		if (! $rst) {
-			return $msg;
-		}
-		if (strtoupper ( md5 ( $rst ['Id'] ) ) != $arr ['uid']) {
 			return $msg;
 		}
 		$newkey = $this->getnewkey ( $rst ['Id'] );
@@ -287,9 +284,10 @@ class userModel extends Model {
 		) )) {
 			$msg ['msg'] = '激活失败';
 			return $msg;
+		} else {
+			$msg ['msg'] = '激活成功';
+			$msg ['status'] = 1;
 		}
-		$msg ['msg'] = '激活成功';
-		$msg ['status'] = 1;
 		return $msg;
 	}
 	

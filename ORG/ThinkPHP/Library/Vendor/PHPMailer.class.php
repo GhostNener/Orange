@@ -478,7 +478,7 @@ class PHPMailer {
       if ($this->exceptions) {
         throw new phpmailerException('Invalid recipient array: ' . $kind);
       }
-      echo $this->Lang('Invalid recipient array').': '.$kind;
+      echo $this->Lang('Invalid recipient array').' '.$kind;
       return false;
     }
     $address = trim($address);
@@ -488,7 +488,7 @@ class PHPMailer {
       if ($this->exceptions) {
         throw new phpmailerException($this->Lang('invalid_address').': '.$address);
       }
-      echo $this->Lang('invalid_address').': '.$address;
+      echo $this->Lang('invalid_address').' '.$address;
       return false;
     }
     if ($kind != 'ReplyTo') {
@@ -910,20 +910,20 @@ class PHPMailer {
     $PHPMAILER_LANG = array(
       'provide_address' => 'You must provide at least one recipient email address.',
       'mailer_not_supported' => ' mailer is not supported.',
-      'execute' => 'Could not execute: ',
+      'execute' => 'Could not execute',
       'instantiate' => 'Could not instantiate mail function.',
       'authenticate' => 'SMTP Error: Could not authenticate.',
-      'from_failed' => 'The following From address failed: ',
+      'from_failed' => 'The following From address failed ',
       'recipients_failed' => 'SMTP Error: The following recipients failed: ',
       'data_not_accepted' => 'SMTP Error: Data not accepted.',
       'connect_host' => 'SMTP Error: Could not connect to SMTP host.',
-      'file_access' => 'Could not access file: ',
+      'file_access' => 'Could not access file ',
       'file_open' => 'File Error: Could not open file: ',
-      'encoding' => 'Unknown encoding: ',
-      'signing' => 'Signing Error: ',
-      'smtp_error' => 'SMTP server error: ',
+      'encoding' => 'Unknown encoding ',
+      'signing' => 'Signing Error ',
+      'smtp_error' => 'SMTP server error ',
       'empty_message' => 'Message body empty',
-      'invalid_address' => 'Invalid address',
+      'invalid_address' => '',
       'variable_set' => 'Cannot set or reset variable: '
     );
     //Overwrite language-specific strings. This way we'll never have missing translations - no more "language string failed to load"!

@@ -36,6 +36,8 @@ function sendEmail($subject, $content, $email) {
 	$config = C ( 'ORANGER_MAIL' );
 	$body = $content;
 	$mail->IsSMTP ();
+	$mail->SMTPDebug  = 0;
+/* 	$mail->SMTPSecure = 'ssl'; */
 	$mail->SMTPAuth = true; // enable SMTP authentication
 	$mail->SMTPKeepAlive = true; // sets the prefix to the servier
 	$mail->CharSet = "utf-8";
