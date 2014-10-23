@@ -312,7 +312,7 @@ class userModel extends Model {
 		if ($this->checmail ( $uid )) {
 			$wherearr ['E-Mail'] = $uid;
 		} else {
-			$wherearr ['E-Name'] = $uid;
+			$wherearr ['Name'] = $uid;
 		}
 		/* 查询用户 */
 		if ($arr ['isadmin']) {
