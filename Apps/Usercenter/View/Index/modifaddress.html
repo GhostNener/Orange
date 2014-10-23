@@ -1,4 +1,4 @@
-﻿<layout name="layout" />
+<layout name="layout" />
 <script>
 	$(document).ready(function(){
 		$('#addressSubmit').click(function(){
@@ -81,9 +81,9 @@
 		</div>
 		<div class="form-group">
 			<div class="col-sm-offset-2 col-sm-10">
-				<button id='addressSubmit' type="button" urlindex="{:U('index')}"
-					acurl="{:U('saveaddress')}" class="btn btn-default">保存</button>
-				<a class="btn btn-default" href="{:U('index')}">返回</a>
+				<button id='addressSubmit' type="button" urlindex="{:U('Home/Index/index')}"
+					acurl="{:U('Usercenter/User/saveaddress')}" class="btn btn-default">保存</button>
+				<a class="btn btn-default" href="{:U('Home/Index/index')}">返回</a>
 			</div>
 		</div>
 	</form>

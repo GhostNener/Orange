@@ -68,6 +68,11 @@ return array (
 		 * */
 		'USER_KEY_EFFECTIVE' => 30 * 24 * 60 * 60 ,
 		/*cookie前缀  */
-		'COOKIE_PREFIX'=>'ORANGER'
+		'COOKIE_PREFIX'=>'ORANGER',
+		/*管理员所在组 name*/
+		'ADMIN_ROLE_NAME'=>'Administratoe',
+		/*记住我 cookie保存时间*/
+		'COOKIE_REMEMBER_TIME'=>30*24*60*60
+
 )
 ;

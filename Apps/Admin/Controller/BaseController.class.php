@@ -1,13 +1,12 @@
 <?php
 
-namespace Usercenter\Controller;
+namespace Admin\Controller;
 
 use Think\Controller;
 use Usercenter\Model\userModel;
-
 /**
- * 基础控制器
- * 
+ * 后台首页
+ *
  * @author NENER
  *        
  */
@@ -17,10 +16,9 @@ class BaseController extends Controller {
 	 */
 	public function _initialize() {
 		$model=new userModel();
-		$rst=$model->islogin(false);
+		$rst=$model->islogin(true);
 		if(!$rst){
-			redirect(U('Usercenter/User/index',array('isadmin'=>false)));
+			redirect(U('Usercenter/User/index',array('isadmin'=>true)));
 		}
 	}
 }
-?>

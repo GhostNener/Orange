@@ -18,9 +18,9 @@
 		<div class="container">
 			<div class="collapse navbar-collapse">
 				<ul class="nav navbar-nav">
-					<li><a href="<?php echo U('Index/index');?>">Home</a></li>
-					<li><a href="<?php echo U('TestDic/index');?>">词典测试</a></li>
-					<li><a href="<?php echo U('Goods/index');?>">商品管理</a></li>
+					<li><a href="<?php echo U('Home/Index/index');?>">Home</a></li>
+					<li><a href="<?php echo U('Home/TestDic/index');?>">词典测试</a></li>
+					<li><a href="<?php echo U('Home/Goods/index');?>">商品管理</a></li>
 					<li><a class="pull-right" href="<?php echo U('Admin/Index/index');?>">后台</a>
 					</li>
 					<li><a class="pull-right" href="<?php echo U('Usercenter/User/index');?>">登录测试</a>
@@ -32,11 +32,11 @@
 <div class="container">
 	<!-- 分类管理-->
 	<div class="text-center">
-		<h1>商品列表</h1>
+		<h1>我的商品列表</h1>
 	</div>
 	<br>
 	<div>
-		<a href="<?php echo U('add');?>" class="btn btn-default">添加</a>
+		<a href="<?php echo U('Home/Goods/add');?>" class="btn btn-default">添加</a>
 	</div>
 	<br>
 	<table class="table table-bordered">
@@ -64,7 +64,7 @@
 				<td><?php echo ($v["Server"]); ?></td>
 				<td><?php echo ($v["TradeWay"]); ?></td>
 				<td><?php echo ($v["Status"]); ?></td>
-				<td><a href="<?php echo U('Goods/showgoods',array('Id'=>$v['Id']));?>">Show</a></td>
+				<td><a href="<?php echo U('Home/Goods/showgoods',array('Id'=>$v['Id']));?>">Show</a></td>
 			</tr><?php endforeach; endif; ?>
 	</table>
 	<?php echo ($page); ?>

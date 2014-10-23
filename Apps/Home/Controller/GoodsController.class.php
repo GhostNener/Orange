@@ -7,16 +7,16 @@ use Home\Model\goodsModel;
 use Home\Model\goods_categoryModel;
 use Home\Model\user_addressModel;
 use Home\Model\goods_serviceModel;
-
+use Usercenter\Model\userModel;
 /**
  * 前台商品管理
  *
  * @author DongZ
  *        
  */
-class GoodsController extends Controller {
+class GoodsController extends BaseController {
 	public function index() {
-		$userid = 0;
+		$userid = cookie('_uid');
 		$model = D ( 'goods' );
 		// 查询条件
 		$wherrArr = array (
@@ -38,7 +38,7 @@ class GoodsController extends Controller {
 	 * 渲染商品添加页面
 	 */
 	public function add() {
-		$userid = 0;
+		$userid = cookie('_uid');
 		// 查询分类
 		$clist = new goods_categoryModel ();
 		$clist = $clist->getall ();
@@ -76,7 +76,7 @@ class GoodsController extends Controller {
 		if (! IS_POST) {
 			$this->error ( '页面不存在' );
 		}
-		$userid = 0;
+		$userid = cookie('_uid');
 		$postarr = I ( 'post.' );
 		$model = new goodsModel ();
 		$rst = $model->saveimg ( $postarr, $userid );
@@ -160,7 +160,7 @@ class GoodsController extends Controller {
 		if (! IS_POST) {
 			$this->error ( '页面不存在' );
 		}
-		$userid = 0;
+		$userid = cookie('_uid');
 		$model = new user_addressModel ();
 		$rst = $model->getall ( $userid );
 		if (! $rst) {
@@ -244,6 +244,9 @@ class GoodsController extends Controller {
 				'Price' => $_POST['Price'],
 				'E-Money' => $_POST['E-Money'],
 				'CreateTime'=> date("Y-m-d H:i:s", time()),
+				'UserId'=> cookie('_uid'),
+				//'AssesseId' => $_POST['AssesseId'],
+
 				'Status' => 10
 		);
 		$z = $goods_order->add($data);

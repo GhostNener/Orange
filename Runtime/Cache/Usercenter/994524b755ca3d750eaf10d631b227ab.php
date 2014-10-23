@@ -11,6 +11,24 @@
 	type="image/x-icon" />
 <script src="/Orange/Public/js/jquery-1.8.0.min.js"></script>
 <script src="/Orange/Public/js/bootstrap.js"></script>
+</head>
+<body>
+	<!--顶-->
+	<div id="wrap">
+		<div class="container">
+			<div class="collapse navbar-collapse">
+				<ul class="nav navbar-nav">
+					<li><a href="<?php echo U('Home/Index/index');?>">Home</a></li>
+					<li><a href="<?php echo U('Home/TestDic/index');?>">词典测试</a></li>
+					<li><a href="<?php echo U('Home/Goods/index');?>">商品管理</a></li>
+					<li><a class="pull-right" id='adminrul' href="<?php echo U('Admin/Index/index');?>">后台</a>
+					</li>
+					<li><a class="pull-right" href="<?php echo U('Usercenter/User/index');?>">登录</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+		
 
 <style>
 	.login{
@@ -59,6 +77,7 @@
 				$('#Password').focus();
 				return;
 			}
+			var _isadmin=$('#isadmin').val();			
 			/*记住我*/
 			var _remember=parseInt($('#isremeber').val());
 			var _code=$.trim($('#verifycode').val());
@@ -69,16 +88,24 @@
 				return;
 			}
 			/**/
-
+if(!_isadmin){
+	_remember=_remember;
+}else{
+	_remember=0;
+}
 			/*提交表单*/
 			$.post($('#url').attr('login'),{
 				'Name':_uid,
 				'Password':_pwd,
 				'verifycode':_code,
-				'isremeber':_remember
+				'isremeber':_remember,
+				'isadmin':_isadmin
 			},function(data){
 				if(data.status==1){
-					location.href=$('#url').attr('home');
+					if(_isadmin){
+						location.href=$('#adminrul').attr('href');
+					}else{
+					location.href=$('#url').attr('home');}
 
 
 				}else{
@@ -107,28 +134,11 @@
 		}
 	});
 </script>
-
-</head>
-<body>
-	<!--顶-->
-	<div id="wrap">
-		<div class="container">
-			<div class="collapse navbar-collapse">
-				<ul class="nav navbar-nav">
-					<li><a href="<?php echo U('Index/index');?>">Home</a></li>
-					<li><a href="<?php echo U('TestDic/index');?>">词典测试</a></li>
-					<li><a href="<?php echo U('Goods/index');?>">商品管理</a></li>
-					<li><a class="pull-right" href="<?php echo U('Admin/Index/index');?>">后台</a>
-					</li>
-					<li><a class="pull-right" href="<?php echo U('Usercenter/User/index');?>">登录测试</a>
-					</li>
-				</ul>
-			</div>
-		</div>
 <div class="container">
 	<div class="login">
 		<form class="form-horizontal" role="form" action="" method="post">
 			<div class="form-group">
+				<input type="hidden" id="isadmin" value="<?php echo ($admin); ?>">
 				<label for="UserName" class="col-sm-2 control-label">用户名</label>
 				<div class="col-sm-10">
 					<input type="txt" class="form-control" id="UserName" placeholder="用户名"></div>
@@ -146,27 +156,26 @@
 			<div class="form-group">
 				<label for="verifycode" class="col-sm-2 control-label"></label>
 				<div class="col-sm-10">
-					<img class="verifycode" src="<?php echo U('Public/verifycode');?>" alt="点击刷新" title="点击刷新"></div>
+					<img class="verifycode" src="<?php echo U('Usercenter/Public/verifycode');?>" alt="点击刷新" title="点击刷新"></div>
 			</div>
-			<input type="hidden" id="url" value="0" getcode="<?php echo U('Public/verifycode');?>" checkcode="<?php echo U('Public/check_verify');?>" login="<?php echo U('User/login');?>" home="<?php echo U('Home/Index/index');?>" >
+			<input type="hidden" id="url" value="0" getcode="<?php echo U('Public/verifycode');?>" checkcode="<?php echo U('Usercenter/Public/check_verify');?>" login="<?php echo U('Usercenter/User/login');?>" home="<?php echo U('Home/Index/index');?>" >
 			<input type="hidden" value="0" name="rememberme"  id="isremeber">
 			<div class="form-group">
 				<div class="col-sm-offset-2 col-sm-10">
 					<div class="checkbox">
 						<label>
-							<input id="rememberme" type="checkbox">记住我</label>
+							<?php if( ($admin != 1) AND ($admin != true)): ?><input id="rememberme" type="checkbox">记住我</label><?php endif; ?>
 					</div>
 				</div>
 			</div>
 			<div class="form-group">
 				<div class="col-sm-offset-2 col-sm-10">
 					<button type="button" id="loginbutton" class="btn btn-default">登录</button>
-					<a  href="<?php echo U('regist');?>" class="btn btn-default">注册</a>
+					<a  href="<?php echo U('Usercenter/User/regist');?>" class="btn btn-default">注册</a>
 				</div>
 			</div>
 		</form>
 	</div>
-
 </div>
 	</div>
 	<!-- 底栏-->

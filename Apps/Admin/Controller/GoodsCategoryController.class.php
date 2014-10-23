@@ -5,6 +5,7 @@ namespace Admin\Controller;
 use Think\Controller;
 use Think\Model;
 use Org\Util\String;
+use Usercenter\Model\userModel;
 
 /**
  * 后台商品分类管理
@@ -12,7 +13,7 @@ use Org\Util\String;
  * @author NENER
  *        
  */
-class GoodsCategoryController extends Controller {
+class GoodsCategoryController extends BaseController {
 	/**
 	 * 首页
 	 *

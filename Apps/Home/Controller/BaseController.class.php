@@ -1,10 +1,9 @@
 <?php
 
-namespace Usercenter\Controller;
+namespace Home\Controller;
 
 use Think\Controller;
 use Usercenter\Model\userModel;
-
 /**
  * 基础控制器
  * 
