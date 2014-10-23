@@ -22,10 +22,15 @@ function randstr($length = 8) {
 }
 /**
  * 发送邮件
- * @param string $subject 主题
- * @param string $content 内容
- * @param string $email 收件人
- * @return boolean  */
+ * 
+ * @param string $subject
+ *        	主题
+ * @param string $content
+ *        	内容
+ * @param string $email
+ *        	收件人
+ * @return boolean
+ */
 function sendEmail($subject, $content, $email) {
 	$mail = new PHPMailer ();
 	$config = C ( 'ORANGER_MAIL' );
@@ -33,11 +38,11 @@ function sendEmail($subject, $content, $email) {
 	$mail->IsSMTP ();
 	$mail->SMTPAuth = true; // enable SMTP authentication
 	$mail->SMTPKeepAlive = true; // sets the prefix to the servier
-	$mail->CharSet = "utf-8"; 
-	$mail->Host = $config ['SMTP_HOST']; 
+	$mail->CharSet = "utf-8";
+	$mail->Host = $config ['SMTP_HOST'];
 	$mail->Port = $config ['SMTP_PORT'];
-	$mail->Username = $config ['SMTP_USER']; 
-	$mail->Password = $config ['SMTP_PASS']; 
+	$mail->Username = $config ['SMTP_USER'];
+	$mail->Password = $config ['SMTP_PASS'];
 	$mail->From = $config ['FROM_EMAIL'];
 	$mail->FromName = $config ['FROM_NAME'];
 	$mail->Subject = $subject;
@@ -53,9 +58,13 @@ function sendEmail($subject, $content, $email) {
 }
 /**
  * 帐号激活邮件
- * @param string $usermail 用户邮箱
- * @param string $url 激活URL
- * @return boolean  */
+ * 
+ * @param string $usermail
+ *        	用户邮箱
+ * @param string $url
+ *        	激活URL
+ * @return boolean
+ */
 function send_activate_mail($usermail, $url) {
 	return sendEmail ( '帐号激活', $url, $usermail );
 }

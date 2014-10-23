@@ -39,7 +39,7 @@ class UserController extends Controller {
 	}
 	/**
 	 * 登录操作
-	 *   */
+	 */
 	public function login() {
 		if (! IS_POST) {
 			$this->error ( "非法访问" );
@@ -86,18 +86,18 @@ class UserController extends Controller {
 		if (! ( int ) $rst ['status']) {
 			$this->error ( $rst ['msg'] );
 		}
-		//$rstmail=send_activate_mail('714571611@qq.com','你好橘子');
+		// $rstmail=send_activate_mail('714571611@qq.com','你好橘子');
 		$this->success ( $rst ['msg'] );
 	}
 	
-	/*  */
-	public function active(){
-		if(!IS_GET){
-			$this->error('页面不存在',U('Home/Index/index'));
+	/* */
+	public function active() {
+		if (! IS_GET) {
+			$this->error ( '页面不存在', U ( 'Home/Index/index' ) );
 		}
-		$arr=I('get.');
-		if(!$arr){
-			$this->error('页面不存在',U('Home/Index/index'));
+		$arr = I ( 'get.' );
+		if (! $arr) {
+			$this->error ( '页面不存在', U ( 'Home/Index/index' ) );
 		}
 	}
 	/**

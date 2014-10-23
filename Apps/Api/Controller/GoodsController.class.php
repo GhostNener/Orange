@@ -104,13 +104,13 @@ class GoodsController extends Controller {
 				'imgid' => 0 
 		);
 		if (empty ( $_FILES )) {
-			$rstmsg['msg']='空文件';
+			$rstmsg ['msg'] = '空文件';
 			echo json_encode ( $rstmsg );
 			return;
 		}
 		$userid = 0; // 用户id
-		$postarr =I('post.');// file_get_contents ( 'php://input' );
-		//$postarr = json_decode ( $postarr, true );
+		$postarr = I ( 'post.' ); // file_get_contents ( 'php://input' );
+		                      // $postarr = json_decode ( $postarr, true );
 		/* 商品Id */
 		$postarr ['_gid'] = $postarr ['goodsid'];
 		$model = new goodsModel ();

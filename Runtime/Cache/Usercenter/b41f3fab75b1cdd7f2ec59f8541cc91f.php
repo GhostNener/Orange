@@ -63,6 +63,10 @@
     		$('#registbutton').attr('disabled',"true");
     		$('#registbutton').val('....');
 			if(checkmobile(_mail)){
+				alert('暂不支持电话哦！');
+				$('#registbutton').val(btn_txt);
+    			$('#registbutton').removeAttr('disabled'); 
+				return false;
 				$.post($('#url').attr('regist'),{
 					'Password':_pwd,
 					'ConfirmPassword':_confirmpwd,
@@ -70,6 +74,9 @@
 				},function(data){
 					if(data.status==0){
 					alert(data.info);
+				}else{
+					alert("注册成功！\n 请激活");
+					location.href=$('#url').attr('home');
 				}
 				},'json');
 			}else{
@@ -80,6 +87,9 @@
 				},function(data){
 					if(data.status==0){
 					alert(data.info);
+				}else{
+					alert("注册成功！\n 请激活");
+					location.href=$('#url').attr('home');
 				}
 				},'json');
 			}
