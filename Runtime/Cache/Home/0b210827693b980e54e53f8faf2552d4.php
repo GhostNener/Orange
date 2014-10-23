@@ -4,13 +4,13 @@
 <meta charset="UTF-8">
 <title>Orange</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="/Orange/Public/css/bootstrap-theme.css" />
-<link rel="stylesheet" href="/Orange/Public/css/bootstrap.css" />
-<link rel="stylesheet" href="/Orange/Public/css/huaxi_css.css" />
-<link rel="shortcut icon" href="/Orange/Public/Img/favicon.png"
+<link rel="stylesheet" href="/OrangeTS/Public/css/bootstrap-theme.css" />
+<link rel="stylesheet" href="/OrangeTS/Public/css/bootstrap.css" />
+<link rel="stylesheet" href="/OrangeTS/Public/css/huaxi_css.css" />
+<link rel="shortcut icon" href="/OrangeTS/Public/Img/favicon.png"
 	type="image/x-icon" />
-<script src="/Orange/Public/js/jquery-1.8.0.min.js"></script>
-<script src="/Orange/Public/js/bootstrap.js"></script>
+<script src="/OrangeTS/Public/js/jquery-1.8.0.min.js"></script>
+<script src="/OrangeTS/Public/js/bootstrap.js"></script>
 </head>
 <body>
 	<!--顶-->
@@ -23,13 +23,15 @@
 					<li><a href="<?php echo U('Goods/index');?>">商品管理</a></li>
 					<li><a class="pull-right" href="<?php echo U('Admin/Index/index');?>">后台</a>
 					</li>
+					<li><a class="pull-right" href="<?php echo U('Usercenter/User/index');?>">登录测试</a>
+					</li>
 				</ul>
 			</div>
 		</div>
 		
 
-<script src="/Orange/Public/js/jquery.uploadify.min.js?<?php echo time();?>"></script>
-<link rel="stylesheet" href="/Orange/Public/css/uploadify.css">
+<script src="/OrangeTS/Public/js/jquery.uploadify.min.js?<?php echo time();?>"></script>
+<link rel="stylesheet" href="/OrangeTS/Public/css/uploadify.css">
 <script type="text/javascript">
 	/*删除图片  第一个参数为图片父控件的Id  第二个参数为图片相对路径*/
 	function del(div_id,imgId){
@@ -379,7 +381,7 @@
 		</div>
 		<div class="form-group">
 			<input type="hidden" class="form-control " id="url"
-				publicurl="/Orange/Public" appurl="/Orange/Home/Goods" rooturl="/Orange" gid="0"
+				publicurl="/OrangeTS/Public" appurl="/OrangeTS/Home/Goods" rooturl="/OrangeTS" gid="0"
 				saveurl="<?php echo U('save');?>" urlindex="<?php echo U('index');?>" Readonly> <label
 				for="file_upload" class="col-sm-2 control-label">file_upload</label>
 			<div class="col-sm-10">

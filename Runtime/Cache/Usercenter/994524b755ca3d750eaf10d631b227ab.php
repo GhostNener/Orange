@@ -1,108 +1,178 @@
 <?php if (!defined('THINK_PATH')) exit();?><!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<title>Orange</title>
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" href="/Orange/Public/css/bootstrap-theme.css" />
-	<link rel="stylesheet" href="/Orange/Public/css/bootstrap.css" />
-	<link rel="stylesheet" href="/Orange/Public/css/huaxi_css.css" />
-	<link rel="shortcut icon" href="/Orange/Public/Img/favicon.png"
+<meta charset="UTF-8">
+<title>Orange</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/Orange/Public/css/bootstrap-theme.css" />
+<link rel="stylesheet" href="/Orange/Public/css/bootstrap.css" />
+<link rel="stylesheet" href="/Orange/Public/css/huaxi_css.css" />
+<link rel="shortcut icon" href="/Orange/Public/Img/favicon.png"
 	type="image/x-icon" />
-	<script src="/Orange/Public/js/jquery-1.8.0.min.js"></script>
-	<script src="/Orange/Public/js/bootstrap.js"></script>
-	<style>
+<script src="/Orange/Public/js/jquery-1.8.0.min.js"></script>
+<script src="/Orange/Public/js/bootstrap.js"></script>
+
+<style>
 	.login{
 
 		margin: 200px  100px;
 	}
+	.verifycode{
+		cursor: pointer;
+	}
+
 </style>
+
+<script>
+	$(function(){
+		/*验证码自动验证*/
+		$('#verifycode').blur(function(){
+			var _code=$.trim($(this).val());
+			if(!_code){return;}
+			$.post($('#url').attr('checkcode'),{'code':_code},function(data){
+				if(!data){
+					$('#verifycode').parent().removeClass('has-error');
+					$('#verifycode').parent().addClass('has-error');
+					$('#verifycode').attr('status',0);
+
+				}else{
+					$('#verifycode').parent().removeClass('has-error');
+					$('#verifycode').parent().addClass('has-success');
+					$('#verifycode').attr('status',1);
+				}
+			});
+		});
+		$('#verifycode').focus(function(){
+			$('#verifycode').parent().removeClass('has-error');
+		});
+		/*登录按钮*/
+		$('#loginbutton').click(function(e){
+			var _uid=$.trim($('#UserName').val());
+			if(!_uid){
+				$('#UserName').val('');
+				$('#UserName').focus();
+				return;
+			}
+			var _pwd=$('#Password').val();
+			if(!$.trim(_pwd)){
+				$('#Password').val('');
+				$('#Password').focus();
+				return;
+			}
+			/*记住我*/
+			var _remember=parseInt($('#isremeber').val());
+			var _code=$.trim($('#verifycode').val());
+			var _status=parseInt($('#verifycode').attr('status'));
+			if(!_code||!_status){
+				$('#verifycode').attr('status',0);
+				$('#verifycode').focus();
+				return;
+			}
+			/**/
+
+			/*提交表单*/
+			$.post($('#url').attr('login'),{
+				'Name':_uid,
+				'Password':_pwd,
+				'verifycode':_code,
+				'isremeber':_remember
+			},function(data){
+				if(data.status==1){
+					location.href=$('#url').attr('home');
+
+
+				}else{
+					reloadcode();
+					alert(data.info);
+
+				}
+			},'json');
+
+		});
+		/*记住我按钮*/
+		$('#rememberme').click(function(e){
+			if(!$(this).attr('checked')){
+				$('#isremeber').val(0);
+			}else{
+				$('#isremeber').val(1);
+			}
+		});
+		$('.verifycode').click(function(e){
+			reloadcode();
+		});
+		/*刷新验证码*/
+		function reloadcode(){
+			var _src=$('#url').attr('getcode')+'?id='+ new Date().valueOf() ;
+			$('.verifycode').attr('src',_src);
+		}
+	});
+</script>
+
 </head>
 <body>
 	<!--顶-->
 	<div id="wrap">
 		<div class="container">
-
-			<div class="login">
-				<form class="form-horizontal" role="form" action="<?php echo U('login');?>" method="post">
-					<div class="form-group">
-						<label for="inputEmail3" class="col-sm-2 control-label">UserName</label>
-						<div class="col-sm-10">
-							<input type="UserName" class="form-control" id="inputEmail3" placeholder="Email"></div>
-					</div>
-					<div class="form-group">
-						<label for="inputPassword3" class="col-sm-2 control-label">Password</label>
-						<div class="col-sm-10">
-							<input type="password" class="form-control" id="inputPassword3" placeholder="Password"></div>
-					</div>
-					<div class="form-group">
-						<div class="col-sm-offset-2 col-sm-10">
-							<div class="checkbox">
-								<label>
-									<input  type="checkbox">Remember me</label>
-							</div>
-						</div>
-					</div>
-					<div class="form-group">
-						<div class="col-sm-offset-2 col-sm-10">
-							<button type="submit" class="btn btn-default">Sign in</button>
-							<a  href="<?php echo U('regist');?>" class="btn btn-default">Sign up</a>
-						</div>
-					</div>
-				</form>
+			<div class="collapse navbar-collapse">
+				<ul class="nav navbar-nav">
+					<li><a href="<?php echo U('Index/index');?>">Home</a></li>
+					<li><a href="<?php echo U('TestDic/index');?>">词典测试</a></li>
+					<li><a href="<?php echo U('Goods/index');?>">商品管理</a></li>
+					<li><a class="pull-right" href="<?php echo U('Admin/Index/index');?>">后台</a>
+					</li>
+					<li><a class="pull-right" href="<?php echo U('Usercenter/User/index');?>">登录测试</a>
+					</li>
+				</ul>
 			</div>
-
 		</div>
-<<<<<<< HEAD:Runtime/Cache/Home/9f37a52cf12560a23b6a2158d9c39780.php
-		
 <div class="container">
-	<!-- 分类管理-->
-	<div class="text-center">
-		<h1>商品列表</h1>
+	<div class="login">
+		<form class="form-horizontal" role="form" action="" method="post">
+			<div class="form-group">
+				<label for="UserName" class="col-sm-2 control-label">用户名</label>
+				<div class="col-sm-10">
+					<input type="txt" class="form-control" id="UserName" placeholder="用户名"></div>
+			</div>
+			<div class="form-group">
+				<label for="Password" class="col-sm-2 control-label">密码</label>
+				<div class="col-sm-10">
+					<input type="password" class="form-control" id="Password" placeholder="密码"></div>
+			</div>
+			<div class="form-group has-feedback">
+				<label for="verifycode" class="col-sm-2 control-label">验证码</label>
+				<div class="col-sm-10 ">
+					<input type="txt" class="form-control " status="0" id="verifycode" placeholder="验证码"></div>
+			</div>
+			<div class="form-group">
+				<label for="verifycode" class="col-sm-2 control-label"></label>
+				<div class="col-sm-10">
+					<img class="verifycode" src="<?php echo U('Public/verifycode');?>" alt="点击刷新" title="点击刷新"></div>
+			</div>
+			<input type="hidden" id="url" value="0" getcode="<?php echo U('Public/verifycode');?>" checkcode="<?php echo U('Public/check_verify');?>" login="<?php echo U('User/login');?>" home="<?php echo U('Home/Index/index');?>" >
+			<input type="hidden" value="0" name="rememberme"  id="isremeber">
+			<div class="form-group">
+				<div class="col-sm-offset-2 col-sm-10">
+					<div class="checkbox">
+						<label>
+							<input id="rememberme" type="checkbox">记住我</label>
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-offset-2 col-sm-10">
+					<button type="button" id="loginbutton" class="btn btn-default">登录</button>
+					<a  href="<?php echo U('regist');?>" class="btn btn-default">注册</a>
+				</div>
+			</div>
+		</form>
 	</div>
-	<br>
-	<div>
-		<a href="<?php echo U('add');?>" class="btn btn-default">添加</a>
-	</div>
-	<br>
-	<table class="table table-bordered">
-		<tr >
-			<th class="text-center">Id</th>
-			<th class="text-center">Title</th>
-			<th class="text-center">Price</th>
-			<th class="text-center">CostPrice</th>
-			<th class="text-center">Presentation</th>
-			<th class="text-center">CategoryId</th>
-			<th class="text-center">AddressId</th>
-			<th class="text-center">Server</th>
-			<th class="text-center">TradeWay</th>
-			<th class="text-center">Status</th>
-			<th class="text-center">Show</th>
-		</tr>
-		<?php if(is_array($list)): foreach($list as $key=>$v): ?><tr>
-				<td><?php echo ($v["Id"]); ?></td>
-				<td><?php echo ($v["Title"]); ?></td>
-				<td><?php echo ($v["Price"]); ?></td>
-				<td><?php echo ($v["CostPrice"]); ?></td>
-				<td><?php echo ($v["Presentation"]); ?></td>
-				<td><?php echo ($v["CategoryId"]); ?></td>
-				<td><?php echo ($v["AddressId"]); ?></td>
-				<td><?php echo ($v["Server"]); ?></td>
-				<td><?php echo ($v["TradeWay"]); ?></td>
-				<td><?php echo ($v["Status"]); ?></td>
-				<td><a href="/Orange/Goods/showgoods/Id/<?php echo ($v["Id"]); ?>">Show</a></td>
-			</tr><?php endforeach; endif; ?>
-	</table>
-	<?php echo ($page); ?>
+
 </div>
-=======
->>>>>>> origin/master:Runtime/Cache/Usercenter/994524b755ca3d750eaf10d631b227ab.php
 	</div>
 	<!-- 底栏-->
 	<div id="footer" class="text-center">
 		<div class="container">
-			<span>Power By Juzi</span>
-			<a data-toggle="modal"
+			<span>Power By Juzi</span> <a data-toggle="modal"
 				data-target="#fingertipModal">联系</a>
 			<div class="modal fade footer_contac" id="fingertipModal"
 				tabindex="-1" role="dialog" aria-labelledby="fingertipModalabel"
@@ -116,13 +186,11 @@
 						</div>
 						<div class="modal-body">
 							<p>
-								E-mail:
-								<a style="text-decoration: none;"
+								E-mail: <a style="text-decoration: none;"
 									href="mailto:493628086@qq.com">493628086@qq.com</a>
 							</p>
 							<p>
-								E-mail:
-								<a style="text-decoration: none;"
+								E-mail: <a style="text-decoration: none;"
 									href="mailto:714571611@qq.com">714571611@qq.com</a>
 							</p>
 						</div>

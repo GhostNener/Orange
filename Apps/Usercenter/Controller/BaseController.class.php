@@ -3,6 +3,7 @@
 namespace Usercenter\Controller;
 
 use Think\Controller;
+use Usercenter\Model\userModel;
 
 /**
  * 基础控制器
@@ -15,9 +16,11 @@ class BaseController extends Controller {
 	 * 检测登录
 	 */
 	public function _initialize() {
-		echo uniqid()."<br>";
-	}
-	public function index() {
+		$model=new userModel();
+		$rst=$model->islogin();
+		if($rst){
+			redirect(U('Usercenter/User/index'));
+		}
 	}
 }
 ?>

@@ -174,15 +174,11 @@ class GoodsController extends Controller {
 	 */
 	public function showgoods($Id){
 		$goods = D("goods");
-		$info = $goods->find($Id); //一维数组
-		$this -> assign('info', $info);
-				
-		//类别
-		$goods_category = D("goods_category");
-		$categoryId = $info['CategoryId'];
-		$cate = $goods_category->find($categoryId);
-        $this -> assign('cate', $cate);
-        
+		$wherrArr = array(
+				'g.Id'=>$Id
+		);
+		$model=$goods->table('goods g,goods_img i')->where(array($wherrArr,'i.GoodsId=g.Id'))->field('i.URL as imgURL,g.*')->select();
+		$this -> assign('model', $model);
         //评论
         $goods_comment = D("goods_comment");
 		// 评论查询条件
@@ -193,6 +189,7 @@ class GoodsController extends Controller {
 		// 查询
 		$allComment = $goods_comment -> table('goods_comment c,user u') -> where(array($wherrArr,'u.Id=c.UserId')) ->field('u.Nick as UserNick,c.*') ->select ();
         $this -> assign('allComment', $allComment);
+        
         $this -> display();
 	}
 	
@@ -208,6 +205,58 @@ class GoodsController extends Controller {
 		} else {
 			$this->success ( 1 );
 		}
+	}
+	
+	/**
+	 *  购买  生成表单
+	 */
+	public function order($Id)
+	{	
+		$goods = M("goods");
+		$info = $goods->find($Id);
+		$this-> assign('info', $info);
 		
+		$seller = $info['UserId'];
+		$User = M("user");
+		$user = $User->find($seller);
+		$this->assign('user', $user);
+		
+		$Addr = $info['AddressId'];
+		$user_Address = M("user_address"); 
+		$cate = $user_Address->find($Addr);
+        $this -> assign('cate', $cate);
+        
+		$this->display();
+	}
+	
+	/**
+	 *  购买  生成表单
+	 */
+	public function order2()
+	{
+		$goods_order = M("goods_order");
+		$data = array (
+				'BuyerId' => $_POST['BuyerId'],
+				'BuyerAddId'=> $_POST['BuyerAddId'],
+				'SellerId'=> $_POST['SellerId'],
+				'SellerAddId'=> $_POST['SellerAddId'],
+				'GoodsId'=> $_POST['GoodsId'],
+				'Price' => $_POST['Price'],
+				'E-Money' => $_POST['E-Money'],
+				'CreateTime'=> date("Y-m-d H:i:s", time()),
+				'Status' => 10
+		);
+		$z = $goods_order->add($data);
+		if($z){
+			$goods = M("goods");
+			$wh = array(
+					'Id' => $_POST['GoodsId']
+			);
+			$goods->where($wh)->setField('Status',2);
+			echo "成功";
+			//$this->redirect('Goods/showgoods',array('Id'=>$data['GoodsId']),0,'');
+        } else {
+            echo "error";
+        }
 	}
 }
