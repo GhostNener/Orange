@@ -7,16 +7,16 @@ use Home\Model\goodsModel;
 use Home\Model\goods_categoryModel;
 use Home\Model\user_addressModel;
 use Home\Model\goods_serviceModel;
-
+use Usercenter\Model\userModel;
 /**
  * 前台商品管理
  *
  * @author DongZ
  *        
  */
-class GoodsController extends Controller {
+class GoodsController extends BaseController {
 	public function index() {
-		$userid = 0;
+		$userid = cookie('_uid');
 		$model = D ( 'goods' );
 		// 查询条件
 		$wherrArr = array (
@@ -38,7 +38,7 @@ class GoodsController extends Controller {
 	 * 渲染商品添加页面
 	 */
 	public function add() {
-		$userid = 0;
+		$userid = cookie('_uid');
 		// 查询分类
 		$clist = new goods_categoryModel ();
 		$clist = $clist->getall ();
@@ -76,7 +76,7 @@ class GoodsController extends Controller {
 		if (! IS_POST) {
 			$this->error ( '页面不存在' );
 		}
-		$userid = 0;
+		$userid = cookie('_uid');
 		$postarr = I ( 'post.' );
 		$model = new goodsModel ();
 		$rst = $model->saveimg ( $postarr, $userid );
@@ -160,7 +160,7 @@ class GoodsController extends Controller {
 		if (! IS_POST) {
 			$this->error ( '页面不存在' );
 		}
-		$userid = 0;
+		$userid = cookie('_uid');
 		$model = new user_addressModel ();
 		$rst = $model->getall ( $userid );
 		if (! $rst) {
@@ -174,25 +174,22 @@ class GoodsController extends Controller {
 	 */
 	public function showgoods($Id){
 		$goods = D("goods");
-		$info = $goods->find($Id); //一维数组
-		$this -> assign('info', $info);
-				
-		//类别
-		$goods_category = D("goods_category");
-		$categoryId = $info['CategoryId'];
-		$cate = $goods_category->find($categoryId);
-        $this -> assign('cate', $cate);
-        
+		$wherrArr = array(
+				'g.Id'=>$Id
+		);
+		$model=$goods->table('goods g,goods_img i')->where(array($wherrArr,'i.GoodsId=g.Id'))->field('i.URL as imgURL,g.*')->select();
+		$this -> assign('model', $model);
         //评论
         $goods_comment = D("goods_comment");
 		// 评论查询条件
 		$wherrArr = array (
-				'GoodsId'=>$Id,
-				'Status' =>10
+				'c.GoodsId'=>$Id,
+				'c.Status' =>10,
 		);
 		// 查询
-		$allComment = $goods_comment->where ( $wherrArr )->select ();
+		$allComment = $goods_comment -> table('goods_comment c,user u') -> where(array($wherrArr,'u.Id=c.UserId')) ->field('u.Nick as UserNick,c.*') ->select ();
         $this -> assign('allComment', $allComment);
+        
         $this -> display();
 	}
 	
@@ -200,22 +197,69 @@ class GoodsController extends Controller {
 	 *添加评论
 	 */
 	public function addComment(){
-		$goods_Comment = M("goods_comment");
+		$postarr = I ( 'post.' );
+		$model = new goodsModel ();
+		$rst = $model->addComment ( $postarr );
+		if (( int ) $rst ['status'] == 0) {
+			$this->error ( $rst ['msg'] );
+		} else {
+			$this->success ( 1 );
+		}
+	}
+	
+	/**
+	 *  购买  生成表单
+	 */
+	public function order($Id)
+	{	
+		$goods = M("goods");
+		$info = $goods->find($Id);
+		$this-> assign('info', $info);
+		
+		$seller = $info['UserId'];
+		$User = M("user");
+		$user = $User->find($seller);
+		$this->assign('user', $user);
+		
+		$Addr = $info['AddressId'];
+		$user_Address = M("user_address"); 
+		$cate = $user_Address->find($Addr);
+        $this -> assign('cate', $cate);
+        
+		$this->display();
+	}
+	
+	/**
+	 *  购买  生成表单
+	 */
+	public function order2()
+	{
+		$goods_order = M("goods_order");
 		$data = array (
-				'GoodsId' => $_POST['GoodsId'],
-				'Content' => $_POST['Content'],
+				'BuyerId' => $_POST['BuyerId'],
+				'BuyerAddId'=> $_POST['BuyerAddId'],
+				'SellerId'=> $_POST['SellerId'],
+				'SellerAddId'=> $_POST['SellerAddId'],
+				'GoodsId'=> $_POST['GoodsId'],
+				'Price' => $_POST['Price'],
+				'E-Money' => $_POST['E-Money'],
 				'CreateTime'=> date("Y-m-d H:i:s", time()),
-				'UserId'=> $_POST['UserId'],
+				'UserId'=> cookie('_uid'),
 				//'AssesseId' => $_POST['AssesseId'],
+
 				'Status' => 10
 		);
-		$z = $goods_Comment->add($data);
+		$z = $goods_order->add($data);
 		if($z){
-            //$this ->success('添加成功', U('Goods/showlist'));
-            echo "success";
+			$goods = M("goods");
+			$wh = array(
+					'Id' => $_POST['GoodsId']
+			);
+			$goods->where($wh)->setField('Status',2);
+			echo "成功";
+			//$this->redirect('Goods/showgoods',array('Id'=>$data['GoodsId']),0,'');
         } else {
-            //$this ->error('添加失败', U('Goods/showlist'));
-            echo "ddderror";
+            echo "error";
         }
 	}
 }

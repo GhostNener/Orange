@@ -3,6 +3,7 @@
 namespace Admin\Controller;
 
 use Think\Controller;
+use Usercenter\Model\userModel;
 
 /**
  * 分类数据字典
@@ -11,7 +12,7 @@ use Think\Controller;
  *        
  */
 require './ORG/phpAnalysis/Cratedic.class.php';
-class CategoryDicController extends Controller {
+class CategoryDicController extends BaseController {
 	/**
 	 * 生成词典
 	 *

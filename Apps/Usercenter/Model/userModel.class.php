@@ -28,14 +28,23 @@ class userModel extends Model {
 		);
 		$uid = trim ( $arr ['Name'] );
 		$pwd = $arr ['Password'];
-		/* 查询用户 */
-		$rst = M ( 'user' )->where ( array (
+		$wherearr=array (
 				'Status' => 10,
 				'Name' => $uid 
-		) )->find ();
+		) ;
+		/* 查询用户 */
+		if($arr['isadmin']){
+			$roleid=$this->getadminroleid();
+			if(!$roleid){
+				return $msgarr;
+			}
+			$wherearr['RoleId']=$roleid;
+		}
+		$rst = M ( 'user' )->where ( $wherearr)->find ();
 		if (! $rst) {
 			return $msgarr;
 		}
+
 		/* 加密密码 */
 		$pwd = $this->encrypt ( $pwd, $rst ['RegistTime'] );
 		/* 密码验证 */
@@ -108,15 +117,28 @@ class userModel extends Model {
 	 * @author NENER
 	 * @return boolean
 	 */
-	public function islogin() {
+	public function islogin($isadmin=false) {
+		if($isadmin){
+			$_key = cookie ( 'admin_key' );
+		$_id = cookie ( 'admin_uid' );
+		}else{
 		$_key = cookie ( '_key' );
 		$_id = cookie ( '_uid' );
+	}
 		if ($_id && $_key) {
-			$rst = M ( 'user' )->where ( array (
+			$wherearr=array (
 					'Id' => ( int ) $_id,
 					'UserKey' => $_key,
 					'Status' => 10 
-			) )->find ();
+			) ;
+			if($isadmin){
+				$roleid=$this->getadminroleid();
+				if(!$roleid){
+					return false;
+				}
+				$wherearr['RoleId']=$roleid;
+			}
+			$rst = M ( 'user' )->where ($wherearr)->find ();
 			if (! $rst) {
 				return false;
 			}
@@ -129,6 +151,14 @@ class userModel extends Model {
 			}
 			return true;
 		}
+	}
+/*获得超级管理员的RoleId*/
+	public function getadminroleid(){
+		$adminroleId=M('role')->where(array('Name'=>C('ADMIN_ROLE_NAME'),'Status'=>10))->find();
+		if(!adminroleId){
+			return false;
+		}
+		return $adminroleId['Id'];
 	}
 }
 ?>

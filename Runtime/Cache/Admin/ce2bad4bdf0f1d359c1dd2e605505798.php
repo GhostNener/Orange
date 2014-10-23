@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <title>Orange</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<<<<<<< HEAD
 <link rel="stylesheet" href="/OrangeTS/Public/css/bootstrap-theme.css" />
 <link rel="stylesheet" href="/OrangeTS/Public/css/bootstrap.css" />
 <link rel="stylesheet" href="/OrangeTS/Public/css/huaxi_css.css" />
@@ -11,6 +12,15 @@
 	type="image/x-icon" />
 <script src="/OrangeTS/Public/js/jquery-1.8.0.min.js"></script>
 <script src="/OrangeTS/Public/js/bootstrap.js"></script>
+=======
+<link rel="stylesheet" href="/Orange/Public/css/bootstrap-theme.css" />
+<link rel="stylesheet" href="/Orange/Public/css/bootstrap.css" />
+<link rel="stylesheet" href="/Orange/Public/css/huaxi_css.css" />
+<link rel="shortcut icon" href="/Orange/Public/Img/favicon.png"
+	type="image/x-icon" />
+<script src="/Orange/Public/js/jquery-1.8.0.min.js"></script>
+<script src="/Orange/Public/js/bootstrap.js"></script>
+>>>>>>> 9345fd811051b290f3ae765b145b87bce3cffbea
 </head>
 <body>
 	<!--顶-->
@@ -18,54 +28,54 @@
 		<div class="container">
 			<div class="collapse navbar-collapse">
 				<ul class="nav navbar-nav">
-					<li><a href="<?php echo U('Home/Index/index');?>">Home</a></li>
-					<li><a href="<?php echo U('Home/TestDic/index');?>">词典测试</a></li>
-					<li><a href="<?php echo U('Home/Goods/index');?>">商品管理</a></li>
-					<li><a class="pull-right" href="<?php echo U('Admin/Index/index');?>">后台</a>
-					</li>
+<<<<<<< HEAD
+					<li><a href="<?php echo U('Index/index');?>">Home</a></li>
+					<li><a href="<?php echo U('GoodsCategory/index');?>">分类管理</a></li>
+					<li><a href="<?php echo U('Home/Index/index');?>">返回前台</a></li>
 					<li><a class="pull-right" href="<?php echo U('Usercenter/User/index');?>">登录测试</a>
+=======
+					<li><a href="<?php echo U('Admin/Index/index');?>">Home</a></li>
+					<li><a href="<?php echo U('Admin/GoodsCategory/index');?>">分类管理</a></li>
+					<li><a href="<?php echo U('Home/Index/index');?>">返回前台</a></li>
+					<li><a class="pull-right" href="<?php echo U('Usercenter/User/index',array('isadmin'=>true));?>">登录</a>
+>>>>>>> 9345fd811051b290f3ae765b145b87bce3cffbea
 					</li>
 				</ul>
 			</div>
 		</div>
-		
+		﻿
 <div class="container">
 	<!-- 分类管理-->
 	<div class="text-center">
-		<h1>我的商品列表</h1>
+		<h1>分类列表</h1>
 	</div>
 	<br>
 	<div>
-		<a href="<?php echo U('Home/Goods/add');?>" class="btn btn-default">添加</a>
+		<a href="<?php echo U('add');?>" class="btn btn-default">添加</a> <a
+			href="<?php echo U('CategoryDic/crate');?>" class="btn btn-default ">词典生成</a>
 	</div>
 	<br>
 	<table class="table table-bordered">
 		<tr>
 			<th class="text-center">Id</th>
 			<th class="text-center">Title</th>
-			<th class="text-center">Price</th>
-			<th class="text-center">CostPrice</th>
-			<th class="text-center">Presentation</th>
-			<th class="text-center">CategoryId</th>
-			<th class="text-center">AddressId</th>
-			<th class="text-center">Server</th>
-			<th class="text-center">TradeWay</th>
+			<th class="text-center">Pre</th>
 			<th class="text-center">Status</th>
-			<th class="text-center">Show</th>
+			<th colspan="3" class="text-center">Operate</th>
 		</tr>
 		<?php if(is_array($list)): foreach($list as $key=>$v): ?><tr>
-				<td><?php echo ($v["Id"]); ?></td>
-				<td><?php echo ($v["Title"]); ?></td>
-				<td><?php echo ($v["Price"]); ?></td>
-				<td><?php echo ($v["CostPrice"]); ?></td>
-				<td><?php echo ($v["Presentation"]); ?></td>
-				<td><?php echo ($v["CategoryId"]); ?></td>
-				<td><?php echo ($v["AddressId"]); ?></td>
-				<td><?php echo ($v["Server"]); ?></td>
-				<td><?php echo ($v["TradeWay"]); ?></td>
-				<td><?php echo ($v["Status"]); ?></td>
-				<td><a href="<?php echo U('Home/Goods/showgoods',array('Id'=>$v['Id']));?>">Show</a></td>
-			</tr><?php endforeach; endif; ?>
+			<td><?php echo ($v["Id"]); ?></td>
+			<td><?php echo ($v["Title"]); ?></td>
+			<td><?php echo ($v["Presentation"]); ?></td>
+			<td><?php echo ($v["Status"]); ?></td>
+			<td><a class="btn btn-default"
+				href="<?php echo U(del,array('Id'=>$v['Id']));?>">删除</a></td>
+			<td><a class="btn btn-default"
+				href="<?php echo U(update,array('Id'=>$v['Id']));?>">编辑</a></td>
+			<td><a class="btn btn-default"
+				href="<?php echo U('GoodsCategoryKeyword/index',array('CategoryId'=> $v['Id']));?>">关键字管理
+			</a></td>
+		</tr><?php endforeach; endif; ?>
 	</table>
 	<?php echo ($page); ?>
 </div>

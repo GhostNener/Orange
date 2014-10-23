@@ -1,0 +1,48 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>购买商品</title>
+</head>
+<body>
+<h1>购买商品</h1>
+    <form action="__APP__/Home/Goods/order2" method="post" enctype="multipart/form-data">
+    	<input type="hidden" name="GoodsId" value="{$info.Id}" />
+    	<input type="hidden" name="BuyerId" value="3" />
+    	<input type="hidden" name="SellerId" value="{$userName.Id}" />
+		<input type="hidden" name="SellerAddId" value="{$info.AddressId}" />
+		<input type="hidden" name="E-Money" value="0" />
+    	<table>
+			<tr>
+				<td>名称：</td>
+				<td>{$info.Title}</td>
+			</tr>
+			<tr>
+				<td>价格：</td>
+				<td><input type="text" readonly="readonly" name="Price" value="{$info.Price}" />元</td>
+			</tr>
+			<tr>
+				<td>卖家名称：</td>
+				<td>{$user.Nick}</td>
+			</tr>
+			<tr>
+				<td>卖家地址：</td>
+				<td><input type="text" readonly="readonly" name="Address" value="{$cate.Address}" /></td>
+			</tr>
+			<tr>
+				<td>卖家电话：</td>
+				<td><input type="text" readonly="readonly" name="Tel" value="{$cate.Tel}" /></td>
+			</tr>
+			<tr>
+				<td>卖家QQ：</td>
+				<td><input type="text" readonly="readonly" name="QQ" value="{$cate.QQ}" /></td>
+			</tr>
+			<tr>
+				<td>收货地址：</td>
+				<td><input type="text" name="BuyerAddId"></td>
+			</tr>
+		</table>
+		<input type="submit" value="购买">
+	</form>
+</body>
+</html>
