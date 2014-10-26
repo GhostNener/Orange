@@ -1,5 +1,79 @@
 <?php
 use Vendor\PHPMailer;
+
+
+/**
+ * 检查是否为空
+ * @param unknown $v
+ * @return boolean  */
+ function checknull($v){
+	if(empty(trim($v))){
+		return false;
+	}
+	else {
+		return true;
+	}
+}
+function checkqq($qq){
+	$isQQ="/^[1-9]{1}[0-9]{4,9}$/";
+	preg_match ( $isQQ, $qq, $result );
+	if (! $result) {
+		return false;
+	}
+	return true;
+}
+
+/**
+ * 检查手机是否合法
+ * 
+ * @param unknown $tel        	
+ * @return boolean
+ */
+function checktel($tel) {
+	if(!tel){
+		return false;
+	}
+	$isMobile = "/^(?:13\d|14\d|15\d|18\d)\d{5}(\d{3}|\*{3})$/";
+	preg_match ( $isMobile, $tel, $result );
+	if (! $result) {
+		return false;
+	}
+	return true;
+}
+/**
+ * 验证密码是否合法
+ *
+ * @param unknown $Password        	
+ * @return boolean
+ */
+function checkpwd($Password) {
+	$ispwd = "/^(?!\D+$)(?!\d+$)[a-zA-Z0-9_]\w{6,18}$/";
+	preg_match ( $ispwd, $Password, $result );
+	if (! $result) {
+		return false;
+	}
+	return true;
+}
+/**
+ * 检查邮件
+ *
+ * @param unknown $Name        	
+ * @return boolean
+ */
+function checkmail($mial) {
+	if(!$mial){
+		return false;
+	}
+	$ismail1 = "/^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/";
+	$ismail2 = "/^[a-z\d]+(\.[a-z\d]+)*@([\da-z](-[\da-z])?)+(\.{1,2}[a-z]+)+$/";
+	preg_match ( $ismail1, $mial, $result1 );
+	preg_match ( $ismail1, $mial, $result2 );
+	if (! $result1 && ! $result1) {
+		return false;
+	}
+	return true;
+}
+
 /**
  * 生成指定位数的随机字符串
  *
@@ -22,7 +96,7 @@ function randstr($length = 8) {
 }
 /**
  * 发送邮件
- * 
+ *
  * @param string $subject
  *        	主题
  * @param string $content
@@ -36,8 +110,8 @@ function sendEmail($subject, $content, $email) {
 	$config = C ( 'ORANGER_MAIL' );
 	$body = $content;
 	$mail->IsSMTP ();
-	$mail->SMTPDebug  = 0;
-/* 	$mail->SMTPSecure = 'ssl'; */
+	$mail->SMTPDebug = 0;
+	/* $mail->SMTPSecure = 'ssl'; */
 	$mail->SMTPAuth = true; // enable SMTP authentication
 	$mail->SMTPKeepAlive = true; // sets the prefix to the servier
 	$mail->CharSet = "utf-8";
@@ -60,7 +134,7 @@ function sendEmail($subject, $content, $email) {
 }
 /**
  * 帐号激活邮件
- * 
+ *
  * @param string $usermail
  *        	用户邮箱
  * @param string $url

@@ -37,11 +37,12 @@
 				$('#registbutton').val(btn_txt);
     			$('#registbutton').removeAttr('disabled'); 
 				return false;
-				$.post($('#url').attr('regist'),{
-					'Password':_pwd,
-					'ConfirmPassword':_confirmpwd,
-					'Name':_mail
-				},function(data){
+			}
+			$.post($('#url').attr('regist'),{
+				'Password':_pwd,
+				'ConfirmPassword':_confirmpwd,
+				'Name':_mail
+			},function(data){
 
 					if(data.status==0){
 					alert(data.info);
@@ -49,21 +50,7 @@
 					alert("注册成功！\n 请激活");
 					location.href=$('#url').attr('home');
 				}
-				},'json');
-			}else{
-				$.post($('#url').attr('regist'),{
-					'Password':_pwd,
-					'ConfirmPassword':_confirmpwd,
-					'E-Mail':_mail
-				},function(data){
-					if(data.status==0){
-					alert(data.info);
-				}else{
-					alert("注册成功！\n 请激活");
-					location.href=$('#url').attr('home');
-				}
-				},'json');
-			}
+			},'json');
 			$('#registbutton').val(btn_txt);
     		$('#registbutton').removeAttr('disabled'); 
 		});

@@ -13,6 +13,7 @@ use Think\Controller;
 class PublicController extends Controller {
 	/**
 	 * 生成验证码
+	 * @author NENER
 	 */
 	Public function verifycode() {
 		$verify = new \Think\Verify ();
@@ -22,8 +23,8 @@ class PublicController extends Controller {
 	}
 	/**
 	 * 验证验证码 用于JS等
-	 * 
-	 * @param unknown $code        	
+	 * @author NENER
+	 * @param  $code        	
 	 * @param string $id        	
 	 */
 	function check_verify($code, $id = '') {

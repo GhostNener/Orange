@@ -2,21 +2,18 @@
 
 namespace Api\Controller;
 
-use Think\Controller;
 use Home\Model\goodsModel;
 use Home\Model\goods_categoryModel;
 use Usercenter\Model\user_addressModel;
 use Home\Model\goods_serviceModel;
 
 /**
- * 商品api
+ * 个人商品管理api
  *
  * @author NENER
  *        
  */
-class GoodsController extends Controller {
-	public function index() {
-	}
+class GoodsController extends LoginBaseController {
 	/**
 	 * 初始化添加
 	 *
@@ -24,7 +21,12 @@ class GoodsController extends Controller {
 	 *
 	 */
 	public function add() {
-		$userid = 0;
+		$arr = file_get_contents ( "php://input" );
+		$arr = json_decode ( $arr, true );
+		if (! $arr) {
+			$arr = I ( 'param.' );
+		}
+		$userid = $arr ['_uid'];
 		/* 分类 */
 		$cate = new goods_categoryModel ();
 		$clist = $cate->getall ();
@@ -108,9 +110,8 @@ class GoodsController extends Controller {
 			echo json_encode ( $rstmsg );
 			return;
 		}
-		$userid = 0; // 用户id
-		$postarr = I ( 'post.' ); // file_get_contents ( 'php://input' );
-		                      // $postarr = json_decode ( $postarr, true );
+		$postarr = I ( 'post.' );
+		$userid = $postarr ['_uid']; // 用户id
 		/* 商品Id */
 		$postarr ['_gid'] = $postarr ['goodsid'];
 		$model = new goodsModel ();

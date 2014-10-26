@@ -14,6 +14,7 @@ use Usercenter\Model\userModel;
 class BaseController extends Controller {
 	/**
 	 * 检测登录
+	 * @author NENER
 	 */
 	public function _initialize() {
 		$model = new userModel ();
