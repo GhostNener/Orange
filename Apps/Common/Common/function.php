@@ -7,7 +7,7 @@ use Vendor\PHPMailer;
  * @param unknown $v
  * @return boolean  */
  function checknull($v){
-	if(empty(trim($v))){
+	if(!$v){
 		return false;
 	}
 	else {
