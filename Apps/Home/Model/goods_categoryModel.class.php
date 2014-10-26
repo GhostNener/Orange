@@ -14,11 +14,11 @@ require_once  './ORG/phpAnalysis/SeachDic.class.php';
 class goods_categoryModel extends Model {
 	/**
 	 * 获取所有分类
-	 *
+	 *@author NENER
 	 * @return array：分类列表
 	 */
 	public function getall() {
-		$arr = M ( 'goods_category' )->field ( array (
+		$arr = $this->field ( array (
 				'Id',
 				'Title' 
 		) )->where ( array (
@@ -29,7 +29,7 @@ class goods_categoryModel extends Model {
 	
 	/**
 	 * 根据标题回去分类列表
-	 *
+	 *@author NENER
 	 * @param string $str：标题        	
 	 * @return array：status，msg
 	 */
@@ -42,7 +42,7 @@ class goods_categoryModel extends Model {
 		}
 		$seach = new \SeachDic ();
 		$arr = $seach->seach ( $str );
-		$other = M ( 'goods_category' )->field ( array (
+		$other = $this->field ( array (
 				'Id',
 				'Title' 
 		) )->where ( array (
@@ -74,7 +74,7 @@ class goods_categoryModel extends Model {
 			if (! $keyid) {
 				$keyid = 0;
 			}
-			$clist = M ( 'goods_category' )->field ( array (
+			$clist = $this->field ( array (
 					'Id',
 					'Title' 
 			) )->where ( array (
@@ -92,7 +92,7 @@ class goods_categoryModel extends Model {
 			);
 		}
 		foreach ( $arr as $k => $v ) {
-			$model [] = M ( 'goods_category' )->field ( array (
+			$model [] = $this->field ( array (
 					'Id',
 					'Title' 
 			) )->where ( array (
@@ -137,7 +137,7 @@ class goods_categoryModel extends Model {
 					) 
 			);
 		}
-		$clist = M ( 'goods_category' )->field ( array (
+		$clist = $this->field ( array (
 				'Id',
 				'Title' 
 		) )->where ( $wherearr )->select ();

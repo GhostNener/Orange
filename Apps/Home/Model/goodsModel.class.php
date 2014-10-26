@@ -8,12 +8,12 @@ use Think\Model;
  * 商品模型
  *
  * @author NENER
- *
+ *        
  */
 class goodsModel extends Model {
 	/**
 	 * 保存商品
-	 *
+	 *@author NENER
 	 * @param array $postarr:
 	 *        	post数组
 	 * @return array 保存信息： 包含 status 状态 ；
@@ -24,20 +24,20 @@ class goodsModel extends Model {
 			return array (
 					'status' => 0,
 					'msg' => '没有数据' 
-					);
+			);
 		}
 		if (! $postarr ['imgcount'] || ! is_numeric ( $postarr ['imgcount'] ) || ( int ) $postarr ['imgcount'] <= 0) {
 			return array (
 					'status' => 0,
 					'msg' => '没有上传图片' 
-					);
+			);
 		}
 		$goodsid = $postarr ['GoodsId'];
 		if (! $goodsid || ! is_numeric ( $goodsid ) || ( int ) $goodsid <= 0) {
 			return array (
 					'status' => 0,
 					'msg' => '操作失败' 
-					);
+			);
 		}
 		// 需要提交的商品参数
 		$data = array (
@@ -53,9 +53,8 @@ class goodsModel extends Model {
 		);
 		$dal = M ();
 		$dal->startTrans ();
-		$goods = M ( 'goods' );
 		// 保存商品订单
-		$rst1 = $goods->where ( array (
+		$rst1 = $this->where ( array (
 				'Id' => $goodsid 
 		) )->save ( $data );
 		// 修改该商品图片状态
@@ -79,21 +78,21 @@ class goodsModel extends Model {
 			return array (
 					'status' => 1,
 					'msg' => '操作成功' 
-					);
+			);
 		} else {
 			$dal->rollback ();
 			return array (
 					'status' => 0,
 					'msg' => '操作失败' 
-					);
+			);
 		}
 	}
 	/**
 	 * 保存图片 记录
-	 *
+	 *@author NENER
 	 * @param array $postarr
 	 *        	:post数组
-	 * @param int $userid:用户Id
+	 * @param int $userid:用户Id        	
 	 * @return array:status,goodsid,msg
 	 */
 	public function saveimg($postarr, $userid) {
@@ -102,7 +101,7 @@ class goodsModel extends Model {
 					'status' => 0,
 					'goodsid' => 0,
 					'msg' => '空数据' 
-					);
+			);
 		}
 		/* 商品Id */
 		$goodsid = $postarr ['_gid'];
@@ -111,7 +110,7 @@ class goodsModel extends Model {
 		$dal = M ();
 		$dal->startTrans (); // 事务
 		if (! $goodsid || $goodsid <= 0) {
-			$goodsid = M ( 'goods' )->add ( array (
+			$goodsid = $this->add ( array (
 					'UserId' => $userid,
 					'Status' => 0 
 			) );
@@ -123,7 +122,7 @@ class goodsModel extends Model {
 					'status' => 0,
 					'goodsid' => 0,
 					'msg' => '保存失败' 
-					);
+			);
 		}
 		$imgmodel = M ( 'goods_img' );
 		$imgmodel->GoodsId = $goodsid;
@@ -136,7 +135,7 @@ class goodsModel extends Model {
 					'status' => 1,
 					'goodsid' => $goodsid,
 					'msg' => '操作成功' 
-					);
+			);
 		} else {
 			$dal->rollback ();
 			$this->delallimg ( 1, $imgid );
@@ -147,16 +146,16 @@ class goodsModel extends Model {
 					'status' => 0,
 					'goodsid' => 0,
 					'msg' => '保存失败' 
-					);
+			);
 		}
 	}
 	/**
 	 * 上传商品 图片
-	 *
+	 *@author NENER
 	 * @return array:status，imgid，msg
 	 */
 	public function uploadimg() {
-
+		
 		// 载入图片上传配置
 		$config = C ( 'IMG_UPLOAD_CONFIG' );
 		$config ['savePath'] = $config ['savePath'] . C ( 'GOODS_IMG_SOURCE' );
@@ -200,8 +199,8 @@ class goodsModel extends Model {
 	}
 	/**
 	 * 删除单个商品图片记录：数据库 记录 本地图片
-	 *
-	 * @param int $imgid
+	 *@author NENER
+	 * @param int $imgid        	
 	 * @return array:status，msg
 	 */
 	public function delimg($imgid) {
@@ -214,18 +213,18 @@ class goodsModel extends Model {
 			return array (
 					'status' => 0,
 					'msg' => '删除失败' 
-					);
+			);
 		}
 		$this->delallimg ( 2, $delmode );
 		return array (
 				'status' => 1,
 				'msg' => '操作成功' 
-				);
+		);
 	}
-
+	
 	/**
 	 * 压缩图片
-	 *
+	 *@author NENER
 	 * @param string $url:
 	 *        	原始图片的路径
 	 * @param string $imgname:
@@ -244,14 +243,14 @@ class goodsModel extends Model {
 		$imagedal->thumb ( ( int ) $arrmd [0], ( int ) $arrmd [1] )->save ( $url_8 );
 		$imagedal->thumb ( ( int ) $arrthumb [0], ( int ) $arrthumb [1], \Think\Image::IMAGE_THUMB_CENTER )->save ( $url_1 );
 		return array (
-		$url_8,
-		$url_1
+				$url_8,
+				$url_1 
 		);
 	}
-
+	
 	/**
 	 * 删除单个商品图片:原图，缩略图，正常用图
-	 *
+	 *@author NENER
 	 * @param int $type
 	 *        	:操作类型 ：1表示根据Id，其他表示根据model
 	 * @param object $idormodel
@@ -271,7 +270,7 @@ class goodsModel extends Model {
 			unlink ( '.' . $delmodel ['ThumbURL'] );
 		}
 	}
-
+	
 	/**
 	 * 保存商品评论
 	 *
@@ -280,40 +279,40 @@ class goodsModel extends Model {
 	 * @return array 保存信息： 包含 status 状态 ；
 	 *         msg 消息
 	 */
-	public function addComment($postarr){
+	public function addComment($postarr) {
 		if (empty ( $postarr )) {
 			return array (
-						'status' => 0,
-						'msg' => '没有数据' 
-						);
+					'status' => 0,
+					'msg' => '没有数据' 
+			);
 		}
 		// 需要提交的商品评论参数
 		$data = array (
 				'GoodsId' => $postarr ['GoodsId'],
 				'Content' => $postarr ['Content'],
-				'CreateTime' => date("Y-m-d H:i:s", time()),
+				'CreateTime' => date ( "Y-m-d H:i:s", time () ),
 				'UserId' => $postarr ['UserId'],
 				'AssesseeId' => $postarr ['AssesseeId'],
-				'Status' => 10
+				'Status' => 10 
 		);
 		$dal = M ();
 		$dal->startTrans ();
 		$goods_comment = M ( 'goods_comment' );
 		// 保存商品评论
-		$rst = $goods_comment -> add($data);
-		if($rst){
+		$rst = $goods_comment->add ( $data );
+		if ($rst) {
 			$dal->commit ();
 			return array (
 					'status' => 1,
 					'msg' => '操作成功' 
-					);
-		}else {
+			);
+		} else {
 			$dal->rollback ();
 			return array (
 					'status' => 0,
 					'msg' => '操作失败' 
-					);
-		}	
+			);
+		}
 	}
 }
 
