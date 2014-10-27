@@ -1,0 +1,58 @@
+<layout name="layout" />
+<script type="text/javascript">
+function jump(userId){
+	document.getElementById("AssesseeId").value=userId;
+	document.getElementById("commentt").focus();
+}
+</script>
+<<style>
+#com a:link {color:green} 
+#com a:hover {color:gray;text-decoration:underline;}
+</style>
+<div class="container">
+	<div class="text-center">
+		<h1>商品详情</h1>
+	</div>
+	<br>
+
+	<!-- 购买商品-->
+    <input type="hidden" name="GoodsId" value="{$model[0].Id}" />
+    <div class="form-group">
+    <label class="col-sm-2 control-label">名称：{$model[0].Title}</label></div><br/>
+    <div class="form-group">
+    <label class="col-sm-2 control-label">价格：{$model[0].Price}元</label></div><br/>
+    <div class="form-group">
+    <label class="col-sm-2 control-label">原价：{$model[0].CostPrice}元</label></div><br/>
+    <div class="form-group">
+    <label class="col-sm-2 control-label">详情：{$model[0].Presentation}</label></div><br/>
+    <div class="form-group">
+    <label class="col-sm-2 control-label">浏览数：{$model[0].Views}</label></div><br/>
+    <div class="form-group">
+    <label class="col-sm-2 control-label">收藏：{$model[0].Collection}</label></div><br/>
+    <div class="form-group">
+    <a href="{:U('Goods/order',array('Id'=>$model[0]['Id']))}" class="btn btn-default">购买</a>
+    <a class="btn btn-default" href="javascript:history.go(-1)">返回</a>
+    </div>
+    <foreach name='model' item='img'>
+    <img alt="" src="__APP__{$img.imgURL}"/><br/>
+    </foreach>
+    <br>
+    <p>评论</p><hr style="border-color: black;">
+    <ul id="com">
+		<foreach name='allComment' item='c'>
+				<li style="list-style: none;">{$c.UserNick}&nbsp;<a href="#" ><if condition="(($c['UserId'] eq $c['AssesseeId']) or ($c['AssesseeId'] eq null))"><else/>@{$c.AN}</if></a>&nbsp;
+				{$c.Content}&nbsp;&nbsp;{$c['CreateTime']|substr=0,16}
+				&nbsp;&nbsp;&nbsp;<a href="#Content" onclick="javascript:jump({$c.UserId})" >回复</a>
+				</li>
+				<hr style="border-color: blue;">
+		</foreach>
+	</ul>
+	<form action="__APP__/Home/Goods/addComment" method="post" enctype="multipart/form-data">
+		<input type="hidden" name="GoodsId" value="{$model[0].Id}" />
+		<input type="hidden" name="AssesseeId" id="AssesseeId" value="" />
+		<input type="hidden" name="UserId" value="1" />
+		<textarea name="Content" rows="10" cols="50" id="commentt"></textarea><br/>
+		<input type="submit" value="我要评论">
+	</form>
+	
+</div>

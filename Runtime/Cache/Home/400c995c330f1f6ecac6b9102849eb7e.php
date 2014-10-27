@@ -32,7 +32,8 @@
 <div class="container">
 	<div class="text-center">
 		<h1>
-			<a href="<?php echo U('Home/Index/index');?>">Home</a>
+			<a href="<?php echo U('Home/Index/index');?>">Home</a><br/><br/>
+			<a href="<?php echo U('Home/GoodsList/index');?>">商品展示</a>
 		</h1>
 	</div>
 </div>
