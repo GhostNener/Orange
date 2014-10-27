@@ -16,12 +16,15 @@ use Home\Model\goods_listModel;
  *        
  */
 class GoodsController extends BaseController {
-	public function index() {
+	/**
+	 * 个人商品列表
+	 */
+	public function index($status=10) {
 		$userid = cookie ( '_uid' );
 		$model = D ( 'goods' );
 		// 查询条件
 		$wherrArr = array (
-				'Status' => 10,
+				'Status' => $status,
 				'UserId' => $userid 
 		);
 		
@@ -29,7 +32,7 @@ class GoodsController extends BaseController {
 		$arr = $mode->getlist ( $wherrArr );
 		$this->assign ( 'list', $arr ['list'] );
 		$this->assign ( 'page', $arr ['page'] );
-		$this->display ( 'index' );
+		$this->display ( 'Goods/index' );
 	}
 	/**
 	 * 渲染商品添加页面

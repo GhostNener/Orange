@@ -30,7 +30,6 @@
 		</div>
 		
 <div class="container">
-	<!-- 分类管理-->
 	<div class="text-center">
 		<h1>我的商品列表</h1>
 	</div>
@@ -40,24 +39,21 @@
 	</div>
 	<br>
 	<?php if(is_array($list)): foreach($list as $key=>$v): ?><div class="col-md-4 ">
-			<div class="thumbnail">
-				<a href="" title="<?php echo ($v['Title']); ?>" target="_blank" >
-					<img class="lazy" src="/Orange<?php echo ($v['URL']); ?>" ></a>
-				<div class="caption">
-					<h3>
-						<a href="" title="<?php echo ($v['Title']); ?>" target="_blank" >
-							<?php echo ($v['Title']); ?>
-							<br>
-							<small>@<?php echo ($v['Nick']); ?></small>
-						</a>
-					</h3>
-					<p><?php echo date('Y-m-d H:i:s',$v['Createtime']);?></p>
-				</div>
+		<div class="thumbnail">
+			<a href="" title="<?php echo ($v['Title']); ?>" target="_blank"> <img
+				class="lazy" src="/Orange<?php echo ($v['URL']); ?>"></a>
+			<div class="caption">
+				<h3>
+					<a href="" title="<?php echo ($v['Title']); ?>" target="_blank">
+						<?php echo ($v['Title']); ?> <br> <small>@<?php echo ($v['Nick']); ?></small>
+					</a>
+				</h3>
+				<p><?php echo date('Y-m-d H:i:s',$v['Createtime']);?></p>
 			</div>
-		</div><?php endforeach; endif; ?>
-	<br>
-	<?php echo ($page); ?>
-	<br></div>
+		</div>
+	</div><?php endforeach; endif; ?>
+	<br> <?php echo ($page); ?> <br>
+</div>
 	</div>
 	<!-- 底栏-->
 	<div id="footer" class="text-center">
