@@ -8,6 +8,7 @@ use Home\Model\goods_categoryModel;
 use Home\Model\user_addressModel;
 use Home\Model\goods_serviceModel;
 use Usercenter\Model\userModel;
+use Home\Model\goods_imgModel;
 /**
  * 前台商品管理
  *
@@ -95,7 +96,7 @@ class GoodsController extends BaseController {
 		if (empty ( $_FILES )) {
 			$this->error ( "页面不存在" );
 		}
-		$model = new goodsModel ();
+		$model = new goods_imgModel ();
 		$rst = $model->uploadimg ();
 		if (( int ) $rst ['status'] == 0) {
 			echo json_encode ( array (
@@ -120,7 +121,7 @@ class GoodsController extends BaseController {
 			// 没有获得要删除的图片
 			$this->error ( "没有获得要删除的图片" );
 		}
-		$model = new goodsModel ();
+		$model = new goods_imgModel() ;
 		$rst = $model->delimg ( ( int ) I ( 'Id' ) );
 		if (( int ) $rst ['status'] == 0) {
 			$this->error ( $rst ['msg'] );
