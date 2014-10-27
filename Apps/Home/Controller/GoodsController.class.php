@@ -24,15 +24,12 @@ class GoodsController extends BaseController {
 				'Status' => 10,
 				'UserId' => $userid 
 		);
-		// 总数
-		$allCount = $model->where ( $wherrArr )->count ();
-		// 分页
-		$Page = new \Think\Page ( $allCount, 10 );
-		$showPage = $Page->show ();
-		// 分页查询
-		$list = $model->where ( $wherrArr )->limit ( $Page->firstRow . ',' . $Page->listRows )->select ();
-		$this->assign ( 'list', $list );
-		$this->assign ( 'page', $showPage );
+
+
+		$mode = new goods_listModel ();
+		$arr = $mode->getlist ( $wherrArr );
+		$this->assign ( 'list', $arr ['list'] );
+		$this->assign ( 'page', $arr ['page'] );
 		$this->display ( 'index' );
 	}
 	/**

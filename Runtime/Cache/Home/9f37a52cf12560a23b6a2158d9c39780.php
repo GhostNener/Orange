@@ -40,28 +40,59 @@
 	</div>
 	<br>
 
-	<div class="row">
-		<?php if(is_array($list)): foreach($list as $key=>$v): ?><div class="col-md-4  ">
-				<div class="thumbnail">
-					<a href="" title="<?php echo ($v['Title']); ?>" target="_blank">
-						<img class="lazy" src="/Orange<?php echo ($v['URL']); ?>"></a>
-					<div class="caption">
-						<h3>
-							<a href="" title="<?php echo ($v['Title']); ?>" target="_blank">
-								<?php echo ($v['Title']); ?>
-								<br>
-								<small>@<?php echo ($v['Nick']); ?></small>
-							</a>
-						</h3>
-						<p><?php echo date('Y-m-d H:i:s',$v['Createtime']);?></p>
+	<div class=" col-md-4 col-xs-4" style="padding-left:25px;padding-right:25px; padding-bottom:10px">
+		<div class="thumbnail" id="73cc67dc-f4fa-44cd-8b50-ab26ba02e86b">
+			<img alt="300x200" src="/Content/bootstrap/img/a2.png" width="100%">
+			<div class="caption" style="height:260px;margin-left:5px;margin-right:5px">
+				<div style="height:188px">
+					<h3>数学与统计</h3>
+					<p></p>
+					<div style="margin: 10px; text-align: left;">
+
+						<a class="btn btn-default" href="/subject?id=73cc67dc-f4fa-44cd-8b50-ab26ba02e86b&amp;chid=36ca82f4-d38f-4226-bb68-11f3b356ebf3">统计学</a>
+						<a class="btn btn-default" href="/subject?id=73cc67dc-f4fa-44cd-8b50-ab26ba02e86b&amp;chid=b0c0113b-1bc0-49ea-9c21-d3d264d0b35c">数学与应用数学</a>
+
 					</div>
+					<div style="margin: 10px; text-align: left;">暂无简介...</div>
+					<p></p>
 				</div>
-			</div><?php endforeach; endif; ?>
+				<p>
+					<a class="btn btn-primary" href="/subject?id=73cc67dc-f4fa-44cd-8b50-ab26ba02e86b">查看更多</a>
+				</p>
+			</div>
+		</div>
 	</div>
-	<div class="container">
-		<div class="row"><?php echo ($page); ?></div>
-	</div>
-	<br>
+	<table class="table table-bordered">
+		<tr>
+			<th class="text-center">Id</th>
+			<th class="text-center">Title</th>
+			<th class="text-center">Price</th>
+			<th class="text-center">CostPrice</th>
+			<th class="text-center">Presentation</th>
+			<th class="text-center">CategoryId</th>
+			<th class="text-center">AddressId</th>
+			<th class="text-center">Server</th>
+			<th class="text-center">TradeWay</th>
+			<th class="text-center">Status</th>
+			<th class="text-center">Show</th>
+		</tr>
+		<?php if(is_array($list)): foreach($list as $key=>$v): ?><tr>
+				<td><?php echo ($v["Id"]); ?></td>
+				<td><?php echo ($v["Title"]); ?></td>
+				<td><?php echo ($v["Price"]); ?></td>
+				<td><?php echo ($v["CostPrice"]); ?></td>
+				<td><?php echo ($v["Presentation"]); ?></td>
+				<td><?php echo ($v["CategoryId"]); ?></td>
+				<td><?php echo ($v["AddressId"]); ?></td>
+				<td><?php echo ($v["Server"]); ?></td>
+				<td><?php echo ($v["TradeWay"]); ?></td>
+				<td><?php echo ($v["Status"]); ?></td>
+				<td>
+					<a href="<?php echo U('Home/Goods/showgoods',array('Id'=>$v['Id']));?>">Show</a>
+				</td>
+			</tr><?php endforeach; endif; ?>
+	</table>
+	<?php echo ($page); ?>
 </div>
 	</div>
 	<!-- 底栏-->
