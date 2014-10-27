@@ -2,21 +2,19 @@
 
 namespace Api\Controller;
 
-use Think\Controller;
 use Home\Model\goodsModel;
 use Home\Model\goods_categoryModel;
-use Home\Model\user_addressModel;
+use Usercenter\Model\user_addressModel;
 use Home\Model\goods_serviceModel;
+use Home\Model\goods_imgModel;
 
 /**
- * 商品api
+ * 个人商品管理api
  *
  * @author NENER
  *        
  */
-class GoodsController extends Controller {
-	public function index() {
-	}
+class GoodsController extends LoginBaseController {
 	/**
 	 * 初始化添加
 	 *
@@ -24,7 +22,12 @@ class GoodsController extends Controller {
 	 *
 	 */
 	public function add() {
-		$userid = 0;
+		$arr = file_get_contents ( "php://input" );
+		$arr = json_decode ( $arr, true );
+		if (! $arr) {
+			$arr = I ( 'param.' );
+		}
+		$userid = $arr ['_uid'];
 		/* 分类 */
 		$cate = new goods_categoryModel ();
 		$clist = $cate->getall ();
@@ -87,7 +90,7 @@ class GoodsController extends Controller {
 		$postarr = file_get_contents ( 'php://input' );
 		$postarr = json_decode ( $postarr, true );
 		$model = new goodsModel ();
-		$rst = $model->save ( $postarr );
+		$rst = $model->savegoods ( $postarr );
 		echo json_encode ( $rst );
 		return;
 	}
@@ -103,17 +106,16 @@ class GoodsController extends Controller {
 				'goodsid' => 0,
 				'imgid' => 0 
 		);
-		if (empty ( $_FILES )) {
-			$rstmsg['msg']='空文件';
+		if (! $_FILES) {
+			$rstmsg ['msg'] = '空文件';
 			echo json_encode ( $rstmsg );
 			return;
 		}
-		$userid = 0; // 用户id
-		$postarr =I('post.');// file_get_contents ( 'php://input' );
-		//$postarr = json_decode ( $postarr, true );
+		$postarr = I ( 'post.' );
+		$userid = $postarr ['_uid']; // 用户id
 		/* 商品Id */
 		$postarr ['_gid'] = $postarr ['goodsid'];
-		$model = new goodsModel ();
+		$model = new goods_imgModel ();
 		$rst = $model->uploadimg ();
 		$rstmsg ['msg'] = '上传失败';
 		if (( int ) $rst ['status'] == 0) {
@@ -157,7 +159,7 @@ class GoodsController extends Controller {
 			echo json_encode ( $msg );
 			return;
 		}
-		$model = new goodsModel ();
+		$model = new goods_imgModel();
 		$rst = $model->delimg ( ( int ) $arr ['imgid'] );
 		echo json_encode ( $rst );
 		return;

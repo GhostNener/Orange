@@ -23,7 +23,7 @@
 					<li><a href="<?php echo U('Home/Goods/index');?>">商品管理</a></li>
 					<li><a class="pull-right" href="<?php echo U('Admin/Index/index');?>">后台</a>
 					</li>
-					<li><a class="pull-right" href="<?php echo U('Usercenter/User/index');?>">登录测试</a>
+					<li><a class="pull-right" href="<?php echo U('Usercenter/User/index');?>">登录</a>
 					</li>
 				</ul>
 			</div>
