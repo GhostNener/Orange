@@ -44,7 +44,7 @@
 <script>
 	$(function(){
 		/*验证码自动验证*/
-		$('#verifycode').blur(function(){
+/*		$('#verifycode').blur(function(){
 			var _code=$.trim($(this).val());
 			if(!_code){return;}
 			$.post($('#url').attr('checkcode'),{'code':_code},function(data){
@@ -59,10 +59,10 @@
 					$('#verifycode').attr('status',1);
 				}
 			});
-		});
-		$('#verifycode').focus(function(){
+		});*/
+/*		$('#verifycode').focus(function(){
 			$('#verifycode').parent().removeClass('has-error');
-		});
+		});*/
 		/*登录按钮*/
 		$('#loginbutton').click(function(e){
 			var _uid=$.trim($('#UserName').val());
@@ -81,12 +81,12 @@
 			/*记住我*/
 			var _remember=parseInt($('#isremeber').val());
 			var _code=$.trim($('#verifycode').val());
-			var _status=parseInt($('#verifycode').attr('status'));
-			if(!_code||!_status){
+			/*var _status=parseInt($('#verifycode').attr('status'));*/
+/*			if(!_code||!_status){
 				$('#verifycode').attr('status',0);
 				$('#verifycode').focus();
 				return;
-			}
+			}*/
 			/**/
 		if(!_isadmin){
 			_remember=_remember;
