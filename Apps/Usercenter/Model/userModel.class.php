@@ -418,6 +418,9 @@ class userModel extends Model {
 			$_key = $arr ['_key'];
 			$_id = $arr ['_uid'];
 		}
+		if(!$_key||!$_id){
+			return false;
+		}
 		if (session ( '?' . $_id )) {
 			if (session ( $_id ) == $_key) {
 				return true;

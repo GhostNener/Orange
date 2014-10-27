@@ -21,7 +21,7 @@ class UserController extends Controller {
 	 */
 	public function index($isadmin = false) {
 		$model = new userModel ();
-		if ($model->islogin ( $isadmin )) {
+		if ($model->islogin (null, $isadmin,false )) {
 			if ($isadmin) {
 				$this->success ( '登录成功', U ( 'Admin/Index/index' ), 1 );
 			} else {
