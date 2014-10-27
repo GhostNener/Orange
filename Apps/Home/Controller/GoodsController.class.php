@@ -1,14 +1,13 @@
 <?php
 
 namespace Home\Controller;
-
-use Think\Controller;
 use Home\Model\goodsModel;
 use Home\Model\goods_categoryModel;
 use Home\Model\user_addressModel;
 use Home\Model\goods_serviceModel;
-use Usercenter\Model\userModel;
 use Home\Model\goods_imgModel;
+use Home\Model\goods_listModel;
+
 /**
  * 前台商品管理
  *
@@ -17,15 +16,14 @@ use Home\Model\goods_imgModel;
  */
 class GoodsController extends BaseController {
 	public function index() {
-		$userid = cookie('_uid');
+		$userid = cookie ( '_uid' );
 		$model = D ( 'goods' );
 		// 查询条件
 		$wherrArr = array (
 				'Status' => 10,
 				'UserId' => $userid 
 		);
-
-
+		
 		$mode = new goods_listModel ();
 		$arr = $mode->getlist ( $wherrArr );
 		$this->assign ( 'list', $arr ['list'] );
@@ -36,7 +34,7 @@ class GoodsController extends BaseController {
 	 * 渲染商品添加页面
 	 */
 	public function add() {
-		$userid = cookie('_uid');
+		$userid = cookie ( '_uid' );
 		// 查询分类
 		$clist = new goods_categoryModel ();
 		$clist = $clist->getall ();
@@ -60,7 +58,7 @@ class GoodsController extends BaseController {
 		}
 		$postarr = I ( 'post.' );
 		$model = new goodsModel ();
-		$rst = $model->save ( $postarr );
+		$rst = $model->savegoods ( $postarr );
 		if (( int ) $rst ['status'] == 0) {
 			$this->error ( $rst ['msg'] );
 		} else {
@@ -74,9 +72,9 @@ class GoodsController extends BaseController {
 		if (! IS_POST) {
 			$this->error ( '页面不存在' );
 		}
-		$userid = cookie('_uid');
+		$userid = cookie ( '_uid' );
 		$postarr = I ( 'post.' );
-		$model = new goodsModel ();
+		$model = new goods_imgModel ();
 		$rst = $model->saveimg ( $postarr, $userid );
 		if (( int ) $rst ['status'] == 0) {
 			$this->error ( $rst ['msg'] );
@@ -118,7 +116,7 @@ class GoodsController extends BaseController {
 			// 没有获得要删除的图片
 			$this->error ( "没有获得要删除的图片" );
 		}
-		$model = new goods_imgModel() ;
+		$model = new goods_imgModel ();
 		$rst = $model->delimg ( ( int ) I ( 'Id' ) );
 		if (( int ) $rst ['status'] == 0) {
 			$this->error ( $rst ['msg'] );
@@ -158,7 +156,7 @@ class GoodsController extends BaseController {
 		if (! IS_POST) {
 			$this->error ( '页面不存在' );
 		}
-		$userid = cookie('_uid');
+		$userid = cookie ( '_uid' );
 		$model = new user_addressModel ();
 		$rst = $model->getall ( $userid );
 		if (! $rst) {
@@ -168,40 +166,46 @@ class GoodsController extends BaseController {
 	}
 	
 	/**
-	 *展示商品 详情 及评论
+	 * 展示商品 详情 及评论
 	 */
-	public function showgoods($Id){
-		$goods = D("goods");
-		$wherrArr = array(
-				'g.Id'=>$Id
+	public function showgoods($Id) {
+		$goods = D ( "goods" );
+		$wherrArr = array (
+				'g.Id' => $Id 
 		);
-		$model=$goods->table('goods g,goods_img i')->where(array($wherrArr,'i.GoodsId=g.Id'))->field('i.URL as imgURL,g.*')->select();
-		$this -> assign('model', $model);
-        //评论
-        $goods_comment = D("goods_comment");
+		$model = $goods->table ( 'goods g,goods_img i' )->where ( array (
+				$wherrArr,
+				'i.GoodsId=g.Id' 
+		) )->field ( 'i.URL as imgURL,g.*' )->select ();
+		$this->assign ( 'model', $model );
+		// 评论
+		$goods_comment = D ( "goods_comment" );
 		// 评论查询条件
 		$wherrArr = array (
-				'c.GoodsId'=>$Id,
-				'c.Status' =>10,
+				'c.GoodsId' => $Id,
+				'c.Status' => 10 
 		);
 		// 查询
-		$allComment = $goods_comment -> table('goods_comment c,user u') -> where(array($wherrArr,'u.Id=c.UserId')) ->field('u.Nick as UserNick,c.*') ->select ();
-//		$allComment2 = $goods_comment -> table('goods_comment c,user u') -> where(array($wherrArr,'u.Id=c.AssesseeId')) ->field('u.Nick as assesseeNick') ->select ();
-		for ($i = 0; $i < count($allComment); $i++) {
-			if ($allComment[$i]['AssesseeId']!="") {
-				$user = D("user");
-		        $s = $user ->field('Nick')-> find($allComment[$i]['AssesseeId']);
-		        $allComment[$i]['AN'] =$s['Nick'];
+		$allComment = $goods_comment->table ( 'goods_comment c,user u' )->where ( array (
+				$wherrArr,
+				'u.Id=c.UserId' 
+		) )->field ( 'u.Nick as UserNick,c.*' )->select ();
+		// $allComment2 = $goods_comment -> table('goods_comment c,user u') -> where(array($wherrArr,'u.Id=c.AssesseeId')) ->field('u.Nick as assesseeNick') ->select ();
+		for($i = 0; $i < count ( $allComment ); $i ++) {
+			if ($allComment [$i] ['AssesseeId'] != "") {
+				$user = D ( "user" );
+				$s = $user->field ( 'Nick' )->find ( $allComment [$i] ['AssesseeId'] );
+				$allComment [$i] ['AN'] = $s ['Nick'];
 			}
-	    }
-		$this -> assign('allComment', $allComment);
-        $this -> display();
+		}
+		$this->assign ( 'allComment', $allComment );
+		$this->display ();
 	}
 	
 	/**
-	 *添加评论
+	 * 添加评论
 	 */
-	public function addComment(){
+	public function addComment() {
 		$postarr = I ( 'post.' );
 		$model = new goodsModel ();
 		$rst = $model->addComment ( $postarr );
@@ -213,10 +217,10 @@ class GoodsController extends BaseController {
 	}
 	
 	/**
-	 *  购买  生成表单
+	 * 购买 生成表单
 	 */
-	public function order($Id)
-	{	$userid = cookie('_uid');
+	public function order($Id) {
+		$userid = cookie ( '_uid' );
 		// 查询分类
 		$clist = new goods_categoryModel ();
 		// 查询地址
@@ -226,53 +230,52 @@ class GoodsController extends BaseController {
 		) )->select ();
 		$g_smodel = new goods_serviceModel ();
 		$this->assign ( 'alist', $alist );
-		$goods = M("goods");
-		$info = $goods->find($Id);
-		$this-> assign('info', $info);
+		$goods = M ( "goods" );
+		$info = $goods->find ( $Id );
+		$this->assign ( 'info', $info );
 		
-		$User = M("user");
-		$seller=$info['UserId'];
-		$user = $User->find($seller);
-		$this->assign('seller', $user);
+		$User = M ( "user" );
+		$seller = $info ['UserId'];
+		$user = $User->find ( $seller );
+		$this->assign ( 'seller', $user );
 		
-		$Addr = $info['AddressId'];
-		$user_Address = M("user_address"); 
-		$cate = $user_Address->find($Addr);
-        $this -> assign('cate', $cate);
-        
-		$this->display();
+		$Addr = $info ['AddressId'];
+		$user_Address = M ( "user_address" );
+		$cate = $user_Address->find ( $Addr );
+		$this->assign ( 'cate', $cate );
+		
+		$this->display ();
 	}
 	
 	/**
-	 *  购买  生成表单
+	 * 购买 生成表单
 	 */
-	public function order2()
-	{
-		$goods_order = M("goods_order");
+	public function order2() {
+		$goods_order = M ( "goods_order" );
 		$data = array (
-				'BuyerId' => cookie('_uid'),
-				'BuyerAddId'=> $_POST['BuyerAddId'],
-				'SellerId'=> $_POST['SellerId'],
-				'SellerAddId'=> $_POST['SellerAddId'],
-				'GoodsId'=> $_POST['GoodsId'],
-				'Price' => $_POST['Price'],
-				'E-Money' => $_POST['E-Money'],
-				'CreateTime'=> date("Y-m-d H:i:s", time()),
-				//'AssesseId' => $_POST['AssesseId'],
-
-				'Status' => 10
+				'BuyerId' => cookie ( '_uid' ),
+				'BuyerAddId' => $_POST ['BuyerAddId'],
+				'SellerId' => $_POST ['SellerId'],
+				'SellerAddId' => $_POST ['SellerAddId'],
+				'GoodsId' => $_POST ['GoodsId'],
+				'Price' => $_POST ['Price'],
+				'E-Money' => $_POST ['E-Money'],
+				'CreateTime' => date ( "Y-m-d H:i:s", time () ),
+				// 'AssesseId' => $_POST['AssesseId'],
+				
+				'Status' => 10 
 		);
-		$z = $goods_order->add($data);
-		if($z){
-			$goods = M("goods");
-			$wh = array(
-					'Id' => $_POST['GoodsId']
+		$z = $goods_order->add ( $data );
+		if ($z) {
+			$goods = M ( "goods" );
+			$wh = array (
+					'Id' => $_POST ['GoodsId'] 
 			);
-			$goods->where($wh)->setField('Status',2);
+			$goods->where ( $wh )->setField ( 'Status', 2 );
 			echo "成功";
-			//$this->redirect('Goods/showgoods',array('Id'=>$data['GoodsId']),0,'');
-        } else {
-            echo "error";
-        }
+			// $this->redirect('Goods/showgoods',array('Id'=>$data['GoodsId']),0,'');
+		} else {
+			echo "error";
+		}
 	}
 }
