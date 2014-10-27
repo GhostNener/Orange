@@ -280,7 +280,7 @@
     			'keyid':_keyid
     		},function(data){
     			if(data.info==1){
-    				alert('Ok!');
+    				/*alert('Ok!');*/
     				location.href=$('#url').attr('urlindex');
     			}else{
     				alert(data.info);
@@ -382,7 +382,7 @@
 		<div class="form-group">
 			<input type="hidden" class="form-control " id="url"
 				publicurl="/Orange/Public" appurl="/Orange/Home/Goods" rooturl="/Orange" gid="0"
-				saveurl="<?php echo U('Home/Goods/save');?>" urlindex="<?php echo U('Home/Index/index');?>" Readonly> <label
+				saveurl="<?php echo U('Home/Goods/save');?>" urlindex="<?php echo U('Home/Goods/index');?>" Readonly> <label
 				for="file_upload" class="col-sm-2 control-label">file_upload</label>
 			<div class="col-sm-10">
 				<input id="file_upload" name="file_upload" type="file"

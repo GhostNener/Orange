@@ -23,7 +23,7 @@ class GoodsController extends BaseController {
 				'UserId' => cookie ( '_uid' ) 
 		);
 		$mode = new goods_listModel ();
-		$arr = $mode->getlist ( $wherrArr );
+		$arr = $mode->getlist ( $wherrArr ,6);
 		$this->assign ( 'list', $arr ['list'] );
 		$this->assign ( 'page', $arr ['page'] );
 		$this->display ( 'index' );
