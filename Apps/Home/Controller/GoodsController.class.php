@@ -6,31 +6,26 @@ use Home\Model\goodsModel;
 use Home\Model\goods_categoryModel;
 use Usercenter\Model\user_addressModel;
 use Home\Model\goods_serviceModel;
+use Home\Model\goods_imgModel;
+use Home\Model\goods_listModel;
 
 /**
- * 前台商品管理
+ * 个人 前台商品管理
  *
  * @author DongZ
  *        
  */
 class GoodsController extends BaseController {
 	public function index() {
-		$userid = cookie ( '_uid' );
-		$model = D ( 'goods' );
 		// 查询条件
 		$wherrArr = array (
 				'Status' => 10,
-				'UserId' => $userid 
+				'UserId' => cookie ( '_uid' ) 
 		);
-		// 总数
-		$allCount = $model->where ( $wherrArr )->count ();
-		// 分页
-		$Page = new \Think\Page ( $allCount, 10 );
-		$showPage = $Page->show ();
-		// 分页查询
-		$list = $model->where ( $wherrArr )->limit ( $Page->firstRow . ',' . $Page->listRows )->select ();
-		$this->assign ( 'list', $list );
-		$this->assign ( 'page', $showPage );
+		$mode = new goods_listModel ();
+		$arr = $mode->getlist ( $wherrArr );
+		$this->assign ( 'list', $arr ['list'] );
+		$this->assign ( 'page', $arr ['page'] );
 		$this->display ( 'index' );
 	}
 	/**
@@ -61,7 +56,7 @@ class GoodsController extends BaseController {
 		}
 		$postarr = I ( 'post.' );
 		$model = new goodsModel ();
-		$rst = $model->save ( $postarr );
+		$rst = $model->savegoods ( $postarr );
 		if (( int ) $rst ['status'] == 0) {
 			$this->error ( $rst ['msg'] );
 		} else {
@@ -77,7 +72,7 @@ class GoodsController extends BaseController {
 		}
 		$userid = cookie ( '_uid' );
 		$postarr = I ( 'post.' );
-		$model = new goodsModel ();
+		$model = new goods_imgModel ();
 		$rst = $model->saveimg ( $postarr, $userid );
 		if (( int ) $rst ['status'] == 0) {
 			$this->error ( $rst ['msg'] );
@@ -91,10 +86,10 @@ class GoodsController extends BaseController {
 	 * @author NENER 修改
 	 */
 	public function uploadify() {
-		if (empty ( $_FILES )) {
+		if (! $_FILES) {
 			$this->error ( "页面不存在" );
 		}
-		$model = new goodsModel ();
+		$model = new goods_imgModel ();
 		$rst = $model->uploadimg ();
 		if (( int ) $rst ['status'] == 0) {
 			echo json_encode ( array (
@@ -119,7 +114,7 @@ class GoodsController extends BaseController {
 			// 没有获得要删除的图片
 			$this->error ( "没有获得要删除的图片" );
 		}
-		$model = new goodsModel ();
+		$model = new goods_imgModel ();
 		$rst = $model->delimg ( ( int ) I ( 'Id' ) );
 		if (( int ) $rst ['status'] == 0) {
 			$this->error ( $rst ['msg'] );
@@ -248,8 +243,6 @@ class GoodsController extends BaseController {
 				'E-Money' => $_POST ['E-Money'],
 				'CreateTime' => date ( "Y-m-d H:i:s", time () ),
 				'UserId' => cookie ( '_uid' ),
-				// 'AssesseId' => $_POST['AssesseId'],
-				
 				'Status' => 10 
 		);
 		$z = $goods_order->add ( $data );
@@ -260,9 +253,9 @@ class GoodsController extends BaseController {
 			);
 			$goods->where ( $wh )->setField ( 'Status', 2 );
 			echo "成功";
-			//$this->redirect('Goods/showgoods',array('Id'=>$data['GoodsId']),0,'');
-        } else {
-            echo "error";
-        }
+			// $this->redirect('Goods/showgoods',array('Id'=>$data['GoodsId']),0,'');
+		} else {
+			echo "error";
+		}
 	}
 }

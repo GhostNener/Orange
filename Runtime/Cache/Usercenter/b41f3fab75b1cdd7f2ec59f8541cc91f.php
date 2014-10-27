@@ -52,6 +52,9 @@
 		$('#Password').focus(function(){
 			removemsg('Password');
 		});
+		$('#confirmPassword').focus(function(){
+			removemsg('confirmPassword');
+		});
 		$('#registbutton').click(function(){
 			var _nick=$.trim($('#Nick').val());
 			if(!_nick){

@@ -29,14 +29,14 @@ class userModel extends Model {
 					'checknull',
 					'昵称不能为空！',
 					self::EXISTS_VALIDATE,
-					'function'
+					'function' 
 			),
 			array (
 					'Nick',
 					'',
 					'昵称已被使用！',
 					self::EXISTS_VALIDATE,
-					'unique'
+					'unique' 
 			),
 			array (
 					'E-Mail',
@@ -134,7 +134,7 @@ class userModel extends Model {
 	
 	/**
 	 * 注册一个新用户
-	 * 
+	 *
 	 * @author NENER
 	 * @param array $data
 	 *        	Name ,Password ,	ConfirmPassword
@@ -201,7 +201,7 @@ class userModel extends Model {
 	}
 	/**
 	 * 发送激活邮件
-	 * 
+	 *
 	 * @author NENER
 	 * @param int $uid
 	 *        	_uid
@@ -240,7 +240,7 @@ class userModel extends Model {
 	}
 	/**
 	 * 激活帐号【邮件】
-	 * 
+	 *
 	 * @author NENER
 	 * @param array $arr
 	 *        	激活key
@@ -273,11 +273,11 @@ class userModel extends Model {
 		} else {
 			$msg ['msg'] = '激活成功';
 			$msg ['status'] = 1;
-			$add=new user_addressModel();
-			$add->adddefefault($rst ['Id']);
+			$add = new user_addressModel ();
+			$add->adddefefault ( $rst ['Id'] );
 			return $msg;
 		}
-
+		
 		return $msg;
 	}
 	

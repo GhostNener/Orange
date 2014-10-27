@@ -6,6 +6,7 @@ use Home\Model\goodsModel;
 use Home\Model\goods_categoryModel;
 use Usercenter\Model\user_addressModel;
 use Home\Model\goods_serviceModel;
+use Home\Model\goods_imgModel;
 
 /**
  * 个人商品管理api
@@ -89,7 +90,7 @@ class GoodsController extends LoginBaseController {
 		$postarr = file_get_contents ( 'php://input' );
 		$postarr = json_decode ( $postarr, true );
 		$model = new goodsModel ();
-		$rst = $model->save ( $postarr );
+		$rst = $model->savegoods ( $postarr );
 		echo json_encode ( $rst );
 		return;
 	}
@@ -105,7 +106,7 @@ class GoodsController extends LoginBaseController {
 				'goodsid' => 0,
 				'imgid' => 0 
 		);
-		if (empty ( $_FILES )) {
+		if (! $_FILES) {
 			$rstmsg ['msg'] = '空文件';
 			echo json_encode ( $rstmsg );
 			return;
@@ -114,7 +115,7 @@ class GoodsController extends LoginBaseController {
 		$userid = $postarr ['_uid']; // 用户id
 		/* 商品Id */
 		$postarr ['_gid'] = $postarr ['goodsid'];
-		$model = new goodsModel ();
+		$model = new goods_imgModel ();
 		$rst = $model->uploadimg ();
 		$rstmsg ['msg'] = '上传失败';
 		if (( int ) $rst ['status'] == 0) {
@@ -158,7 +159,7 @@ class GoodsController extends LoginBaseController {
 			echo json_encode ( $msg );
 			return;
 		}
-		$model = new goodsModel ();
+		$model = new goods_imgModel();
 		$rst = $model->delimg ( ( int ) $arr ['imgid'] );
 		echo json_encode ( $rst );
 		return;

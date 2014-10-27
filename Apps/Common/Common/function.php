@@ -2,8 +2,43 @@
 use Vendor\PHPMailer;
 
 /**
+ * 压缩图片
+ *
+ * @author NENER
+ * @param string $url:
+ *        	原始图片的路径
+ * @param string $imgname:
+ *        	保存的文件名【需要包含文件后缀】
+ * @return array:压缩图路径 第一个参数是 大图 第二个是缩略图
+ */
+function getallthumb($url, $imgname) {
+	/* 获取后缀 */
+	$ext = substr ( strrchr ( $imgname, '.' ), 1 );
+	/* 替换后缀 */
+	$imgname = str_replace ( '.' . $ext, '.jpg', $imgname );
+	$rooturl = C ( 'GOODS_IMG_ROOT' );
+	/* 小图路径 */
+	$url_1 = $rooturl . C ( 'GOODS_IMG_100' ) . $imgname;
+	/* 大图路径 */
+	$url_8 = $rooturl . C ( 'GOODS_IMG_800' ) . $imgname;
+	$imagedal = new \Think\Image ();
+	$imagedal->open ( $url );
+	// $size = $imagedal->size ();
+	/* 获取小图配置 */
+	$arrthumb = C ( 'GOODS_IMG_THUMB' );
+	/* 获取大图配置 */
+	$arrmd = C ( 'GOODS_IMG_MD' );
+	$imagedal->thumb ( ( int ) $arrmd [0], ( int ) $arrmd [1] )->save ( $url_8, C ( 'IMG_SAVE_TYPE' ), C ( 'IMG_SAVE_QUALITY' ), true );
+	$imagedal->thumb ( ( int ) $arrthumb [0], ( int ) $arrthumb [1], \Think\Image::IMAGE_THUMB_CENTER )->save ( $url_1, C ( 'IMG_SAVE_TYPE' ), C ( 'IMG_SAVE_QUALITY' ), true );
+	return array (
+			$url_8,
+			$url_1 
+	);
+}
+
+/**
  * 检查是否为空
- * 
+ *
  * @param unknown $v        	
  * @return boolean
  */

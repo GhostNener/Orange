@@ -13,7 +13,7 @@
     <label>详情：<?php echo ($model[0]["Presentation"]); ?></label><br/>
     <label>浏览数：<?php echo ($model[0]["Views"]); ?></label><br/>
     <label>收藏：<?php echo ($model[0]["Collection"]); ?></label><br/>
-    <?php if(is_array($model)): foreach($model as $key=>$img): ?><img alt="" src="/OrangeTS<?php echo ($img["imgURL"]); ?>"/><?php endforeach; endif; ?>
+    <?php if(is_array($model)): foreach($model as $key=>$img): ?><img alt="" src="/Orange<?php echo ($img["imgURL"]); ?>"/><?php endforeach; endif; ?>
     <a href="<?php echo U('Goods/order',array('Id'=>$model[0]['Id']));?>">购买</a>
     <p>评论</p><br>
     <table>
@@ -28,7 +28,7 @@
 				<td><?php echo (substr($c['CreateTime'],0,16)); ?></td>
 			</tr><?php endforeach; endif; ?>
 	</table><br/>
-	<form action="/OrangeTS/Home/Goods/addComment" method="post" enctype="multipart/form-data">
+	<form action="/Orange/Home/Goods/addComment" method="post" enctype="multipart/form-data">
 		<input type="hidden" name="GoodsId" value="<?php echo ($model[0]["Id"]); ?>" />
 		<input type="hidden" name="UserId" value="1" />
 		<textarea name="Content" rows="10" cols="50" ></textarea><br/>
