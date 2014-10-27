@@ -1,9 +1,10 @@
 <?php
 
 namespace Home\Controller;
+
 use Home\Model\goodsModel;
 use Home\Model\goods_categoryModel;
-use Home\Model\user_addressModel;
+use Usercenter\Model\user_addressModel;
 use Home\Model\goods_serviceModel;
 use Home\Model\goods_imgModel;
 use Home\Model\goods_listModel;
@@ -39,10 +40,8 @@ class GoodsController extends BaseController {
 		$clist = new goods_categoryModel ();
 		$clist = $clist->getall ();
 		// 查询地址
-		$alist = D ( 'user_address' )->order ( 'IsDefault DESC' )->where ( array (
-				'Status' => 10,
-				'UserId' => $userid 
-		) )->select ();
+		$amodel = new user_addressModel ();
+		$alist = $amodel->getall ( $userid );
 		$g_smodel = new goods_serviceModel ();
 		$slist = $g_smodel->getall ();
 		$this->assign ( 'slist', $slist );
