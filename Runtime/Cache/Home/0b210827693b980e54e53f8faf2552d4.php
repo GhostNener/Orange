@@ -29,7 +29,6 @@
 			</div>
 		</div>
 		
-
 <script src="/Orange/Public/js/jquery.uploadify.min.js?<?php echo time();?>"></script>
 <link rel="stylesheet" href="/Orange/Public/css/uploadify.css">
 <script type="text/javascript">

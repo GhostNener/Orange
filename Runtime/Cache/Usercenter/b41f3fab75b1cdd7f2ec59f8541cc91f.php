@@ -112,7 +112,7 @@
 			return true;
 		}
 		function checkpwd(_pwd){
-			var ispwd=/^[a-z0-9_]{6,18}$/;/*/^(?!\D+$)(?!\d+$)[a-zA-Z0-9_]\w{6,16}$/*/;
+			var ispwd=/^[a-z0-9_A-Z~!@#$%^&*]{6,18}$/;/*/^(?!\D+$)(?!\d+$)[a-zA-Z0-9_]\w{6,16}$/*/;
 			if(!ispwd.test(_pwd)){
 				return false;
 			}
