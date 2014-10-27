@@ -315,7 +315,7 @@ class userModel extends Model {
 		$rst = $this->where ( $wherearr )->find ();
 		if (! $rst) {
 			if($arr ['isadmin']){
-				$msgarr['msg']=$msgarr['msg'].'或没有权限！'
+				$msgarr['msg']="用户名或密码错误!\n或没有权限！";
 			}
 			return $msgarr;
 		}
