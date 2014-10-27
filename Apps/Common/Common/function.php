@@ -82,7 +82,7 @@ function checktel($tel) {
  * @return boolean
  */
 function checkpwd($Password) {
-	$ispwd = "/^[a-z0-9_]{6,18}$/"; // "/^(?!\D+$)(?!\d+$)[a-zA-Z0-9_]\w{6,18}$/";
+	$ispwd = "/^[a-z0-9_A-Z]{6,18}$/"; // "/^(?!\D+$)(?!\d+$)[a-zA-Z0-9_]\w{6,18}$/";
 	preg_match ( $ispwd, $Password, $result );
 	if (! $result) {
 		return false;
