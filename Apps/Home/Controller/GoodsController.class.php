@@ -188,8 +188,15 @@ class GoodsController extends BaseController {
 		);
 		// 查询
 		$allComment = $goods_comment -> table('goods_comment c,user u') -> where(array($wherrArr,'u.Id=c.UserId')) ->field('u.Nick as UserNick,c.*') ->select ();
-        $this -> assign('allComment', $allComment);
-        
+//		$allComment2 = $goods_comment -> table('goods_comment c,user u') -> where(array($wherrArr,'u.Id=c.AssesseeId')) ->field('u.Nick as assesseeNick') ->select ();
+		for ($i = 0; $i < count($allComment); $i++) {
+			if ($allComment[$i]['AssesseeId']!="") {
+				$user = D("user");
+		        $s = $user ->field('Nick')-> find($allComment[$i]['AssesseeId']);
+		        $allComment[$i]['AN'] =$s['Nick'];
+			}
+	    }
+		$this -> assign('allComment', $allComment);
         $this -> display();
 	}
 	
@@ -211,15 +218,24 @@ class GoodsController extends BaseController {
 	 *  购买  生成表单
 	 */
 	public function order($Id)
-	{	
+	{	$userid = cookie('_uid');
+		// 查询分类
+		$clist = new goods_categoryModel ();
+		// 查询地址
+		$alist = D ( 'user_address' )->order ( 'IsDefault DESC' )->where ( array (
+				'Status' => 10,
+				'UserId' => $userid 
+		) )->select ();
+		$g_smodel = new goods_serviceModel ();
+		$this->assign ( 'alist', $alist );
 		$goods = M("goods");
 		$info = $goods->find($Id);
 		$this-> assign('info', $info);
 		
-		$seller = $info['UserId'];
 		$User = M("user");
+		$seller=$info['UserId'];
 		$user = $User->find($seller);
-		$this->assign('user', $user);
+		$this->assign('seller', $user);
 		
 		$Addr = $info['AddressId'];
 		$user_Address = M("user_address"); 
@@ -236,7 +252,7 @@ class GoodsController extends BaseController {
 	{
 		$goods_order = M("goods_order");
 		$data = array (
-				'BuyerId' => $_POST['BuyerId'],
+				'BuyerId' => cookie('_uid'),
 				'BuyerAddId'=> $_POST['BuyerAddId'],
 				'SellerId'=> $_POST['SellerId'],
 				'SellerAddId'=> $_POST['SellerAddId'],
@@ -244,7 +260,6 @@ class GoodsController extends BaseController {
 				'Price' => $_POST['Price'],
 				'E-Money' => $_POST['E-Money'],
 				'CreateTime'=> date("Y-m-d H:i:s", time()),
-				'UserId'=> cookie('_uid'),
 				//'AssesseId' => $_POST['AssesseId'],
 
 				'Status' => 10

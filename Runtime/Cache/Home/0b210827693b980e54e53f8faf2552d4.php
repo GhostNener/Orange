@@ -4,15 +4,6 @@
 <meta charset="UTF-8">
 <title>Orange</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<<<<<<< HEAD
-<link rel="stylesheet" href="/OrangeTS/Public/css/bootstrap-theme.css" />
-<link rel="stylesheet" href="/OrangeTS/Public/css/bootstrap.css" />
-<link rel="stylesheet" href="/OrangeTS/Public/css/huaxi_css.css" />
-<link rel="shortcut icon" href="/OrangeTS/Public/Img/favicon.png"
-	type="image/x-icon" />
-<script src="/OrangeTS/Public/js/jquery-1.8.0.min.js"></script>
-<script src="/OrangeTS/Public/js/bootstrap.js"></script>
-=======
 <link rel="stylesheet" href="/Orange/Public/css/bootstrap-theme.css" />
 <link rel="stylesheet" href="/Orange/Public/css/bootstrap.css" />
 <link rel="stylesheet" href="/Orange/Public/css/huaxi_css.css" />
@@ -20,7 +11,6 @@
 	type="image/x-icon" />
 <script src="/Orange/Public/js/jquery-1.8.0.min.js"></script>
 <script src="/Orange/Public/js/bootstrap.js"></script>
->>>>>>> 9345fd811051b290f3ae765b145b87bce3cffbea
 </head>
 <body>
 	<!--顶-->
@@ -28,31 +18,20 @@
 		<div class="container">
 			<div class="collapse navbar-collapse">
 				<ul class="nav navbar-nav">
-<<<<<<< HEAD
-					<li><a href="<?php echo U('Index/index');?>">Home</a></li>
-					<li><a href="<?php echo U('TestDic/index');?>">词典测试</a></li>
-					<li><a href="<?php echo U('Goods/index');?>">商品管理</a></li>
-=======
 					<li><a href="<?php echo U('Home/Index/index');?>">Home</a></li>
 					<li><a href="<?php echo U('Home/TestDic/index');?>">词典测试</a></li>
 					<li><a href="<?php echo U('Home/Goods/index');?>">商品管理</a></li>
->>>>>>> 9345fd811051b290f3ae765b145b87bce3cffbea
 					<li><a class="pull-right" href="<?php echo U('Admin/Index/index');?>">后台</a>
 					</li>
-					<li><a class="pull-right" href="<?php echo U('Usercenter/User/index');?>">登录测试</a>
+					<li><a class="pull-right" href="<?php echo U('Usercenter/User/index');?>">登录</a>
 					</li>
 				</ul>
 			</div>
 		</div>
 		
 
-<<<<<<< HEAD
-<script src="/OrangeTS/Public/js/jquery.uploadify.min.js?<?php echo time();?>"></script>
-<link rel="stylesheet" href="/OrangeTS/Public/css/uploadify.css">
-=======
 <script src="/Orange/Public/js/jquery.uploadify.min.js?<?php echo time();?>"></script>
 <link rel="stylesheet" href="/Orange/Public/css/uploadify.css">
->>>>>>> 9345fd811051b290f3ae765b145b87bce3cffbea
 <script type="text/javascript">
 	/*删除图片  第一个参数为图片父控件的Id  第二个参数为图片相对路径*/
 	function del(div_id,imgId){
@@ -372,11 +351,7 @@
 					<a id="refreshadd" class="btn btn-default" data-toggle="tooltip"
 						data-placement="top" title="刷新地址"> <span
 						class="glyphicon glyphicon-refresh"></span>
-<<<<<<< HEAD
-					</a> <a href="<?php echo U('User/addaddress');?>" target="_blank"
-=======
 					</a> <a href="<?php echo U('Usercenter/User/addaddress');?>" target="_blank"
->>>>>>> 9345fd811051b290f3ae765b145b87bce3cffbea
 						class="btn btn-default" data-toggle="tooltip" data-placement="top"
 						title="添加地址"> <span class="glyphicon glyphicon-plus"></span>
 					</a>
@@ -406,13 +381,8 @@
 		</div>
 		<div class="form-group">
 			<input type="hidden" class="form-control " id="url"
-<<<<<<< HEAD
-				publicurl="/OrangeTS/Public" appurl="/OrangeTS/Home/Goods" rooturl="/OrangeTS" gid="0"
-				saveurl="<?php echo U('save');?>" urlindex="<?php echo U('index');?>" Readonly> <label
-=======
 				publicurl="/Orange/Public" appurl="/Orange/Home/Goods" rooturl="/Orange" gid="0"
 				saveurl="<?php echo U('Home/Goods/save');?>" urlindex="<?php echo U('Home/Index/index');?>" Readonly> <label
->>>>>>> 9345fd811051b290f3ae765b145b87bce3cffbea
 				for="file_upload" class="col-sm-2 control-label">file_upload</label>
 			<div class="col-sm-10">
 				<input id="file_upload" name="file_upload" type="file"
@@ -423,11 +393,7 @@
 		<div class="form-group">
 			<div class="col-sm-offset-2 col-sm-10">
 				<button type="button" id="submitsave" class="btn btn-default">保存</button>
-<<<<<<< HEAD
-				<a class="btn btn-default" href="<?php echo U('index');?>">返回</a>
-=======
 				<a class="btn btn-default" href="<?php echo U('Home/Index/index');?>">返回</a>
->>>>>>> 9345fd811051b290f3ae765b145b87bce3cffbea
 			</div>
 		</div>
 	</form>
