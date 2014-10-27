@@ -18,7 +18,7 @@ class BaseController extends Controller {
 	 */
 	public function _initialize() {
 		$model = new userModel ();
-		$rst = $model->islogin ( false );
+		$rst = $model->islogin ( null,false,false );
 		if (! $rst) {
 			redirect ( U ( 'Usercenter/User/index', array (
 					'isadmin' => false 
