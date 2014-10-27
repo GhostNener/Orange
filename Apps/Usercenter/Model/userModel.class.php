@@ -25,6 +25,20 @@ class userModel extends Model {
 					self::EXISTS_VALIDATE 
 			),
 			array (
+					'Nick',
+					'checknull',
+					'昵称不能为空！',
+					self::EXISTS_VALIDATE,
+					'function'
+			),
+			array (
+					'Nick',
+					'',
+					'昵称已被使用！',
+					self::EXISTS_VALIDATE,
+					'unique'
+			),
+			array (
 					'E-Mail',
 					'',
 					'帐号已注册！',
@@ -153,7 +167,8 @@ class userModel extends Model {
 				'LastLoginTime',
 				'RoleId',
 				'Status',
-				'E-Mail' 
+				'E-Mail',
+				'Nick' 
 		) )->add ( $user );
 		if (! $rst) {
 			$msg ['msg'] = '注册失败';

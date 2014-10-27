@@ -43,20 +43,35 @@
 
 <script>
 	$(function(){
-		$('#registbutton').click(function(){			
+		$('#Nick').focus(function(){
+			removemsg('Nick');
+		});
+		$('#UserName').focus(function(){
+			removemsg('UserName');
+		});		
+		$('#Password').focus(function(){
+			removemsg('Password');
+		});
+		$('#registbutton').click(function(){
+			var _nick=$.trim($('#Nick').val());
+			if(!_nick){
+				appendmsg('Nick','昵称不能为空');
+				return;
+
+			}		
 			var _mail=$.trim($('#UserName').val());
 			var _pwd=$.trim($('#Password').val());
 			var _confirmpwd=$.trim($('#confirmPassword').val());
 			if(!_mail||(!checkmail(_mail)&&!checkmobile(_mail))){
-				$('#UserName').focus();
+				appendmsg('UserName','用户名不合法');
 				return;
 			}
 			if(!_pwd||!checkpwd(_pwd)){
-				$('#Password').focus();
+				appendmsg('Password','密码不合法');
 				return;
 			}
 			if(!_confirmpwd||!checkpwd(_confirmpwd)||_pwd!=_confirmpwd){
-				$('#confirmPassword').focus();
+				appendmsg('confirmPassword','确认密码不一致');
 				return;
 			}
 			var btn_txt=$('#registbutton').val();
@@ -67,11 +82,13 @@
 				$('#registbutton').val(btn_txt);
     			$('#registbutton').removeAttr('disabled'); 
 				return false;
-				$.post($('#url').attr('regist'),{
-					'Password':_pwd,
-					'ConfirmPassword':_confirmpwd,
-					'Name':_mail
-				},function(data){
+			}
+			$.post($('#url').attr('regist'),{
+				'Password':_pwd,
+				'ConfirmPassword':_confirmpwd,
+				'Name':_mail,
+				'Nick':_nick
+			},function(data){
 
 					if(data.status==0){
 					alert(data.info);
@@ -79,21 +96,7 @@
 					alert("注册成功！\n 请激活");
 					location.href=$('#url').attr('home');
 				}
-				},'json');
-			}else{
-				$.post($('#url').attr('regist'),{
-					'Password':_pwd,
-					'ConfirmPassword':_confirmpwd,
-					'E-Mail':_mail
-				},function(data){
-					if(data.status==0){
-					alert(data.info);
-				}else{
-					alert("注册成功！\n 请激活");
-					location.href=$('#url').attr('home');
-				}
-				},'json');
-			}
+			},'json');
 			$('#registbutton').val(btn_txt);
     		$('#registbutton').removeAttr('disabled'); 
 		});
@@ -106,7 +109,7 @@
 			return true;
 		}
 		function checkpwd(_pwd){
-			var ispwd=/^(?!\D+$)(?!\d+$)[a-zA-Z0-9_]\w{6,16}$/;
+			var ispwd=/^[a-z0-9_]{6,18}$/;/*/^(?!\D+$)(?!\d+$)[a-zA-Z0-9_]\w{6,16}$/*/;
 			if(!ispwd.test(_pwd)){
 				return false;
 			}
@@ -119,6 +122,17 @@
 			}
 			return true;
 		}
+		function appendmsg(id,msg){
+			removemsg(id);
+			var _id='#'+id;
+			$(_id).parent().parent().append('<span style="color:red">'+msg+'</span>');
+			$(_id).parent().addClass('has-error');
+		}
+		function removemsg(id){
+			var _id='#'+id;
+			$(_id).parent().siblings('span').remove();
+			$(_id).parent().removeClass('has-error');
+		}
 	});
 </script>
 
@@ -128,23 +142,28 @@
 		<br>
 		<form class="form-horizontal" role="form" action="" method="post">
 			<div class="form-group">
+				<label for="Nick" class="col-sm-2 control-label">昵称</label>
+				<div class="col-sm-8 ">
+					<input type="text" class="form-control" id="Nick" placeholder="昵称"></div>
+			</div>
+			<div class="form-group">
 				<label for="UserName" class="col-sm-2 control-label">用户名</label>
-				<div class="col-sm-10">
+				<div class="col-sm-8">
 					<input type="email" class="form-control" id="UserName" placeholder="邮箱"></div>
 			</div>
 			<div class="form-group">
 				<label for="Password" class="col-sm-2 control-label">密码</label>
-				<div class="col-sm-10">
+				<div class="col-sm-8">
 					<input type="password" class="form-control" id="Password" placeholder="密码"></div>
 			</div>
 			<div class="form-group">
 				<label for="confirmPassword" class="col-sm-2 control-label">确认密码</label>
-				<div class="col-sm-10">
+				<div class="col-sm-8">
 					<input type="password" class="form-control" id="confirmPassword" placeholder="确认密码"></div>
 			</div>
 			<input type="hidden" id="url" value="0"  regist="<?php echo U('Usercenter/User/signup');?>" home="<?php echo U('Home/Index/index');?>" >
 			<div class="form-group">
-				<div class="col-sm-offset-2 col-sm-10">
+				<div class="col-sm-offset-2 col-sm-8">
 					<button type="button" id="registbutton" class="btn btn-default">提交</button>
 				</div>
 			</div>

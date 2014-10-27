@@ -13,7 +13,8 @@ use Think\Model;
 class goodsModel extends Model {
 	/**
 	 * 保存商品
-	 *@author NENER
+	 *
+	 * @author NENER
 	 * @param array $postarr:
 	 *        	post数组
 	 * @return array 保存信息： 包含 status 状态 ；
@@ -89,7 +90,8 @@ class goodsModel extends Model {
 	}
 	/**
 	 * 保存图片 记录
-	 *@author NENER
+	 *
+	 * @author NENER
 	 * @param array $postarr
 	 *        	:post数组
 	 * @param int $userid:用户Id        	
@@ -151,7 +153,8 @@ class goodsModel extends Model {
 	}
 	/**
 	 * 上传商品 图片
-	 *@author NENER
+	 *
+	 * @author NENER
 	 * @return array:status，imgid，msg
 	 */
 	public function uploadimg() {
@@ -199,7 +202,8 @@ class goodsModel extends Model {
 	}
 	/**
 	 * 删除单个商品图片记录：数据库 记录 本地图片
-	 *@author NENER
+	 *
+	 * @author NENER
 	 * @param int $imgid        	
 	 * @return array:status，msg
 	 */
@@ -224,7 +228,8 @@ class goodsModel extends Model {
 	
 	/**
 	 * 压缩图片
-	 *@author NENER
+	 *
+	 * @author NENER
 	 * @param string $url:
 	 *        	原始图片的路径
 	 * @param string $imgname:
@@ -232,16 +237,24 @@ class goodsModel extends Model {
 	 * @return array:压缩图路径 第一个参数是 大图 第二个是缩略图
 	 */
 	private function getallthumb($url, $imgname) {
+		/* 获取后缀 */
+		$ext = substr ( strrchr ( $imgname, '.' ), 1 );
+		/* 替换后缀 */
+		$imgname = str_replace ( '.' . $ext, '.jpg', $imgname );
 		$rooturl = C ( 'GOODS_IMG_ROOT' );
-		$url_8 = $rooturl . C ( 'GOODS_IMG_800' ) . $imgname;
+		/* 小图路径 */
 		$url_1 = $rooturl . C ( 'GOODS_IMG_100' ) . $imgname;
+		/* 大图路径 */
+		$url_8 = $rooturl . C ( 'GOODS_IMG_800' ) . $imgname;
 		$imagedal = new \Think\Image ();
 		$imagedal->open ( $url );
-		$size = $imagedal->size ();
+		// $size = $imagedal->size ();
+		/* 获取小图配置 */
 		$arrthumb = C ( 'GOODS_IMG_THUMB' );
+		/* 获取大图配置 */
 		$arrmd = C ( 'GOODS_IMG_MD' );
-		$imagedal->thumb ( ( int ) $arrmd [0], ( int ) $arrmd [1] )->save ( $url_8 );
-		$imagedal->thumb ( ( int ) $arrthumb [0], ( int ) $arrthumb [1], \Think\Image::IMAGE_THUMB_CENTER )->save ( $url_1 );
+		$imagedal->thumb ( ( int ) $arrmd [0], ( int ) $arrmd [1] )->save ( $url_8, C ( 'IMG_SAVE_TYPE' ), C ( 'IMG_SAVE_QUALITY' ), true );
+		$imagedal->thumb ( ( int ) $arrthumb [0], ( int ) $arrthumb [1], \Think\Image::IMAGE_THUMB_CENTER )->save ( $url_1, C ( 'IMG_SAVE_TYPE' ), C ( 'IMG_SAVE_QUALITY' ), true );
 		return array (
 				$url_8,
 				$url_1 
@@ -250,7 +263,8 @@ class goodsModel extends Model {
 	
 	/**
 	 * 删除单个商品图片:原图，缩略图，正常用图
-	 *@author NENER
+	 *
+	 * @author NENER
 	 * @param int $type
 	 *        	:操作类型 ：1表示根据Id，其他表示根据model
 	 * @param object $idormodel

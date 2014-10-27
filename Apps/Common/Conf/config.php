@@ -51,7 +51,7 @@ return array (
 		'GOODS_IMG_100' => '100_100/',
 						/*商品图片 缩略图   分辨率*/
 		'GOODS_IMG_THUMB' => array (
-				100,
+				100,/*最大宽度  */
 				100 
 		),
 						/*商品图片 正常图片最大 分辨率 */
@@ -85,6 +85,10 @@ return array (
 				'FROM_NAME' => '橘子团队', // 发件人名称
 				'REPLY_EMAIL' => '', // 回复EMAIL（留空则为发件人EMAIL）
 				'REPLY_NAME' => ''  // 回复名称（留空则为发件人名称）
-	) 
+				),
+		/*图片保存类型  */
+		'IMG_SAVE_TYPE' => 'jpg',
+		/*图片保存质量  */
+		'IMG_SAVE_QUALITY' => 90 
 );
 

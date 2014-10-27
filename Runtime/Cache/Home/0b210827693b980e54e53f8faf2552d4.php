@@ -351,7 +351,7 @@
 					<a id="refreshadd" class="btn btn-default" data-toggle="tooltip"
 						data-placement="top" title="刷新地址"> <span
 						class="glyphicon glyphicon-refresh"></span>
-					</a> <a href="<?php echo U('Usercenter/User/addaddress');?>" target="_blank"
+					</a> <a href="<?php echo U('Usercenter/Address/addaddress');?>" target="_blank"
 						class="btn btn-default" data-toggle="tooltip" data-placement="top"
 						title="添加地址"> <span class="glyphicon glyphicon-plus"></span>
 					</a>

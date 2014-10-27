@@ -1,21 +1,21 @@
 <?php
 use Vendor\PHPMailer;
 
-
 /**
  * 检查是否为空
- * @param unknown $v
- * @return boolean  */
- function checknull($v){
-	if(!$v){
+ * 
+ * @param unknown $v        	
+ * @return boolean
+ */
+function checknull($v) {
+	if (! $v) {
 		return false;
-	}
-	else {
+	} else {
 		return true;
 	}
 }
-function checkqq($qq){
-	$isQQ="/^[1-9]{1}[0-9]{4,9}$/";
+function checkqq($qq) {
+	$isQQ = "/^[1-9]{1}[0-9]{4,9}$/";
 	preg_match ( $isQQ, $qq, $result );
 	if (! $result) {
 		return false;
@@ -25,12 +25,12 @@ function checkqq($qq){
 
 /**
  * 检查手机是否合法
- * 
+ *
  * @param unknown $tel        	
  * @return boolean
  */
 function checktel($tel) {
-	if(!tel){
+	if (! tel) {
 		return false;
 	}
 	$isMobile = "/^(?:13\d|14\d|15\d|18\d)\d{5}(\d{3}|\*{3})$/";
@@ -47,7 +47,7 @@ function checktel($tel) {
  * @return boolean
  */
 function checkpwd($Password) {
-	$ispwd = "/^(?!\D+$)(?!\d+$)[a-zA-Z0-9_]\w{6,18}$/";
+	$ispwd = "/^[a-z0-9_]{6,18}$/"; // "/^(?!\D+$)(?!\d+$)[a-zA-Z0-9_]\w{6,18}$/";
 	preg_match ( $ispwd, $Password, $result );
 	if (! $result) {
 		return false;
@@ -61,7 +61,7 @@ function checkpwd($Password) {
  * @return boolean
  */
 function checkmail($mial) {
-	if(!$mial){
+	if (! $mial) {
 		return false;
 	}
 	$ismail1 = "/^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/";
