@@ -21,7 +21,6 @@ class GoodsController extends BaseController {
 	 */
 	public function index($status = 10) {
 		$userid = cookie ( '_uid' );
-		$model = D ( 'goods' );
 		// 查询条件
 		$wherrArr = array (
 				'Status' => $status,
@@ -213,82 +212,5 @@ class GoodsController extends BaseController {
 		}
 		$this->assign ( 'allComment', $allComment );
 		$this->display ();
-	}
-	
-	/**
-	 * 添加评论
-	 */
-	public function addComment() {
-		$postarr = I ( 'post.' );
-		$model = new goodsModel ();
-		$rst = $model->addComment ( $postarr );
-		if (( int ) $rst ['status'] == 0) {
-			$this->error ( $rst ['msg'] );
-		} else {
-			$this->success ( 1 );
-		}
-	}
-	
-	/**
-	 * 购买 生成表单
-	 */
-	public function order($Id) {
-		$userid = cookie ( '_uid' );
-		// 查询分类
-		$clist = new goods_categoryModel ();
-		// 查询地址
-		$alist = D ( 'user_address' )->order ( 'IsDefault DESC' )->where ( array (
-				'Status' => 10,
-				'UserId' => $userid 
-		) )->select ();
-		$g_smodel = new goods_serviceModel ();
-		$this->assign ( 'alist', $alist );
-		$goods = M ( "goods" );
-		$info = $goods->find ( $Id );
-		$this->assign ( 'info', $info );
-		
-		$User = M ( "user" );
-		$seller = $info ['UserId'];
-		$user = $User->find ( $seller );
-		$this->assign ( 'seller', $user );
-		
-		$Addr = $info ['AddressId'];
-		$user_Address = M ( "user_address" );
-		$cate = $user_Address->find ( $Addr );
-		$this->assign ( 'cate', $cate );
-		
-		$this->display ();
-	}
-	
-	/**
-	 * 购买 生成表单
-	 */
-	public function order2() {
-		$goods_order = M ( "goods_order" );
-		$data = array (
-				'BuyerId' => cookie ( '_uid' ),
-				'BuyerAddId' => $_POST ['BuyerAddId'],
-				'SellerId' => $_POST ['SellerId'],
-				'SellerAddId' => $_POST ['SellerAddId'],
-				'GoodsId' => $_POST ['GoodsId'],
-				'Price' => $_POST ['Price'],
-				'E-Money' => $_POST ['E-Money'],
-				'CreateTime' => date ( "Y-m-d H:i:s", time () ),
-				// 'AssesseId' => $_POST['AssesseId'],
-				
-				'Status' => 10 
-		);
-		$z = $goods_order->add ( $data );
-		if ($z) {
-			$goods = M ( "goods" );
-			$wh = array (
-					'Id' => $_POST ['GoodsId'] 
-			);
-			$goods->where ( $wh )->setField ( 'Status', 2 );
-			echo "成功";
-			// $this->redirect('Goods/showgoods',array('Id'=>$data['GoodsId']),0,'');
-		} else {
-			echo "error";
-		}
 	}
 }

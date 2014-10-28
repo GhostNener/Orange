@@ -6,8 +6,8 @@ $(document).ready(function () {
 		var _url=$('#url').attr('appurl')+'/refreshadd';
 		$.post(_url,{'':''},function(data){
 			if(data.status==1){
-				if(!data.info){return;}
-				var _arr=$.parseJSON(data.info);
+				if(!data.goods_order){return;}
+				var _arr=$.parseJSON(data.goods_order);
 				if(!_arr){return;}
 				$('#Address').children('option').remove();
 				$(_arr).each(function(i,v){
@@ -25,58 +25,58 @@ $(document).ready(function () {
 	<br>
 
 	<!-- 购买商品-->
-    <form action="__APP__/Home/Goods/order2" method="post" enctype="multipart/form-data">
-    	<input type="hidden" name="GoodsId" value="{$info.Id}" />
-    	<input type="hidden" name="SellerId" value="{$seller.Id}" />
-		<input type="hidden" name="SellerAddId" value="{$info.AddressId}" />
+    <form action="__APP__/Home/Index/order2" method="post" enctype="multipart/form-data">
+    	<input type="hidden" name="GoodsId" value="{$goods_fillorder[0].Id}" />
+    	<input type="hidden" name="SellerId" value="{$goods_fillorder[0].SellerId}" />
+		<input type="hidden" name="SellerAddId" value="{$goods_fillorder[0].AddressId}" />
 		<input type="hidden" name="E-Money" value="0" />
     	<div class="form-group">
 			<label for="Title" class="col-sm-2 control-label">Title</label>
 			<div class="col-sm-10">
 				<input type="text" class="form-control " id="Title"
-					value="{$info.Title}"  name="Title" Readonly>
+					value="{$goods_fillorder[0].Title}"  name="Title" Readonly>
 			</div>
 		</div>
 		<div class="form-group">
 			<label for="Price" class="col-sm-2 control-label">Price</label>
 			<div class="col-sm-10">
 				<input type="text" class="form-control " id="Price"
-					value="{$info.Price}元" name="Price" Readonly>
+					value="{$goods_fillorder[0].Price}元" name="Price" Readonly>
 			</div>
 		</div>
 		<div class="form-group">
-			<label for="sellerNick" class="col-sm-2 control-label">sellerNick</label>
+			<label for="sellerNick" class="col-sm-2 control-label">SellerNick</label>
 			<div class="col-sm-10">
 				<input type="text" class="form-control " id="sellerNick"
-					value="{$seller.Nick}" name="sellerNick" Readonly>
+					value="{$goods_fillorder[0].SellerNick}" name="sellerNick" Readonly>
 			</div>
 		</div>
 		<div class="form-group">
-			<label for="sellerAddress" class="col-sm-2 control-label">sellerAddress</label>
-			<div class="col-sm-10">
-				<input type="text" class="form-control " id="sellerAddress"
-					value="{$cate.Address}" name="sellerAddress" Readonly>
-			</div>
-		</div>
-		<div class="form-group">
-			<label for="sellerTel" class="col-sm-2 control-label">sellerTel</label>
+			<label for="sellerTel" class="col-sm-2 control-label">SellerTel</label>
 			<div class="col-sm-10">
 				<input type="text" class="form-control " id="sellerNick"
-					value="{$cate.Tel}" name="Tel" Readonly>
+					value="{$goods_fillorder[0].SellerTel}" name="Tel" Readonly>
 			</div>
 		</div>
 		<div class="form-group">
-			<label for="sellerQQ" class="col-sm-2 control-label">sellerQQ</label>
+			<label for="sellerQQ" class="col-sm-2 control-label">SellerQQ</label>
 			<div class="col-sm-10">
 				<input type="text" class="form-control " id="sellerQQ"
-					value="{$cate.QQ}" name="QQ" Readonly>
+					value="{$goods_fillorder[0].SellerQQ}" name="QQ" Readonly>
 			</div>
 		</div>
 		<div class="form-group">
-			<label for="Address" class="col-sm-2 control-label">Address</label>
+			<label for="sellerAddress" class="col-sm-2 control-label">SellerAddress</label>
+			<div class="col-sm-10">
+				<input type="text" class="form-control " id="sellerAddress"
+					value="{$goods_fillorder[0].SellerAddress}" name="sellerAddress" Readonly>
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="Address" class="col-sm-2 control-label">BuyerAddress</label>
 			<div class="col-sm-8">
 				<select class="form-control " name="BuyerAddId" id="buyerAddress">
-					<foreach name="alist" item="v">
+					<foreach name="useraddrlist" item="v">
 					<option value="{$v['Id']}" address="{$v['Address']}">{$v['Tel']}&nbsp;&nbsp;{$v['Address']}</option>
 					</foreach>
 				</select>
