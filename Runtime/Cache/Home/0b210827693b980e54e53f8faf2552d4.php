@@ -56,7 +56,7 @@
 			'overrideEvents': [ 'onSelectError' ],	
 			'formData'  : {'sname':'{$sname}','sid':'<?php echo ($sid); ?>',                    
 			'cid' : '<?php echo ($cid); ?>',
-			'ckey'     : '<?php echo ($ckey); ?>'},			
+			'ckey' : '<?php echo ($ckey); ?>'},/*FF302解决参数*/			
 			//'removeCompleted' : false,    //是否自动消失
        		'fileTypeExts' : '*.gif; *.jpg; *.png',		//允许类型
        		'fileSizeLimit' : '4MB',					//允许上传最大值
@@ -303,28 +303,26 @@
 	<form class="form-horizontal" action="" role="form" method="post"
 		multiple="true">
 		<input type="hidden" class="form-control " id="imgcount"
-			name="imgcount" value="0" Readonly> <input type="hidden"
+			name="imgcount" value="0" Readonly>
+		<input type="hidden"
 			class="form-control " id="keyid" name="keyid" value="0" Readonly>
 		<div class="form-group">
 			<label for="Title" class="col-sm-2 control-label">Title</label>
 			<div class="col-sm-10">
 				<input type="text" class="form-control " id="Title"
-					placeholder=" Title  " name="Title">
-			</div>
+					placeholder=" Title  " name="Title"></div>
 		</div>
 		<div class="form-group">
 			<label for="Price" class="col-sm-2 control-label">Price</label>
 			<div class="col-sm-10">
 				<input type="number" class="form-control " id="Price"
-					placeholder=" Price  " name="Price">
-			</div>
+					placeholder=" Price  " name="Price"></div>
 		</div>
 		<div class="form-group">
 			<label for="CostPrice" class="col-sm-2 control-label">CostPrice</label>
 			<div class="col-sm-10">
 				<input type="number" class="form-control " id="CostPrice"
-					placeholder=" CostPrice  " name="CostPrice">
-			</div>
+					placeholder=" CostPrice  " name="CostPrice"></div>
 		</div>
 		<div class="form-group">
 			<label for="Presentation" class="col-sm-2 control-label">Presentation</label>
@@ -351,11 +349,14 @@
 			<div class="col-sm-2">
 				<div class="pull-left">
 					<a id="refreshadd" class="btn btn-default" data-toggle="tooltip"
-						data-placement="top" title="刷新地址"> <span
+						data-placement="top" title="刷新地址">
+						<span
 						class="glyphicon glyphicon-refresh"></span>
-					</a> <a href="<?php echo U('Usercenter/Address/addaddress');?>" target="_blank"
+					</a>
+					<a href="<?php echo U('Usercenter/Address/addaddress');?>" target="_blank"
 						class="btn btn-default" data-toggle="tooltip" data-placement="top"
-						title="添加地址"> <span class="glyphicon glyphicon-plus"></span>
+						title="添加地址">
+						<span class="glyphicon glyphicon-plus"></span>
 					</a>
 				</div>
 			</div>
@@ -375,16 +376,17 @@
 			<div class="col-sm-10">
 				<div id="Server">
 					<?php if(is_array($slist)): foreach($slist as $key=>$v): ?><label
-						class="checkbox-inline"> <input type="checkbox"
-						value="<?php echo ($v['Id']); ?>"><?php echo ($v['Title']); ?>
-					</label><?php endforeach; endif; ?>
+						class="checkbox-inline">
+							<input type="checkbox"
+						value="<?php echo ($v['Id']); ?>"><?php echo ($v['Title']); ?></label><?php endforeach; endif; ?>
 				</div>
 			</div>
 		</div>
 		<div class="form-group">
 			<input type="hidden" class="form-control " id="url"
 				publicurl="/Orange/Public" appurl="/Orange/Home/Goods" rooturl="/Orange" gid="0"
-				saveurl="<?php echo U('Home/Goods/save');?>" urlindex="<?php echo U('Home/Goods/index');?>" Readonly> <label
+				saveurl="<?php echo U('Home/Goods/save');?>" urlindex="<?php echo U('Home/Goods/index');?>" Readonly>
+			<label
 				for="file_upload" class="col-sm-2 control-label">file_upload</label>
 			<div class="col-sm-10">
 				<input id="file_upload" name="file_upload" type="file"

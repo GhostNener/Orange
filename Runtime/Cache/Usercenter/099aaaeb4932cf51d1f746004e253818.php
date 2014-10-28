@@ -44,7 +44,16 @@
 				return;
 			}
 			var _QQ=$('#QQ').val();
-			var _Address=$('#Address').val();
+			var _Address=$.trim($('#Address').val());
+			if(!_Address){
+				$('#Address').focus();
+				return;
+			}
+			var _Contacts=$.trim($('#Contacts').val());
+			if(!_Contacts){
+				$('#Contacts').focus();
+				return;
+			}
 			var _IsDefault=$('#IsDefault').attr('checked');
 			if(!_IsDefault){_IsDefault=0}else{_IsDefault=1;}
 			$.post(_suburl,{
@@ -53,12 +62,14 @@
 				'Tel':_Tel,
 				'QQ':_QQ,
 				'Address':_Address,
-				'IsDefault':_IsDefault
+				'IsDefault':_IsDefault,
+				'Contacts':_Contacts
 			},function(data){
 				if(data.status==0){
 					alert(data.info);
 					return;
 				}
+				alert('添加成功');
 				location.href=$('#addressSubmit').attr('urlindex');
 			});
 		});
@@ -101,6 +112,13 @@
 					placeholder=" Address  " name="Address" value="<?php echo ($model["Address"]); ?>">
 			</div>
 		</div>
+				<div class="form-group">
+			<label for="Contacts" class="col-sm-2 control-label">Contacts</label>
+			<div class="col-sm-10">
+				<input type="text" class="form-control " id="Contacts"
+					placeholder=" Contacts  " name="Contacts" value="<?php echo ($model["Contacts"]); ?>">
+			</div>
+		</div>
 		<div class="form-group">
 			<label for="IsDefault" class="col-sm-2 control-label">IsDefault</label>
 			<div class="col-sm-10">
@@ -112,7 +130,7 @@
 		<div class="form-group">
 			<div class="col-sm-offset-2 col-sm-10">
 				<button id='addressSubmit' type="button" urlindex="<?php echo U('Home/Index/index');?>"
-					acurl="<?php echo U('Usercenter/User/saveaddress');?>" class="btn btn-default">保存</button>
+					acurl="<?php echo U('Usercenter/Address/saveaddress');?>" class="btn btn-default">保存</button>
 				<a class="btn btn-default" href="<?php echo U('Home/Index/index');?>">返回</a>
 			</div>
 		</div>

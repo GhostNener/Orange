@@ -8,11 +8,11 @@
 	<foreach name='list' item='v'>
 		<div class="col-md-4 ">
 			<div class="thumbnail">
-				<a href="" title="{$v['Title']}" target="_blank" >
+				<a href="{:U('Home/Index/showgoods',array('Id'=>$v['Id']))}" title="{$v['Title']}" target="_blank" >
 					<img class="lazy" src="__ROOT__{$v['URL']}" ></a>
 				<div class="caption">
 					<h3>
-						<a href="" title="{$v['Title']}" target="_blank" >
+						<a href="{:U('Home/Index/showgoods',array('Id'=>$v['Id']))}" title="{$v['Title']}" target="_blank" >
 							{$v['Title']}
 							<br>
 							<small>@{$v['Nick']}</small>

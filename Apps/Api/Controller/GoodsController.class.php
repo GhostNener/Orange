@@ -106,13 +106,18 @@ class GoodsController extends LoginBaseController {
 				'goodsid' => 0,
 				'imgid' => 0 
 		);
-		if (! $_FILES) {
+		if (! IS_POST) {
+			echo json_encode ( $rstmsg );
+			return;
+		}
+		if (empty($_FILES)) {
 			$rstmsg ['msg'] = '空文件';
 			echo json_encode ( $rstmsg );
 			return;
 		}
-		$postarr = I ( 'post.' );
-		$userid = $postarr ['_uid']; // 用户id
+		$postarr = I ( 'param.' );
+		$uid=I('_uid');
+		$userid = $uid; // 用户id
 		/* 商品Id */
 		$postarr ['_gid'] = $postarr ['goodsid'];
 		$model = new goods_imgModel ();

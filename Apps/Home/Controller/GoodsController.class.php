@@ -19,9 +19,8 @@ class GoodsController extends BaseController {
 	/**
 	 * 个人商品列表
 	 */
-	public function index($status=10) {
+	public function index($status = 10) {
 		$userid = cookie ( '_uid' );
-		$model = D ( 'goods' );
 		// 查询条件
 		$wherrArr = array (
 				'Status' => $status,
@@ -47,17 +46,17 @@ class GoodsController extends BaseController {
 		$alist = $amodel->getall ( $userid );
 		$g_smodel = new goods_serviceModel ();
 		$slist = $g_smodel->getall ();
-		//$this->assign ( 'slist', $slist );
-		//一下为解决FF浏览器302错误 必须
-		$sname=session_name();
-		$sid=session_id();
-		$cid=cookie('_uid');
-		$ckey=cookie('_key');
-		$this->assign ( 'cid', $cid);
-		$this->assign ( 'ckey', $ckey);
-		$this->assign ( 'sname', $sname);
+		// $this->assign ( 'slist', $slist );
+		// 一下为解决FF浏览器302错误 必须
+		$sname = session_name ();
+		$sid = session_id ();
+		$cid = cookie ( '_uid' );
+		$ckey = cookie ( '_key' );
+		$this->assign ( 'cid', $cid );
+		$this->assign ( 'ckey', $ckey );
+		$this->assign ( 'sname', $sname );
 		$this->assign ( 'sid', $sid );
-		//以上代码解决FF302
+		// 以上代码解决FF302
 		$this->assign ( 'slist', $slist );
 		$this->assign ( 'alist', $alist );
 		$this->assign ( 'clist', $clist )->display ( 'modifgoods' );
@@ -213,82 +212,5 @@ class GoodsController extends BaseController {
 		}
 		$this->assign ( 'allComment', $allComment );
 		$this->display ();
-	}
-	
-	/**
-	 * 添加评论
-	 */
-	public function addComment() {
-		$postarr = I ( 'post.' );
-		$model = new goodsModel ();
-		$rst = $model->addComment ( $postarr );
-		if (( int ) $rst ['status'] == 0) {
-			$this->error ( $rst ['msg'] );
-		} else {
-			$this->success ( 1 );
-		}
-	}
-	
-	/**
-	 * 购买 生成表单
-	 */
-	public function order($Id) {
-		$userid = cookie ( '_uid' );
-		// 查询分类
-		$clist = new goods_categoryModel ();
-		// 查询地址
-		$alist = D ( 'user_address' )->order ( 'IsDefault DESC' )->where ( array (
-				'Status' => 10,
-				'UserId' => $userid 
-		) )->select ();
-		$g_smodel = new goods_serviceModel ();
-		$this->assign ( 'alist', $alist );
-		$goods = M ( "goods" );
-		$info = $goods->find ( $Id );
-		$this->assign ( 'info', $info );
-		
-		$User = M ( "user" );
-		$seller = $info ['UserId'];
-		$user = $User->find ( $seller );
-		$this->assign ( 'seller', $user );
-		
-		$Addr = $info ['AddressId'];
-		$user_Address = M ( "user_address" );
-		$cate = $user_Address->find ( $Addr );
-		$this->assign ( 'cate', $cate );
-		
-		$this->display ();
-	}
-	
-	/**
-	 * 购买 生成表单
-	 */
-	public function order2() {
-		$goods_order = M ( "goods_order" );
-		$data = array (
-				'BuyerId' => cookie ( '_uid' ),
-				'BuyerAddId' => $_POST ['BuyerAddId'],
-				'SellerId' => $_POST ['SellerId'],
-				'SellerAddId' => $_POST ['SellerAddId'],
-				'GoodsId' => $_POST ['GoodsId'],
-				'Price' => $_POST ['Price'],
-				'E-Money' => $_POST ['E-Money'],
-				'CreateTime' => date ( "Y-m-d H:i:s", time () ),
-				// 'AssesseId' => $_POST['AssesseId'],
-				
-				'Status' => 10 
-		);
-		$z = $goods_order->add ( $data );
-		if ($z) {
-			$goods = M ( "goods" );
-			$wh = array (
-					'Id' => $_POST ['GoodsId'] 
-			);
-			$goods->where ( $wh )->setField ( 'Status', 2 );
-			echo "成功";
-			// $this->redirect('Goods/showgoods',array('Id'=>$data['GoodsId']),0,'');
-		} else {
-			echo "error";
-		}
 	}
 }

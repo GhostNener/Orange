@@ -161,7 +161,7 @@ class goods_imgModel extends Model {
 			return array (
 					'status' => 0,
 					'goodsid' => 0,
-					'msg' => '保存失败' 
+					'msg' => '保存失败'
 			);
 		}
 		$rst = $this->where ( array (
