@@ -150,7 +150,7 @@ class goods_imgModel extends Model {
 		$dal = M ();
 		$dal->startTrans (); // 事务
 		if (! $goodsid || $goodsid <= 0) {
-			$goodsid = M ( 'goods' )->add ( array (
+			$goodsid = D ( 'goods' )->add ( array (
 					'UserId' => $userid,
 					'Status' => 0 
 			) );
