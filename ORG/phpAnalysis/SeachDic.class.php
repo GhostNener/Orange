@@ -20,11 +20,21 @@ class SeachDic {
 	public $do_prop = true;
 	// 是否预载全部词条
 	public $pri_dict = false;
+	
+	/* 分类词典路径 */
+	public $categorydic = 'dict/category_dic_full.dic';
+	/* 全文检索词典路径 */
+	public $seachdic = 'dict/seach_dic_full.dic';
+	/**
+	 * 搜索分类
+	 *
+	 * @param unknown $str        	
+	 */
 	public function seach($str) {
 		$str = strtolower ( $str );
 		// 初始化类
 		PhpAnalysis::$loadInit = false;
-		$pa = new PhpAnalysis ( 'utf-8', 'utf-8', $this->pri_dict );
+		$pa = new PhpAnalysis ( 'utf-8', 'utf-8', $this->pri_dict, '', $this->categorydic );
 		// 载入词典
 		$pa->LoadDict ();
 		// 配置分词程序

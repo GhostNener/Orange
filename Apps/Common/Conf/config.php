@@ -89,6 +89,10 @@ return array (
 		/*图片保存类型  */
 		'IMG_SAVE_TYPE' => 'jpg',
 		/*图片保存质量  */
-		'IMG_SAVE_QUALITY' => 90 
+		'IMG_SAVE_QUALITY' => 90 ,
+		/*分类词典路径  【相对与ORG/phpAnalysis/】  */
+		'CATEGOEY_DIC' => 'dict/category_dic_full.dic',
+		/*全文检索词典路径  【相对与ORG/phpAnalysis/】  */
+		'SEACH_DIC' => 'dict/seach_dic_full.dic' 
 );
 

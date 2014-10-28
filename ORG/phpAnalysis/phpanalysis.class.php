@@ -48,7 +48,9 @@ class PhpAnalysis {
 	public $mainDic = array ();
 	public $mainDicHand = false;
 	public $mainDicInfos = array ();
-	public $mainDicFile = 'dict/base_dic_full.dic';
+	/* 分类主词典路径 */
+	public $mainDicFile = 'dict/category_dic_full.dic';
+	/* 拼音分词主词典 */
 	// 是否直接载入词典（选是载入速度较慢，但解析较快；选否载入较快，但解析较慢，需要时才会载入特定的词条）
 	private $isLoadAll = false;
 	
@@ -69,20 +71,18 @@ class PhpAnalysis {
 	
 	/**
 	 * 构造函数
-	 *
-	 * @param
-	 *        	$source_charset
-	 * @param
-	 *        	$target_charset
-	 * @param
-	 *        	$load_alldic
-	 * @param
-	 *        	$source
-	 *        	
-	 * @return void
+	 * 
+	 * @param string $source_charset        	
+	 * @param string $target_charset        	
+	 * @param string $load_all        	
+	 * @param string $source        	
+	 * @param string $mainDicFile        	
 	 */
-	public function __construct($source_charset = 'utf-8', $target_charset = 'utf-8', $load_all = true, $source = '') {
+	public function __construct($source_charset = 'utf-8', $target_charset = 'utf-8', $load_all = true, $source = '', $mainDicFile = NULL) {
 		$this->addonDicFile = dirname ( __FILE__ ) . '/' . $this->addonDicFile;
+		if ($mainDicFile) {
+			$this->mainDicFile = $mainDicFile;
+		}
 		$this->mainDicFile = dirname ( __FILE__ ) . '/' . $this->mainDicFile;
 		$this->SetSource ( $source, $source_charset, $target_charset );
 		$this->isLoadAll = $load_all;
@@ -942,13 +942,15 @@ class PhpAnalysis {
 	
 	/**
 	 * 编译词典
-	 * @parem $sourcefile utf-8编码的文本词典数据文件<参见范例dict/not-build/base_dic_full.txt>
-	 * 注意, 需要PHP开放足够的内存才能完成操作
 	 *
-	 * @return void
+	 * @param unknown $source_file
+	 *        	文本文件路径
+	 * @param number $type
+	 *        	：类型，1：分类词典；2：全文检索词典
 	 */
-	public function MakeDict($source_file, $target_file = '') {
-		$target_file = ($target_file == '' ? $this->mainDicFile : $target_file);
+	public function MakeDict($source_file) {
+		$target_file = $this->mainDicFile;
+		/* $target_file = ($target_file == '' ? $this->mainDicFile : $target_file); */
 		$allk = array ();
 		$fp = fopen ( $source_file, 'r' );
 		while ( $line = fgets ( $fp, 512 ) ) {

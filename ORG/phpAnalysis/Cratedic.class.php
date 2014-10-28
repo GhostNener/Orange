@@ -8,10 +8,12 @@ require './ORG/phpAnalysis/phpanalysis.class.php';
  *        
  */
 class Cratedic {
-	/*
-	 * 文本路径
-	 */
-	public $dicAddon = '/base_dic_full.txt';
+	/* 数据库导出词典txt路径 */
+	public $dictxt = '/dict/txt/category_dic_full.txt';
+	/* 分类词典路径 */
+	public $categorydic = 'dict/category_dic_full.dic';
+	/* 全文检索词典 路径 */
+	public $seachdic = 'dict/seach_dic_full.dic';
 	/**
 	 * 编译词典
 	 *
@@ -21,12 +23,16 @@ class Cratedic {
 	 */
 	public function buildDic($arr) {
 		// txt文件路径
-		$txtpath = dirname ( __FILE__ ) . $this->dicAddon;
+		$txtpath = dirname ( __FILE__ ) . $this->dictxt;
 		if (! ($this->expotrTxt ( $txtpath, $arr ))) {
 			return false;
 		}
+		/* 生成关键字词典 */
 		PhpAnalysis::$loadInit = false;
-		$pa = new PhpAnalysis ( 'utf-8', 'utf-8', false );
+		$pa = new PhpAnalysis ( 'utf-8', 'utf-8', false, '', $this->categorydic );
+		$pa->MakeDict ( $txtpath );
+		/* 生成全文检索词典 */
+		$pa = new PhpAnalysis ( 'utf-8', 'utf-8', false, '', $this->seachdic );
 		$pa->MakeDict ( $txtpath );
 		return true;
 		exit ();

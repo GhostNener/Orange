@@ -13,7 +13,7 @@ require_once './ORG/phpAnalysis/SeachDic.class.php';
  */
 class TestDicController extends Controller {
 	public function index() {
-		$this->assign ( "time", microtime ( true ) )->display ( 'Index/testdic' );
+		$this->assign ( "time", microtime ( true ) )->display ( 'Index/testpy' );
 	}
 	public function dic() {
 		$t1 = microtime ( true );
@@ -36,5 +36,15 @@ class TestDicController extends Controller {
 		}
 		$t2 = microtime ( true );
 		echo $model ['Title'] . ($t2 - $t1);
+	}
+	public function py(){
+		$t1 = microtime ( true );
+		$test = I ( 'text' );
+			if (! $test) {
+			$this->error ( '没有数据' );
+		}
+		$rst=Pinyin($test);
+		$t2 = microtime ( true );
+		echo $rst."<br>" . ($t2 - $t1);
 	}
 }

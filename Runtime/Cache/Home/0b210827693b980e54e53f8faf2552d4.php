@@ -25,6 +25,7 @@
 					</li>
 					<li><a class="pull-right" href="<?php echo U('Usercenter/User/index');?>">登录</a>
 					</li>
+										<li><a href="<?php echo U('Usercenter/UserCnter/index');?>">我的主页</a></li>
 				</ul>
 			</div>
 		</div>

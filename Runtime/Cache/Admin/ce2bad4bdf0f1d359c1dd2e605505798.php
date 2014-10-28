@@ -4,15 +4,6 @@
 <meta charset="UTF-8">
 <title>Orange</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<<<<<<< HEAD
-<link rel="stylesheet" href="/OrangeTS/Public/css/bootstrap-theme.css" />
-<link rel="stylesheet" href="/OrangeTS/Public/css/bootstrap.css" />
-<link rel="stylesheet" href="/OrangeTS/Public/css/huaxi_css.css" />
-<link rel="shortcut icon" href="/OrangeTS/Public/Img/favicon.png"
-	type="image/x-icon" />
-<script src="/OrangeTS/Public/js/jquery-1.8.0.min.js"></script>
-<script src="/OrangeTS/Public/js/bootstrap.js"></script>
-=======
 <link rel="stylesheet" href="/Orange/Public/css/bootstrap-theme.css" />
 <link rel="stylesheet" href="/Orange/Public/css/bootstrap.css" />
 <link rel="stylesheet" href="/Orange/Public/css/huaxi_css.css" />
@@ -20,7 +11,6 @@
 	type="image/x-icon" />
 <script src="/Orange/Public/js/jquery-1.8.0.min.js"></script>
 <script src="/Orange/Public/js/bootstrap.js"></script>
->>>>>>> 9345fd811051b290f3ae765b145b87bce3cffbea
 </head>
 <body>
 	<!--顶-->
@@ -28,17 +18,10 @@
 		<div class="container">
 			<div class="collapse navbar-collapse">
 				<ul class="nav navbar-nav">
-<<<<<<< HEAD
-					<li><a href="<?php echo U('Index/index');?>">Home</a></li>
-					<li><a href="<?php echo U('GoodsCategory/index');?>">分类管理</a></li>
-					<li><a href="<?php echo U('Home/Index/index');?>">返回前台</a></li>
-					<li><a class="pull-right" href="<?php echo U('Usercenter/User/index');?>">登录测试</a>
-=======
 					<li><a href="<?php echo U('Admin/Index/index');?>">Home</a></li>
 					<li><a href="<?php echo U('Admin/GoodsCategory/index');?>">分类管理</a></li>
 					<li><a href="<?php echo U('Home/Index/index');?>">返回前台</a></li>
 					<li><a class="pull-right" href="<?php echo U('Usercenter/User/index',array('isadmin'=>true));?>">登录</a>
->>>>>>> 9345fd811051b290f3ae765b145b87bce3cffbea
 					</li>
 				</ul>
 			</div>

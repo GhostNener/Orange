@@ -41,6 +41,8 @@ class goods_categoryModel extends Model {
 			);
 		}
 		$seach = new \SeachDic ();
+		$seach->categorydic = C ( 'CATEGOEY_DIC' );
+		$seach->seachdic = C ( 'SEACH_DIC' );
 		$arr = $seach->seach ( $str );
 		$other = $this->field ( array (
 				'Id',
