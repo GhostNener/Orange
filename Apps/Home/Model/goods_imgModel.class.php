@@ -150,7 +150,7 @@ class goods_imgModel extends Model {
 		$dal = M ();
 		$dal->startTrans (); // 事务
 		if (! $goodsid || $goodsid <= 0) {
-			$goodsid = D ( 'goods' )->add ( array (
+			$goodsid = M ( 'goods' )->add ( array (
 					'UserId' => $userid,
 					'Status' => 0 
 			) );
@@ -161,7 +161,7 @@ class goods_imgModel extends Model {
 			return array (
 					'status' => 0,
 					'goodsid' => 0,
-					'msg' => '保存失败' 
+					'msg' => '保存失败'
 			);
 		}
 		$rst = $this->where ( array (
