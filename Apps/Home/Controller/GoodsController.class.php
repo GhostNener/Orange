@@ -19,7 +19,7 @@ class GoodsController extends BaseController {
 	/**
 	 * 个人商品列表
 	 */
-	public function index($status=10) {
+	public function index($status = 10) {
 		$userid = cookie ( '_uid' );
 		$model = D ( 'goods' );
 		// 查询条件
@@ -47,17 +47,17 @@ class GoodsController extends BaseController {
 		$alist = $amodel->getall ( $userid );
 		$g_smodel = new goods_serviceModel ();
 		$slist = $g_smodel->getall ();
-		//$this->assign ( 'slist', $slist );
-		//一下为解决FF浏览器302错误 必须
-		$sname=session_name();
-		$sid=session_id();
-		$cid=cookie('_uid');
-		$ckey=cookie('_key');
-		$this->assign ( 'cid', $cid);
-		$this->assign ( 'ckey', $ckey);
-		$this->assign ( 'sname', $sname);
+		// $this->assign ( 'slist', $slist );
+		// 一下为解决FF浏览器302错误 必须
+		$sname = session_name ();
+		$sid = session_id ();
+		$cid = cookie ( '_uid' );
+		$ckey = cookie ( '_key' );
+		$this->assign ( 'cid', $cid );
+		$this->assign ( 'ckey', $ckey );
+		$this->assign ( 'sname', $sname );
 		$this->assign ( 'sid', $sid );
-		//以上代码解决FF302
+		// 以上代码解决FF302
 		$this->assign ( 'slist', $slist );
 		$this->assign ( 'alist', $alist );
 		$this->assign ( 'clist', $clist )->display ( 'modifgoods' );
