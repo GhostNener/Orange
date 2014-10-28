@@ -13,6 +13,9 @@ require_once './ORG/phpAnalysis/SeachDic.class.php';
  */
 class TestDicController extends Controller {
 	public function index() {
+		$this->assign ( "time", microtime ( true ) )->display ( 'Index/testdic' );
+	}
+	public function pypage() {
 		$this->assign ( "time", microtime ( true ) )->display ( 'Index/testpy' );
 	}
 	public function dic() {
