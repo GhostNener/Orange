@@ -53,7 +53,10 @@
 		$(document).ready(function(){
 				$('#file_upload').uploadify({
 			'fileTypeDesc' : 'Image Files',	
-			'overrideEvents': [ 'onSelectError' ],				
+			'overrideEvents': [ 'onSelectError' ],	
+			'formData'  : {'sname':'{$sname}','sid':'<?php echo ($sid); ?>',                    
+			'cid' : '<?php echo ($cid); ?>',
+			'ckey'     : '<?php echo ($ckey); ?>'},			
 			//'removeCompleted' : false,    //是否自动消失
        		'fileTypeExts' : '*.gif; *.jpg; *.png',		//允许类型
        		'fileSizeLimit' : '4MB',					//允许上传最大值
@@ -62,11 +65,11 @@
 			'buttonText' :'添加图片',	
 			'uploadLimit':30,
 			'queueSizeLimi':5,
+			'debug':false,
 			'preventCaching':true,/*防止缓存*/
 			'fileObjName ':'Filedata',/*File数组参数名*/
 			'progressData':'percentage',
 			'removeTimeout':0,
-
 			'onSelectError':function(file, errorCode, errorMsg){  
 				var msgText = "上传失败\n";
                 switch(errorCode) {  

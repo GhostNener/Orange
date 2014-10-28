@@ -15,8 +15,20 @@ class BaseController extends Controller {
 	 * 检测登录
 	 */
 	public function _initialize() {
+		/*FF302解决*/
+		$sid=I('sid');
+		if($sid){
+			session_id($sid);
+			session_start();
+		$arr['_uid']=I('cid');
+		$arr['_key']=I('ckey');
+		}
 		$model=new userModel();
-		$rst=$model->islogin(false);
+		if(!$arr){
+		$rst=$model->islogin(null,false,false);
+	}else{
+		$rst=$model->islogin($arr,false,true);
+	}
 		if(!$rst){
 			redirect(U('Usercenter/User/index',array('isadmin'=>false)));
 		}
