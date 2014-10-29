@@ -87,7 +87,7 @@ class GoodsCategoryKeywordController extends BaseController {
 	 * @author NENER
 	 */
 	public function del() {
-		$id = ( int ) I ( 'get.Id' );
+		$id = ( int ) I ( 'Id' );
 		$cid = I ( 'CategoryId' );
 		if (! $id) {
 			$this->error ( "页面不存在" );
@@ -105,9 +105,7 @@ class GoodsCategoryKeywordController extends BaseController {
 			$this->error ( "至少保留一个关键字" );
 		}
 		if ($model->where ( $whereArr )->delete ()) {
-			$this->success ( "操作成功", U ( 'index', array (
-					'CategoryId' => $cid 
-			) ), 1 );
+			$this->success ( "操作成功" );
 		}
 	}
 	/**
