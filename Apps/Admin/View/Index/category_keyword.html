@@ -28,7 +28,7 @@
 	<input type="hidden" id="url" delurl="{:U(del)}">
 	<div>
 		<a href="{:U('add',array('CategoryId'=>$CategoryId))}"
-			class="btn btn-default">添加</a> <a href="{:U('GoodsCategory/index')}"
+			class="btn btn-default" target="_blank">添加</a> <a href="{:U('GoodsCategory/index')}"
 			class="btn btn-default">返回分类</a>
 	</div>
 	<br>
@@ -51,7 +51,7 @@
 			<td><a class="btn btn-default delkeyworl" delid="{$v['Id']}"  cateid="{$CategoryId}" >删除</a>
 			</td>
 			<td><a class="btn btn-default"
-				href="{:U(update,array('Id'=>$v['Id']))}">编辑</a></td>
+				href="{:U(update,array('Id'=>$v['Id']))}" target="_blank">编辑</a></td>
 		</tr>
 		</foreach>
 	</table>
