@@ -41,6 +41,7 @@ class goods_searchModel extends Model {
 		if (count ( $arr ) <= 0) {
 			return '';
 		} else {
+			$arr[]=zhCode($title);
 			$rst = implode ( "  ", $arr );
 			return $rst;
 		}

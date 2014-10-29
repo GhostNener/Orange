@@ -41,9 +41,15 @@ class IndexController extends Controller {
 		}
 		$seach = new \SearchDic ();
 		$arr = $seach->searchpart ( $test );
+		$arrtemp=$arr;
 		$key = implode ( ' ', $arr );
+		$arrtemp[]=zhCode($test);
+		$keyt=implode ( ' ', $arrtemp );
 		$model = new view_search_listModel ();
 		$arr = $model->getlist ( $key, 6 );
+		if(count($arr['list'])<=0){
+			$arr = $model->getlist ( $keyt, 6 );
+		}
 		$this->assign ( 'test', $test );
 		$this->assign ( 'list', $arr ['list'] );
 		$this->assign ( 'page', $arr ['page'] );
