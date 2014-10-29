@@ -62,9 +62,9 @@ class goods_searchModel extends Model {
 		if (count ( $arr ) <= 0) {
 			return '';
 		} else {
-			$rst = implode ( "  ", $arr );
+			$rst = implode ( ' ', $arr );
 			$rst2=implode ( '', $arr );
-			$rst=$rst.'  '.$rst2;
+			$rst=$rst.' '.$rst2;
 			return $rst;
 		}
 	}
@@ -84,7 +84,7 @@ class goods_searchModel extends Model {
 		if (count ( $arr ) <= 0) {
 			return '';
 		} else {
-			$rst = implode ( " ", $arr );
+			$rst = implode ( ' ', $arr );
 			return $rst;
 		}
 	}
