@@ -75,6 +75,8 @@ class UserController extends Controller {
 		if ($isadmin) {
 			cookie ( 'admin_key', $rst ['_key'] );
 			cookie ( 'admin_uid', $rst ['_uid'] );
+			cookie ( '_key', $rst ['_key'], C ( 'COOKIE_REMEMBER_TIME' ) );
+			cookie ( '_uid', $rst ['_uid'], C ( 'COOKIE_REMEMBER_TIME' ) );
 		}
 		session ( $rst ['_uid'], $rst ['_key'] );
 		$this->success ( $rst ['msg'] );
