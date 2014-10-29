@@ -1,25 +1,25 @@
 <?php
 use Vendor\PHPMailer;
 
-/**
- * 编码
- *
- * @param unknown $str        	
- * @return unknown string
- */
-function zhCode($str) {
-	if (!preg_match ( "/^[\x7f-\xff]+$/", $str )) {
-		return $str;
-	} else {
-		$zhCode = '';
-		$str = iconv ( 'UTF-8', 'GB18030', $str );
-		for($i = 0; $i < strlen ( $str ) / 2; $i ++) {
-			$word = substr ( $str, $i * 2, 2 );
-			$zhCode .= sprintf ( "%02d%02d", ord ( $word [0] ) - 160, ord ( $word [1] ) - 160 );
+	/**
+	 * 编码
+	 *
+	 * @param unknown $str        	
+	 * @return unknown string
+	 */
+ function zhCode($str) {
+		if (! preg_match ( "/^[\x7f-\xff]+$/", $str )) {
+			return $str;
+		} else {
+			$zhCode = '';
+			$str = iconv ( 'UTF-8', 'GB18030', $str );
+			for($i = 0; $i < strlen ( $str ) / 2; $i ++) {
+				$word = substr ( $str, $i * 2, 2 );
+				$zhCode .= sprintf ( "%02d%02d", ord ( $word [0] ) - 160, ord ( $word [1] ) - 160 );
+			}
+			return $zhCode;
 		}
-		return $zhCode;
 	}
-}
 
 /**
  * 中文转拼音

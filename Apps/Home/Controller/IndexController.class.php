@@ -43,8 +43,7 @@ class IndexController extends Controller {
 		$arr = $seach->searchpart ( $test );
 		$arrtemp=$arr;
 		$key = implode ( ' ', $arr );
-		$arrtemp[]=zhCode($test);
-		$keyt=implode ( ' ', $arrtemp );
+		$keyt=$key.' '.implode ( '', $arrtemp );
 		$model = new view_search_listModel ();
 		$arr = $model->getlist ( $key, 6 );
 		if(count($arr['list'])<=0){

@@ -65,7 +65,7 @@ class SearchDic {
 	 * @param unknown $title        	
 	 * @return string
 	 */
-	public function searchpart($title) {
+	public function searchpart($title,$iscoding=true) {
 		$str = strtolower ( $title );
 		PhpAnalysis::$loadInit = false;
 		$pa = new PhpAnalysis ( 'utf-8', 'utf-8', $this->pri_dict, '', $this->searchdic );
@@ -77,8 +77,8 @@ class SearchDic {
 		$pa->unitWord = $this->do_unit;
 		$pa->StartAnalysis ( $this->do_fork );
 		/* 执行分词 并返回分词结果 */
-		$okresult = $pa->GetFinallyResult ( '', false );
-		return $this->cutsingle ( $okresult );
+		$okresult = $pa->GetFinallyResult ( '', false );		
+		return $this->cutsingle ( $okresult,$iscoding);
 	}
 	/**
 	 * 移除重复词以及 单个词
@@ -86,9 +86,12 @@ class SearchDic {
 	 * @param unknown $arr        	
 	 * @return multitype:
 	 */
-	private function cutsingle($arr) {
+	private function cutsingle($arr,$iscoding=true) {
 		$arr = array_flip ( $arr );
 		$arr = array_flip ( $arr );
+		if(!$iscoding){
+			return $arr;
+		}
 		foreach ( $arr as $k => $v ) {
 			$v = trim ( $v );
 			if (! preg_match ( "/^[\x7f-\xff]+$/", $v )) {

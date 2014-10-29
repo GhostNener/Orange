@@ -112,7 +112,7 @@ class goodsModel extends Model {
 					'SearchTitle' => $postarr ['Title'].' '.$postarr ['Presentation'] 
 			);
 			$smodel = new goods_searchModel ();
-			$smsg = $smodel->addone ( $searchdata );
+			$smsg = $smodel->saveone ( $searchdata );
 			return array (
 					'status' => 1,
 					'msg' => '操作成功' 
