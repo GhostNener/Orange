@@ -13,7 +13,11 @@ class Cratedic {
 	/* 分类词典路径 */
 	public $categorydic = 'dict/category_dic_full.dic';
 	/* 全文检索词典 路径 */
-	public $seachdic = 'dict/seach_dic_full.dic';
+	public $searchdic = 'dict/search_dic_full.dic';
+	/* 全文检索基本词典txt路径 */
+	public $basetxt = '/dict/txt/base_dic_full.txt';
+	/* 缓存txt */
+	private $temptxt = '/dict/txt/temp_dic_full.txt';
 	/**
 	 * 编译词典
 	 *
@@ -27,13 +31,16 @@ class Cratedic {
 		if (! ($this->expotrTxt ( $txtpath, $arr ))) {
 			return false;
 		}
+		$basetxt = dirname ( __FILE__ ) . $this->basetxt;
+		$temptxt = dirname ( __FILE__ ) . $this->temptxt;
 		/* 生成关键字词典 */
 		PhpAnalysis::$loadInit = false;
 		$pa = new PhpAnalysis ( 'utf-8', 'utf-8', false, '', $this->categorydic );
 		$pa->MakeDict ( $txtpath );
 		/* 生成全文检索词典 */
-		$pa = new PhpAnalysis ( 'utf-8', 'utf-8', false, '', $this->seachdic );
-		$pa->MakeDict ( $txtpath );
+		$this->jointtxt ( $txtpath, $basetxt, $temptxt );
+		$pa = new PhpAnalysis ( 'utf-8', 'utf-8', false, '', $this->searchdic );
+		$pa->MakeDict ( $temptxt );
 		return true;
 		exit ();
 	}
@@ -61,6 +68,24 @@ class Cratedic {
 		}
 		fclose ( $fp );
 		return true;
+	}
+	/**
+	 * 拼接文件 生成新的文件
+	 *
+	 * @param unknown $sourcespatha
+	 *        	：源文件绝对路径
+	 * @param unknown $sourcespathb
+	 *        	：：源文件绝对路径
+	 * @param unknown $savepath
+	 *        	：要保存的绝对路径
+	 */
+	private function jointtxt($sourcespatha, $sourcespathb, $savepath) {
+		$strbase = file_get_contents ( $sourcespatha );
+		$newdic = file_get_contents ( $sourcespathb );
+		$newdic = $newdic . "\n" . $strbase;
+		$fp = fopen ( $savepath, 'w' );
+		fwrite ( $fp, $newdic );
+		fclose ( $fp );
 	}
 }
 ?>

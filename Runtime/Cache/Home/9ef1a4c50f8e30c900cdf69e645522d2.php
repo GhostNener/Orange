@@ -1,16 +1,16 @@
 <?php if (!defined('THINK_PATH')) exit();?><!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Orange</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="/Orange/Public/css/bootstrap-theme.css" />
-<link rel="stylesheet" href="/Orange/Public/css/bootstrap.css" />
-<link rel="stylesheet" href="/Orange/Public/css/huaxi_css.css" />
-<link rel="shortcut icon" href="/Orange/Public/Img/favicon.png"
+	<meta charset="UTF-8">
+	<title>Orange</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="/Orange/Public/css/bootstrap-theme.css" />
+	<link rel="stylesheet" href="/Orange/Public/css/bootstrap.css" />
+	<link rel="stylesheet" href="/Orange/Public/css/huaxi_css.css" />
+	<link rel="shortcut icon" href="/Orange/Public/Img/favicon.png"
 	type="image/x-icon" />
-<script src="/Orange/Public/js/jquery-1.8.0.min.js"></script>
-<script src="/Orange/Public/js/bootstrap.js"></script>
+	<script src="/Orange/Public/js/jquery-1.8.0.min.js"></script>
+	<script src="/Orange/Public/js/bootstrap.js"></script>
 </head>
 <body>
 	<!--顶-->
@@ -18,14 +18,30 @@
 		<div class="container">
 			<div class="collapse navbar-collapse">
 				<ul class="nav navbar-nav">
-					<li><a href="<?php echo U('Home/Index/index');?>">Home</a></li>
-					<li><a href="<?php echo U('Home/TestDic/index');?>">词典测试</a></li>
-					<li><a href="<?php echo U('Home/Goods/index');?>">商品管理</a></li>
-					<li><a class="pull-right" href="<?php echo U('Admin/Index/index');?>">后台</a>
+					<li>
+						<a href="<?php echo U('Home/Index/index');?>">Home</a>
 					</li>
-					<li><a class="pull-right" href="<?php echo U('Usercenter/User/index');?>">登录</a>
+					<li>
+						<a href="<?php echo U('Home/TestDic/index');?>">分类测试</a>
 					</li>
-										<li><a href="<?php echo U('Usercenter/UserCnter/index');?>">我的主页</a></li>
+					<li>
+						<a href="<?php echo U('Home/TestDic/pypage');?>">拼音测试</a>
+					</li>
+					<li>
+						<a href="<?php echo U('Home/TestDic/sppage');?>">分词测试</a>
+					</li>
+					<li>
+						<a href="<?php echo U('Home/Goods/index');?>">商品管理</a>
+					</li>
+					<li>
+						<a class="pull-right" href="<?php echo U('Admin/Index/index');?>">后台</a>
+					</li>
+					<li>
+						<a class="pull-right" href="<?php echo U('Usercenter/User/index');?>">登录</a>
+					</li>
+					<li>
+						<a href="<?php echo U('Usercenter/UserCnter/index');?>">我的主页</a>
+					</li>
 				</ul>
 			</div>
 		</div>
@@ -33,8 +49,7 @@
 <div class="container">
 	<!-- 词典测试-->
 	<div class="text-center">
-		<h1>词典测试</h1>
-		<?php echo ($time); ?>
+		<h1>分类测试</h1>
 	</div>
 	<br> <br>
 
@@ -59,7 +74,8 @@
 	<!-- 底栏-->
 	<div id="footer" class="text-center">
 		<div class="container">
-			<span>Power By Juzi</span> <a data-toggle="modal"
+			<span>Power By Juzi</span>
+			<a data-toggle="modal"
 				data-target="#fingertipModal">联系</a>
 			<div class="modal fade footer_contac" id="fingertipModal"
 				tabindex="-1" role="dialog" aria-labelledby="fingertipModalabel"
@@ -73,11 +89,13 @@
 						</div>
 						<div class="modal-body">
 							<p>
-								E-mail: <a style="text-decoration: none;"
+								E-mail:
+								<a style="text-decoration: none;"
 									href="mailto:493628086@qq.com">493628086@qq.com</a>
 							</p>
 							<p>
-								E-mail: <a style="text-decoration: none;"
+								E-mail:
+								<a style="text-decoration: none;"
 									href="mailto:714571611@qq.com">714571611@qq.com</a>
 							</p>
 						</div>

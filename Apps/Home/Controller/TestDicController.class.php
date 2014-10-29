@@ -4,7 +4,7 @@ namespace Home\Controller;
 
 use Think\Controller;
 
-require_once './ORG/phpAnalysis/SeachDic.class.php';
+require_once './ORG/phpAnalysis/SearchDic.class.php';
 /**
  * 词典测试
  *
@@ -18,14 +18,17 @@ class TestDicController extends Controller {
 	public function pypage() {
 		$this->assign ( "time", microtime ( true ) )->display ( 'Index/testpy' );
 	}
+	public function sppage() {
+		$this->assign ( "time", microtime ( true ) )->display ( 'Index/testsp' );
+	}
 	public function dic() {
 		$t1 = microtime ( true );
 		$test = I ( 'text' );
 		if (! $test) {
 			$this->error ( '没有数据' );
 		}
-		$seach = new \SeachDic ();
-		$arr = $seach->seach ( $test );
+		$search = new \SearchDic ();
+		$arr = $search->search ( $test );
 		if (! $arr) {
 			return false;
 		}
@@ -38,16 +41,28 @@ class TestDicController extends Controller {
 			}
 		}
 		$t2 = microtime ( true );
-		echo $model ['Title'] . ($t2 - $t1);
+		echo $model ['Title'] . '<br>耗时：' . ($t2 - $t1);
 	}
-	public function py(){
+	public function sp() {
 		$t1 = microtime ( true );
 		$test = I ( 'text' );
-			if (! $test) {
+		if (! $test) {
 			$this->error ( '没有数据' );
 		}
-		$rst=Pinyin($test);
+		$seach = new \SearchDic ();
+		$arr = $seach->searchpart ( $test );
 		$t2 = microtime ( true );
-		echo $rst."<br>" . ($t2 - $t1);
+		$arr = implode ( '<br>', $arr );
+		echo $arr . '<br>耗时：' . ($t2 - $t1);
+	}
+	public function py() {
+		$t1 = microtime ( true );
+		$test = I ( 'text' );
+		if (! $test) {
+			$this->error ( '没有数据' );
+		}
+		$rst = Pinyin ( $test );
+		$t2 = microtime ( true );
+		echo $rst . '<br>耗时：' . ($t2 - $t1);
 	}
 }

@@ -20,7 +20,7 @@ class AddressController extends BaseController {
 	 */
 	public function saveaddress() {
 		$arr = I ( 'post.' );
-		$arr ['_uid'] = cookie ( '_uid' );
+		$arr ['UserId'] = cookie ( '_uid' );
 		$model = new user_addressModel ();
 		$rst = $model->saveone ( $arr );
 		if (( int ) $rst ['status'] == 1) {

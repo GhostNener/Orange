@@ -10,7 +10,7 @@ use Think\Model;
  * @author NENER
  *        
  */
-require_once  './ORG/phpAnalysis/SeachDic.class.php';
+require_once  './ORG/phpAnalysis/SearchDic.class.php';
 class goods_categoryModel extends Model {
 	/**
 	 * 获取所有分类
@@ -40,10 +40,10 @@ class goods_categoryModel extends Model {
 					'msg' => '数据为空' 
 			);
 		}
-		$seach = new \SeachDic ();
+		$seach = new \SearchDic ();
 		$seach->categorydic = C ( 'CATEGOEY_DIC' );
-		$seach->seachdic = C ( 'SEACH_DIC' );
-		$arr = $seach->seach ( $str );
+		$seach->searchdic = C ( 'SEARCH_DIC' );
+		$arr = $seach->search ( $str );
 		$other = $this->field ( array (
 				'Id',
 				'Title' 

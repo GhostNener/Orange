@@ -27,8 +27,8 @@ class user_addressModel extends Model {
 			array (
 					'IsDefault',
 					array (
-							1,
-							2 
+							0,
+							1 
 					),
 					'参数不合法！',
 					self::MUST_VALIDATE,
@@ -102,17 +102,10 @@ class user_addressModel extends Model {
 			$msg ['msg'] = '数据为空';
 			return $msg;
 		}
-		$datain = array (
-				'UserId' => $data ['_uid'],
-				'Tel' => $data ['Tel'],
-				'QQ' => $data ['QQ'],
-				'Address' => $data ['Address'],
-				'IsDefault' => $data ['IsDefault'],
-				'Status' => 10 
-		);
+		$data['Status'] = 10; 
 		$address = $this->create ( $data );
 		if (! $address) {
-			$msg ['msg'] = '添加失败';
+			$msg ['msg'] = $this->getError();
 			return $msg;
 		}
 		$dal = M ();
@@ -120,7 +113,7 @@ class user_addressModel extends Model {
 		$rst2 = 1;
 		// 首先判断是不是设置的默认地址
 		if (( int ) $data ['IsDefault'] == 1) {
-			$rst2 = $this->clerdefault ( $datain ['UserId'] );
+			$rst2 = $this->clerdefault ( $data ['UserId'] );
 		}
 		if ($data ['modif'] == 'add') {
 			$rst1 = $this->add ( $address );

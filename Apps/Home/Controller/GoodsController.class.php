@@ -7,7 +7,7 @@ use Home\Model\goods_categoryModel;
 use Usercenter\Model\user_addressModel;
 use Home\Model\goods_serviceModel;
 use Home\Model\goods_imgModel;
-use Home\Model\goods_listModel;
+use Home\Model\view_goods_listModel;
 
 /**
  * 前台商品管理
@@ -27,7 +27,7 @@ class GoodsController extends BaseController {
 				'UserId' => $userid 
 		);
 		
-		$mode = new goods_listModel ();
+		$mode = new view_goods_listModel ();
 		$arr = $mode->getlist ( $wherrArr );
 		$this->assign ( 'list', $arr ['list'] );
 		$this->assign ( 'page', $arr ['page'] );
