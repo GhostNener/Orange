@@ -53,6 +53,7 @@ class TestDicController extends Controller {
 		$arr = $seach->searchpart ( $test );
 		$t2 = microtime ( true );
 		$arr = implode ( '<br>', $arr );
+		$t2 = microtime ( true );
 		echo $arr . '<br>耗时：' . ($t2 - $t1);
 	}
 	public function py() {

@@ -92,8 +92,7 @@ class userModel extends Model {
 					'Password',
 					'pwd_md5',
 					self::MODEL_INSERT,
-					'callback',
-					1 
+					'callback'
 			),
 			array (
 					'LastKeyTime',

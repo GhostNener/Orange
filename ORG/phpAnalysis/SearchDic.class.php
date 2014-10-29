@@ -1,7 +1,7 @@
 <?php
 ini_set ( 'display_errors', 'On' );
 ini_set ( 'memory_limit', '64M' );
-require './ORG/phpAnalysis/phpanalysis.class.php';
+require_once './ORG/phpAnalysis/phpanalysis.class.php';
 /**
  * 检索字典
  *
@@ -95,14 +95,28 @@ class SearchDic {
 				$len = 1;
 			} else {
 				$len = 3;
-				if (strlen ( $v ) > $len) {
-					$arr [$k] = $v . "|" . substr ( md5 ( $v, false ), 8, 16 );
-				}
-			}
-			if (strlen ( $v ) <= $len) {
-				unset ( $arr [$k] );
+				$arr [$k] = $this->zhCode ( $v );
 			}
 		}
 		return $arr;
+	}
+	/**
+	 * 编码
+	 *
+	 * @param unknown $str        	
+	 * @return unknown string
+	 */
+	private function zhCode($str) {
+		if (! preg_match ( "/^[\x7f-\xff]+$/", $str )) {
+			return $str;
+		} else {
+			$zhCode = '';
+			$str = iconv ( 'UTF-8', 'GB18030', $str );
+			for($i = 0; $i < strlen ( $str ) / 2; $i ++) {
+				$word = substr ( $str, $i * 2, 2 );
+				$zhCode .= sprintf ( "%02d%02d", ord ( $word [0] ) - 160, ord ( $word [1] ) - 160 );
+			}
+			return $zhCode;
+		}
 	}
 }

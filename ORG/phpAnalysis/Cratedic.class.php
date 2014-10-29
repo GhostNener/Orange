@@ -1,6 +1,6 @@
 <?php
 ini_set ( 'memory_limit', '128M' );
-require './ORG/phpAnalysis/phpanalysis.class.php';
+require_once './ORG/phpAnalysis/phpanalysis.class.php';
 /**
  * 分类字典生成
  *
@@ -53,7 +53,7 @@ class Cratedic {
 	 * @return boolean
 	 */
 	private function expotrTxt($txtPath, $arr) {
-		$fp = fopen ( $txtPath, 'w' );
+		$fp = fopen ( $txtPath, 'w+' );
 		$flag = false;
 		if (! $arr) {
 			return false;
@@ -83,7 +83,7 @@ class Cratedic {
 		$strbase = file_get_contents ( $sourcespatha );
 		$newdic = file_get_contents ( $sourcespathb );
 		$newdic = $newdic . "\n" . $strbase;
-		$fp = fopen ( $savepath, 'w' );
+		$fp = fopen ( $savepath, 'w+' );
 		fwrite ( $fp, $newdic );
 		fclose ( $fp );
 	}

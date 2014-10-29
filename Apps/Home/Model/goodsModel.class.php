@@ -107,6 +107,12 @@ class goodsModel extends Model {
 		}
 		if ($rst1 && $rst2) {
 			$dal->commit ();
+			$searchdata = array (
+					'GoodsId' => $goodsid,
+					'SearchTitle' => $postarr ['Title'].' '.$postarr ['Presentation'] 
+			);
+			$smodel = new goods_searchModel ();
+			$smsg = $smodel->addone ( $searchdata );
 			return array (
 					'status' => 1,
 					'msg' => '操作成功' 

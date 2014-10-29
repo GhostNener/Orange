@@ -22,10 +22,13 @@
 						<a href="<?php echo U('Home/Index/index');?>">Home</a>
 					</li>
 					<li>
-						<a href="<?php echo U('Home/TestDic/index');?>">词典测试</a>
+						<a href="<?php echo U('Home/TestDic/index');?>">分类测试</a>
 					</li>
 					<li>
 						<a href="<?php echo U('Home/TestDic/pypage');?>">拼音测试</a>
+					</li>
+					<li>
+						<a href="<?php echo U('Home/TestDic/sppage');?>">分词测试</a>
 					</li>
 					<li>
 						<a href="<?php echo U('Home/Goods/index');?>">商品管理</a>

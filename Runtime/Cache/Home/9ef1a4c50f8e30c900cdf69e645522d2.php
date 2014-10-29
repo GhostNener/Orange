@@ -45,6 +45,22 @@
 				</ul>
 			</div>
 		</div>
+		<div class="container">
+			<div >
+				<br>
+				<br>
+				<form class="form-horizontal" role="form" action="<?php echo U('Home/Index/searchgoods');?>" method="post">
+					<div class="form-group">
+						<div class="col-sm-offset-1 col-sm-8">
+							<input type="text" class="form-control " id="text"
+					placeholder="搜索" name="text" value="<?php echo ($test); ?>"></div>
+						<div class=" col-sm-2">
+							<button type="submit" class="btn btn-default">搜索</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
 		﻿
 <div class="container">
 	<!-- 词典测试-->

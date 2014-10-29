@@ -6,7 +6,9 @@ use Home\Model\goods_commentModel;
 use Think\Controller;
 use Home\Model\goods_orderModel;
 use Home\Model\view_goods_listModel;
+use Home\Model\view_search_listModel;
 
+require_once './ORG/phpAnalysis/SearchDic.class.php';
 /**
  * 商品首页
  *
@@ -26,7 +28,27 @@ class IndexController extends Controller {
 		$this->assign ( 'page', $arr ['page'] );
 		$this->display ( 'Index/home' );
 	}
-	
+	/**
+	 * 搜索商品
+	 * 
+	 * @author NENER
+	 *        
+	 */
+	public function searchgoods() {
+		$test = I ( 'text' );
+		if (! $test) {
+			redirect ( U ( 'Home/Index/index' ) );
+		}
+		$seach = new \SearchDic ();
+		$arr = $seach->searchpart ( $test );
+		$key = implode ( ' ', $arr );
+		$model = new view_search_listModel ();
+		$arr = $model->getlist ( $key, 6 );
+		$this->assign ( 'test', $test );
+		$this->assign ( 'list', $arr ['list'] );
+		$this->assign ( 'page', $arr ['page'] );
+		$this->display ( 'Index/home' );
+	}
 	/**
 	 * 展示商品 详情 及评论
 	 */
