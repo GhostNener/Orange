@@ -4,6 +4,7 @@ namespace Admin\Controller;
 
 use Think\Controller;
 use Usercenter\Model\userModel;
+
 /**
  * 分类关键字管理
  *
@@ -144,6 +145,9 @@ class GoodsCategoryKeywordController extends BaseController {
 			if (! ($model->data ( $data )->add ())) {
 				$this->error ( "操作失败" );
 			}
+			$this->success ( '操作成功', U ( 'GoodsCategoryKeyword/add', array (
+					'CategoryId' => $data ['CategoryId'] 
+			) ), 1 );
 		} else {
 			$whereArr = array (
 					'Id' => ( int ) I ( "post.Id" ) 
