@@ -72,6 +72,49 @@
 					</form>
 					<!-- 登录标识 -->
 
+	<?php if($usermodel == null): ?><ul class="nav navbar-nav navbar-right">
+			<li>
+				<a href="<?php echo U('Usercenter/User/index');?>" >登录</a>
+			</li>
+			<li>
+				<a href="<?php echo U('Usercenter/User/regist');?>">注册</a>
+			</li>
+		</ul>
+		<?php else: ?>
+		<!-- 登录状态 -->
+		<ul class="nav navbar-nav navbar-right">
+			<li class="dropdown">
+				<a class="dropdown-toggle" data-toggle="dropdown" href="#">
+					<img src="http://hhhhold.com/18x18">
+					&nbsp<?php echo ($usermodel['Nick']); ?>&nbsp
+					<span class="caret"></span>
+					&nbsp
+					<span class="badge">3</span>
+				</a>
+				<ul class="dropdown-menu">
+					<li>
+						<a href="#">
+							<span class="badge pull-right">3</span>
+							未读消息
+						</a>
+					</li>
+					<li>
+						<a href="<?php echo U('Usercenter/UserCnter/index');?>">个人中心</a>
+					</li>
+					<li>
+						<a href="#">心愿单</a>
+					</li>
+					<li>
+						<a href="#">充值</a>
+					</li>
+					<li class="divider"></li>
+					<li>
+						<a href="#">退出用户</a>
+					</li>
+				</ul>
+			</li>
+		</ul><?php endif; ?>
+
 
 				</div>
 				<!-- /.navbar-collapse -->
