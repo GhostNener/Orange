@@ -35,16 +35,22 @@
 		});*/
 		/*登录按钮*/
 		$('#loginbutton').click(function(e){
+			$('#loginbutton').attr('disabled',"true");
+    		$('#loginbutton').val('....');
 			var _uid=$.trim($('#UserName').val());
 			if(!_uid){
 				$('#UserName').val('');
 				$('#UserName').focus();
+			$('#loginbutton').val(btn_txt);
+    		$('#loginbutton').removeAttr('disabled'); 
 				return;
 			}
 			var _pwd=$('#Password').val();
 			if(!$.trim(_pwd)){
 				$('#Password').val('');
 				$('#Password').focus();
+			$('#loginbutton').val(btn_txt);
+    		$('#loginbutton').removeAttr('disabled'); 
 				return;
 			}
 			var _isadmin=$('#isadmin').val();			
@@ -64,8 +70,6 @@
 			_remember=0;
 		}
 		    var btn_txt=$('#loginbutton').val();
-    		$('#loginbutton').attr('disabled',"true");
-    		$('#loginbutton').val('....');
 			/*提交表单*/
 			$.post($('#url').attr('login'),{
 				'Name':_uid,

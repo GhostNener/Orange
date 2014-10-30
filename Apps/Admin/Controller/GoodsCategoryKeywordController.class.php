@@ -145,9 +145,10 @@ class GoodsCategoryKeywordController extends BaseController {
 			if (! ($model->data ( $data )->add ())) {
 				$this->error ( "操作失败" );
 			}
-			$this->success ( '操作成功', U ( 'GoodsCategoryKeyword/add', array (
+			redirect ( U ( 'GoodsCategoryKeyword/add', array (
 					'CategoryId' => $data ['CategoryId'] 
-			) ), 1 );
+			) ) );
+			return ;
 		} else {
 			$whereArr = array (
 					'Id' => ( int ) I ( "post.Id" ) 

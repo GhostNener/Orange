@@ -86,17 +86,17 @@ class goods_imgModel extends Model {
 		// 载入图片上传配置
 		$config = C ( 'IMG_UPLOAD_CONFIG' );
 		$config ['savePath'] = $config ['savePath'] . C ( 'GOODS_IMG_SOURCE' );
-		$upload = new \Think\Upload ( $config ); // 实例化上传类
-		$images = $upload->upload ();
+		$rstarr = $this->uploadfile ( $config );
 		// 判断是否有图
-		if (! $images) {
+		if ($rstarr ['status'] == 0) {
 			return array (
 					'status' => 0,
 					'imgid' => 0,
-					'msg' => $upload->getError () 
+					'msg' => $rstarr ['msg'] 
 			);
 		}
 		// 图片保存名
+		$images = $rstarr ['msg'];
 		$imgname = $images ['Filedata'] ['savename'];
 		// 图片保存相对路径
 		$imgurl = $config ['rootPath'] . $config ['savePath'] . $imgname;
@@ -121,7 +121,29 @@ class goods_imgModel extends Model {
 			return array (
 					'status' => 0,
 					'imgid' => 0,
+					'msg' => '上传失败' 
+			);
+		}
+	}
+	/**
+	 * 上传文件
+	 *
+	 * @param unknown $config
+	 *        	上传配置
+	 * @return Ambigous <boolean, multitype:mixed string >
+	 */
+	public function uploadfile($config) {
+		$upload = new \Think\Upload ( $config ); // 实例化上传类
+		$images = $upload->upload ();
+		if (! $images) {
+			return array (
+					'status' => 0,
 					'msg' => $upload->getError () 
+			);
+		} else {
+			return array (
+					'status' => 1,
+					'msg' => $images 
 			);
 		}
 	}
@@ -161,7 +183,7 @@ class goods_imgModel extends Model {
 			return array (
 					'status' => 0,
 					'goodsid' => 0,
-					'msg' => '保存失败'
+					'msg' => '保存失败' 
 			);
 		}
 		$rst = $this->where ( array (
