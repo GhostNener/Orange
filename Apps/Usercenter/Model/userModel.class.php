@@ -92,7 +92,7 @@ class userModel extends Model {
 					'Password',
 					'pwd_md5',
 					self::MODEL_INSERT,
-					'callback'
+					'callback' 
 			),
 			array (
 					'LastKeyTime',
@@ -130,6 +130,63 @@ class userModel extends Model {
 	protected function pwd_md5($Password, $RegistTime) {
 		return $this->encrypt ( $Password, NOW_TIME );
 	}
+	/**
+	 * 检查帐号是否可用
+	 *
+	 * @param array $data        	
+	 * @return array:status,msg
+	 */
+	public function checkexits($data) {
+		if (! trim ( $data ['Name'] ) && ! trim ( $data ['E-Mail'] )) {
+			$msg ['msg'] = '空数据';
+			return $msg;
+		}
+		if (checkmail ( $data ['Name'] )) {
+			$wherearr ['E-Mail'] = $data ['Name'];
+		} else {
+			$wherearr ['Name'] = $data ['Name'];
+		}
+		$rst = $this->where ( $wherearr )->find ();
+		if (! $rst) {
+			return array (
+					'status' => 1,
+					'msg' => '帐号可用' 
+			);
+		} else {
+			return array (
+					'status' => 0,
+					'msg' => '帐号已注册' 
+			);
+		}
+	}
+	/**
+	 * 激活用户【手机号注册用户】
+	 * 
+	 * @param unknown $uid
+	 *        	:uid
+	 * @return boolean
+	 */
+	private function activephone($uid) {
+		$model = $this->where ( array (
+				'Id' => $uid,
+				'Status' => 10 
+		) )->find ();
+		if ($model) {
+			return true;
+		}
+		$rst = $this->where ( array (
+				'Id' => $uid,
+				'Status' => 101 
+		) )->save ( array (
+				'Status' => 10 
+		) );
+		if (! $rst) {
+			return false;
+		}
+		$add = new user_addressModel ();
+		$add->adddefefault ( $uid );
+		return true;
+	}
 	
 	/**
 	 * 注册一个新用户
@@ -139,7 +196,7 @@ class userModel extends Model {
 	 *        	Name ,Password ,	ConfirmPassword
 	 * @return array :status,_uid,msg
 	 */
-	public function regist($data) {
+	public function regist($data, $isapi = false) {
 		$msg = array (
 				'status' => 0,
 				'_uid' => 0 
@@ -174,7 +231,6 @@ class userModel extends Model {
 			$dal->rollback ();
 			return $msg;
 		}
-		
 		$send = $this->where ( array (
 				'Id' => $rst 
 		) )->find ();
@@ -189,13 +245,23 @@ class userModel extends Model {
 				$dal->rollback ();
 				return $msg;
 			}
+		}
+		if ($isapi) {
+			$ctp = $this->activephone ( $rst );
+			if ($ctp) {
+				$msg ['msg'] = $rst;
+				$msg ['status'] = 1;
+				$msg ['_uid'] = $rst;
+				$dal->commit ();
+			} else {
+				$dal->rollback ();
+			}
 		} else {
+			$msg ['msg'] = $rst;
+			$msg ['status'] = 1;
+			$msg ['_uid'] = $rst;
 			$dal->commit ();
 		}
-		$dal->commit ();
-		$msg ['msg'] = $rst;
-		$msg ['status'] = 1;
-		$msg ['_uid'] = $rst;
 		return $msg;
 	}
 	/**
@@ -313,8 +379,8 @@ class userModel extends Model {
 		}
 		$rst = $this->where ( $wherearr )->find ();
 		if (! $rst) {
-			if($arr ['isadmin']){
-				$msgarr['msg']="用户名或密码错误!\n或没有权限！";
+			if ($arr ['isadmin']) {
+				$msgarr ['msg'] = "用户名或密码错误!\n或没有权限！";
 			}
 			return $msgarr;
 		}
@@ -420,7 +486,7 @@ class userModel extends Model {
 			$_key = $arr ['_key'];
 			$_id = $arr ['_uid'];
 		}
-		if(!$_key||!$_id){
+		if (! $_key || ! $_id) {
 			return false;
 		}
 		if (session ( '?' . $_id )) {

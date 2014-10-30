@@ -64,6 +64,9 @@ class goodsModel extends Model {
 					'msg' => '操作失败' 
 			);
 		}
+		$sdat ['GoodsId'] = $goodsid;
+		$sdat ['Server'] = $postarr ['Server'];
+		unset ( $postarr ['Server'] );
 		$postarr ['Status'] = 10;
 		$dal = M ();
 		$dal->startTrans ();
@@ -82,13 +85,14 @@ class goodsModel extends Model {
 				'Presentation',
 				'CategoryId',
 				'AddressId',
-				'Server',
 				'TradeWay',
 				'Status',
 				'Createtime' 
 		) )->where ( array (
 				'Id' => $goodsid 
 		) )->save ( $goodsmodel );
+		$smodel = new goods_in_serviceModel ();
+		$srst = $smodel->saveone ( $sdat );
 		// 修改该商品图片状态
 		$rst2 = D ( 'goods_img' )->where ( array (
 				'GoodsId' => $goodsid 
@@ -105,11 +109,11 @@ class goodsModel extends Model {
 					'CategoryId' => $postarr ['CategoryId'] 
 			) );
 		}
-		if ($rst1 && $rst2) {
+		if ($rst1 && $rst2 && $srst) {
 			$dal->commit ();
 			$searchdata = array (
 					'GoodsId' => $goodsid,
-					'SearchTitle' => $postarr ['Title'].' '.$postarr ['Presentation'] 
+					'SearchTitle' => $postarr ['Title'] . ' ' . $postarr ['Presentation'] 
 			);
 			$smodel = new goods_searchModel ();
 			$smsg = $smodel->saveone ( $searchdata );

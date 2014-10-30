@@ -47,7 +47,7 @@ class GoodsController extends BaseController {
 		$g_smodel = new goods_serviceModel ();
 		$slist = $g_smodel->getall ();
 		// $this->assign ( 'slist', $slist );
-		// 一下为解决FF浏览器302错误 必须
+		// 为解决FF浏览器302错误 必须
 		$sname = session_name ();
 		$sid = session_id ();
 		$cid = cookie ( '_uid' );

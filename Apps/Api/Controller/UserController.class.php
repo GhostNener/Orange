@@ -57,48 +57,22 @@ class UserController extends BaseController {
 	public function regist() {
 		$arr = file_get_contents ( "php://input" );
 		$arr = json_decode ( $arr, true );
+		$dal = M ();
 		$model = new userModel ();
-		$rst = $model->regist ( $arr );
-		if($rst['status']==1){
-			$rst['msg']="注册成功";
+		$rst = $model->regist ( $arr, true );
+		if ($rst ['status'] == 1) {
+			$rst ['msg'] = "注册成功";
 		}
 		echo json_encode ( $rst );
 	}
 	/**
-	 * 激活用户【手机号注册用户】
+	 * 检查用户是否存在
 	 */
-	public function active() {
+	public function checkexist() {
 		$arr = file_get_contents ( "php://input" );
 		$arr = json_decode ( $arr, true );
-		$model = M ( 'user' )->where ( array (
-				'Id' => $arr ['_uid'],
-				'Status' => 10 
-		) )->find ();
-		if ($model) {
-			echo json_encode ( array (
-					'status' => 1,
-					'msg' => '已激活，无需重复激活' 
-			) );
-			return;
-		}
-		$rst = M ( 'user' )->where ( array (
-				'Id' => $arr ['_uid'],
-				'Status' => 101 
-		) )->save ( array (
-				'Status' => 10 
-		) );
-		if (! $rst) {
-			echo json_encode ( array (
-					'status' => 0,
-					'msg' => '激活失败' 
-			) );
-			return;
-		}
-		$add=new user_addressModel();
-		$add->adddefefault( $arr ['_uid']);
-		echo json_encode ( array (
-				'status' => 1,
-				'msg' => '激活成功' 
-		) );
+		$model = new userModel ();
+		$rst = $model->checkexits ( $arr );
+		echo json_encode ( $rst );
 	}
 }

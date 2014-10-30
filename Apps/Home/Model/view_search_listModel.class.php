@@ -18,7 +18,7 @@ class view_search_listModel extends Model {
 	 * @return array page 翻页组装,list 列表
 	 *        
 	 */
-	public function getlist($key, $limit = 10) {
+	public function getlist($key, $limit = 6) {
 		$allcount = $this->query ( "SELECT COUNT(*) AS COUNT FROM view_search_list WHERE MATCH(SearchTitle) AGAINST('" . $key . "');" );
 		$allcount = $allcount [0] ['COUNT'];
 		$Page = new \Think\Page ( $allcount, $limit );

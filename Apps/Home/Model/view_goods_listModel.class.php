@@ -18,13 +18,36 @@ class view_goods_listModel extends Model {
 	 * @return array page 翻页组装,list 列表
 	 *        
 	 */
-	public function getlist($wherearr = array('Status'=>10), $limit = 10) {
+	public function getlist($wherearr = array('Status'=>10), $limit = 6) {
 		$allCount = $this->where ( $wherearr )->count ();
 		$Page = new \Think\Page ( $allCount, $limit );
 		$showPage = $Page->show ();
 		$list = $this->where ( $wherearr )->limit ( $Page->firstRow . ',' . $Page->listRows )->select ();
 		return array (
+				'status' => 1,
 				'page' => $showPage,
+				'list' => $list 
+		);
+	}
+	/**
+	 * 获取一串随机商品
+	 * 
+	 * @param number $nubmer        	
+	 * @return array:status,list
+	 */
+	public function getrandlist($nubmer = 6) {
+		$wherearr = array (
+				'Status' => 10 
+		);
+		$allCount = $this->where ( $wherearr )->count ();
+		if ($allCount > $nubmer) {
+			$beg = mt_rand ( 1, ($allCount - $nubmer + 1) );
+			$list = $this->where ( $wherearr )->limit ( $beg, $beg + $nubmer - 1 )->select ();
+		} else {
+			$list = $this->where ( $wherearr )->limit ( 1, $allCount )->select ();
+		}
+		return array (
+				'status' => 1,
 				'list' => $list 
 		);
 	}
@@ -37,33 +60,35 @@ class view_goods_listModel extends Model {
 	 *        
 	 */
 	public function getgoodsdetails($Id) {
-		$whereArr = array('Id' => $Id);
-		$goods = M("goods") -> where($whereArr) -> select();
-		$model1 = M( "goods_comment_list0" );
-		$model2 = M( "goods_comment_list" );
-		$whereArr1 = array(
-			'GoodsId' => $Id,
-			'Status' => 10,
-			'AssesseeId' => 0
+		$whereArr = array (
+				'Id' => $Id 
 		);
-		$whereArr2 = array(
-			'GoodsId' => $Id,
-			'Status' => 10
+		$goods = M ( "goods" )->where ( $whereArr )->select ();
+		$model1 = M ( "goods_comment_list0" );
+		$model2 = M ( "goods_comment_list" );
+		$whereArr1 = array (
+				'GoodsId' => $Id,
+				'Status' => 10,
+				'AssesseeId' => 0 
 		);
-		$whereArr3 = array(
-			'GoodsId' => $Id
+		$whereArr2 = array (
+				'GoodsId' => $Id,
+				'Status' => 10 
 		);
-		$commentlist1 = $model1 -> where($whereArr1) -> select();
-		$commentlist2 = $model2 -> where($whereArr2) -> select();
-		if ($commentlist1 == null){
+		$whereArr3 = array (
+				'GoodsId' => $Id 
+		);
+		$commentlist1 = $model1->where ( $whereArr1 )->select ();
+		$commentlist2 = $model2->where ( $whereArr2 )->select ();
+		if ($commentlist1 == null) {
 			$commentlist = $commentlist2;
-		}elseif ($commentlist2 == null){
+		} elseif ($commentlist2 == null) {
 			$commentlist = $commentlist1;
-		}else {
-			$commentlist = array_merge($commentlist1,$commentlist2);
+		} else {
+			$commentlist = array_merge ( $commentlist1, $commentlist2 );
 		}
-		$newcommentlist = $this-> array_sort($commentlist,'CreateTime','desc');
-		$goodsimg = M('goods_img') -> where($whereArr3) -> select();
+		$newcommentlist = $this->array_sort ( $commentlist, 'CreateTime', 'desc' );
+		$goodsimg = M ( 'goods_img' )->where ( $whereArr3 )->select ();
 		return array (
 				'goods' => $goods,
 				'commentlist' => $newcommentlist,
@@ -71,26 +96,23 @@ class view_goods_listModel extends Model {
 		);
 	}
 	
-	/* 
-	* 二维数组按指定的键值排序 
-	* $arr 数组
-	* $key排序键值
-	* $type排序方式
-	*/
+	/*
+	 * 二维数组按指定的键值排序 $arr 数组 $key排序键值 $type排序方式
+	 */
 	public function array_sort($arr, $keys, $type) {
-	    $keysvalue = $new_array = array();
-	    foreach ($arr as $k => $v) {
-	        $keysvalue[$k] = $v[$keys];
-	    }
-	    if ($type == 'asc') {
-	        asort($keysvalue);
-	    } else {
-	        arsort($keysvalue);
-	    }
-	    reset($keysvalue);
-	    foreach ($keysvalue as $k => $v) {
-	        $new_array[$k] = $arr[$k];
-	    }
-	    return $new_array;
+		$keysvalue = $new_array = array ();
+		foreach ( $arr as $k => $v ) {
+			$keysvalue [$k] = $v [$keys];
+		}
+		if ($type == 'asc') {
+			asort ( $keysvalue );
+		} else {
+			arsort ( $keysvalue );
+		}
+		reset ( $keysvalue );
+		foreach ( $keysvalue as $k => $v ) {
+			$new_array [$k] = $arr [$k];
+		}
+		return $new_array;
 	}
 }

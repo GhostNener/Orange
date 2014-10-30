@@ -24,6 +24,7 @@ class goods_serviceModel extends Model {
 		) )->select ();
 		return $arr;
 	}
+	
 }
 
 ?>

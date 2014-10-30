@@ -1,0 +1,422 @@
+/*!
+ * Start Bootstrap - Shop Homepage HTML Template (http://startbootstrap.com)
+ * Code licensed under the Apache License v2.0.
+ * For details, see http://www.apache.org/licenses/LICENSE-2.0.
+ */
+
+body {
+    background-color: #f2f2f2;
+    padding-top: 70px; /* Required padding for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
+}
+
+html,body{
+    height:100%;
+}
+
+#wrap{
+	min-height: 100%; 
+}
+
+#main{
+    overflow:auto;
+}
+
+/*基本样式*/
+h1,h2,h3,h4,h5,h6,p,label,div {
+    color: #555;
+}
+a,a.list-group-item,.navbar .navbar-nav li a,.navbar .navbar-brand{
+    color: #555;
+}
+
+a:hover,.navbar-default .navbar-nav .active a,a.list-group-item:hover,.navbar .navbar-nav li a:hover,.navbar .navbar-brand:hover{
+    color: #fa7d3c;
+    text-decoration: none;
+}
+
+.btn{
+    border: none;
+    border-radius: 0px;
+}
+
+.btn-expend{
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    color: #555;
+}
+
+.btn-send{
+    background-color: #5cb85c;
+    color: #fff;
+}
+
+.btn-send:hover{
+    color: #fff;
+    background-color: #398439;
+}
+
+.btn-primary,.btnpublish{
+    background-color: #fa7d3c;
+}
+
+.btn-primary:hover,.btnpublish:hover{
+    background-color: #CF6832;
+    color: #ccc;
+}
+
+.btn-primary:focus,.btnpublish:focus{
+    background-color: #CF6832;
+    color: #ccc;
+}
+
+.badge{
+    background-color: #d9534f;
+}
+
+/*橙色面板*/
+.panel-orange{
+    border-color: #ccc;
+}
+
+.panel-orange>.panel-heading{
+    color: #fff;
+    background-color: #fa7d3c;
+    border-color: #ccc;
+}
+
+/*Banner*/
+.slide-image {
+    width: 100%;
+}
+
+.thumbnail img{
+    width: 100%;
+}
+
+.carousel-holder {
+    margin-bottom: 30px;
+}
+
+.carousel-control,
+.item {
+    border-radius: 4px;
+}
+
+/*消息小圆点*/
+.navbar-new {
+    position: absolute;
+    top: 35%;
+    right: 8px;
+    z-index: 10;
+    width: 6px;
+    height: 6px;
+    font-family: "Lato", Helvetica, Arial, sans-serif;
+    font-size: 0;
+    font-weight: 700;
+    line-height: 1;
+    color: #fff;
+    text-align: center;
+    background-color: #fa7d3c;
+    border-radius: 50%;
+}
+
+/*登录*/
+.modal-footer a{
+    float: left;
+    margin-top: 4px;
+}
+
+.rememberme{
+    font-weight: 500;
+}
+
+/*商品列表模块*/
+.caption {
+    height: 130px;
+    overflow: hidden;
+}
+
+.caption .message{
+    color: #888;
+    font-size: 10px;
+}
+
+.caption img{
+    width: auto;
+}
+
+.ratings {
+    padding-right: 10px;
+    padding-left: 10px;
+}
+
+.ratings h3 {
+    white-space: nowrap;
+    color: orange;
+}
+
+.ratings h3 span{
+    white-space: nowrap;
+    color: #ccc;
+    font-size: 10px;
+    margin-left: 10px;
+    text-decoration:line-through;
+}
+
+.ratings .message{
+    color: #888;
+    font-size: 10px;
+}
+
+.thumbnail{
+    padding: 0;
+}
+
+.thumbnail .caption-full {
+    padding: 9px;
+    color: #333;
+}
+
+/*脚页*/
+footer {
+    background-color: #fff;
+    position: relative;
+    clear:both;
+}
+
+/*侧边导航栏*/
+.sideitemnav{
+    margin-top: 30px;
+}
+
+.sideitemnav h4{
+    font-weight: 600;
+}
+
+.sideitemnav .list-group-item{
+    border: none;
+}
+
+/*最新活动*/
+.media h5{
+    font-weight: 600;
+}
+
+.media p{
+    font-size: 12px;
+    margin-bottom: 3px;
+}
+
+.media .btn{
+    font-size: 12px;
+    padding: 1px 6px;
+    margin-top: 4px;
+}
+
+/*排行榜*/
+.tab-pane .tabuser{
+    padding: 20px 0;
+}
+
+.tab-pane .tabuser .info{
+    margin-top: 8px;
+}
+
+.tab-pane .tabuser .info .importinfo{
+    color: #fa7d3c;
+}
+
+/*发布按钮*/
+.fixed-expand{
+    left: auto;
+}
+
+.btnpublish{
+    float: right;
+    margin: 0 20px 20px 0;
+    border-radius: 45px;
+    height: 60px;
+    width: 60px;
+    color: #fff;
+    border: none;
+}
+
+.btnpublish span{
+    font-size: 30px;
+    font-weight: 300;
+}
+
+@media (min-width: 768px){
+    .navbar-form .input-group>.form-control {
+      width: 514px;
+    }
+
+    .btnpublish{
+	    margin: 0 50px 50px 0;
+	    height: 70px;
+	    width: 70px;
+	}
+
+	#main{
+	    padding-bottom:170px; /* this needs to be bigger than footer height*/
+	}
+
+	/*脚页*/
+	footer {
+	    margin-top: -170px; /* negative value of footer height */
+  		padding-top: 20px;
+	}
+}
+
+/* 商品发布 */
+.board{
+	background: #fff;
+	border: 1px solid #ddd;
+	border-radius: 2px;
+	margin-bottom: 20px;
+}
+.board .nav-tabs {
+    position: relative;
+    padding-top: 30px;
+}
+
+.board > div.board-inner{
+    background: #fafafa;
+    background-size: 30%;
+}
+
+.liner{
+    height: 2px;
+    background: #ddd;
+    position: absolute;
+    width: 70%;
+    margin: 0 auto;
+    left: 0;
+    right: 0;
+    top: 60%;
+    z-index: 1;
+}
+
+.board .nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus {
+    color: #555555;
+    cursor: default;
+    border: 0;
+    border-bottom-color: transparent;
+}
+
+.board span.round-tabs{
+    width: 70px;
+    height: 70px;
+    line-height: 70px;
+    display: inline-block;
+    border-radius: 100px;
+    background: white;
+    z-index: 2;
+    position: absolute;
+    left: 0;
+    text-align: center;
+    font-size: 25px;
+}
+
+.board span.round-tabs.one{
+    color: rgb(34, 194, 34);border: 2px solid rgb(34, 194, 34);
+}
+
+.board li.active span.round-tabs.one{
+    background: #fff !important;
+    border: 2px solid #ddd;
+    color: rgb(34, 194, 34);
+}
+
+.board span.round-tabs.two{
+    color: #d9534f;
+    border: 2px solid #d9534f;
+}
+
+.board li.active span.round-tabs.two{
+    background: #fff !important;
+    border: 2px solid #ddd;
+    color: #d9534f;
+}
+
+.board span.round-tabs.three{
+    color: #fa7d3c;
+    border: 2px solid #fa7d3c;
+}
+
+.board li.active span.round-tabs.three{
+    background: #fff !important;
+    border: 2px solid #ddd;
+    color: #fa7d3c;
+}
+
+.board .nav-tabs > li.active > a span.round-tabs{
+    background: #fafafa;
+}
+.board .nav-tabs > li {
+    width: 33%;
+}
+
+.board li:after {
+    content: " ";
+    position: absolute;
+    left: 45%;
+   opacity:0;
+    margin: 0 auto;
+    bottom: 0px;
+    border: 5px solid transparent;
+    border-bottom-color: #ddd;
+    transition:0.1s ease-in-out;
+    
+}
+.board li.active:after {
+    content: " ";
+    position: absolute;
+    left: 47%;
+   	opacity:1;
+    margin: 0 auto;
+    bottom: 0px;
+    border: 10px solid transparent;
+    border-bottom-color: #ddd;
+    
+}
+.board .nav-tabs > li a{
+   width: 70px;
+   height: 70px;
+   margin: 20px auto;
+   border-radius: 100%;
+   padding: 0;
+}
+
+.board .nav-tabs > li a:hover{
+    background: transparent;
+}
+
+.board .tab-content{
+	padding: 20px;
+}
+
+@media( max-width : 585px ){
+   
+    .board span.round-tabs {
+        font-size:16px;
+		width: 50px;
+		height: 50px;
+		line-height: 50px;
+    }
+    
+    .board .nav-tabs > li a {
+		width: 50px;
+		height: 50px;
+		line-height:50px;
+	}
+
+	.board li.active:after {
+		content: " ";
+		position: absolute;
+		left: 40%;
+	}
+
+}
+
+
