@@ -41,8 +41,8 @@ class view_goods_listModel extends Model {
 		);
 		$allCount = $this->where ( $wherearr )->count ();
 		if ($allCount > $nubmer) {
-			$beg = mt_rand ( 1, ($allCount - $nubmer + 1) );
-			$list = $this->where ( $wherearr )->limit ( $beg, $beg + $nubmer - 1 )->select ();
+			$beg = mt_rand ( 1, ($allCount - $nubmer ) );
+			$list = $this->where ( $wherearr )->limit ( $beg, ($beg + $nubmer - 1) )->select ();
 		} else {
 			$list = $this->where ( $wherearr )->limit ( 1, $allCount )->select ();
 		}

@@ -1,10 +1,20 @@
-<layout name="homelayout" />
+<layout name="layout" />
+<script>
+	$(function (){
+		$('#creategoods').click(function(e){
+			var _url=$(this).attr('url');
+			location.href=_url;
+		});
+
+	});
+
+</script>
 <!-- 内容 -->
 <div id="main" class="container">
 
 	<!-- 发布按钮 -->
 	<div class="navbar-fixed-bottom fixed-expand">
-		<button type="button" class="btn btn-default btnpublish" data-toggle="tooltip" data-placement="top" title="发布商品">
+		<button id="creategoods" url="{:U('Home/Goods/add')}" type="button" class="btn btn-default btnpublish" data-toggle="tooltip" data-placement="top" title="发布商品">
 			<span class="glyphicon glyphicon-plus"></span>
 		</button>
 	</div>
@@ -14,7 +24,7 @@
 
 			<div class="row carousel-holder">
 
-				<div class="col-md-12">
+				<div class="col-md-12" >
 					<div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
 						<ol class="carousel-indicators">
 							<li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
@@ -23,16 +33,16 @@
 						</ol>
 						<div class="carousel-inner">
 							<div class="item active">
-								<img class="slide-image" src="http://hhhhold.com/800x300" alt=""></div>
+								<img class="slide-image" src="__PUBLIC__/Img/14146658305464.jpg" height="300" width="800" alt=""></div>
 							<div class="item">
-								<img class="slide-image" src="http://hhhhold.com/800x300" alt=""></div>
+								<img class="slide-image" src="__PUBLIC__/Img/14146658305464.jpg" height="300" width="800" alt=""></div>
 							<div class="item">
-								<img class="slide-image" src="http://hhhhold.com/800x300" alt=""></div>
+								<img class="slide-image" src="__PUBLIC__/Img/14146658305464.jpg" height="300" width="800" alt=""></div>
 						</div>
-						<a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
+						<a class="left carousel-control" href="#carousel-example-generic"  data-slide="prev">
 							<span class="glyphicon glyphicon-chevron-left"></span>
 						</a>
-						<a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
+						<a class="right carousel-control" href="#carousel-example-generic"  data-slide="next">
 							<span class="glyphicon glyphicon-chevron-right"></span>
 						</a>
 					</div>
@@ -45,73 +55,30 @@
 				<div class="col-md-9">
 					<h4>热门</h4>
 				</div>
-
 				<!-- 商品列表 -->
-				<div class="col-sm-4 col-lg-4 col-md-4">
-					<div class="thumbnail">
-						<img src="http://hhhhold.com/320x160" alt="">
-						<div class="caption">
-							<h4 class="pull-right message">线上/线下</h4>
-							<p>
-								<img src="http://hhhhold.com/40x40" alt="头像" class="img-circle">
-								<span>乔布斯</span>
-							</p>
-							<p>全新Iphone手机出售啦哇哈哈哈快来买啊哇哈哈哈</p>
-						</div>
-						<div class="ratings">
-							<h4 class="pull-right message">浏览 50</h4>
-							<h4 class="pull-right message">评论 50&nbsp</h4>
-							<h3>
-								50.00
-								<span>60.00</span>
-							</h3>
-						</div>
-					</div>
-				</div>
-
-				<div class="col-sm-4 col-lg-4 col-md-4">
-					<div class="thumbnail">
-						<img src="http://hhhhold.com/320x160" alt="">
-						<div class="caption">
-							<h4 class="pull-right message">线上/线下</h4>
-							<p>
-								<img src="http://hhhhold.com/40x40" alt="头像" class="img-circle">
-								<span>乔布斯</span>
-							</p>
-							<p>全新Iphone手机出售啦哇哈哈哈快来买啊哇哈哈哈</p>
-						</div>
-						<div class="ratings">
-							<h4 class="pull-right message">浏览 50</h4>
-							<h4 class="pull-right message">评论 50&nbsp</h4>
-							<h3>
-								50.00
-								<span>60.00</span>
-							</h3>
+				<foreach name="toplist" item="v">
+					<div class="col-sm-4 col-lg-4 col-md-4">
+						<div class="thumbnail">
+							<img src="__ROOT__{$v['ThumbURL']}" alt="">
+							<div class="caption">
+								<h4 class="pull-right message">{$v['TradeWayTxt']}</h4>
+								<p>
+									<img src="http://hhhhold.com/40x40" alt="头像" class="img-circle">
+									<span>{$v['Nick']}</span>
+								</p>
+								<p>{$v['Title']}</p>
+							</div>
+							<div class="ratings">
+								<h4 class="pull-right message">浏览 {$v['Views']}</h4>
+								<h4 class="pull-right message">评论 {$v['CommentCount']}&nbsp</h4>
+								<h3>
+									{$v['Price']}
+									<span>{$v['CostPrice']}</span>
+								</h3>
+							</div>
 						</div>
 					</div>
-				</div>
-
-				<div class="col-sm-4 col-lg-4 col-md-4">
-					<div class="thumbnail">
-						<img src="http://hhhhold.com/320x160" alt="">
-						<div class="caption">
-							<h4 class="pull-right message">线上/线下</h4>
-							<p>
-								<img src="http://hhhhold.com/40x40" alt="头像" class="img-circle">
-								<span>乔布斯</span>
-							</p>
-							<p>全新Iphone手机出售啦哇哈哈哈快来买啊哇哈哈哈</p>
-						</div>
-						<div class="ratings">
-							<h4 class="pull-right message">浏览 50</h4>
-							<h4 class="pull-right message">评论 50&nbsp</h4>
-							<h3>
-								50.00
-								<span>60.00</span>
-							</h3>
-						</div>
-					</div>
-				</div>
+				</foreach>
 			</div>
 
 			<hr>
@@ -124,71 +91,29 @@
 				</div>
 
 				<!-- 商品列表 -->
-				<div class="col-sm-4 col-lg-4 col-md-4">
-					<div class="thumbnail">
-						<img src="http://hhhhold.com/320x160" alt="">
-						<div class="caption">
-							<h4 class="pull-right message">线上/线下</h4>
-							<p>
-								<img src="http://hhhhold.com/40x40" alt="头像" class="img-circle">
-								<span>乔布斯</span>
-							</p>
-							<p>全新Iphone手机出售啦哇哈哈哈快来买啊哇哈哈哈</p>
-						</div>
-						<div class="ratings">
-							<h4 class="pull-right message">浏览 50</h4>
-							<h4 class="pull-right message">评论 50&nbsp</h4>
-							<h3>
-								50.00
-								<span>60.00</span>
-							</h3>
-						</div>
-					</div>
-				</div>
-
-				<div class="col-sm-4 col-lg-4 col-md-4">
-					<div class="thumbnail">
-						<img src="http://hhhhold.com/320x160" alt="">
-						<div class="caption">
-							<h4 class="pull-right message">线上/线下</h4>
-							<p>
-								<img src="http://hhhhold.com/40x40" alt="头像" class="img-circle">
-								<span>乔布斯</span>
-							</p>
-							<p>全新Iphone手机出售啦哇哈哈哈快来买啊哇哈哈哈</p>
-						</div>
-						<div class="ratings">
-							<h4 class="pull-right message">浏览 50</h4>
-							<h4 class="pull-right message">评论 50&nbsp</h4>
-							<h3>
-								50.00
-								<span>60.00</span>
-							</h3>
+				<foreach name="newlist" item="v">
+					<div class="col-sm-4 col-lg-4 col-md-4">
+						<div class="thumbnail">
+							<img src="__ROOT__{$v['ThumbURL']}" alt="">
+							<div class="caption">
+								<h4 class="pull-right message">{$v['TradeWayTxt']}</h4>
+								<p>
+									<img src="http://hhhhold.com/40x40" alt="头像" class="img-circle">
+									<span>{$v['Nick']}</span>
+								</p>
+								<p>{$v['Title']}</p>
+							</div>
+							<div class="ratings">
+								<h4 class="pull-right message">浏览 {$v['Views']}</h4>
+								<h4 class="pull-right message">评论 {$v['CommentCount']}&nbsp</h4>
+								<h3>
+									{$v['Price']}
+									<span>{$v['CostPrice']}</span>
+								</h3>
+							</div>
 						</div>
 					</div>
-				</div>
-
-				<div class="col-sm-4 col-lg-4 col-md-4">
-					<div class="thumbnail">
-						<img src="http://hhhhold.com/320x160" alt="">
-						<div class="caption">
-							<h4 class="pull-right message">线上/线下</h4>
-							<p>
-								<img src="http://hhhhold.com/40x40" alt="头像" class="img-circle">
-								<span>乔布斯</span>
-							</p>
-							<p>全新Iphone手机出售啦哇哈哈哈快来买啊哇哈哈哈</p>
-						</div>
-						<div class="ratings">
-							<h4 class="pull-right message">浏览 50</h4>
-							<h4 class="pull-right message">评论 50&nbsp</h4>
-							<h3>
-								50.00
-								<span>60.00</span>
-							</h3>
-						</div>
-					</div>
-				</div>
+				</foreach>
 			</div>
 
 			<hr>
@@ -201,71 +126,29 @@
 				</div>
 
 				<!-- 商品列表 -->
-				<div class="col-sm-4 col-lg-4 col-md-4">
-					<div class="thumbnail">
-						<img src="http://hhhhold.com/320x160" alt="">
-						<div class="caption">
-							<h4 class="pull-right message">线上/线下</h4>
-							<p>
-								<img src="http://hhhhold.com/40x40" alt="头像" class="img-circle">
-								<span>乔布斯</span>
-							</p>
-							<p>全新Iphone手机出售啦哇哈哈哈快来买啊哇哈哈哈</p>
-						</div>
-						<div class="ratings">
-							<h4 class="pull-right message">浏览 50</h4>
-							<h4 class="pull-right message">评论 50&nbsp</h4>
-							<h3>
-								50.00
-								<span>60.00</span>
-							</h3>
-						</div>
-					</div>
-				</div>
-
-				<div class="col-sm-4 col-lg-4 col-md-4">
-					<div class="thumbnail">
-						<img src="http://hhhhold.com/320x160" alt="">
-						<div class="caption">
-							<h4 class="pull-right message">线上/线下</h4>
-							<p>
-								<img src="http://hhhhold.com/40x40" alt="头像" class="img-circle">
-								<span>乔布斯</span>
-							</p>
-							<p>全新Iphone手机出售啦哇哈哈哈快来买啊哇哈哈哈</p>
-						</div>
-						<div class="ratings">
-							<h4 class="pull-right message">浏览 50</h4>
-							<h4 class="pull-right message">评论 50&nbsp</h4>
-							<h3>
-								50.00
-								<span>60.00</span>
-							</h3>
+				<foreach name="likelist" item="v">
+					<div class="col-sm-4 col-lg-4 col-md-4">
+						<div class="thumbnail">
+							<img src="__ROOT__{$v['ThumbURL']}" alt="">
+							<div class="caption">
+								<h4 class="pull-right message">{$v['TradeWayTxt']}</h4>
+								<p>
+									<img src="http://hhhhold.com/40x40" alt="头像" class="img-circle">
+									<span>{$v['Nick']}</span>
+								</p>
+								<p>{$v['Title']}</p>
+							</div>
+							<div class="ratings">
+								<h4 class="pull-right message">浏览 {$v['Views']}</h4>
+								<h4 class="pull-right message">评论 {$v['CommentCount']}&nbsp</h4>
+								<h3>
+									{$v['Price']}
+									<span>{$v['CostPrice']}</span>
+								</h3>
+							</div>
 						</div>
 					</div>
-				</div>
-
-				<div class="col-sm-4 col-lg-4 col-md-4">
-					<div class="thumbnail">
-						<img src="http://hhhhold.com/320x160" alt="">
-						<div class="caption">
-							<h4 class="pull-right message">线上/线下</h4>
-							<p>
-								<img src="http://hhhhold.com/40x40" alt="头像" class="img-circle">
-								<span>乔布斯</span>
-							</p>
-							<p>全新Iphone手机出售啦哇哈哈哈快来买啊哇哈哈哈</p>
-						</div>
-						<div class="ratings">
-							<h4 class="pull-right message">浏览 50</h4>
-							<h4 class="pull-right message">评论 50&nbsp</h4>
-							<h3>
-								50.00
-								<span>60.00</span>
-							</h3>
-						</div>
-					</div>
-				</div>
+				</foreach>
 			</div>
 
 		</div>
@@ -275,24 +158,20 @@
 
 			<div class="panel panel-default">
 				<div class="panel-body">
-					<button type="button" class="btn btn-primary btn-lg btn-block">打卡</button>
-					<!-- <button type="button" class="btn btn-primary btn-lg btn-block" disabled="disabled">已连续打卡 50 天</button>
+					<button type="button" class="btn btn-orange btn-lg btn-block">打卡签到</button>
+					<!-- <button type="button" class="btn btn-orange btn-lg btn-block" disabled="disabled">已连续打卡 50 天</button>
 				-->
 				<!-- 商品分类 -->
 				<div class="sideitemnav">
 					<h4>商品分类</h4>
 					<hr>
 					<ul class="list-group">
+					<foreach name="clist" item="v">
 						<a href="#" class="list-group-item">
 							<span class="badge">new</span>
-							数码
+							{$v['Title']}
 						</a>
-						<a href="#" class="list-group-item">
-							<span class="badge">new</span>
-							坐骑
-						</a>
-						<a href="#" class="list-group-item">饰品</a>
-						<a href="#" class="list-group-item">其它</a>
+						</foreach>
 					</ul>
 				</div>
 				<!--/.sideitemnav-->

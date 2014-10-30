@@ -1,17 +1,16 @@
 <layout name="layout" />
 
 <div id="main" class="container">
-	<div class="text-center">
-		<h1>我的商品列表</h1>
-	</div>
-	<br>
-	<div class="text-center">
-		<a href="{:U('Home/Goods/add')}" class="btn btn-default">添加</a>
-	</div>
-	<br>
 
 	<div class="row">
 		<!-- 商品列表 -->
+		<if condition="$list eq null">
+
+			<div class="text-center">
+				<h2>木有搜到商品</h2>
+			</div>
+		</if>
+
 		<foreach name="list" item="v">
 			<div class="col-sm-4 col-lg-4 col-md-4">
 				<div class="thumbnail">

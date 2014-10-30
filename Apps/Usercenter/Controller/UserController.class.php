@@ -4,7 +4,7 @@ namespace Usercenter\Controller;
 
 use Think\Controller;
 use Usercenter\Model\userModel;
-use Usercenter\Model\user_addressModel;
+use Usercenter\Model\view_user_info_avatarModel;
 
 import ( 'ORG.Util.Image' );
 /**
@@ -14,6 +14,24 @@ import ( 'ORG.Util.Image' );
  *        
  */
 class UserController extends Controller {
+	
+	/**
+	 * 自动验证
+	 */
+	public function _initialize() {
+		$user = new userModel ();
+		$usermodel = null;
+		if ($user->islogin ( null, false, false )) {
+			$m = new view_user_info_avatarModel();
+			$usermodel = $m->getinfo ();
+			if($usermodel['status']==1){
+				$usermodel=$usermodel['msg'];
+			}else{
+				$usermodel=null;
+			}
+		}
+		$this->assign ( 'usermodel', $usermodel );
+	}
 	/**
 	 * 登录首页
 	 *

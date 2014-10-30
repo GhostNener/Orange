@@ -27,6 +27,16 @@ class goodsModel extends Model {
 					'至少有一张图片',
 					self::EXISTS_VALIDATE,
 					'between' 
+			),
+			array (
+					'TradeWay',
+					array (
+							1,
+							3 
+					),
+					'交易方式有误',
+					self::EXISTS_VALIDATE,
+					'between' 
 			) 
 	);
 	/**
@@ -41,6 +51,25 @@ class goodsModel extends Model {
 					self::MODEL_INSERT 
 			) 
 	);
+	private function gettradetxt($wayid) {
+		if (! $wayid) {
+			return '';
+		}
+		switch ($wayid) {
+			case 1 :
+				return '线上';
+				break;
+			case 2 :
+				return '线下';
+				break;
+			case 3 :
+				return '线上/线下';
+				break;
+			default :
+				return '';
+				break;
+		}
+	}
 	/**
 	 * 保存商品
 	 *
@@ -71,6 +100,7 @@ class goodsModel extends Model {
 		$dal = M ();
 		$dal->startTrans ();
 		// 保存商品订单
+		$postarr ['TradeWayTxt'] = $this->gettradetxt ( ( int ) $postarr ['TradeWay'] );
 		$goodsmodel = $this->create ( $postarr );
 		if (! $goodsmodel) {
 			return array (
@@ -85,6 +115,7 @@ class goodsModel extends Model {
 				'Presentation',
 				'CategoryId',
 				'AddressId',
+				'TradeWayTxt',
 				'TradeWay',
 				'Status',
 				'Createtime' 

@@ -8,6 +8,8 @@ use Usercenter\Model\user_addressModel;
 use Home\Model\goods_serviceModel;
 use Home\Model\goods_imgModel;
 use Home\Model\view_goods_listModel;
+use Usercenter\Model\userModel;
+use Usercenter\Model\view_user_info_avatarModel;
 
 /**
  * 前台商品管理
@@ -16,6 +18,26 @@ use Home\Model\view_goods_listModel;
  *        
  */
 class GoodsController extends BaseController {
+	
+	/**
+	 * 自动验证
+	 */
+	public function _initialize() {
+		parent::_initialize ();
+		$user = new userModel ();
+		$usermodel = null;
+		if ($user->islogin ( null, false, false )) {
+			$m = new view_user_info_avatarModel();
+			$usermodel = $m->getinfo ();
+			if($usermodel['status']==1){
+				$usermodel=$usermodel['msg'];
+			}else{
+				$usermodel=null;
+			}
+		}
+		$this->assign ( 'usermodel', $usermodel );
+	}
+	
 	/**
 	 * 个人商品列表
 	 */

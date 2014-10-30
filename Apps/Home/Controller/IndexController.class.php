@@ -29,6 +29,11 @@ class IndexController extends Controller {
 		if ($user->islogin ( null, false, false )) {
 			$m = new view_user_info_avatarModel ();
 			$usermodel = $m->getinfo ();
+			if($usermodel['status']==1){
+				$usermodel=$usermodel['msg'];
+			}else{
+				$usermodel=null;
+			}
 		}
 		$this->assign ( 'usermodel', $usermodel );
 	}
@@ -97,7 +102,7 @@ class IndexController extends Controller {
 		$this->assign ( 'test', $test );
 		$this->assign ( 'list', $arr ['list'] );
 		$this->assign ( 'page', $arr ['page'] );
-		$this->display ( 'Index/home' );
+		$this->display ( 'Index/search' );
 	}
 	/**
 	 * 展示商品 详情 及评论

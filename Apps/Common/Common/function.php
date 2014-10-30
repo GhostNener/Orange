@@ -524,7 +524,7 @@ function cutimg($openurl, $saveurl, $size, $type = 1) {
 	$imagedal = new \Think\Image ();
 	$imagedal->open ( $openurl );
 	if ($type == 1) {
-		$obj = $imagedal->thumb ( ( int ) $size [0], ( int ) $size [1], \Think\Image::IMAGE_THUMB_FILLED )->save ( $saveurl, C ( 'IMG_SAVE_TYPE' ), C ( 'IMG_SAVE_QUALITY' ), true );
+		$obj = $imagedal->thumb ( ( int ) $size [0], ( int ) $size [1] )->save ( $saveurl, C ( 'IMG_SAVE_TYPE' ), C ( 'IMG_SAVE_QUALITY' ), true );
 	} else {
 		$obj = $imagedal->thumb ( ( int ) $size [0], ( int ) $size [1], \Think\Image::IMAGE_THUMB_CENTER )->save ( $saveurl, C ( 'IMG_SAVE_TYPE' ), C ( 'IMG_SAVE_QUALITY' ), true );
 	}

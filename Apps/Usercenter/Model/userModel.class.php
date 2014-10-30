@@ -178,7 +178,8 @@ class userModel extends Model {
 				'Id' => $uid,
 				'Status' => 101 
 		) )->save ( array (
-				'Status' => 10 
+				'Status' => 10 ,
+				'LastKeyTime'=>0
 		) );
 		if (! $rst) {
 			return false;
@@ -358,8 +359,8 @@ class userModel extends Model {
 		$msgarr = array (
 				'status' => 0,
 				'msg' => '用户名或密码错误',
-				'key' => '',
-				'uid' => 0 
+				'_key' => '',
+				'_uid' => 0 
 		);
 		$uid = trim ( $arr ['Name'] );
 		$pwd = $arr ['Password'];
