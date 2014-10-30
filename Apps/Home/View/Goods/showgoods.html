@@ -1,11 +1,7 @@
-<layout name="layout" />
-<script type="text/javascript">
-function jump(userId){
-	document.getElementById("AssesseeId").value=userId;
-	document.getElementById("commentt").focus();
-}
-</script>
-<<style>
+<extend name="./Tpl/layout.html"/>
+<block name="content">
+
+<style>
 #com a:link {color:green} 
 #com a:hover {color:gray;text-decoration:underline;}
 </style>
@@ -55,3 +51,12 @@ function jump(userId){
 	</form>
 	
 </div>
+</block>
+<block name="js">
+	<script type="text/javascript">
+function jump(userId){
+	document.getElementById("AssesseeId").value=userId;
+	document.getElementById("commentt").focus();
+}
+</script>
+</block>

@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh">
 <head>
-
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
@@ -21,9 +20,6 @@
 	<script src="http://cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
 	<script src="http://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
 	<![endif]-->
-	<script src="__PUBLIC__/js/jquery-1.11.0.js"></script>
-	<script src="__PUBLIC__/js/bootstrap.min.js"></script>
-	<script src="__PUBLIC__/js/juzi.js"></script>
 </head>
 
 <body>
@@ -125,9 +121,12 @@
 			</div>
 			<!-- /.container-fluid -->
 		</nav>
+		<!-- 内容{__CONTENT__} -->
+		<block name="content"></block>
+		<!-- 内容{__CONTENT__} -->
 
-		<!-- 内容 -->{__CONTENT__}</div>
-	<!-- 页脚 -->
+	</div>
+	页脚
 	<footer>
 		<div class="container">
 			<div class="row hidden-xs">
@@ -145,7 +144,7 @@
 					<p> <b>关于</b>
 					</p>
 					<p>
-						<a href="#">橘子团队</a>
+						<a target="_blank" href="{:U('Admin/Index/index')}">橘子团队</a>
 					</p>
 					<p>
 						<a href="#">问题反馈</a>
@@ -172,9 +171,15 @@
 						<a href="http://www.miibeian.gov.cn/">黔ICP备14004869号-1</a>
 					</p>
 				</div>
-
 			</div>
 		</div>
 	</footer>
+	<script src="__PUBLIC__/js/jquery-1.11.0.js"></script>
+	<script src="__PUBLIC__/js/bootstrap.min.js"></script>
+	<script src="__PUBLIC__/js/juzi.js"></script>
+	<!-- 特殊js -->
+	<block name="js"></block>
+	<!-- 特殊css -->
+	<block name="css"></block>
 </body>
 </html>

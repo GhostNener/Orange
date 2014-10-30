@@ -1,7 +1,6 @@
 <?php if (!defined('THINK_PATH')) exit();?><!DOCTYPE html>
 <html lang="zh">
 <head>
-
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
@@ -21,9 +20,6 @@
 	<script src="http://cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
 	<script src="http://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
 	<![endif]-->
-	<script src="/Orange/Public/js/jquery-1.11.0.js"></script>
-	<script src="/Orange/Public/js/bootstrap.min.js"></script>
-	<script src="/Orange/Public/js/juzi.js"></script>
 </head>
 
 <body>
@@ -123,8 +119,8 @@
 			</div>
 			<!-- /.container-fluid -->
 		</nav>
-
-		<!-- 内容 -->
+		<!-- 内容{__CONTENT__} -->
+		
 
 <style>
 	.login{
@@ -137,6 +133,107 @@
 
 </style>
 
+<div id="main" class="container">
+	<div class="login">
+		<form class="form-horizontal" role="form" action="" method="post">
+			<div class="form-group">
+				<input type="hidden" id="isadmin" value="<?php echo ($admin); ?>">
+				<label for="UserName" class="col-sm-2 control-label">用户名</label>
+				<div class="col-sm-10">
+					<input type="txt" class="form-control" id="UserName" placeholder="用户名"></div>
+			</div>
+			<div class="form-group">
+				<label for="Password" class="col-sm-2 control-label">密码</label>
+				<div class="col-sm-10">
+					<input type="password" class="form-control" id="Password" placeholder="密码"></div>
+			</div>
+			<div class="form-group has-feedback">
+				<label for="verifycode" class="col-sm-2 control-label">验证码</label>
+				<div class="col-sm-10 ">
+					<input type="txt" class="form-control " status="0" id="verifycode" placeholder="验证码"></div>
+			</div>
+			<div class="form-group">
+				<label for="verifycode" class="col-sm-2 control-label"></label>
+				<div class="col-sm-10">
+					<img class="verifycode" src="<?php echo U('Usercenter/Public/verifycode');?>" alt="点击刷新" title="点击刷新"></div>
+			</div>
+			<input type="hidden" id="url" value="0" getcode="<?php echo U('Public/verifycode');?>" checkcode="<?php echo U('Usercenter/Public/check_verify');?>" login="<?php echo U('Usercenter/User/login');?>" home="<?php echo U('Home/Index/index');?>" >
+			<input type="hidden" value="0" name="rememberme"  id="isremeber">
+			<div class="form-group">
+				<div class="col-sm-offset-2 col-sm-10">
+					<div class="checkbox">
+						
+							<?php if( ($admin != 1) AND ($admin != true)): ?><label><input id="rememberme" type="checkbox">记住我</label><?php endif; ?>
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-offset-2 col-sm-10">
+					<button type="button" id="loginbutton" class="btn btn-default">登录</button>
+					<a  href="<?php echo U('Usercenter/User/regist');?>" class="btn btn-default">注册</a>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+
+		<!-- 内容{__CONTENT__} -->
+
+	</div>
+	页脚
+	<footer>
+		<div class="container">
+			<div class="row hidden-xs">
+				<div class="col-md-5">
+					<p> <b>介绍</b>
+					</p>
+					<p>Logo design by 某某某</p>
+					<p>Powerd by ThinkPHP</p>
+					<p>Copyright &copy; 2014, 指尖科技-橘子团队</p>
+					<p>
+						<a href="http://www.miibeian.gov.cn/">黔ICP备14004869号-1</a>
+					</p>
+				</div>
+				<div class="col-md-5">
+					<p> <b>关于</b>
+					</p>
+					<p>
+						<a target="_blank" href="<?php echo U('Admin/Index/index');?>">橘子团队</a>
+					</p>
+					<p>
+						<a href="#">问题反馈</a>
+					</p>
+					<p>
+						<a href="#">联系我们</a>
+					</p>
+					<p>
+						<a href="#">免责声明</a>
+					</p>
+				</div>
+				<div class="col-md-2">
+					<p>
+						<b>客户端下载(android)</b>
+					</p>
+					<img src="http://hhhhold.com/110x110" alt=""></div>
+			</div>
+			<div class="row visible-xs-inline">
+				<div class="col-md-12 text-center">
+					<p>
+						<a href="<?php echo U('Admin/Index/index');?>">Copyright &copy; 2014, 指尖科技-橘子团队</a>
+					</p>
+					<p>
+						<a href="http://www.miibeian.gov.cn/">黔ICP备14004869号-1</a>
+					</p>
+				</div>
+			</div>
+		</div>
+	</footer>
+	<script src="/Orange/Public/js/jquery-1.11.0.js"></script>
+	<script src="/Orange/Public/js/bootstrap.min.js"></script>
+	<script src="/Orange/Public/js/juzi.js"></script>
+	<!-- 特殊js -->
+	
+	
 <script>
 	$(function(){
 		/*验证码自动验证*/
@@ -243,97 +340,8 @@
 		}
 	});
 </script>
-<div id="main" class="container">
-	<div class="login">
-		<form class="form-horizontal" role="form" action="" method="post">
-			<div class="form-group">
-				<input type="hidden" id="isadmin" value="<?php echo ($admin); ?>">
-				<label for="UserName" class="col-sm-2 control-label">用户名</label>
-				<div class="col-sm-10">
-					<input type="txt" class="form-control" id="UserName" placeholder="用户名"></div>
-			</div>
-			<div class="form-group">
-				<label for="Password" class="col-sm-2 control-label">密码</label>
-				<div class="col-sm-10">
-					<input type="password" class="form-control" id="Password" placeholder="密码"></div>
-			</div>
-			<div class="form-group has-feedback">
-				<label for="verifycode" class="col-sm-2 control-label">验证码</label>
-				<div class="col-sm-10 ">
-					<input type="txt" class="form-control " status="0" id="verifycode" placeholder="验证码"></div>
-			</div>
-			<div class="form-group">
-				<label for="verifycode" class="col-sm-2 control-label"></label>
-				<div class="col-sm-10">
-					<img class="verifycode" src="<?php echo U('Usercenter/Public/verifycode');?>" alt="点击刷新" title="点击刷新"></div>
-			</div>
-			<input type="hidden" id="url" value="0" getcode="<?php echo U('Public/verifycode');?>" checkcode="<?php echo U('Usercenter/Public/check_verify');?>" login="<?php echo U('Usercenter/User/login');?>" home="<?php echo U('Home/Index/index');?>" >
-			<input type="hidden" value="0" name="rememberme"  id="isremeber">
-			<div class="form-group">
-				<div class="col-sm-offset-2 col-sm-10">
-					<div class="checkbox">
-						
-							<?php if( ($admin != 1) AND ($admin != true)): ?><label><input id="rememberme" type="checkbox">记住我</label><?php endif; ?>
-					</div>
-				</div>
-			</div>
-			<div class="form-group">
-				<div class="col-sm-offset-2 col-sm-10">
-					<button type="button" id="loginbutton" class="btn btn-default">登录</button>
-					<a  href="<?php echo U('Usercenter/User/regist');?>" class="btn btn-default">注册</a>
-				</div>
-			</div>
-		</form>
-	</div>
-</div></div>
-	<!-- 页脚 -->
-	<footer>
-		<div class="container">
-			<div class="row hidden-xs">
-				<div class="col-md-5">
-					<p> <b>介绍</b>
-					</p>
-					<p>Logo design by 某某某</p>
-					<p>Powerd by ThinkPHP</p>
-					<p>Copyright &copy; 2014, 指尖科技-橘子团队</p>
-					<p>
-						<a href="http://www.miibeian.gov.cn/">黔ICP备14004869号-1</a>
-					</p>
-				</div>
-				<div class="col-md-5">
-					<p> <b>关于</b>
-					</p>
-					<p>
-						<a href="#">橘子团队</a>
-					</p>
-					<p>
-						<a href="#">问题反馈</a>
-					</p>
-					<p>
-						<a href="#">联系我们</a>
-					</p>
-					<p>
-						<a href="#">免责声明</a>
-					</p>
-				</div>
-				<div class="col-md-2">
-					<p>
-						<b>客户端下载(android)</b>
-					</p>
-					<img src="http://hhhhold.com/110x110" alt=""></div>
-			</div>
-			<div class="row visible-xs-inline">
-				<div class="col-md-12 text-center">
-					<p>
-						<a href="<?php echo U('Admin/Index/index');?>">Copyright &copy; 2014, 指尖科技-橘子团队</a>
-					</p>
-					<p>
-						<a href="http://www.miibeian.gov.cn/">黔ICP备14004869号-1</a>
-					</p>
-				</div>
 
-			</div>
-		</div>
-	</footer>
+	<!-- 特殊css -->
+	
 </body>
 </html>

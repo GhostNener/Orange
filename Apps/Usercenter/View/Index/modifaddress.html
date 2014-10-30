@@ -1,50 +1,6 @@
-<layout name="layout" />
-<script>
-	$(document).ready(function(){
-		$('#addressSubmit').click(function(){
-			/*验证手机*/
-			var isMobile=/^(?:13\d|14\d|15\d|18\d)\d{5}(\d{3}|\*{3})$/; 
-			/*var isPhone=/^((0\d{2,3})-)?(\d{7,8})(-(\d{3,}))?$/;*/
-			var _suburl=$(this).attr('acurl');
-			var _modif=$('#modif').val();
-			var _Id=$('#Id').val();
-			var _Tel=$('#Tel').val();
-			if(!isMobile.test(_Tel)){
-				$('#Tel').focus();
-				return;
-			}
-			var _QQ=$('#QQ').val();
-			var _Address=$.trim($('#Address').val());
-			if(!_Address){
-				$('#Address').focus();
-				return;
-			}
-			var _Contacts=$.trim($('#Contacts').val());
-			if(!_Contacts){
-				$('#Contacts').focus();
-				return;
-			}
-			var _IsDefault=$('#IsDefault').attr('checked');
-			if(!_IsDefault){_IsDefault=0}else{_IsDefault=1;}
-			$.post(_suburl,{
-				'modif':_modif,
-				'Id':_Id,
-				'Tel':_Tel,
-				'QQ':_QQ,
-				'Address':_Address,
-				'IsDefault':_IsDefault,
-				'Contacts':_Contacts
-			},function(data){
-				if(data.status==0){
-					alert(data.info);
-					return;
-				}
-				alert('添加成功');
-				location.href=$('#addressSubmit').attr('urlindex');
-			});
-		});
-	});
-</script>
+<extend name="./Tpl/layout.html"/>
+<block name="content">
+
 <div id="main" class="container">
 	<div class="text-center">
 		<h1>地址管理</h1>
@@ -106,3 +62,53 @@
 		</div>
 	</form>
 </div>
+</block>
+<block name="js">
+	
+	<script>
+	$(document).ready(function(){
+		$('#addressSubmit').click(function(){
+			/*验证手机*/
+			var isMobile=/^(?:13\d|14\d|15\d|18\d)\d{5}(\d{3}|\*{3})$/; 
+			/*var isPhone=/^((0\d{2,3})-)?(\d{7,8})(-(\d{3,}))?$/;*/
+			var _suburl=$(this).attr('acurl');
+			var _modif=$('#modif').val();
+			var _Id=$('#Id').val();
+			var _Tel=$('#Tel').val();
+			if(!isMobile.test(_Tel)){
+				$('#Tel').focus();
+				return;
+			}
+			var _QQ=$('#QQ').val();
+			var _Address=$.trim($('#Address').val());
+			if(!_Address){
+				$('#Address').focus();
+				return;
+			}
+			var _Contacts=$.trim($('#Contacts').val());
+			if(!_Contacts){
+				$('#Contacts').focus();
+				return;
+			}
+			var _IsDefault=$('#IsDefault').attr('checked');
+			if(!_IsDefault){_IsDefault=0}else{_IsDefault=1;}
+			$.post(_suburl,{
+				'modif':_modif,
+				'Id':_Id,
+				'Tel':_Tel,
+				'QQ':_QQ,
+				'Address':_Address,
+				'IsDefault':_IsDefault,
+				'Contacts':_Contacts
+			},function(data){
+				if(data.status==0){
+					alert(data.info);
+					return;
+				}
+				alert('添加成功');
+				location.href=$('#addressSubmit').attr('urlindex');
+			});
+		});
+	});
+</script>
+</block>

@@ -1,14 +1,6 @@
-<layout name="layout" />
-<script>
-	$(function (){
-		$('#creategoods').click(function(e){
-			var _url=$(this).attr('url');
-			location.href=_url;
-		});
+<extend name="./Tpl/layout.html"/>
+<block name="content">
 
-	});
-
-</script>
 <!-- 内容 -->
 <div id="main" class="container">
 
@@ -288,3 +280,16 @@
 	</div>
 
 </div>
+</block>
+<block name="js">
+	<script>
+	$(function (){
+		$('#creategoods').click(function(e){
+			var _url=$(this).attr('url');
+			location.href=_url;
+		});
+
+	});
+
+</script>
+</block>

@@ -1,23 +1,6 @@
-<layout name="layout" />
-<script type="text/javascript">
-$(document).ready(function () {
-	/*刷新地址*/
-	$('#refreshadd').click(function(e){
-		var _url=$('#url').attr('appurl')+'/refreshadd';
-		$.post(_url,{'':''},function(data){
-			if(data.status==1){
-				if(!data.goods_order){return;}
-				var _arr=$.parseJSON(data.goods_order);
-				if(!_arr){return;}
-				$('#Address').children('option').remove();
-				$(_arr).each(function(i,v){
-					$('#Address').append("<option value="+v['Id']+" address="+v['address']+" >"+v['Tel']+"&nbsp;&nbsp;"+v['Address']+"</option>");
-				});
-				return;
-			}
-		});		
-	});
-</script>
+<extend name="./Tpl/layout.html"/>
+<block name="content">
+
 <div id="main" class="container">
 	<div class="text-center">
 		<h1>购买商品</h1>
@@ -101,3 +84,25 @@ $(document).ready(function () {
 		</div>
 	</form>
 	</div>
+</block>
+<block name="js">
+	<script type="text/javascript">
+$(document).ready(function () {
+	/*刷新地址*/
+	$('#refreshadd').click(function(e){
+		var _url=$('#url').attr('appurl')+'/refreshadd';
+		$.post(_url,{'':''},function(data){
+			if(data.status==1){
+				if(!data.goods_order){return;}
+				var _arr=$.parseJSON(data.goods_order);
+				if(!_arr){return;}
+				$('#Address').children('option').remove();
+				$(_arr).each(function(i,v){
+					$('#Address').append("<option value="+v['Id']+" address="+v['address']+" >"+v['Tel']+"&nbsp;&nbsp;"+v['Address']+"</option>");
+				});
+				return;
+			}
+		});		
+	});
+</script>
+</block>

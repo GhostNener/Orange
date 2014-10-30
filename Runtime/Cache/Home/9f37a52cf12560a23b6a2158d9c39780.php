@@ -1,7 +1,6 @@
 <?php if (!defined('THINK_PATH')) exit();?><!DOCTYPE html>
 <html lang="zh">
 <head>
-
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
@@ -21,9 +20,6 @@
 	<script src="http://cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
 	<script src="http://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
 	<![endif]-->
-	<script src="/Orange/Public/js/jquery-1.11.0.js"></script>
-	<script src="/Orange/Public/js/bootstrap.min.js"></script>
-	<script src="/Orange/Public/js/juzi.js"></script>
 </head>
 
 <body>
@@ -49,9 +45,9 @@
 						<li class="active">
 							<a href="<?php echo U('Home/Index/index');?>">首页</a>
 						</li>
-											<li>
-						<a href="<?php echo U('Home/Goods/index');?>">商品管理</a>
-					</li>
+						<li>
+							<a href="<?php echo U('Home/Goods/index');?>">商品管理</a>
+						</li>
 						<li>
 							<a href="#">发现</a>
 						</li>
@@ -78,10 +74,10 @@
 					<!-- 未登录状态 -->
 					<?php if($usermodel == null): ?><ul class="nav navbar-nav navbar-right">
 							<li>
-								<a href="#" data-toggle="modal" data-target=".bs-example-modal-sm">登录</a>
+								<a href="<?php echo U('Usercenter/User/index');?>" >登录</a>
 							</li>
 							<li>
-								<a href="#">注册</a>
+								<a href="<?php echo U('Usercenter/User/regist');?>">注册</a>
 							</li>
 						</ul>
 						<?php else: ?>
@@ -103,7 +99,7 @@
 										</a>
 									</li>
 									<li>
-										<a href="#">个人中心</a>
+										<a href="<?php echo U('Usercenter/UserCnter/index');?>">个人中心</a>
 									</li>
 									<li>
 										<a href="#">心愿单</a>
@@ -123,8 +119,8 @@
 			</div>
 			<!-- /.container-fluid -->
 		</nav>
-
-		<!-- 内容 -->
+		<!-- 内容{__CONTENT__} -->
+		
 
 <div id="main" class="container">
 	<div class="text-center">
@@ -164,57 +160,12 @@
 		<br>
 		<?php echo ($page); ?>
 		<br></div>
-</div></div>
-	<!-- 登录 -->
-	<?php if($usermodel == null): ?><div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
-			<div class="modal-dialog modal-sm">
-				<div class="modal-content">
-					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal">
-							<span aria-hidden="true">×</span>
-							<span class="sr-only">Close</span>
-						</button>
-						<h4 class="modal-title" id="mySmallModalLabel">欢迎回来</h4>
-					</div>
-					<form class="form-horizontal" role="form">
-						<div class="modal-body">
-							<div class="form-group">
-								<label for="username" class="col-sm-3 control-label">用户名</label>
-								<div class="col-sm-9">
-									<input type="text" name="username" id="username" class="form-control" placeholder="邮箱/手机号" id="username"></div>
-							</div>
-							<div class="form-group">
-								<label for="password" class="col-sm-3 control-label">密码</label>
-								<div class="col-sm-9">
-									<input type="password" name="password" id="password" class="form-control" id="password"></div>
-							</div>
-							<div class="form-group">
-								<label for="verify" class="col-sm-3 control-label">验证码</label>
-								<div class="col-sm-9">
-									<input type="text" class="form-control" id="verify"></div>
-							</div>
-							<div class="form-group">
-								<div class="col-sm-offset-3 col-sm-9">
-									<img src="http://10.200.10.90:88/Orange/Usercenter/Public/verifycode.html" width="150" height="60"></div>
-							</div>
-							<div class="form-group">
-								<div class="col-sm-offset-3 col-sm-9">
-									<label class="rememberme">
-										<input type="checkbox">&nbsp请记住我（30天）</label>
-								</div>
-							</div>
-						</div>
-						<div class="modal-footer">
-							<a href="#">忘记密码？</a>
-							<button type="submit" class="btn btn-success">登录</button>
-						</div>
-					</form>
-				</div>
-				<!-- /.modal-content -->
-			</div>
-			<!-- /.modal-dialog -->
-		</div><?php endif; ?>
-	<!-- 页脚 -->
+</div>
+
+		<!-- 内容{__CONTENT__} -->
+
+	</div>
+	页脚
 	<footer>
 		<div class="container">
 			<div class="row hidden-xs">
@@ -232,7 +183,7 @@
 					<p> <b>关于</b>
 					</p>
 					<p>
-						<a href="#">橘子团队</a>
+						<a target="_blank" href="<?php echo U('Admin/Index/index');?>">橘子团队</a>
 					</p>
 					<p>
 						<a href="#">问题反馈</a>
@@ -253,15 +204,21 @@
 			<div class="row visible-xs-inline">
 				<div class="col-md-12 text-center">
 					<p>
-						<a href="#">Copyright &copy; 2014, 指尖科技-橘子团队</a>
+						<a href="<?php echo U('Admin/Index/index');?>">Copyright &copy; 2014, 指尖科技-橘子团队</a>
 					</p>
 					<p>
 						<a href="http://www.miibeian.gov.cn/">黔ICP备14004869号-1</a>
 					</p>
 				</div>
-
 			</div>
-		</div>	
+		</div>
 	</footer>
+	<script src="/Orange/Public/js/jquery-1.11.0.js"></script>
+	<script src="/Orange/Public/js/bootstrap.min.js"></script>
+	<script src="/Orange/Public/js/juzi.js"></script>
+	<!-- 特殊js -->
+	
+	<!-- 特殊css -->
+	
 </body>
 </html>
