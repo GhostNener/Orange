@@ -1,29 +1,29 @@
 <?php
 use Vendor\PHPMailer;
 
-	/**
-	 * 编码
-	 *
-	 * @param unknown $str        	
-	 * @return unknown string
-	 */
- function zhCode($str) {
-		if (! preg_match ( "/^[\x7f-\xff]+$/", $str )) {
-			return $str;
-		} else {
-			$zhCode = '';
-			$str = iconv ( 'UTF-8', 'GB18030', $str );
-			for($i = 0; $i < strlen ( $str ) / 2; $i ++) {
-				$word = substr ( $str, $i * 2, 2 );
-				$zhCode .= sprintf ( "%02d%02d", ord ( $word [0] ) - 160, ord ( $word [1] ) - 160 );
-			}
-			return $zhCode;
+/**
+ * 编码
+ *
+ * @param unknown $str        	
+ * @return unknown string
+ */
+function zhCode($str) {
+	if (! preg_match ( "/^[\x7f-\xff]+$/", $str )) {
+		return $str;
+	} else {
+		$zhCode = '';
+		$str = iconv ( 'UTF-8', 'GB18030', $str );
+		for($i = 0; $i < strlen ( $str ) / 2; $i ++) {
+			$word = substr ( $str, $i * 2, 2 );
+			$zhCode .= sprintf ( "%02d%02d", ord ( $word [0] ) - 160, ord ( $word [1] ) - 160 );
 		}
+		return $zhCode;
 	}
+}
 
 /**
  * 中文转拼音
- * 
+ *
  * @param unknown $_String        	
  * @param string $_Code        	
  * @return mixed
@@ -502,14 +502,34 @@ function getallthumb($url, $imgname) {
 	$arrthumb = C ( 'GOODS_IMG_THUMB' );
 	/* 获取大图配置 */
 	$arrmd = C ( 'GOODS_IMG_MD' );
-	$imagedal->thumb ( ( int ) $arrmd [0], ( int ) $arrmd [1] )->save ( $url_8, C ( 'IMG_SAVE_TYPE' ), C ( 'IMG_SAVE_QUALITY' ), true );
-	$imagedal->thumb ( ( int ) $arrthumb [0], ( int ) $arrthumb [1], \Think\Image::IMAGE_THUMB_CENTER )->save ( $url_1, C ( 'IMG_SAVE_TYPE' ), C ( 'IMG_SAVE_QUALITY' ), true );
+	$md = cutimg ( $url, $url_8, $arrmd, 1 );
+	$xs = cutimg ( $url, $url_1, $arrthumb, 2 );
 	return array (
 			$url_8,
 			$url_1 
 	);
 }
-
+/**
+ * 裁剪图片
+ *
+ * @param string $openurl
+ *        	：图片地址
+ * @param string $saveurl：保存地址        	
+ *
+ * @param array $size：宽
+ *        	，高
+ * @param number $type：裁剪类型：1：缩放填充，2：居中固定尺寸裁剪        	
+ */
+function cutimg($openurl, $saveurl, $size, $type = 1) {
+	$imagedal = new \Think\Image ();
+	$imagedal->open ( $openurl );
+	if ($type == 1) {
+		$obj = $imagedal->thumb ( ( int ) $size [0], ( int ) $size [1], \Think\Image::IMAGE_THUMB_FILLED )->save ( $saveurl, C ( 'IMG_SAVE_TYPE' ), C ( 'IMG_SAVE_QUALITY' ), true );
+	} else {
+		$obj = $imagedal->thumb ( ( int ) $size [0], ( int ) $size [1], \Think\Image::IMAGE_THUMB_CENTER )->save ( $saveurl, C ( 'IMG_SAVE_TYPE' ), C ( 'IMG_SAVE_QUALITY' ), true );
+	}
+	return $obj;
+}
 /**
  * 检查是否为空
  *
