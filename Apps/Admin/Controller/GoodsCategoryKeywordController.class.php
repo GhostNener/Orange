@@ -2,8 +2,6 @@
 
 namespace Admin\Controller;
 
-use Think\Controller;
-use Usercenter\Model\userModel;
 
 /**
  * 分类关键字管理

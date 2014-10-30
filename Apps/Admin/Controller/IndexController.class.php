@@ -2,8 +2,6 @@
 
 namespace Admin\Controller;
 
-use Think\Controller;
-use Usercenter\Model\userModel;
 /**
  * 后台首页
  *
