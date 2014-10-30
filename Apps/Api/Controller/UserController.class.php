@@ -59,6 +59,9 @@ class UserController extends BaseController {
 		$arr = json_decode ( $arr, true );
 		$model = new userModel ();
 		$rst = $model->regist ( $arr );
+		if($rst['status']==1){
+			$rst['msg']="注册成功";
+		}
 		echo json_encode ( $rst );
 	}
 	/**
