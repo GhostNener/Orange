@@ -1,0 +1,127 @@
+<layout name="layout" />
+<script src="__PUBLIC__/js/jquery.uploadify.min.js?{:time()}"></script>
+<link rel="stylesheet" href="__PUBLIC__/css/uploadify.css">
+<script type="text/javascript">
+	/*删除图片  第一个参数为图片父控件的Id  第二个参数为图片相对路径*/
+	function del(div_id,imgId){
+    	var _pdivid='#'+div_id;
+		var _url=$('#url').attr('appurl')+'/delimg';		
+         $.post(_url,{'Id':parseInt(imgId)},function(data){		
+        	 if(data.info==1){
+        		 $(_pdivid).html(data.info);
+        		 $(_pdivid).remove();	
+                 var _imgcount=parseInt($('#imgcount').val());
+                 if((_imgcount-1)<=0){
+                	 _imgcount=0;
+                 }else{_imgcount=_imgcount-1;}
+                 $('#imgcount').val((_imgcount));
+        	 }else{
+        		 alert("删除失败\n"+data.info);
+        	 }
+        },'json');	
+	}
+		$(document).ready(function(){
+				$('#file_upload').uploadify({
+			'fileTypeDesc' : 'Image Files',	
+			'overrideEvents': [ 'onSelectError' ],	
+			'formData'  : {'sname':'{$sname}','sid':'{$sid}',                    
+			'cid' : '{$cid}',
+			'ckey' : '{$ckey}'},/*FF302解决参数*/			
+			//'removeCompleted' : false,    //是否自动消失
+       		'fileTypeExts' : '*.gif; *.jpg; *.png',		//允许类型
+       		'fileSizeLimit' : '4MB',					//允许上传最大值
+			'swf'      : $('#url').attr('publicurl')+'/Img/uploadify.swf',	//加载swf
+			'uploader' : $('#url').attr('appurl')+'/uploadify',					//上传路径
+			'buttonText' :'添加图片',	
+			'uploadLimit':30,
+			'queueSizeLimi':1,
+			'debug':false,
+			'preventCaching':true,/*防止缓存*/
+			'fileObjName ':'Filedata',/*File数组参数名*/
+			'progressData':'percentage',
+			'removeTimeout':0,
+			'onSelectError':function(file, errorCode, errorMsg){  
+				var msgText = "上传失败\n";
+                switch(errorCode) {  
+                    case -100:  
+                        msgText += "每次最多上传 " + this.settings.queueSizeLimit + "个文件";;  
+                        break;  
+                    case -110:  
+                        msgText += "文件大小超过限制( " + this.settings.fileSizeLimit + " )"; 
+                        break;  
+                    case -120:  
+                      msgText += "文件["+file.name+"]大小为0"; 
+                        break;  
+                    case -130:  
+                         msgText += "文件["+file.name+"]格式不正确，仅限 " + this.settings.fileTypeExts;
+                        break;  
+                    default:
+              		    msgText += "错误代码：" + errorCode + "\n" + errorMsg;
+                } 
+                alert(msgText); 
+            },
+
+
+			'onUploadSuccess' : function(file, data, response) {
+				if(!data){alert('上传失败！');
+				return;
+			}
+			data=$.parseJSON(data);
+			/*data[0] 图片ID*/
+			/*data[1] 图片相对url*/
+			if(!($.isNumeric(data[0]))||!data[0]){
+				alert("上传失败！\n"+data[1]);
+				return;
+			}
+			var _gid=$('#url').attr('gid');
+			var _postimgurl=$('#url').attr('appurl')+'/saveimg';
+			$.post(_postimgurl,{
+				'_imgid':data[0],
+				'_gid':_gid
+			},function(datainfo){
+				if(parseInt(datainfo.status)==1){
+					/*成功上传返回*/
+					$('#url').attr('gid',datainfo.info);
+					var _imgId='_'+(parseInt(Math.random() *100)+(new Date()).valueOf());
+					var _tempPath=$('#url').attr('rooturl');
+					/*插入到image标签内，显示图片的缩略图 */
+					$('#image').append('<div id="'+_imgId+'" class="photo" style="float: left; margin-right: 3px;margin-left: 3px" ><img src="'+_tempPath+data[1]+'"  height=100 width=100 /><div class="del" style="text-align: center;"><a class="a_imgdel" href="javascript:void(0)"onclick=del("'+_imgId+'","'+data[0]+'");return false; imgurl="'+data[1]+'">删除</a></div></div>');
+					var _imgcount=parseInt($('#imgcount').val());
+					$('#imgcount').val((_imgcount+1));
+						return;
+					}else{
+						alert('上传失败！');
+						return;
+					}
+				});
+			}
+		});
+	});
+</script>
+<div class="container">
+	<div class="text-center">
+		<h1>上传头像</h1>
+	</div>
+	<br>
+	<form class="form-horizontal" action="" role="form" method="post"
+			multiple="true">
+	<div class="form-group">
+			<input type="hidden" class="form-control " id="url"
+				publicurl="__PUBLIC__" appurl="__URL__" rooturl="__ROOT__" gid="0"
+				 urlindex="{:U('Usercenter/UserHome/index')}" Readonly>
+			<label
+				for="file_upload" class="col-sm-2 control-label">file_upload</label>
+			<div class="col-sm-10">
+				<input id="file_upload" name="file_upload" type="file"
+					multiple="true">
+				<div id="image" class=" col-sm-12"></div>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-sm-offset-2 col-sm-10">
+				<button type="button" id="submitsave" class="btn btn-default">保存</button>
+				<a class="btn btn-default" href="{:U('Usercenter/UserHome/index')}">返回</a>
+			</div>
+		</div>
+	</form>
+</div>

@@ -1,0 +1,23 @@
+<layout name="layout" />
+<div class="container">
+<div class="text-center">
+		<h1>关注</h1>
+	</div>
+	<br>
+	<br>
+<table class="table table-bordered">
+	<tr>
+		<th class="text-center">Number</th>
+		<th class="text-center">AttentionNick</th>
+		<th class="text-center">Show</th>
+	</tr>
+	<foreach name='attention' item='v' key="k">
+	<tr>
+		<td>{$k}</td>
+		<td>{$v.AttentionNick}</td>
+		<td><a
+			href="{:U('Home/GoodsList/showgoods',array('Id'=>$v['Id']))}">Show</a></td>
+	</tr>
+	</foreach>
+</table>
+</div>

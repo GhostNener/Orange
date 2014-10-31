@@ -27,8 +27,8 @@ class user_addressModel extends Model {
 			array (
 					'IsDefault',
 					array (
-							0,
-							1 
+							1,
+							2 
 					),
 					'参数不合法！',
 					self::MUST_VALIDATE,
@@ -79,6 +79,20 @@ class user_addressModel extends Model {
 	}
 	
 	/**
+	 * 通过地址Id获取地址
+	 *
+	 * @param int $id：地址Id        	
+	 * @return array ：符合的地址
+	 */
+	public function getbyid($id) {
+		$rst = $this->order ( 'IsDefault DESC' )->where ( array (
+				'Status' => 10,
+				'Id' => $id 
+		) )->find ();
+		return $rst;
+	}
+	
+	/**
 	 * 添加地址
 	 *
 	 * @author NENER
@@ -102,10 +116,17 @@ class user_addressModel extends Model {
 			$msg ['msg'] = '数据为空';
 			return $msg;
 		}
-		$data['Status'] = 10; 
+		$datain = array (
+				'UserId' => $data ['_uid'],
+				'Tel' => $data ['Tel'],
+				'QQ' => $data ['QQ'],
+				'Address' => $data ['Address'],
+				'IsDefault' => $data ['IsDefault'],
+				'Status' => 10 
+		);
 		$address = $this->create ( $data );
 		if (! $address) {
-			$msg ['msg'] = $this->getError();
+			$msg ['msg'] = '添加失败';
 			return $msg;
 		}
 		$dal = M ();
@@ -113,7 +134,7 @@ class user_addressModel extends Model {
 		$rst2 = 1;
 		// 首先判断是不是设置的默认地址
 		if (( int ) $data ['IsDefault'] == 1) {
-			$rst2 = $this->clerdefault ( $data ['UserId'] );
+			$rst2 = $this->clerdefault ( $datain ['UserId'] );
 		}
 		if ($data ['modif'] == 'add') {
 			$rst1 = $this->add ( $address );
@@ -173,6 +194,49 @@ class user_addressModel extends Model {
 			return false;
 		}
 		return true;
+	}
+	
+	/**
+	 * 删除地址
+	 *
+	 * @param int $id        	
+	 */
+	public function del($id) {
+		$whereArr = array('Id' => $id);
+		$rst = $this->where($whereArr)->setField('Status',-1);
+		if($rst){
+			return array(
+				'status' => 1,
+				'msg' => "删除成功"
+			);
+		}else {
+			return array(
+				'status' => 0,
+				'msg' => "删除失败"
+			); 
+		}
+	}
+	
+	/**
+	 * 设为默认地址
+	 *
+	 * @param int $id        	
+	 */
+	public function setdefault($id,$uid) {
+		$whereArr = array('Id' => $id);
+		$rst1 = $this->clerdefault($uid);
+		$rst2 = $this->where($whereArr)->setField('IsDefault',1);
+		if($rst1 && $rst2){
+			return array(
+				'status' => 1,
+				'msg' => "设置成功"
+			);
+		}else {
+			return array(
+				'status' => 0,
+				'msg' => "设置失败"
+			); 
+		}
 	}
 }
 

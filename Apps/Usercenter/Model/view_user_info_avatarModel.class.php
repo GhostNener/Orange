@@ -5,10 +5,7 @@ namespace Usercenter\Model;
 use Think\Model;
 
 /**
- * 用户个人信息view
- *
- * @author NENER
- *        
+ * 查询用户信息
  */
 class view_user_info_avatarModel extends Model {
 	/**

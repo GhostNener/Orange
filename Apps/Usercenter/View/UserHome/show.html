@@ -1,0 +1,28 @@
+<layout name="layout" />
+<div class="container">
+	<div class="text-center">
+		<h1>我的商品记录</h1>
+	</div>
+	<br>
+	<br>
+	<foreach name='Buy' item='v'>
+		<div class="col-md-4 ">
+			<div class="thumbnail">
+				<a href="{:U('Home/Index/showgoods',array('Id'=>$v['Id']))}" title="{$v['Title']}" target="_blank" >
+					<img class="lazy" src="__ROOT__{$v['URL']}" ></a>
+				<div class="caption">
+					<h3>
+						<a href="{:U('Home/Index/showgoods',array('Id'=>$v['Id']))}" title="{$v['Title']}" target="_blank" >
+							{$v['Title']}
+							<br>
+							<small>@{$v['Nick']}</small>
+						</a>
+					</h3>
+					<p>{:date('Y-m-d H:i:s',$v['Createtime'])}</p>
+				</div>
+			</div>
+		</div>
+	</foreach>
+	<br>
+	{$page}
+	<br></div>

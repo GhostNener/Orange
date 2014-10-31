@@ -8,11 +8,11 @@
 	<meta name="author" content="橘子团队">
 	<title>大橘子-贵财二手交易平台</title>
 	<!-- Bootstrap Core CSS -->
-	<link href="/Orange/Public/css/bootstrap.min.css" rel="stylesheet">
-	<link href="/Orange/Public/css/normalize.css" rel="stylesheet">
+	<link href="/Orange0001/Public/css/bootstrap.min.css" rel="stylesheet">
+	<link href="/Orange0001/Public/css/normalize.css" rel="stylesheet">
 	<!-- Custom CSS -->
-	<link href="/Orange/Public/css/juzi.css" rel="stylesheet">
-	<link rel="shortcut icon" href="/Orange/Public/Img/favicon.png"
+	<link href="/Orange0001/Public/css/juzi.css" rel="stylesheet">
+	<link rel="shortcut icon" href="/Orange0001/Public/Img/favicon.png"
 	type="image/x-icon" />
 	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -230,9 +230,9 @@
 			</div>
 		</div>
 	</footer>
-	<script src="/Orange/Public/js/jquery-1.11.0.js"></script>
-	<script src="/Orange/Public/js/bootstrap.min.js"></script>
-	<script src="/Orange/Public/js/juzi.js"></script>
+	<script src="/Orange0001/Public/js/jquery-1.11.0.js"></script>
+	<script src="/Orange0001/Public/js/bootstrap.min.js"></script>
+	<script src="/Orange0001/Public/js/juzi.js"></script>
 	<!-- 特殊js -->
 	
 	

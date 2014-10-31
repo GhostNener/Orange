@@ -535,5 +535,84 @@ class userModel extends Model {
 		}
 		return $adminroleId ['Id'];
 	}
+	
+	/**
+	 * 查询用户信息
+	 */
+	public function finduser($userid){
+		$whereArr = array('Id' => $userid);
+		$rst = $this -> where($whereArr) -> find();
+		if($rst){
+			$msgarr['user'] = $rst;
+			$msgarr['status'] = 1;
+		}else {
+			$msgarr['msg'] = "查询失败";
+			$msgarr['status'] = 0;
+		}
+		return $msgarr;
+	}
+	
+	/**
+	 * 修改用户信息
+	 */
+	public function updateUser($data){
+		$datain = array(
+				'RealName' => $data['RealName'],
+				'Nick' => $data['Nick'],
+				'Sex' => $data['Sex'],
+				'Birthday' => $data['Birthday'],
+				'TP_QQ' => $data['TP_QQ'],
+				'TP_WeiChat' => $data['TP_WeiChat'],
+				'TP_Weibo' => $data['TP_Weibo']
+		);
+		$rst = $this->where(array(
+				'Id' => $data['_uid'],
+		))->save($datain);
+		if ($rst) {
+			$mag['status'] = 1;
+			$msg ['msg'] = '添加成功！';
+		}else {
+			$mag['status'] = 0;
+			$msg['msg'] = '添加失败！';
+		}
+		return $msg;
+	}
+	
+	/**
+	 * 签到
+	 */
+	public function sign(){
+		$userid = cookie('_uid');
+		$whereArr = array('Id' => $userid);
+		$meArr = $this -> where($whereArr) -> find();
+		$lastSignTime = $meArr['LastSignTime'];//最后一次签到时间
+		$signTime = date('y-m-d',$lastSignTime); // 格式化最后一次签到时间
+		if ($signTime == date('y-m-d',time())){//判断是否连签
+			return array (
+					'status' => 0,
+					'msg' => '已签到' 
+			);
+		}else {
+			if(time() - $totalTime > 60*60*24){
+				$data['SignCount'] = 0;
+			}else {
+				$data['SignCount'] = array('exp','SignCount+1');
+			}
+			$data['LastSignTime'] = date ( "Y-m-d H:i:s", time () );
+			$data['Grade'] = array('exp','Grade+1'); 
+			$rst = $this -> where($whereArr) -> save($data);
+			if ($rst){
+				return array (
+					'status' => 1,
+					'msg' => '操作成功' 
+				);
+			}else {
+				return array (
+					'status' => 0,
+					'msg' => '操作失败' 
+			);
+			}
+		}
+	}
 }
 ?>
