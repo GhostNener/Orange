@@ -11,6 +11,7 @@ body {
 
 html,body{
     height:100%;
+    font-family: "Microsoft YaHei","SimSun"
 }
 
 #wrap{
@@ -43,17 +44,6 @@ a:hover,.navbar-default .navbar-nav .active a,a.list-group-item:hover,.navbar .n
 .btn-expend{
     border: 1px solid #ccc;
     border-radius: 4px;
-    color: #555;
-}
-
-.btn-send{
-    background-color: #5cb85c;
-    color: #fff;
-}
-
-.btn-send:hover{
-    color: #fff;
-    background-color: #398439;
 }
 
 .btn-orange,.btnpublish{
@@ -61,18 +51,20 @@ a:hover,.navbar-default .navbar-nav .active a,a.list-group-item:hover,.navbar .n
     color: #fff;
 }
 
-.btn-orange:hover,.btnpublish:hover{
-    background-color: #CF6832;
-    color: #ccc;
-}
-
-.btn-primary:focus,.btnpublish:focus{
+.btn-orange:hover,.btnpublish:hover,.btn-orange:focus,.btnpublish:focus{
     background-color: #CF6832;
     color: #ccc;
 }
 
 .badge{
     background-color: #d9534f;
+}
+.text-success{
+	color: #5cb85c;
+}
+
+.thumbnail,.panel{
+	border-radius: 0px;
 }
 
 /*橙色面板*/
@@ -133,8 +125,12 @@ a:hover,.navbar-default .navbar-nav .active a,a.list-group-item:hover,.navbar .n
 }
 
 /*商品列表模块*/
+a.thumbnail:hover, a.thumbnail:focus, a.thumbnail.active{
+	border-color: #fa7d3c;
+}
+
 .caption {
-    height: 130px;
+    height: 100px;
     overflow: hidden;
 }
 
@@ -165,9 +161,10 @@ a:hover,.navbar-default .navbar-nav .active a,a.list-group-item:hover,.navbar .n
     text-decoration:line-through;
 }
 
-.ratings .message{
+.message{
     color: #888;
     font-size: 10px;
+    margin-top: 14px;
 }
 
 .thumbnail{
@@ -247,6 +244,7 @@ footer {
     font-weight: 300;
 }
 
+/* 桌面端显示 */
 @media (min-width: 768px){
     .navbar-form .input-group>.form-control {
       width: 514px;
@@ -266,6 +264,10 @@ footer {
 	footer {
 	    margin-top: -170px; /* negative value of footer height */
   		padding-top: 20px;
+	}
+
+	.affix{
+		width: 255px;
 	}
 }
 
@@ -447,9 +449,6 @@ footer {
 	margin-top:20px;
 }
 
-.detail-panel{
-}
-
 .detail-panel h4{
 	font-weight: 600;
 	line-height: 30px;
@@ -460,4 +459,178 @@ footer {
     font-size: 18px;
     margin-left: 10px;
     text-decoration:line-through;
+}
+
+.detail-p{
+	margin-top: 30px;
+}
+
+.timeline-centered .timeline-entry {
+    position: relative;
+    margin-top: 5px;
+    margin-left: 30px;
+    margin-bottom: 10px;
+    clear: both;
+}
+
+.timeline-centered .timeline-entry.left-aligned .timeline-entry-inner {
+    margin-left: 0;
+    margin-right: -18px;
+}
+
+.timeline-centered .timeline-entry.left-aligned .timeline-entry-inner .timeline-time {
+    left: auto;
+    right: -100px;
+    text-align: left;
+}
+
+.timeline-centered .timeline-entry.left-aligned .timeline-entry-inner .timeline-icon {
+    float: right;
+}
+
+.timeline-centered .timeline-entry.left-aligned .timeline-entry-inner .timeline-label {
+    margin-left: 0;
+    margin-right: 70px;
+}
+
+.timeline-centered .timeline-entry .timeline-entry-inner {
+    position: relative;
+    margin-left: -20px;
+}
+
+.timeline-centered .timeline-entry .timeline-entry-inner:before, .timeline-centered .timeline-entry .timeline-entry-inner:after {
+    content: " ";
+    display: table;
+}
+
+.timeline-centered .timeline-entry .timeline-entry-inner:after {
+    clear: both;
+}
+
+.timeline-centered .timeline-entry .timeline-entry-inner .timeline-icon {
+    background: #fff;
+    color: #737881;
+    display: block;
+    width: 40px;
+    height: 40px;
+    -webkit-background-clip: padding-box;
+    -moz-background-clip: padding;
+    background-clip: padding-box;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    border-radius: 20px;
+    text-align: center;
+    -moz-box-shadow: 0 0 0 5px #f5f5f6;
+    -webkit-box-shadow: 0 0 0 5px #f5f5f6;
+    box-shadow: 0 0 0 5px #f5f5f6;
+    line-height: 40px;
+    font-size: 15px;
+    float: left;
+}
+
+.timeline-centered .timeline-entry .timeline-entry-inner .timeline-label {
+    position: relative;
+    background: #f5f5f6;
+    padding: 1em;
+    margin-left: 60px;
+    -webkit-background-clip: padding-box;
+    -moz-background-clip: padding;
+    background-clip: padding-box;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    margin-right: 10px;
+}
+
+.timeline-centered .timeline-entry .timeline-entry-inner .timeline-label:after {
+    content: '';
+    display: block;
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 9px 9px 9px 0;
+    border-color: transparent #f5f5f6 transparent transparent;
+    left: 0;
+    top: 10px;
+    margin-left: -9px;
+}
+
+.timeline-centered .timeline-entry .timeline-entry-inner .timeline-label h2, .timeline-centered .timeline-entry .timeline-entry-inner .timeline-label p {
+    font-size: 14px;
+    margin: 0;
+}
+
+.timeline-centered .timeline-entry .timeline-entry-inner .timeline-label p + p {
+    margin-top: 15px;
+}
+
+.timeline-centered .timeline-entry .timeline-entry-inner .timeline-label h2 {
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+.timeline-centered .timeline-entry .timeline-entry-inner .timeline-label h2 span {
+    -webkit-opacity: .6;
+    -moz-opacity: .6;
+    opacity: .6;
+    -ms-filter: alpha(opacity=60);
+    filter: alpha(opacity=60);
+}
+
+.timeline-label .time{
+	font-size: 10px;
+	color: #ccc;
+}
+
+.timeline-label .replay{
+	position: absolute;
+	bottom: 5px;
+	right: 10px;
+}
+.timeline-centered .timeline-entry .timeline-entry-inner .timeline-label .content{
+	margin-bottom: 30px;
+}
+
+.login-panel{
+	margin-top: 10%;
+	padding-top: 20px;
+	border-radius: 0px;
+}
+
+/* 个人中心 */
+.profile {
+    background-color: #fa7d3c;
+    border: 1px solid #ff766c;
+}
+
+.profile img {
+    display: block;
+    border: 10px solid rgba(255, 255, 255, 0.3);
+    margin: 0 auto;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.profile p {
+    text-align: center;
+    color: #fff;
+}
+
+.profile span{
+	color: #fff;
+	display: block;
+	margin: 5px 20%;
+}
+
+.list-group-item {
+    background-color: #fff;
+    border-radius: 0px !important;
+    border: 1px solid #DDD;
+}
+
+.list-group-item.active,.list-group-item.active:hover, .list-group-item:hover {
+    background-color: #F8F7F5;
+    border-color: #ddd;
+    color: #555;
+    border-left: 3px solid #fa7d3c;
 }

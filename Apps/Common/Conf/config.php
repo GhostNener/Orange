@@ -70,7 +70,7 @@ return array (
 		/*cookie前缀  */
 		'COOKIE_PREFIX' => 'ORANGER',
 		/*管理员所在组 name*/
-		'ADMIN_ROLE_NAME' => 'Administratoe',
+		'ADMIN_ROLE_NAME' => 'Administrator',
 		/*记住我 cookie保存时间*/
 		'COOKIE_REMEMBER_TIME' => 30 * 24 * 60 * 60 ,
 		/* 普通用户用户组Id */

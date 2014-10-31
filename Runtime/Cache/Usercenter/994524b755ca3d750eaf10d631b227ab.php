@@ -6,13 +6,13 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 	<meta name="description" content="贵州财经大学-二手交易-以物换物-服务平台-c2c">
 	<meta name="author" content="橘子团队">
-	<title>大橘子-贵财二手交易平台</title>
+	<title>大橘子-贵财最大的二手交易平台</title>
 	<!-- Bootstrap Core CSS -->
-	<link href="/Orange0001/Public/css/bootstrap.min.css" rel="stylesheet">
-	<link href="/Orange0001/Public/css/normalize.css" rel="stylesheet">
+	<link href="/Orange/Public/css/bootstrap.min.css" rel="stylesheet">
+	<link href="/Orange/Public/css/normalize.css" rel="stylesheet">
 	<!-- Custom CSS -->
-	<link href="/Orange0001/Public/css/juzi.css" rel="stylesheet">
-	<link rel="shortcut icon" href="/Orange0001/Public/Img/favicon.png"
+	<link href="/Orange/Public/css/juzi.css" rel="stylesheet">
+	<link rel="shortcut icon" href="/Orange/Public/Img/favicon.png"
 	type="image/x-icon" />
 	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -20,8 +20,20 @@
 	<script src="http://cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
 	<script src="http://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
 	<![endif]-->
-</head>
 
+<style>
+	.errormsg{
+	position: absolute;
+	z-index: 10000;
+	top:30%;
+	width: 90%;
+	font-size: 20px;
+	display: none;
+}
+
+</style>
+
+</head>
 <body>
 	<!-- 页身 -->
 	<div id="wrap">
@@ -71,7 +83,7 @@
 						<!-- /input-group -->
 					</form>
 					<!-- 登录标识 -->
-
+					
 	<?php if($usermodel == null): ?><ul class="nav navbar-nav navbar-right">
 			<li>
 				<a href="<?php echo U('Usercenter/User/index');?>" >登录</a>
@@ -123,66 +135,58 @@
 		</nav>
 		<!-- 内容{__CONTENT__} -->
 		
+	<div id="main" class="container">
+		<div class="col-md-6 col-md-offset-3">
+			<div class="panel panel-default login-panel">
+				<div class="panel-body">
+					<div id="errormsg" class="alert alert-danger text-center errormsg"  role="alert">用户名或密码错误</div>
+					<form class="form-horizontal" role="form" method="post" action="<?php echo U('Usercenter/User/login');?>">
+						<div class="modal-body">
+							<div class="form-group">
+								<input type="hidden" id="isadmin" name="isadmin" value="<?php echo ($admin); ?>">
+								<label for="UserName" class="col-sm-2 control-label">用户名</label>
+								<div class="col-sm-10">
+									<input type="text" name="UserName" id="UserName" class="form-control" placeholder="邮箱/手机号" ></div>
+							</div>
+							<div class="form-group">
+								<label for="Password" class="col-sm-2 control-label">密&nbsp&nbsp&nbsp&nbsp码</label>
+								<div class="col-sm-10">
+									<input type="password" name="Password" id="Password" class="form-control" ></div>
+							</div>
+							<div class="form-group">
+								<label for="verifycode" class="col-sm-2 control-label">验证码</label>
+								<div class="col-sm-10">
+									<input type="text" class="form-control" id="verifycode"></div>
+							</div>
+							<div class="form-group">
+								<div class="col-sm-offset-2 col-sm-10">
+									<img class="verifycode" src="<?php echo U('Usercenter/Public/verifycode');?>" alt="点击刷新" title="点击刷新"></div>
+							</div>
+							<input type="hidden" id="url" value="0" getcode="<?php echo U('Public/verifycode');?>" checkcode="<?php echo U('Usercenter/Public/check_verify');?>" login="<?php echo U('Usercenter/User/login');?>" home="<?php echo U('Home/Index/index');?>" >
+							<input type="hidden" value="0" name="isremeber"  id="isremeber">
+							<div class="form-group">
+								<div class="col-sm-offset-2 col-sm-10">
+									<?php if( ($admin != 1) AND ($admin != true)): ?><div class="checkbox">
+											<label>
+												<input id="rememberme" type="checkbox" >&nbsp;请记住我（30天）</label>
+										</div><?php endif; ?>
 
-<style>
-	.login{
-
-		margin: 200px  100px;
-	}
-	.verifycode{
-		cursor: pointer;
-	}
-
-</style>
-
-<div id="main" class="container">
-	<div class="login">
-		<form class="form-horizontal" role="form" action="" method="post">
-			<div class="form-group">
-				<input type="hidden" id="isadmin" value="<?php echo ($admin); ?>">
-				<label for="UserName" class="col-sm-2 control-label">用户名</label>
-				<div class="col-sm-10">
-					<input type="txt" class="form-control" id="UserName" placeholder="用户名"></div>
-			</div>
-			<div class="form-group">
-				<label for="Password" class="col-sm-2 control-label">密码</label>
-				<div class="col-sm-10">
-					<input type="password" class="form-control" id="Password" placeholder="密码"></div>
-			</div>
-			<div class="form-group has-feedback">
-				<label for="verifycode" class="col-sm-2 control-label">验证码</label>
-				<div class="col-sm-10 ">
-					<input type="txt" class="form-control " status="0" id="verifycode" placeholder="验证码"></div>
-			</div>
-			<div class="form-group">
-				<label for="verifycode" class="col-sm-2 control-label"></label>
-				<div class="col-sm-10">
-					<img class="verifycode" src="<?php echo U('Usercenter/Public/verifycode');?>" alt="点击刷新" title="点击刷新"></div>
-			</div>
-			<input type="hidden" id="url" value="0" getcode="<?php echo U('Public/verifycode');?>" checkcode="<?php echo U('Usercenter/Public/check_verify');?>" login="<?php echo U('Usercenter/User/login');?>" home="<?php echo U('Home/Index/index');?>" >
-			<input type="hidden" value="0" name="rememberme"  id="isremeber">
-			<div class="form-group">
-				<div class="col-sm-offset-2 col-sm-10">
-					<div class="checkbox">
-						
-							<?php if( ($admin != 1) AND ($admin != true)): ?><label><input id="rememberme" type="checkbox">记住我</label><?php endif; ?>
-					</div>
+								</div>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<a href="#">忘记密码？</a>
+							<button type="button" id="loginbutton" class="btn btn-success" >登录</button>
+						</div>
+					</form>
 				</div>
 			</div>
-			<div class="form-group">
-				<div class="col-sm-offset-2 col-sm-10">
-					<button type="button" id="loginbutton" class="btn btn-default">登录</button>
-					<a  href="<?php echo U('Usercenter/User/regist');?>" class="btn btn-default">注册</a>
-				</div>
-			</div>
-		</form>
+		</div>
 	</div>
-</div>
 
 		<!-- 内容{__CONTENT__} -->
 
 	</div>
-	页脚
 	<footer>
 		<div class="container">
 			<div class="row hidden-xs">
@@ -230,14 +234,19 @@
 			</div>
 		</div>
 	</footer>
-	<script src="/Orange0001/Public/js/jquery-1.11.0.js"></script>
-	<script src="/Orange0001/Public/js/bootstrap.min.js"></script>
-	<script src="/Orange0001/Public/js/juzi.js"></script>
+	<script src="/Orange/Public/js/jquery-1.8.0.min.js"></script>
+	<script src="/Orange/Public/js/bootstrap.min.js"></script>
+	<script src="/Orange/Public/js/juzi.js"></script>
 	<!-- 特殊js -->
 	
-	
-<script>
+	<script>
 	$(function(){
+		function showmsg(msg,intime=500,outtime=1000){
+			$('#errormsg').stop(true);
+			$('#errormsg').html(msg);
+			$('#errormsg').fadeIn(intime);
+			$('#errormsg').fadeOut(outtime);
+		}
 		/*验证码自动验证*/
 /*		$('#verifycode').blur(function(){
 			var _code=$.trim($(this).val());
@@ -264,11 +273,13 @@
     		$('#loginbutton').val('....');
 			var _uid=$.trim($('#UserName').val());
 			if(!_uid){
+
+				showmsg('用户名为空',100,2000);
 				$('#UserName').val('');
 				$('#UserName').focus();
 			$('#loginbutton').val(btn_txt);
     		$('#loginbutton').removeAttr('disabled'); 
-				return;
+				return false;
 			}
 			var _pwd=$('#Password').val();
 			if(!$.trim(_pwd)){
@@ -276,7 +287,7 @@
 				$('#Password').focus();
 			$('#loginbutton').val(btn_txt);
     		$('#loginbutton').removeAttr('disabled'); 
-				return;
+				return false;
 			}
 			var _isadmin=$('#isadmin').val();			
 			/*记住我*/
@@ -307,12 +318,11 @@
 					if(_isadmin){
 						location.href=$('#adminrul').attr('href');
 					}else{
-					location.href=$('#url').attr('home');}
-
-
+					location.href=$('#url').attr('home');
+				}
 				}else{
 					reloadcode();
-					alert(data.info);
+					showmsg(data.info,100,4000);
 					 reloadcode();
 				}
 			},'json');
@@ -321,9 +331,12 @@
 		});
 		/*记住我按钮*/
 		$('#rememberme').click(function(e){
-			if(!$(this).attr('checked')){
+			var _ch=$('#rememberme').attr('checked');
+			if(!_ch){
+
 				$('#isremeber').val(0);
 			}else{
+		
 				$('#isremeber').val(1);
 			}
 		});
@@ -345,5 +358,11 @@
 
 	<!-- 特殊css -->
 	
+	<style>
+img.verifycode{
+	cursor: pointer;
+}
+	</style>
+
 </body>
 </html>
