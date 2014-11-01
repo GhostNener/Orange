@@ -161,7 +161,7 @@ class userModel extends Model {
 	}
 	/**
 	 * 激活用户【手机号注册用户】
-	 * 
+	 *
 	 * @param unknown $uid
 	 *        	:uid
 	 * @return boolean
@@ -178,8 +178,8 @@ class userModel extends Model {
 				'Id' => $uid,
 				'Status' => 101 
 		) )->save ( array (
-				'Status' => 10 ,
-				'LastKeyTime'=>0
+				'Status' => 10,
+				'LastKeyTime' => 0 
 		) );
 		if (! $rst) {
 			return false;
@@ -208,7 +208,14 @@ class userModel extends Model {
 		}
 		if (checkmail ( $data ['Name'] )) {
 			$data ['E-Mail'] = $data ['Name'];
+			if (! $data ['Nick']) {
+				$data ['Nick'] = C ( 'RAND_NICK_PREFIX' ) . $data ['E-Mail'];
+			}
 			unset ( $data ['Name'] );
+		} else {
+			if (! $data ['Nick']) {
+				$data ['Nick'] = C ( 'RAND_NICK_PREFIX' ) . $data ['Name'];
+			}
 		}
 		$dal = M ();
 		$dal->startTrans ();
@@ -242,7 +249,7 @@ class userModel extends Model {
 		}
 		if ($send ['E-Mail'] && ! $send ['Name']) {
 			if (! $this->senactive ( $rst )) {
-				$msg ['msg'] = '注册失败';
+				$msg ['msg'] = '注册失败!无法发送激活邮件！';
 				$dal->rollback ();
 				return $msg;
 			}
@@ -363,6 +370,10 @@ class userModel extends Model {
 				'_uid' => 0 
 		);
 		$uid = trim ( $arr ['Name'] );
+		if(!$uid){
+			$uid = trim ( $arr ['UserName'] );
+			
+		}
 		$pwd = $arr ['Password'];
 		$wherearr = array ();
 		if (checkmail ( $uid )) {
@@ -539,15 +550,17 @@ class userModel extends Model {
 	/**
 	 * 查询用户信息
 	 */
-	public function finduser($userid){
-		$whereArr = array('Id' => $userid);
-		$rst = $this -> where($whereArr) -> find();
-		if($rst){
-			$msgarr['user'] = $rst;
-			$msgarr['status'] = 1;
-		}else {
-			$msgarr['msg'] = "查询失败";
-			$msgarr['status'] = 0;
+	public function finduser($userid) {
+		$whereArr = array (
+				'Id' => $userid 
+		);
+		$rst = $this->where ( $whereArr )->find ();
+		if ($rst) {
+			$msgarr ['user'] = $rst;
+			$msgarr ['status'] = 1;
+		} else {
+			$msgarr ['msg'] = "查询失败";
+			$msgarr ['status'] = 0;
 		}
 		return $msgarr;
 	}
@@ -555,25 +568,25 @@ class userModel extends Model {
 	/**
 	 * 修改用户信息
 	 */
-	public function updateUser($data){
-		$datain = array(
-				'RealName' => $data['RealName'],
-				'Nick' => $data['Nick'],
-				'Sex' => $data['Sex'],
-				'Birthday' => $data['Birthday'],
-				'TP_QQ' => $data['TP_QQ'],
-				'TP_WeiChat' => $data['TP_WeiChat'],
-				'TP_Weibo' => $data['TP_Weibo']
+	public function updateUser($data) {
+		$datain = array (
+				'RealName' => $data ['RealName'],
+				'Nick' => $data ['Nick'],
+				'Sex' => $data ['Sex'],
+				'Birthday' => $data ['Birthday'],
+				'TP_QQ' => $data ['TP_QQ'],
+				'TP_WeiChat' => $data ['TP_WeiChat'],
+				'TP_Weibo' => $data ['TP_Weibo'] 
 		);
-		$rst = $this->where(array(
-				'Id' => $data['_uid'],
-		))->save($datain);
+		$rst = $this->where ( array (
+				'Id' => $data ['_uid'] 
+		) )->save ( $datain );
 		if ($rst) {
-			$mag['status'] = 1;
+			$mag ['status'] = 1;
 			$msg ['msg'] = '添加成功！';
-		}else {
-			$mag['status'] = 0;
-			$msg['msg'] = '添加失败！';
+		} else {
+			$mag ['status'] = 0;
+			$msg ['msg'] = '添加失败！';
 		}
 		return $msg;
 	}
@@ -581,36 +594,44 @@ class userModel extends Model {
 	/**
 	 * 签到
 	 */
-	public function sign(){
-		$userid = cookie('_uid');
-		$whereArr = array('Id' => $userid);
-		$meArr = $this -> where($whereArr) -> find();
-		$lastSignTime = $meArr['LastSignTime'];//最后一次签到时间
-		$signTime = date('y-m-d',$lastSignTime); // 格式化最后一次签到时间
-		if ($signTime == date('y-m-d',time())){//判断是否连签
+	public function sign() {
+		$userid = cookie ( '_uid' );
+		$whereArr = array (
+				'Id' => $userid 
+		);
+		$meArr = $this->where ( $whereArr )->find ();
+		$lastSignTime = $meArr ['LastSignTime']; // 最后一次签到时间
+		$signTime = date ( 'y-m-d', $lastSignTime ); // 格式化最后一次签到时间
+		if ($signTime == date ( 'y-m-d', time () )) { // 判断是否连签
 			return array (
 					'status' => 0,
 					'msg' => '已签到' 
 			);
-		}else {
-			if(time() - $totalTime > 60*60*24){
-				$data['SignCount'] = 0;
-			}else {
-				$data['SignCount'] = array('exp','SignCount+1');
-			}
-			$data['LastSignTime'] = date ( "Y-m-d H:i:s", time () );
-			$data['Grade'] = array('exp','Grade+1'); 
-			$rst = $this -> where($whereArr) -> save($data);
-			if ($rst){
-				return array (
-					'status' => 1,
-					'msg' => '操作成功' 
+		} else {
+			if (time () - $totalTime > 60 * 60 * 24) {
+				$data ['SignCount'] = 0;
+			} else {
+				$data ['SignCount'] = array (
+						'exp',
+						'SignCount+1' 
 				);
-			}else {
-				return array (
-					'status' => 0,
-					'msg' => '操作失败' 
+			}
+			$data ['LastSignTime'] = date ( "Y-m-d H:i:s", time () );
+			$data ['Grade'] = array (
+					'exp',
+					'Grade+1' 
 			);
+			$rst = $this->where ( $whereArr )->save ( $data );
+			if ($rst) {
+				return array (
+						'status' => 1,
+						'msg' => '操作成功' 
+				);
+			} else {
+				return array (
+						'status' => 0,
+						'msg' => '操作失败' 
+				);
 			}
 		}
 	}

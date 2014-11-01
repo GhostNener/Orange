@@ -12,6 +12,7 @@
 	<link href="/Orange/Public/css/normalize.css" rel="stylesheet">
 	<!-- Custom CSS -->
 	<link href="/Orange/Public/css/juzi.css" rel="stylesheet">
+	<link href="/Orange/Public/css/msg.css" rel="stylesheet">
 	<link rel="shortcut icon" href="/Orange/Public/Img/favicon.png"
 	type="image/x-icon" />
 	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -20,18 +21,6 @@
 	<script src="http://cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
 	<script src="http://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
 	<![endif]-->
-
-<style>
-	.errormsg{
-	position: absolute;
-	z-index: 10000;
-	top:30%;
-	width: 90%;
-	font-size: 20px;
-	display: none;
-}
-
-</style>
 
 </head>
 <body>
@@ -56,9 +45,6 @@
 					<ul class="nav navbar-nav">
 						<li class="active">
 							<a href="<?php echo U('Home/Index/index');?>">首页</a>
-						</li>
-						<li>
-							<a href="<?php echo U('Home/Goods/index');?>">商品管理</a>
 						</li>
 						<li>
 							<a href="#">发现</a>
@@ -94,11 +80,12 @@
 		</ul>
 		<?php else: ?>
 		<!-- 登录状态 -->
-		<ul class="nav navbar-nav navbar-right">
+		<ul class="nav navbar-nav navbar-right nickul">
 			<li class="dropdown">
 				<a class="dropdown-toggle" data-toggle="dropdown" href="#">
-					<img src="http://hhhhold.com/18x18">
-					&nbsp<?php echo ($usermodel['Nick']); ?>&nbsp
+					<img src="http://hhhhold.com/18x18" class="nicknameimg">
+					<span class="nickname">&nbsp;如果汉字的长2的长字的长度太</span>
+					&nbsp
 					<span class="caret"></span>
 					&nbsp
 					<span class="badge">3</span>
@@ -111,7 +98,7 @@
 						</a>
 					</li>
 					<li>
-						<a href="<?php echo U('Usercenter/UserCnter/index');?>">个人中心</a>
+						<a href="#">个人中心</a>
 					</li>
 					<li>
 						<a href="#">心愿单</a>
@@ -139,8 +126,7 @@
 		<div class="col-md-6 col-md-offset-3">
 			<div class="panel panel-default login-panel">
 				<div class="panel-body">
-					<div id="errormsg" class="alert alert-danger text-center errormsg"  role="alert">用户名或密码错误</div>
-					<form class="form-horizontal" role="form" method="post" action="<?php echo U('Usercenter/User/login');?>">
+					<form id="loginform" class="form-horizontal" role="form" method="post" action="<?php echo U('Usercenter/User/login');?>">
 						<div class="modal-body">
 							<div class="form-group">
 								<input type="hidden" id="isadmin" name="isadmin" value="<?php echo ($admin); ?>">
@@ -156,19 +142,18 @@
 							<div class="form-group">
 								<label for="verifycode" class="col-sm-2 control-label">验证码</label>
 								<div class="col-sm-10">
-									<input type="text" class="form-control" id="verifycode"></div>
+									<input type="text" name="verifycode" class="form-control" id="verifycode"></div>
 							</div>
 							<div class="form-group">
 								<div class="col-sm-offset-2 col-sm-10">
 									<img class="verifycode" src="<?php echo U('Usercenter/Public/verifycode');?>" alt="点击刷新" title="点击刷新"></div>
 							</div>
-							<input type="hidden" id="url" value="0" getcode="<?php echo U('Public/verifycode');?>" checkcode="<?php echo U('Usercenter/Public/check_verify');?>" login="<?php echo U('Usercenter/User/login');?>" home="<?php echo U('Home/Index/index');?>" >
-							<input type="hidden" value="0" name="isremeber"  id="isremeber">
+							<input type="hidden" id="url" value="0" getcode="<?php echo U('Public/verifycode');?>"  login="<?php echo U('Usercenter/User/login');?>" home="<?php echo U('Home/Index/index');?>" >
 							<div class="form-group">
 								<div class="col-sm-offset-2 col-sm-10">
 									<?php if( ($admin != 1) AND ($admin != true)): ?><div class="checkbox">
 											<label>
-												<input id="rememberme" type="checkbox" >&nbsp;请记住我（30天）</label>
+												<input id="rememberme" name="isremeber" value="1" id="isremeber" type="checkbox" >&nbsp;请记住我（30天）</label>
 										</div><?php endif; ?>
 
 								</div>
@@ -176,15 +161,13 @@
 						</div>
 						<div class="modal-footer">
 							<a href="#">忘记密码？</a>
-							<button type="button" id="loginbutton" class="btn btn-success" >登录</button>
+							<button type="button" id="loginbutton" data-loading-text="登录中..." class="btn btn-success" autocomplete="off" >登录</button>
 						</div>
 					</form>
 				</div>
 			</div>
 		</div>
 	</div>
-
-		<!-- 内容{__CONTENT__} -->
 
 	</div>
 	<footer>
@@ -234,116 +217,66 @@
 			</div>
 		</div>
 	</footer>
+	<div>
+		<div id="errormsg" class=" text-center alertmsg"  role="alert">
+			<span class="alert alert-danger  msgbox">msg</span>
+		</div>
+		<div id="successmsg" class="text-center alertmsg"  role="alert">
+			<span class="alert alert-success msgbox">msg</span>
+		</div>
+	</div>
+
 	<script src="/Orange/Public/js/jquery-1.8.0.min.js"></script>
 	<script src="/Orange/Public/js/bootstrap.min.js"></script>
 	<script src="/Orange/Public/js/juzi.js"></script>
+	<script src="/Orange/Public/js/msg.js"></script>
+	<script src="/Orange/Public/js/msgbox.js"></script>
+
 	<!-- 特殊js -->
 	
 	<script>
 	$(function(){
-		function showmsg(msg,intime=500,outtime=1000){
-			$('#errormsg').stop(true);
-			$('#errormsg').html(msg);
-			$('#errormsg').fadeIn(intime);
-			$('#errormsg').fadeOut(outtime);
-		}
-		/*验证码自动验证*/
-/*		$('#verifycode').blur(function(){
-			var _code=$.trim($(this).val());
-			if(!_code){return;}
-			$.post($('#url').attr('checkcode'),{'code':_code},function(data){
-				if(!data){
-					$('#verifycode').parent().removeClass('has-error');
-					$('#verifycode').parent().addClass('has-error');
-					$('#verifycode').attr('status',0);
-
-				}else{
-					$('#verifycode').parent().removeClass('has-error');
-					$('#verifycode').parent().addClass('has-success');
-					$('#verifycode').attr('status',1);
-				}
-			});
-		});*/
-/*		$('#verifycode').focus(function(){
-			$('#verifycode').parent().removeClass('has-error');
-		});*/
-		/*登录按钮*/
 		$('#loginbutton').click(function(e){
-			$('#loginbutton').attr('disabled',"true");
-    		$('#loginbutton').val('....');
-			var _uid=$.trim($('#UserName').val());
-			if(!_uid){
-
-				showmsg('用户名为空',100,2000);
+		var $btn = $(this).button('loading');
+			if(!$.trim($('#UserName').val())){
+				showerrormsg('用户名为空',100,1000);
 				$('#UserName').val('');
 				$('#UserName').focus();
-			$('#loginbutton').val(btn_txt);
-    		$('#loginbutton').removeAttr('disabled'); 
+				$btn.button('reset');
 				return false;
 			}
-			var _pwd=$('#Password').val();
-			if(!$.trim(_pwd)){
+			if(!$.trim($('#Password').val())){
+				showerrormsg('密码为空',100,1000);
 				$('#Password').val('');
 				$('#Password').focus();
-			$('#loginbutton').val(btn_txt);
-    		$('#loginbutton').removeAttr('disabled'); 
+				$btn.button('reset');
 				return false;
 			}
-			var _isadmin=$('#isadmin').val();			
-			/*记住我*/
-			var _remember=parseInt($('#isremeber').val());
-			var _code=$.trim($('#verifycode').val());
-			/*var _status=parseInt($('#verifycode').attr('status'));*/
-/*			if(!_code||!_status){
-				$('#verifycode').attr('status',0);
-				$('#verifycode').focus();
-				return;
-			}*/
-			/**/
-		if(!_isadmin){
-			_remember=_remember;
-		}else{
-			_remember=0;
-		}
-		    var btn_txt=$('#loginbutton').val();
-			/*提交表单*/
-			$.post($('#url').attr('login'),{
-				'Name':_uid,
-				'Password':_pwd,
-				'verifycode':_code,
-				'isremeber':_remember,
-				'isadmin':_isadmin
-			},function(data){
-				if(data.status==1){
-					if(_isadmin){
-						location.href=$('#adminrul').attr('href');
-					}else{
-					location.href=$('#url').attr('home');
-				}
-				}else{
+			$.ajax({
+				type:'post',
+				cache:false,
+				url:$('#url').attr('login'),
+				data:$('#loginform').serialize(),
+				error: function(request) {
+					showerrormsg('网络错误',100,1000);
 					reloadcode();
-					showmsg(data.info,100,4000);
-					 reloadcode();
-				}
-			},'json');
-    		$('#loginbutton').val(btn_txt);
-    		$('#loginbutton').removeAttr('disabled'); 
-		});
-		/*记住我按钮*/
-		$('#rememberme').click(function(e){
-			var _ch=$('#rememberme').attr('checked');
-			if(!_ch){
-
-				$('#isremeber').val(0);
-			}else{
-		
-				$('#isremeber').val(1);
-			}
+					$btn.button('reset');
+                },
+                success: function(data) {
+					if(data.status==0){
+						showerrormsg(data.info,100,1000);
+						reloadcode();
+						$btn.button('reset');
+					}else{
+						location.href=$('#url').attr('home');
+					}
+                }
+			});
 		});
 		$('.verifycode').click(function(e){
 			reloadcode();
 		});
-		/*刷新验证码*/
+				/*刷新验证码*/
 		function reloadcode(){
 			var _src=$('#url').attr('getcode')+'?id='+ new Date().valueOf() ;
 			$('.verifycode').attr('src',_src);

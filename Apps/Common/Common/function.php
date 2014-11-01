@@ -639,27 +639,32 @@ function sendEmail($subject, $content, $email) {
 	$config = C ( 'ORANGER_MAIL' );
 	$body = $content;
 	$mail->IsSMTP ();
-	$mail->SMTPDebug = 0;
-	/* $mail->SMTPSecure = 'ssl'; */
-	$mail->SMTPAuth = true; // enable SMTP authentication
-	$mail->SMTPKeepAlive = true; // sets the prefix to the servier
-	$mail->CharSet = "utf-8";
-	$mail->Host = $config ['SMTP_HOST'];
-	$mail->Port = $config ['SMTP_PORT'];
-	$mail->Username = $config ['SMTP_USER'];
-	$mail->Password = $config ['SMTP_PASS'];
-	$mail->From = $config ['FROM_EMAIL'];
-	$mail->FromName = $config ['FROM_NAME'];
-	$mail->Subject = $subject;
-	$mail->AltBody = $body;
-	$mail->WordWrap = 50; // set word wrap
-	$mail->MsgHTML ( $body );
-	$mail->AddReplyTo ( $config ['REPLY_EMAIL'], $config ['REPLY_NAME'] );
-	// $mail->AddAttachment("attachment.jpg"); // 附件1
-	// $mail->AddAttachment("attachment.zip"); // 附件2
-	$mail->AddAddress ( $email, $email ); // 接收邮件的账号
-	$mail->IsHTML ( true ); // send as HTML
-	return ($mail->Send ());
+	try {
+		$mail->SMTPDebug = 0;
+		/* $mail->SMTPSecure = 'ssl'; */
+		$mail->SMTPAuth = true; // enable SMTP authentication
+		$mail->SMTPKeepAlive = true; // sets the prefix to the servier
+		$mail->CharSet = "utf-8";
+		$mail->Host = $config ['SMTP_HOST'];
+		$mail->Port = $config ['SMTP_PORT'];
+		$mail->Username = $config ['SMTP_USER'];
+		$mail->Password = $config ['SMTP_PASS'];
+		$mail->From = $config ['FROM_EMAIL'];
+		$mail->FromName = $config ['FROM_NAME'];
+		$mail->Subject = $subject;
+		$mail->AltBody = $body;
+		$mail->WordWrap = 50; // set word wrap
+		$mail->MsgHTML ( $body );
+		$mail->AddReplyTo ( $config ['REPLY_EMAIL'], $config ['REPLY_NAME'] );
+		// $mail->AddAttachment("attachment.jpg"); // 附件1
+		// $mail->AddAttachment("attachment.zip"); // 附件2
+		$mail->AddAddress ( $email, $email ); // 接收邮件的账号
+		$mail->IsHTML ( true ); // send as HTML
+		$rst = $mail->Send ();
+		return $rst;
+	} catch ( Exception $e ) {
+		return false;
+	}
 }
 /**
  * 帐号激活邮件

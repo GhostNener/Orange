@@ -93,6 +93,8 @@ return array (
 		/*分类词典路径  【相对与ORG/phpAnalysis/】  */
 		'CATEGOEY_DIC' => 'dict/category_dic_full.dic',
 		/*全文检索词典路径  【相对与ORG/phpAnalysis/】  */
-		'SEARCH_DIC' => 'dict/search_dic_full.dic' 
+		'SEARCH_DIC' => 'dict/search_dic_full.dic' ,
+		/*用户默认昵称前缀  */
+		'RAND_NICK_PREFIX'=>''
 );
 

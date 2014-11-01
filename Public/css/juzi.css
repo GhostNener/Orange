@@ -23,8 +23,19 @@ html,body{
 }
 
 /*基本样式*/
-h1,h2,h3,h4,h5,h6,p,label,div {
+h1,h2,h3,h4,h5,h6,p,label,div,label {
     color: #555;
+}
+
+h5{
+    font-weight: 600;
+}
+.checkbox label{
+	width: 100%;
+}
+
+blockquote{
+	font-size: 14px;
 }
 
 a,a.list-group-item,.navbar .navbar-nav li a,.navbar .navbar-brand{
@@ -59,17 +70,23 @@ a:hover,.navbar-default .navbar-nav .active a,a.list-group-item:hover,.navbar .n
 .badge{
     background-color: #d9534f;
 }
-.text-success{
-	color: #5cb85c;
+a.list-group-item.active>.badge, .nav-pills>.active>a>.badge{
+    color: #d9534f;
 }
-
 .thumbnail,.panel{
 	border-radius: 0px;
+}
+.progress{
+ margin-bottom: 0px;
 }
 
 /*橙色面板*/
 .panel-orange{
     border-color: #ccc;
+}
+
+.text-orange{
+	color: #fa7d3c;
 }
 
 .panel-orange>.panel-heading{
@@ -196,24 +213,24 @@ footer {
 }
 
 /*最新活动*/
-.media h5{
-    font-weight: 600;
-}
-
-.media p{
+.sideitemnav .media p{
     font-size: 12px;
     margin-bottom: 3px;
 }
 
-.media .btn{
+.sideitemnav .media .btn{
     font-size: 12px;
     padding: 1px 6px;
     margin-top: 4px;
 }
 
 /*排行榜*/
+.tab-pane{
+    margin-top: 20px;
+}
+
 .tab-pane .tabuser{
-    padding: 20px 0;
+    padding-bottom: 20px;
 }
 
 .tab-pane .tabuser .info{
@@ -242,33 +259,6 @@ footer {
 .btnpublish span{
     font-size: 30px;
     font-weight: 300;
-}
-
-/* 桌面端显示 */
-@media (min-width: 768px){
-    .navbar-form .input-group>.form-control {
-      width: 514px;
-    }
-
-    .btnpublish{
-	    margin: 0 50px 50px 0;
-	    height: 70px;
-	    width: 70px;
-	}
-
-	#main{
-	    padding-bottom:170px; /* this needs to be bigger than footer height*/
-	}
-
-	/*脚页*/
-	footer {
-	    margin-top: -170px; /* negative value of footer height */
-  		padding-top: 20px;
-	}
-
-	.affix{
-		width: 255px;
-	}
 }
 
 /* 商品发布 */
@@ -309,7 +299,7 @@ footer {
     z-index: 1;
 }
 
-.board .nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus {
+.board .nav-tabs > li.active > a, .nav-tabs > li.active > a:focus {
     color: #555555;
     cursor: default;
     border: 0;
@@ -395,7 +385,7 @@ footer {
 .board li.active:after {
     content: " ";
     position: absolute;
-    left: 46%;
+    left: 45%;
    	opacity:1;
     margin: 0 auto;
     bottom: 0px;
@@ -417,6 +407,14 @@ footer {
 
 .board .tab-content{
 	padding: 20px;
+}
+
+.board-register{
+	margin-top: 10%;
+}
+
+.board.board-register li.active:after{
+	left: 42%;
 }
 
 @media( max-width : 585px ){
@@ -619,7 +617,7 @@ footer {
 .profile span{
 	color: #fff;
 	display: block;
-	margin: 5px 20%;
+	margin: 5px 0 5px 30%;
 }
 
 .list-group-item {
@@ -633,4 +631,118 @@ footer {
     border-color: #ddd;
     color: #555;
     border-left: 3px solid #fa7d3c;
+}
+
+.btn-small{
+	padding: 1px 10px;
+}
+
+.editavatar{
+	margin: 30px 0;
+}
+
+.operation{
+	margin-bottom: 20px;
+	text-align: center;
+}
+
+.userlist .media{
+	margin-bottom: 30px;
+}
+/* FF下表格会出现问题 */
+@-moz-document url-prefix() {
+  fieldset { display: table-cell; }
+}
+
+/* 平板显示 */
+@media (min-width: 768px){
+    .navbar-form .input-group>.form-control {
+      width: 200px;
+    }
+
+    .nickname{
+		width:78px; 
+		white-space:nowrap; 
+		overflow:hidden; 
+		text-overflow:ellipsis; 
+		float:left;
+    }
+
+    .nicknameimg{
+		float: left;
+    }
+
+    .nickul{
+		float: right;
+    }
+}
+
+/* 平板显示 */
+@media (min-width: 992px){
+    .navbar-form .input-group>.form-control {
+      width: 400px;
+    }
+
+    .nickname{
+		width:98px; 
+		white-space:nowrap; 
+		overflow:hidden; 
+		text-overflow:ellipsis; 
+		float:left;
+    }
+
+    .nicknameimg{
+		float: left;
+    }
+
+    .nickul{
+		float: right;
+    }
+}
+
+/* 桌面端显示 */
+@media (min-width: 1200px){
+    .navbar-form .input-group>.form-control {
+      width: 508px;
+    }
+
+    .nickname{
+		width:190px; 
+		white-space:nowrap; 
+		overflow:hidden; 
+		text-overflow:ellipsis; 
+		float:left;
+    }
+
+    .nicknameimg{
+		float: left;
+    }
+
+    .nickul{
+		float: right;
+    }
+
+    .btnpublish{
+	    margin: 0 50px 50px 0;
+	    height: 70px;
+	    width: 70px;
+	}
+
+	#main{
+	    padding-bottom:170px; /* this needs to be bigger than footer height*/
+	}
+
+	/*脚页*/
+	footer {
+	    margin-top: -170px; /* negative value of footer height */
+  		padding-top: 20px;
+	}
+
+	.affix{
+		width: 255px;
+	}
+
+	.profilemain{
+		min-height: 540px;
+	}
 }

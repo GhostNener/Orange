@@ -110,6 +110,9 @@ class UserController extends Controller {
 			$this->error ( '页面不存在' );
 		}
 		$arr = I ( 'post.' );
+		$arr['Nick']=null;
+		$arr['Name']=$arr['UserName'];
+		unset($arr['UserName']);
 		$model = new userModel ();
 		$rst = $model->regist ( $arr );
 		if (! ( int ) $rst ['status']) {

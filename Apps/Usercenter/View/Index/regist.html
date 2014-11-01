@@ -1,251 +1,155 @@
 <extend name="./Tpl/layout.html"/>
 <block name="content">
-
-
-
-
-
-
-
-		<div id="main" class="container">
-			<div class="row">
-				<div class="col-md-10 col-md-offset-1">
-					<div class="board">
-						<div class="board-inner">
-							<ul id="myTab" class="nav nav-tabs">
-								<li class="active">
-									<a href="#tab1" data-toggle="tab" title="邮箱注册" >
-										<span class="round-tabs three"> <i class="glyphicon glyphicon-envelope"></i>
-										</span>
-									</a>
-								</li>
-								<li>
-									<a href="#tab2" data-toggle="tab" title="手机号码注册" >
-										<span class="round-tabs one"> <i class="glyphicon glyphicon-phone"></i>
-										</span>
-									</a>
-								</li>
-								<!-- 禁用的效果 -->
-								<!--  <li  class="disabled">
-								<a href="#">
-									手机号注册(暂未开放)
-									<span class="round-tabs one">
-										<i class="glyphicon glyphicon-earphone"></i>
+	<div id="main" class="container">
+		<div class="row">
+			<div class="col-md-6 col-md-offset-3 ">
+				<div class="board board-register ">
+					<div class="board-inner">
+						<ul id="myTab" class="nav nav-tabs text-center">
+							<li class="active">
+								<a href="#tab1" data-toggle="tab" title="邮箱注册" >
+									<span class="round-tabs three"> <i class="glyphicon glyphicon-envelope"></i>
 									</span>
 								</a>
 							</li>
-							-->
-						</ul>
-					</div>
-					<div class="tab-content">
-						<div class="tab-pane fade in active" id="tab1">
+							<!-- <li>
+							<a href="#tab2" data-toggle="tab" title="手机号码注册" >
+								<span class="round-tabs one"> <i class="glyphicon glyphicon-phone"></i>
+								</span>
+							</a>
+						</li>
+						-->
+						<!-- 禁用的效果 -->
+						<li  class="disabled">
+							<a   title="手机号注册(暂未开放)" >
+								<span class="round-tabs one ">
+									<i class="glyphicon glyphicon-earphone"></i>
+								</span>
+							</a>
+						</li>
 
-							<form class="form-horizontal" role="form">
-								<div class="form-group">
-									<label for="username" class="col-sm-3 control-label">邮箱</label>
-									<div class="col-sm-8">
-										<input type="text" class="form-control" id="username" name="username" placeholder="请输入邮箱"></div>
-								</div>
-								<div class="form-group">
-									<label for="password" class="col-sm-3 control-label">密码</label>
-									<div class="col-sm-8">
-										<input type="password" class="form-control" id="password" placeholder="6到18位字符密码"></div>
-								</div>
-								<div class="form-group">
-									<label for="comfirm" class="col-sm-3 control-label">确认密码</label>
-									<div class="col-sm-8">
-										<input type="password" class="form-control" id="comfirm" name="comfirm"></div>
-								</div>
-
-								<div class="form-group">
-									<div class="col-sm-offset-3 col-sm-9">
-										<button type="submit" class="btn btn-orange">提交</button>
-									</div>
-								</div>
-							</form>
-						</div>
-
-						<div class="tab-pane fade" id="tab2">
-							<form class="form-horizontal" role="form">
-								<div class="form-group">
-									<label for="username" class="col-sm-3 control-label">手机号</label>
-									<div class="col-sm-8">
-										<input type="text" class="form-control" id="username" name="username" placeholder="请输入手机号"></div>
-								</div>
-								<div class="form-group">
-									<label for="password" class="col-sm-3 control-label">密码</label>
-									<div class="col-sm-8">
-										<input type="password" class="form-control" id="password" placeholder="6到18位字符密码"></div>
-								</div>
-								<div class="form-group">
-									<label for="comfirm" class="col-sm-3 control-label">确认密码</label>
-									<div class="col-sm-8">
-										<input type="password" class="form-control" id="comfirm" name="comfirm"></div>
-								</div>
-
-								<div class="form-group">
-									<label for="comfirm" class="col-sm-3 control-label">激活码</label>
-									<div class="col-sm-8">
-										<div class="input-group">
-											<input type="text" class="form-control">
-											<span class="input-group-btn">
-												<button class="btn btn-expend btn-success" type="button">发送激活码</button>
-											</span>
-										</div>
-										<!-- /input-group -->
-									</div>
-								</div>
-
-								<div class="form-group">
-									<div class="col-sm-offset-3 col-sm-9">
-										<button type="submit" class="btn btn-success">提交</button>
-									</div>
-								</div>
-							</form>
-						</div>
-
-					</div>
-					<!--myTabContent-->
+					</ul>
 				</div>
-				<!--panel-body-->
+				<div class="tab-content">
+					<div class="tab-pane fade in active" id="tab1">
+						<form id="registform" class="form-horizontal" role="form">
+							<div class="form-group">
+								<label for="UserName" class="col-sm-3 control-label">邮箱</label>
+								<div class="col-sm-8">
+									<input type="email" class="form-control" id="UserName" name="UserName" placeholder="请输入邮箱"></div>
+							</div>
+							<div class="form-group">
+								<label for="Password" class="col-sm-3 control-label">密码</label>
+								<div class="col-sm-8">
+									<input type="password" class="form-control" id="Password" name="Password" placeholder="6到18位字符密码"></div>
+							</div>
+							<div class="form-group">
+								<label for="ConfirmPassword" class="col-sm-3 control-label">确认密码</label>
+								<div class="col-sm-8">
+									<input type="password" class="form-control" id="ConfirmPassword" name="ConfirmPassword"></div>
+							</div>
+							<input type="hidden" id="url" value="0" regist="{:U('Usercenter/User/signup')}" home="{:U('Home/Index/index')}">
+							<div class="form-group">
+								<div class="col-sm-offset-3 col-sm-9">
+									<button type="button" id="registbutton" class="btn btn-orange" data-loading-text="注册中..."  autocomplete="off" >提交</button>
+								</div>
+							</div>
+						</form>
+					</div>
+					<!-- 手机注册 -->
+					<!-- 					<div class="tab-pane fade" id="tab2">
+					<form class="form-horizontal" role="form">
+						<div class="form-group">
+							<label for="phone" class="col-sm-3 control-label">手机号</label>
+							<div class="col-sm-8">
+								<input type="text" class="form-control" id="phone" name="phone" placeholder="请输入手机号"></div>
+						</div>
+						<div class="form-group">
+							<label for="telpassword" class="col-sm-3 control-label">密码</label>
+							<div class="col-sm-8">
+								<input type="password" class="form-control" id="telpassword" placeholder="6到18位字符密码"></div>
+						</div>
+						<div class="form-group">
+							<label for="telcomfirm" class="col-sm-3 control-label">确认密码</label>
+							<div class="col-sm-8">
+								<input type="password" class="form-control" id="telcomfirm" name="telcomfirm"></div>
+						</div>
+						<div class="form-group">
+							<label for="comfirm" class="col-sm-3 control-label">激活码</label>
+							<div class="col-sm-8">
+								<div class="input-group">
+									<input type="text" class="form-control">
+									<span class="input-group-btn">
+										<button class="btn btn-expend btn-success" type="button">发送激活码</button>
+									</span>
+								</div>
+								/input-group
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="col-sm-offset-3 col-sm-9">
+								<button type="submit" class="btn btn-success">提交</button>
+							</div>
+						</div>
+					</form>
+				</div>
+				-->
 			</div>
+			<!--myTabContent-->
 		</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	<style>
-.login {
-	margin: 200px 100px;
-}
-
-.verifycode {
-	cursor: pointer;
-}
-</style>
-
-	<div id="main" class="container">
-		<div class="login">
-			<h1 class="text-center">新用户</h1>
-			<br>
-			<form class="form-horizontal" role="form" action="" method="post">
-				<div class="form-group">
-					<label for="Nick"
-	class="col-sm-2 control-label">昵称</label>
-					<div class="col-sm-8 ">
-						<input type="text" class="form-control"
-	id="Nick" placeholder="昵称"></div>
-				</div>
-				<div class="form-group">
-					<label for="UserName"
-	class="col-sm-2 control-label">用户名</label>
-					<div class="col-sm-8">
-						<input type="email" class="form-control"
-	id="UserName" placeholder="邮箱"></div>
-				</div>
-				<div class="form-group">
-					<label for="Password"
-	class="col-sm-2 control-label">密码</label>
-					<div class="col-sm-8">
-						<input type="password" class="form-control"
-	id="Password" placeholder="密码"></div>
-				</div>
-				<div class="form-group">
-					<label for="confirmPassword"
-	class="col-sm-2 control-label">确认密码</label>
-					<div class="col-sm-8">
-						<input type="password" class="form-control"
-	id="confirmPassword" placeholder="确认密码"></div>
-				</div>
-				<input type="hidden" id="url" value="0"
-	regist="{:U('Usercenter/User/signup')}" home="{:U('Home/Index/index')}">
-				<div class="form-group">
-					<div class="col-sm-offset-2 col-sm-8">
-						<button type="button" id="registbutton" class="btn btn-default">提交</button>
-					</div>
-				</div>
-			</form>
-		</div>
+		<!--panel-body-->
 	</div>
+</div>
+</div>
 </block>
 <block name="js">
-	<script>
+<script>
 	$(function(){
-		$('#Nick').focus(function(){
-			removemsg('Nick');
-		});
-		$('#UserName').focus(function(){
-			removemsg('UserName');
-		});		
-		$('#Password').focus(function(){
-			removemsg('Password');
-		});
-		$('#confirmPassword').focus(function(){
-			removemsg('confirmPassword');
-		});
-		$('#registbutton').click(function(){
-			var _nick=$.trim($('#Nick').val());
-			if(!_nick){
-				appendmsg('Nick','昵称不能为空');
-				return;
-
-			}		
+		$('#registbutton').click(function(){			
+			var $btn = $(this).button('loading');
 			var _mail=$.trim($('#UserName').val());
 			var _pwd=$.trim($('#Password').val());
-			var _confirmpwd=$.trim($('#confirmPassword').val());
-			if(!_mail||(!checkmail(_mail)&&!checkmobile(_mail))){
-				appendmsg('UserName','用户名不合法');
-				return;
-			}
-			if(!_pwd||!checkpwd(_pwd)){
-				appendmsg('Password','密码不合法');
-				return;
-			}
-			if(!_confirmpwd||!checkpwd(_confirmpwd)||_pwd!=_confirmpwd){
-				appendmsg('confirmPassword','确认密码不一致');
-				return;
-			}
-			var btn_txt=$('#registbutton').val();
-    		$('#registbutton').attr('disabled',"true");
-    		$('#registbutton').val('....');
-			if(checkmobile(_mail)){
-				alert('暂不支持电话哦！');
-				$('#registbutton').val(btn_txt);
-    			$('#registbutton').removeAttr('disabled'); 
+			var _confirmpwd=$.trim($('#ConfirmPassword').val());
+			if(!_mail||!checkmail(_mail)){
+				showerrormsg('邮箱不合法',100,1000);
+				$('#UserName').focus();
+				$btn.button('reset');
 				return false;
 			}
-			$.post($('#url').attr('regist'),{
-				'Password':_pwd,
-				'ConfirmPassword':_confirmpwd,
-				'Name':_mail,
-				'Nick':_nick
-			},function(data){
-
+			if(!_pwd||!checkpwd(_pwd)){
+				showerrormsg('密码不合法！6-18位！',100,1000);
+				$('#Password').focus();
+				$btn.button('reset');
+				return false;
+			}
+			if(!_confirmpwd||!checkpwd(_confirmpwd)||_pwd!=_confirmpwd){
+				showerrormsg('确认密码不一致',100,1000);
+				$('#ConfirmPassword').focus();
+				$btn.button('reset');
+				return false;
+			}
+			$.ajax({
+				type:'post',
+				cache:false,
+				url:$('#url').attr('regist'),
+				data:$('#registform').serialize(),
+				error: function(request) {
+					showerrormsg('网络错误',100,1000);
+					$btn.button('reset');
+                },
+                success: function(data) {
 					if(data.status==0){
-					alert(data.info);
-				}else{
-					alert("注册成功！\n 请激活");
-					location.href=$('#url').attr('home');
-				}
-			},'json');
-			$('#registbutton').val(btn_txt);
-    		$('#registbutton').removeAttr('disabled'); 
+						showerrormsg(data.info,100,1000);
+						$btn.button('reset');
+					}else{
+					showsuccessmsg("注册成功！请激活！",100,2000);
+					setTimeout(function(){
+						location.href=$('#url').attr('home');
+						$btn.button('reset');
+					},2000);
+					}
+                }
+			});			
 		});
 		function checkmail(_mail){
 			var ismail1=/^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/;
@@ -269,63 +173,53 @@
 			}
 			return true;
 		}
-		function appendmsg(id,msg){
-			removemsg(id);
-			var _id='#'+id;
-			$(_id).parent().parent().append('<span style="color:red">'+msg+'</span>');
-			$(_id).parent().addClass('has-error');
-		}
-		function removemsg(id){
-			var _id='#'+id;
-			$(_id).parent().siblings('span').remove();
-			$(_id).parent().removeClass('has-error');
-		}
 	});
 </script>
 </block>
 <block name="login">
-	<if condition="$usermodel eq null">
-		<ul class="nav navbar-nav navbar-right">
+<if condition="$usermodel eq null">
+<ul class="nav navbar-nav navbar-right">
+	<li>
+		<a href="{:U('Usercenter/User/index')}" >登录</a>
+	</li>
+	<li>
+		<a href="{:U('Usercenter/User/regist')}">注册</a>
+	</li>
+</ul>
+<else/>
+<!-- 登录状态 -->
+<ul class="nav navbar-nav navbar-right nickul">
+	<li class="dropdown">
+		<a class="dropdown-toggle" data-toggle="dropdown" href="#">
+			<img src="http://hhhhold.com/18x18" class="nicknameimg">
+			<span class="nickname">&nbsp;如果汉字的长2的长字的长度太</span>
+			&nbsp
+			<span class="caret"></span>
+			&nbsp
+			<span class="badge">3</span>
+		</a>
+		<ul class="dropdown-menu">
 			<li>
-				<a href="{:U('Usercenter/User/index')}" >登录</a>
-			</li>
-			<li>
-				<a href="{:U('Usercenter/User/regist')}">注册</a>
-			</li>
-		</ul>
-		<else/>
-		<!-- 登录状态 -->
-		<ul class="nav navbar-nav navbar-right">
-			<li class="dropdown">
-				<a class="dropdown-toggle" data-toggle="dropdown" href="#">
-					<img src="http://hhhhold.com/18x18">
-					&nbsp{$usermodel['Nick']}&nbsp
-					<span class="caret"></span>
-					&nbsp
-					<span class="badge">3</span>
+				<a href="#">
+					<span class="badge pull-right">3</span>
+					未读消息
 				</a>
-				<ul class="dropdown-menu">
-					<li>
-						<a href="#">
-							<span class="badge pull-right">3</span>
-							未读消息
-						</a>
-					</li>
-					<li>
-						<a href="{:U('Usercenter/UserCnter/index')}">个人中心</a>
-					</li>
-					<li>
-						<a href="#">心愿单</a>
-					</li>
-					<li>
-						<a href="#">充值</a>
-					</li>
-					<li class="divider"></li>
-					<li>
-						<a href="#">退出用户</a>
-					</li>
-				</ul>
+			</li>
+			<li>
+				<a href="#">个人中心</a>
+			</li>
+			<li>
+				<a href="#">心愿单</a>
+			</li>
+			<li>
+				<a href="#">充值</a>
+			</li>
+			<li class="divider"></li>
+			<li>
+				<a href="#">退出用户</a>
 			</li>
 		</ul>
-	</if>
+	</li>
+</ul>
+</if>
 </block>
