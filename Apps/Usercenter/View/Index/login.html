@@ -58,58 +58,60 @@ img.verifycode{
 </block>
 <block name="js">
 	<script>
-	$(function(){
-		$('#loginbutton').click(function(e){
-		var $btn = $(this).button('loading');
-			if(!$.trim($('#UserName').val())){
-				showerrormsg('用户名为空',100,1000);
-				$('#UserName').val('');
-				$('#UserName').focus();
-				$btn.button('reset');
-				return false;
-			}
-			if(!$.trim($('#Password').val())){
-				showerrormsg('密码为空',100,1000);
-				$('#Password').val('');
-				$('#Password').focus();
-				$btn.button('reset');
-				return false;
-			}
-			$.ajax({
-				type:'post',
-				cache:false,
-				url:$('#url').attr('login'),
-				data:$('#loginform').serialize(),
-				error: function(request) {
-					showerrormsg('网络错误',100,1000);
-					reloadcode();
-					$btn.button('reset');
-                },
-                success: function(data) {
-					if(data.status==0){
-						showerrormsg(data.info,100,1000);
-						reloadcode();
-						$btn.button('reset');
-					}else{
-						location.href=$('#url').attr('home');
-					}
-                }
-			});
-		});
-		$('.verifycode').click(function(e){
-			reloadcode();
-		});
-				/*刷新验证码*/
-		function reloadcode(){
-			var _src=$('#url').attr('getcode')+'?id='+ new Date().valueOf() ;
-			$('.verifycode').attr('src',_src);
-			$('#verifycode').parent().removeClass('has-error');
-			$('#verifycode').parent().removeClass('has-success');
-			//$('#verifycode').parent().addClass('has-error');
-			$('#verifycode').attr('status',0);
+$(function() {
+    $('#loginbutton').click(function(e) {
+        var $btn = $(this).button('loading');
+        if (!$.trim($('#UserName').val())) {
+            showerrormsg('用户名为空', 100, 1000);
+            $('#UserName').val('');
+            $('#UserName').focus();
+            $btn.button('reset');
+            return false;
+        }
+        if (!$.trim($('#Password').val())) {
+            showerrormsg('密码为空', 100, 1000);
+            $('#Password').val('');
+            $('#Password').focus();
+            $btn.button('reset');
+            return false;
+        }
+        $.ajax({
+            type: 'post',
+            cache: false,
+            url: $('#url').attr('login'),
+            data: $('#loginform').serialize(),
+            error:  
+            function(request)  {
+                showerrormsg('网络错误', 100, 1000);
+                reloadcode();
+                $btn.button('reset');                
+            },
+                            success:  
+            function(data)  {
+                if (data.status == 0) {
+                    showerrormsg(data.info, 100, 1000);
+                    reloadcode();
+                    $btn.button('reset');
+                } else {
+                    location.href = $('#url').attr('home');
+                }                
+            }
+        });
+    });
+    $('.verifycode').click(function(e) {
+        reloadcode();
+    });
+    /*刷新验证码*/
+    function reloadcode() {
+        var _src = $('#url').attr('getcode') + '?id=' + new Date().valueOf();
+        $('.verifycode').attr('src', _src);
+        $('#verifycode').parent().removeClass('has-error');
+        $('#verifycode').parent().removeClass('has-success');
+        //$('#verifycode').parent().addClass('has-error');
+        $('#verifycode').attr('status', 0);
 
-		}
-	});
+    }
+});
 </script>
 </block>
 <block name="login">
