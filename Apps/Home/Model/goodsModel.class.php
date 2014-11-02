@@ -3,6 +3,7 @@
 namespace Home\Model;
 
 use Think\Model;
+use Usercenter\Model\userModel;
 
 /**
  * 商品模型
@@ -70,6 +71,64 @@ class goodsModel extends Model {
 				break;
 		}
 	}
+	
+	/**
+	 * 计算发布费用
+	 *
+	 * @param array $arr
+	 *        	Price，Server
+	 * @return multitype:number string
+	 */
+	public function computecost($arr, $type = 1) {
+		if (! $arr || ! $arr ['Price']) {
+			if ($type == 2) {
+				return 0;
+			}
+			return array (
+					'status' => 0,
+					'msg' => '空数据',
+					'cost' => 0 
+			);
+		}
+		$se = new goods_serviceModel ();
+		/*计算服务费  */
+		$scost = $se->computecost ( $arr ['Server'] );
+		/*计算发布费  */
+		$temp = ceil($arr ['Price'] * 0.03 );
+		if ($type == 2) {
+			return ($scost + $temp);
+		}
+		return array (
+				'status' => 1,
+				'msg' => '获取成功',
+				'cost' => ($scost + $temp) 
+		);
+	}
+	/**
+	 * 支付发布费用
+	 *
+	 * @param unknown $arr
+	 *        	：Price，Server
+	 * @param unknown $uid
+	 *        	：uid
+	 */
+	private function payserver($arr, $uid) {
+		$um = new userModel ();
+		$b = $um->getbalance ( $uid, 2 );
+		$c = $this->computecost ( $arr, 2 );
+		if (! $c || ! $b || $b < $c) {
+			return false;
+		}
+		if (M ( 'user' )->where ( array (
+				'Id' => $uid 
+		) )->save ( array (
+				'E-Money' => ($b - $c) 
+		) )) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 	/**
 	 * 保存商品
 	 *
@@ -79,12 +138,15 @@ class goodsModel extends Model {
 	 * @return array 保存信息： 包含 status 状态 ；
 	 *         msg 消息
 	 */
-	public function savegoods($postarr) {
+	public function savegoods($postarr, $uid = -1) {
 		if (! $postarr) {
 			return array (
 					'status' => 0,
 					'msg' => '没有数据' 
 			);
+		}
+		if ($uid == - 1) {
+			$uid = cookie ( '_uid' );
 		}
 		$goodsid = $postarr ['GoodsId'];
 		if (! $goodsid || ! is_numeric ( $goodsid ) || ( int ) $goodsid <= 0) {
@@ -93,13 +155,26 @@ class goodsModel extends Model {
 					'msg' => '操作失败' 
 			);
 		}
+		/* 服务数据 */
 		$sdat ['GoodsId'] = $goodsid;
 		$sdat ['Server'] = $postarr ['Server'];
+		/* 计算费用 */
+		$cost ['Server'] = explode ( '|', $sdat ['Server'] );
+		$cost ['Price'] = $postarr ['Price'];
 		unset ( $postarr ['Server'] );
 		$postarr ['Status'] = 10;
 		$dal = M ();
 		$dal->startTrans ();
 		// 保存商品订单
+		/* 支付服务费 */
+		$rp = $this->payserver ( $cost, $uid );
+		if (! $rp) {
+			$dal->rollback ();
+			return array (
+					'status' => 0,
+					'msg' => '余额不足！' 
+			);
+		}
 		$postarr ['TradeWayTxt'] = $this->gettradetxt ( ( int ) $postarr ['TradeWay'] );
 		$goodsmodel = $this->create ( $postarr );
 		if (! $goodsmodel) {
@@ -156,7 +231,7 @@ class goodsModel extends Model {
 			$dal->rollback ();
 			return array (
 					'status' => 0,
-					'msg' => '操作失败' 
+					'msg' => '操作成功' 
 			);
 		}
 	}

@@ -29,7 +29,7 @@
 								</a>
 							</li>
 							<li>
-								<a href="#step4" data-toggle="tab" title="确认发布">
+								<a id="tabstep4" href="#step4" data-toggle="tab" title="确认发布">
 									<span class="round-tabs one">
 										<i class="glyphicon glyphicon-ok"></i>
 									</span>
@@ -46,7 +46,7 @@
 							<div class="tab-pane fade in active" id="step1">
 								<input type="hidden" id="GoodsId" name="GoodsId" value="0">
 								<input type="hidden" class="form-control " id="imgcount" name="imgcount" value="0" Readonly>
-								<input type="hidden" class="form-control " id="url"	publicurl="__PUBLIC__" appurl="__URL__" rooturl="__ROOT__" gid="0" saveurl="{:U('Home/Goods/save')}" urlindex="{:U('Home/Goods/index')}" homeurl="{:U('Home/Index/index')}" alowcount="0" Readonly>
+								<input type="hidden" class="form-control " id="url"	publicurl="__PUBLIC__" appurl="__URL__" rooturl="__ROOT__" gid="0" saveurl="{:U('Home/Goods/save')}" urlindex="{:U('Home/Goods/index')}" homeurl="{:U('Home/Index/index')}" alowcount="0" computeurl="{:U('Home/Goods/computecost')}" Readonly>
 								<input type="hidden" class="form-control " id="keyid" name="keyid" value="0" Readonly>
 								<div class="form-group">
 									<label for="Title" class="col-sm-3 control-label">标题</label>
@@ -163,7 +163,7 @@
 									<div class="col-sm-4 col-lg-4 col-md-4 serverdiv">
 										<label  style="width:100%">
 											<div class="checkbox servercheckbox">
-												<input type="checkbox" class="hidden" name="Server[]" value="{$v['Id']}"   >
+												<input type="checkbox" class="hidden" name="Server[]" price="{$v['Price']}" value="{$v['Id']}"   >
 												<div class="thumbnail">
 													<h3 class="text-center">{$v['Title']}</h3>
 													<hr/>
@@ -182,7 +182,6 @@
 									</div>
 									<!--一个服务结束-->
 								</foreach>
-
 							</div>
 
 							<!-- 服务为空的时候 -->
@@ -192,24 +191,27 @@
 							<span class="glyphicon glyphicon-chevron-left"></span>
 							&nbsp增值服务
 						</a>
-						<a href="#step4" class="btn btn-success btn-outline-rounded green active-step pull-right">
+						<a href="#step4" id="getcostandb" class="btn btn-success btn-outline-rounded green active-step pull-right">
 							支付佣金&nbsp
 							<span class="glyphicon glyphicon-chevron-right"></span>
 						</a>
 					</div>
-					<div class="tab-pane fade" id="step4">
-						<h3 class="text-center text-import">
-							金橘余额:&nbsp
-							<span class="importinfo">80</span>
-						</h3>
+					<div class="tab-pane fade" id="step4" >
 
 						<h3 class="text-center text-import">
+							金橘余额:&nbsp
+							<span class="importinfo" id="balance"></span>
+						</h3>
+						<h3 class="text-center text-import">
 							共需支付:&nbsp
-							<span class="importinfo">9999</span>
+							<span class="importinfo" id="needpay"></span>
 						</h3>
 						<!-- 积分不足时候显示 -->
-						<p class="text-center text-import">
-							<button type="button" class="btn btn-danger">余额不足请充值</button>
+						<p class="text-center text-import rechargebnt">
+							<button type="button" class="btn btn-danger rechargebnt" >余额不足请充值</button>
+							<a id="refreshblan" class="btn btn-success " data-toggle="tooltip" data-placement="top" title="刷新" data-container="body">
+								<span class="glyphicon glyphicon-refresh"></span>
+							</a>
 						</p>
 
 						<a id="submitsave" class="btn btn-success btn-outline-rounded green active-step pull-right" data-loading-text="发布中..."  autocomplete="off" >
@@ -219,7 +221,6 @@
 					</div>
 					<div class="clearfix"></div>
 				</div>
-
 			</form>
 		</div>
 	</div>
@@ -282,6 +283,64 @@ $(document).ready(function() {
     }
     checkdserver();
     /*刷新地址*/
+    $('#tabstep4').click(function(){
+    	computecost();
+    });
+    $('#refreshblan').click(function(){
+    	computecost();
+    });
+	function computecost(){
+		var _cost=$('#Price').val();
+		if(!$.isNumeric(_cost)||parseInt(_cost)<=0||parseInt(_cost)>999999){
+			$('#step4').children().attr('disabled',true);
+			$('#step4').children().children().attr('disabled',true);
+			$('#step4').children().stop().fadeTo(500,0.22);
+			$('.rechargebnt').hide();
+			return false;
+		}
+		var _se=new Array();
+		 $('.servercheckbox').each(function(){
+		 	var _ch = $(this).children("input").attr('checked');
+		 	if(!_ch){}else{
+		 		_se.push(parseInt($(this).children("input").val()));
+		 	}
+		 });
+		 $.ajax({
+		 	type: 'post',
+            cache: false,
+            url: $('#url').attr('computeurl'),
+            data: {Price:_cost,Server:_se},
+            error:  
+            function(request)  {
+                showerrormsg('网络错误', 100, 1000);             
+            },
+            success:  
+            function(data)  {
+                if (data.status == 0) {
+                    showerrormsg(data.info, 100, 1000);
+                    $btn.button('reset');
+                } else {
+                	var _rs=JSON.parse(data.info);
+                	if(!_rs){
+                		showerrormsg('网络错误',100,1000);
+                		return false;
+                	}
+                	$('#balance').html(_rs['balance']+'.00')
+                	$('#needpay').html(_rs['cost']+'.00')
+                	if(parseInt(_rs['cost'])>parseInt(_rs['balance'])){
+                		$('#step4').children().attr('disabled',true);
+						$('#step4').children().children().attr('disabled',false);
+						$('.rechargebnt').show();
+                	}else{
+                		$('.rechargebnt').hide();
+                		$('#step4').children().attr('disabled',false);
+                	}
+                	$('#step4').children().stop().fadeTo(1000,1);
+                }                
+            } 
+		 });
+		 return;
+	}
     $('#refreshadd').click(function(e) {
         var _url = $('#url').attr('appurl') + '/refreshadd';
         $.post(_url, {
@@ -362,14 +421,14 @@ $(document).ready(function() {
         }
         /*判断是否填写价格*/
         var _Price = $.trim($('#Price').val());
-        if (!$.isNumeric(_Price) || parseInt(_Price) <= 0 || parseInt(_Price) > 1000000) {
+        if (!$.isNumeric(_Price) || parseInt(_Price) <= 0 || parseInt(_Price) >999999) {
             showerrormsg('转卖价不合法！1-999999', 100, 1000);
             $btn.button('reset');
             return false;
         }
         /*判断是否填写原价*/
         var _CostPrice = $.trim($('#CostPrice').val());
-        if (!$.isNumeric(_CostPrice) || parseInt(_CostPrice) <= 0 || parseInt(_CostPrice) > 1000000) {
+        if (!$.isNumeric(_CostPrice) || parseInt(_CostPrice) <= 0 || parseInt(_CostPrice) >= 999999) {
             showerrormsg('原价不合法！1-999999', 100, 1000);
             $btn.button('reset');
             return false;
@@ -409,10 +468,11 @@ $(document).ready(function() {
                 showerrormsg('网络错误', 100, 1000);
                 $btn.button('reset');                
             },
-                            success:  
+            success:  
             function(data)  {
                 if (data.status == 0) {
                     showerrormsg(data.info, 100, 1000);
+                    computecost();
                     $btn.button('reset');
                 } else {
                     showsuccessmsg("发布成功", 100, 2000);
@@ -501,7 +561,7 @@ $(document).ready(function() {
                     var _imgId = '_' + (parseInt(Math.random() * 100) + (new Date()).valueOf());
                     var _tempPath = $('#url').attr('rooturl');
                     /*插入到image标签内，显示图片的缩略图 */
-                    $('#image').append('<div id="' + _imgId + '" class="photo" style="float: left; margin-right: 3px;margin-left: 3px" ><img src="' + _tempPath + data[1] + '"  height=100 width=100 /><div class="del" style="text-align: center;"><a title="删除" class="a_imgdel" href="javascript:void(0)"onclick=del("' + _imgId + '","' + data[0] + '");return false; imgurl="' + data[1] + '"><span class="glyphicon glyphicon-remove"></span></a></div></div>');
+                    $('#image').append('<div id="' + _imgId + '" class="photo" style="float: left; margin-right: 3px;margin-left: 3px" ><img class="image" src="' + _tempPath + data[1] + '"   /><div class="del" style="text-align: center;"><a title="删除" class="a_imgdel" href="javascript:void(0)"onclick=del("' + _imgId + '","' + data[0] + '");return false; imgurl="' + data[1] + '"><span class="glyphicon glyphicon-remove"></span></a></div></div>');
                     var _imgcount = parseInt($('#imgcount').val());
                     $('#imgcount').val((_imgcount + 1));
                     return;
@@ -513,7 +573,8 @@ $(document).ready(function() {
         }
     });
 });
-</script></block>
+</script>
+</block>
 
 <block name="css">
 
@@ -540,6 +601,9 @@ $(document).ready(function() {
 		right: 0px;
 		background-color: #fff;
 		border-radius: 100%;
+	}
+	.rechargebnt{
+		display: none;
 	}
 
 </style>

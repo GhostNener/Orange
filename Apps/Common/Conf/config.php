@@ -46,19 +46,24 @@ return array (
 						/*原图*/
 		'GOODS_IMG_SOURCE' => 'Source/',
 						/*最大800*800*/
-		'GOODS_IMG_800' => '800_800/',
+		'GOODS_IMG_880' => '800_800/',
 						/*缩略图100*100*/
-		'GOODS_IMG_100' => '100_100/',
+		'GOODS_IMG_320' => '100_100/',
+		'GOODS_IMG_830' => '800_300/',
 						/*商品图片 缩略图   分辨率 用于首页显示*/
-		'GOODS_IMG_THUMB' => array (
+		'GOODS_IMG_XS' => array (
 				320,/*最大宽度  */
 				160 
 		),
 						/*商品图片 正常图片最大 分辨率 */
-		'GOODS_IMG_MD' => array (
+		'GOODS_IMG_MD_L' => array (
 				800,
 				800 
 		),
+		'GOODS_IMG_MD_S' => array (
+				800,
+				300
+		),			
 						/*关闭自动模板布局*/
 		'LAYOUT_ON' => false ,
 		

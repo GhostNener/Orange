@@ -14,17 +14,40 @@ class goods_serviceModel extends Model {
 	
 	/**
 	 * 获取服务
-	 *@author NENER
-	 * @param int $userid：用户Id        	
-	 * @return array ：所有符合的地址列表
+	 *
+	 * @author NENER
+	 * @return array ：所有服务
 	 */
 	public function getall() {
-		$arr =$this->where ( array (
+		$arr = $this->where ( array (
 				'Status' => 10 
 		) )->select ();
 		return $arr;
 	}
-	
+	/**
+	 * 计算服务费用
+	 * 
+	 * @param unknown $arr        	
+	 * @return number
+	 */
+	public function computecost($arr) {
+		if (! $arr) {
+			return 0;
+		}
+		$cost = 0;
+		foreach ( $arr as $k => $v ) {
+			$r = $this->field ( 'Price' )->where ( array (
+					'Id' => $v,
+					'Status' => 10 
+			) )->find ();
+			if (! $r) {
+				continue;
+			} else {
+				$cost = $cost + $r ['Price'];
+			}
+		}
+		return $cost;
+	}
 }
 
 ?>

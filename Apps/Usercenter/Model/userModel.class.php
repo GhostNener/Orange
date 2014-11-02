@@ -130,6 +130,37 @@ class userModel extends Model {
 	protected function pwd_md5($Password, $RegistTime) {
 		return $this->encrypt ( $Password, NOW_TIME );
 	}
+	
+	/**
+	 * 获得余额
+	 * 
+	 * @param unknown $uid        	
+	 */
+	public function getbalance($uid, $type = 1) {
+		$r = $this->field ( 'E-Money' )->where ( array (
+				'Id' => $uid 
+		) )->find ();
+		if (! $r) {
+			if ($type == 2) {
+				return 0;
+			}
+			return array (
+					'status' => 0,
+					'msg' => '登录已过期或用户不存在',
+					'balance' => 0 
+			);
+		} else {
+			if ($type == 2) {
+				return ( int ) $r ['E-Money'];
+			}
+			return array (
+					'status' => 1,
+					'msg' => 'ok',
+					'balance' => $r ['E-Money'] 
+			);
+		}
+	}
+	
 	/**
 	 * 检查帐号是否可用
 	 *
@@ -583,10 +614,10 @@ class userModel extends Model {
 		) )->save ( $datain );
 		if ($rst) {
 			$mag ['status'] = 1;
-			$msg ['msg'] = '添加成功！';
+			$msg ['msg'] = '修改成功！';
 		} else {
 			$mag ['status'] = 0;
-			$msg ['msg'] = '添加失败！';
+			$msg ['msg'] = '修改失败！';
 		}
 		return $msg;
 	}

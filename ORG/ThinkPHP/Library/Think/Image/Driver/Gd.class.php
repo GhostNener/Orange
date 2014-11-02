@@ -154,13 +154,14 @@ class Gd{
      * @param  integer $width  图像保存宽度
      * @param  integer $height 图像保存高度
      */
+    
+    
     public function crop($w, $h, $x = 0, $y = 0, $width = null, $height = null){
         if(empty($this->img)) E('没有可以被裁剪的图像资源');
 
         //设置保存尺寸
         empty($width)  && $width  = $w;
         empty($height) && $height = $h;
-
         do {
             //创建新图像
             $img = imagecreatetruecolor($width, $height);
@@ -192,7 +193,6 @@ class Gd{
         //原图宽度和高度
         $w = $this->info['width'];
         $h = $this->info['height'];
-
         /* 计算缩略图生成的必要参数 */
         switch ($type) {
             /* 等比例缩放 */

@@ -55,6 +55,29 @@ class GoodsController extends BaseController {
 		$this->assign ( 'page', $arr ['page'] );
 		$this->display ( 'Goods/index' );
 	}
+	
+	/**
+	 * 计算费用
+	 */
+	public function computecost() {
+		if (! IS_POST) {
+			$this->error ( '页面不存在！' );
+		}
+		$arr = I ( 'post.' );
+		$model = new goodsModel ();
+		$us = new userModel ();
+		$r = $model->computecost ( $arr );
+		$r2 = $us->getbalance ( cookie ( '_uid' ) );
+		if ($r ['status'] == 0 || $r2 ['status'] == 0) {
+			$this->error ( '获取失败!' );
+		} else {
+			$this->success ( json_encode ( array (
+					'cost' => $r ['cost'],
+					'balance' => $r2 ['balance'] 
+			) ) );
+		}
+	}
+	
 	/**
 	 * 渲染商品添加页面
 	 */
@@ -97,7 +120,7 @@ class GoodsController extends BaseController {
 		if (( int ) $rst ['status'] == 0) {
 			$this->error ( $rst ['msg'] );
 		} else {
-			$this->success ( 1 );
+			$this->success ( '发布成功' );
 		}
 	}
 	/**

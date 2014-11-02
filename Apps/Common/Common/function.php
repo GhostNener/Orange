@@ -491,24 +491,96 @@ function getallthumb($url, $imgname) {
 	/* 替换后缀 */
 	$imgname = str_replace ( '.' . $ext, '.jpg', $imgname );
 	$rooturl = C ( 'GOODS_IMG_ROOT' );
-	/* 小图路径 */
-	$url_1 = $rooturl . C ( 'GOODS_IMG_100' ) . $imgname;
-	/* 大图路径 */
-	$url_8 = $rooturl . C ( 'GOODS_IMG_800' ) . $imgname;
+	/* 小图路径320*160 */
+	$url_1 = $rooturl . C ( 'GOODS_IMG_320' ) . $imgname;
+	/* 大图路径 800*800 */
+	$url_8 = $rooturl . C ( 'GOODS_IMG_880' ) . $imgname;
+	/* 800*300 */
+	$url_3 = $rooturl . C ( 'GOODS_IMG_830' ) . $imgname;
 	$imagedal = new \Think\Image ();
 	$imagedal->open ( $url );
 	// $size = $imagedal->size ();
 	/* 获取小图配置 */
-	$arrthumb = C ( 'GOODS_IMG_THUMB' );
+	$arr_1 = C ( 'GOODS_IMG_XS' );
 	/* 获取大图配置 */
-	$arrmd = C ( 'GOODS_IMG_MD' );
-	$md = cutimg ( $url, $url_8, $arrmd, 1 );
-	$xs = cutimg ( $url, $url_1, $arrthumb, 2 );
+	$arr_8 = C ( 'GOODS_IMG_MD_L' );
+	$arr_3 = C ( 'GOODS_IMG_MD_S' );
+	cutimg ( $url, $url_8, $arr_8, 1 );
+	cutimg ( $url, $url_1, $arr_1, 2 );
+	cutimg ( $url, $url_3, $arr_3, 2 );
 	return array (
 			$url_8,
 			$url_1 
 	);
 }
+
+/**
+ * 修改一个图片 让其翻转指定度数
+ *
+ * @param string $filename
+ *        	文件名（包括文件路径）
+ * @param float $degrees
+ *        	旋转度数
+ * @return boolean
+ * @author zhaocj
+ */
+function rotateimg($filename, $src, $degrees = 90) {
+	// 读取图片
+	$data = @getimagesize ( $filename );
+	if ($data == false)
+		return false;
+		// 读取旧图片
+	switch ($data [2]) {
+		case 1 :
+			$src_f = imagecreatefromgif ( $filename );
+			break;
+		case 2 :
+			$src_f = imagecreatefromjpeg ( $filename );
+			break;
+		case 3 :
+			$src_f = imagecreatefrompng ( $filename );
+			break;
+	}
+	if ($src_f == "")
+		return false;
+	$rotate = @imagerotate ( $src_f, $degrees, 0 );
+	if (! imagejpeg ( $rotate, $src, 100 ))
+		return false;
+	@imagedestroy ( $rotate );
+	return true;
+}
+/**
+ * 获得exift 然后旋转
+ *
+ * @param unknown $filename        	
+ */
+function getexif($filename) {
+	$exif = exif_read_data ( $filename, 0, true );
+	$r = $exif ['IFD0'] ['Orientation'];
+	$degrees = 0;
+	if (! $r) {
+		return true;
+	}
+	switch ($r) {
+		case 3 :
+			$degrees = 180;
+			break;
+		case 6 :
+			$degrees = 270;
+			break;
+		case 8 :
+			$degrees = 90;
+			break;
+		default :
+			 $degrees = 0;
+			break;
+	}
+	if(!$r){
+		return 1;
+	}
+	rotateimg($filename,$filename,$degrees);
+}
+
 /**
  * 裁剪图片
  *
@@ -521,10 +593,11 @@ function getallthumb($url, $imgname) {
  * @param number $type：裁剪类型：1：缩放填充，2：居中固定尺寸裁剪        	
  */
 function cutimg($openurl, $saveurl, $size, $type = 1) {
+	getexif ( $openurl );
 	$imagedal = new \Think\Image ();
 	$imagedal->open ( $openurl );
 	if ($type == 1) {
-		$obj = $imagedal->thumb ( ( int ) $size [0], ( int ) $size [1] )->save ( $saveurl, C ( 'IMG_SAVE_TYPE' ), C ( 'IMG_SAVE_QUALITY' ), true );
+		$obj = $imagedal->thumb ( ( int ) $size [0], ( int ) $size [1], \Think\Image::IMAGE_THUMB_SCALE )->save ( $saveurl, C ( 'IMG_SAVE_TYPE' ), C ( 'IMG_SAVE_QUALITY' ), true );
 	} else {
 		$obj = $imagedal->thumb ( ( int ) $size [0], ( int ) $size [1], \Think\Image::IMAGE_THUMB_CENTER )->save ( $saveurl, C ( 'IMG_SAVE_TYPE' ), C ( 'IMG_SAVE_QUALITY' ), true );
 	}

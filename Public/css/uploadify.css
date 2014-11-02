@@ -82,7 +82,8 @@ line-height: 40px;
 }
 
 .image {
-	width: 360px;
+	height: 60px;
+	margin-bottom: 6px;
 }
 
 .image .a {
