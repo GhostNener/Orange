@@ -39,14 +39,14 @@
 						</ul>
 					</div>
 					<!-- 表单内容 -->
-					<form class="form-horizontal"  role="form" method="post" >
+					<form class="form-horizontal" id="addgoodsform"  role="form" method="post" >
 						<div class="tab-content">
 
 							<!-- 必填内容 -->
 							<div class="tab-pane fade in active" id="step1">
 								<input type="hidden" id="GoodsId" name="GoodsId" value="0">
 								<input type="hidden" class="form-control " id="imgcount" name="imgcount" value="0" Readonly>
-								<input type="hidden" class="form-control " id="url"	publicurl="__PUBLIC__" appurl="__URL__" rooturl="__ROOT__" gid="0" saveurl="{:U('Home/Goods/save')}" urlindex="{:U('Home/Goods/index')}" Readonly>
+								<input type="hidden" class="form-control " id="url"	publicurl="__PUBLIC__" appurl="__URL__" rooturl="__ROOT__" gid="0" saveurl="{:U('Home/Goods/save')}" urlindex="{:U('Home/Goods/index')}" homeurl="{:U('Home/Index/index')}" alowcount="0" Readonly>
 								<input type="hidden" class="form-control " id="keyid" name="keyid" value="0" Readonly>
 								<div class="form-group">
 									<label for="Title" class="col-sm-3 control-label">标题</label>
@@ -91,7 +91,7 @@
 										<div class="input-group">
 											<select class="form-control" id="AddressId" name="AddressId">
 												<foreach name="alist" item="v">
-													<option value="{$v['Id']}" address="{$v['Address']}" Contacts="{$v['Contacts']}">
+													<option value="{$v['Id']}" address="{$v['Address']}" contacts="{$v['Contacts']}">
 														{$v['Contacts']}&nbsp;&nbsp;{$v['Tel']}&nbsp;&nbsp;{$v['Address']}
 													</option>
 												</foreach>
@@ -163,7 +163,7 @@
 									<div class="col-sm-4 col-lg-4 col-md-4 serverdiv">
 										<label  style="width:100%">
 											<div class="checkbox servercheckbox">
-												<input type="checkbox" class="hidden Serverc" name="Server" value="{$v['Id']}"     >
+												<input type="checkbox" class="hidden" name="Server[]" value="{$v['Id']}"   >
 												<div class="thumbnail">
 													<h3 class="text-center">{$v['Title']}</h3>
 													<hr/>
@@ -209,10 +209,10 @@
 						</h3>
 						<!-- 积分不足时候显示 -->
 						<p class="text-center text-import">
-							<button class="btn btn-danger">余额不足请充值</button>
+							<button type="button" class="btn btn-danger">余额不足请充值</button>
 						</p>
 
-						<a id="submitsave" class="btn btn-success btn-outline-rounded green active-step pull-right">
+						<a id="submitsave" class="btn btn-success btn-outline-rounded green active-step pull-right" data-loading-text="发布中..."  autocomplete="off" >
 							付款并发布&nbsp
 							<span class="glyphicon glyphicon-send"></span>
 						</a>
@@ -244,26 +244,37 @@
                  }else{_imgcount=_imgcount-1;}
                  $('#imgcount').val((_imgcount));
         	 }else{
-        		 alert("删除失败\n"+data.info);
+        		 showerrormsg('删除失败!'+data.info,100,1000);
         	 }
         },'json');	
 	}
 		$(document).ready(function(){
 				$('.servercheckbox').click(function(e){
-					var _ch=$(this).children("input[name='Server']").attr('checked');
+					var _ch=$(this).children("input").attr('checked');
 					if(!_ch){
 						$(this).children('.thumbnail').css('border-color','#DDD');
 						$(this).children('.thumbnail').children('h4').children().first().addClass('serverok');
 					}else {
 						$(this).children('.thumbnail').css('border-color','#FA7D3C');
-						$(this).children('.thumbnail').children('h4').children().removeClass('serverok');
+						$(this).children('.thumbnail').children('h4').children().first().removeClass('serverok');
 					
 					}
 				});
-
-
-
-				$('#file_upload').uploadify({
+				function checkdserver(){
+					$('.servercheckbox').each(function(){
+						var _ch=$(this).children("input").attr('checked');
+						if(!_ch){
+						$(this).children('.thumbnail').css('border-color','#DDD');
+						$(this).children('.thumbnail').children('h4').children().first().addClass('serverok');
+					}else {
+						$(this).children('.thumbnail').css('border-color','#FA7D3C');
+						$(this).children('.thumbnail').children('h4').children().first().removeClass('serverok');
+					
+						}
+					});					
+				}
+				checkdserver();
+		$('#file_upload').uploadify({
 			'fileTypeDesc' : 'Image Files',	
 			'overrideEvents': [ 'onSelectError' ],	
 			'formData'  : {'sname':'{$sname}','sid':'{$sid}',                    
@@ -275,8 +286,8 @@
 			'swf'      : $('#url').attr('publicurl')+'/Img/uploadify.swf',	//加载swf
 			'uploader' : $('#url').attr('appurl')+'/uploadify',					//上传路径
 			'buttonText' :'+',	
-			'uploadLimit':30,
-			'queueSizeLimi':5,
+			'uploadLimit':20,
+			'queueSizeLimi':20,
 			'height':40,
 			'width':40,
 			'debug':false,
@@ -284,11 +295,13 @@
 			'fileObjName ':'Filedata',/*File数组参数名*/
 			'progressData':'percentage',
 			'removeTimeout':0,
+			'onSelect':function(e,qid,file){
+			},
 			'onSelectError':function(file, errorCode, errorMsg){  
 				var msgText = "上传失败\n";
                 switch(errorCode) {  
                     case -100:  
-                        msgText += "每次最多上传 " + this.settings.queueSizeLimit + "个文件";;  
+                        msgText += "最多上传 " + this.settings.queueSizeLimit + "个文件";;  
                         break;  
                     case -110:  
                         msgText += "文件大小超过限制( " + this.settings.fileSizeLimit + " )"; 
@@ -301,20 +314,22 @@
                         break;  
                     default:
               		    msgText += "错误代码：" + errorCode + "\n" + errorMsg;
+              		    break;
                 } 
-                alert(msgText); 
+                showerrormsg(msgText,100,1000);
             },
 
 
 			'onUploadSuccess' : function(file, data, response) {
-				if(!data){alert('上传失败！');
-				return;
-			}
+				if(!data){
+					showerrormsg('上传失败！',100,1000);
+					return;
+				}
 			data=$.parseJSON(data);
 			/*data[0] 图片ID*/
 			/*data[1] 图片相对url*/
 			if(!($.isNumeric(data[0]))||!data[0]){
-				alert("上传失败！\n"+data[1]);
+				showerrormsg('上传失败！'+data[1],100,1000);
 				return;
 			}
 			var _gid=$('#url').attr('gid');
@@ -329,12 +344,12 @@
 					var _imgId='_'+(parseInt(Math.random() *100)+(new Date()).valueOf());
 					var _tempPath=$('#url').attr('rooturl');
 					/*插入到image标签内，显示图片的缩略图 */
-					$('#image').append('<div id="'+_imgId+'" class="photo" style="float: left; margin-right: 3px;margin-left: 3px" ><img src="'+_tempPath+data[1]+'"  height=100 width=100 /><div class="del" style="text-align: center;"><a class="a_imgdel" href="javascript:void(0)"onclick=del("'+_imgId+'","'+data[0]+'");return false; imgurl="'+data[1]+'">删除</a></div></div>');
+					$('#image').append('<div id="'+_imgId+'" class="photo" style="float: left; margin-right: 3px;margin-left: 3px" ><img src="'+_tempPath+data[1]+'"  height=100 width=100 /><div class="del" style="text-align: center;"><a title="删除" class="a_imgdel" href="javascript:void(0)"onclick=del("'+_imgId+'","'+data[0]+'");return false; imgurl="'+data[1]+'"><span class="glyphicon glyphicon-remove"></span></a></div></div>');
 					var _imgcount=parseInt($('#imgcount').val());
 					$('#imgcount').val((_imgcount+1));
 						return;
 					}else{
-						alert('上传失败！');
+						showerrormsg('上传失败！',100,1000);
 						return;
 					}
 				});
@@ -350,9 +365,9 @@
 					if(!data.info){return;}
 					var _arr=$.parseJSON(data.info);
 					if(!_arr){return;}
-					$('#Address').children('option').remove();
+					$('#AddressId').children('option').remove();
 					$(_arr).each(function(i,v){
-						$('#Address').append("<option value="+v['Id']+" address="+v['address']+" >"+v['Tel']+"&nbsp;&nbsp;"+v['Address']+"</option>");
+						$('#AddressId').append("<option value="+v['Id']+" address="+v['address']+" >"+v['Tel']+"&nbsp;&nbsp;"+v['Address']+"</option>");
 					});
 					return;
 				}
@@ -381,7 +396,7 @@
     				var _arr=$.parseJSON(data.info);
     				/*返回一个结果的时候 选中返回项*/
     				if(parseInt(_arr[0])==1){
-    					$('#Category').children('option').each(function(){
+    					$('#CategoryId').children('option').each(function(){
     						if(parseInt($(this).val())==parseInt(_arr[1])){
     							$(this).attr('selected',true);
     						}
@@ -392,9 +407,9 @@
     				/*返回多个结果  需要先清空 下拉列表 然后重新生成  生成按搜索顺序+剩下的分类顺序  木人选中第一项*/
     				if(parseInt(_arr[0])==2){
     					var _arr=$.parseJSON(data.info);
-    					$('#Category').children('option').remove();
+    					$('#CategoryId').children('option').remove();
     					$(_arr[1]).each(function(i,v){
-    						$('#Category').append("<option value="+v['Id']+">"+v['Title']+"</option>");
+    						$('#CategoryId').append("<option value="+v['Id']+">"+v['Title']+"</option>");
     					});
     					$('#keyid').val(0);
     					return;
@@ -403,90 +418,76 @@
     		},'json');});
 		/*提交按钮*/
     	$('#submitsave').click(function(e){
-
+    		var $btn = $(this).button('loading');
     	/*	判断是否填写的title*/
     		var _Title=$.trim($('#Title').val());
     		if(!_Title){
-
-    			return;
+    			showerrormsg('标题不能为空',100,1000);
+    			$btn.button('reset');
+    			return false;
     		}
     		/*判断是否填写价格*/
     		var _Price=$.trim($('#Price').val());
-    		if(!$.isNumeric(_Price)||parseInt(_Price)<=0||parseInt(_Price)>99999){
-    			$('#Price').val('');
-    			$('#Price').focus();
-    			return;
+    		if(!$.isNumeric(_Price)||parseInt(_Price)<=0||parseInt(_Price)>1000000){
+    			showerrormsg('转卖价不合法！1-999999',100,1000);
+    			$btn.button('reset');
+    			return false;
     		}
     		/*判断是否填写原价*/
     		var _CostPrice=$.trim($('#CostPrice').val());
-    		if(!$.isNumeric(_CostPrice)||parseInt(_CostPrice)<=0||parseInt(_CostPrice)>99999){
-    			$('#CostPrice').val('');
-    			$('#CostPrice').focus();
-    			return;
+    		if(!$.isNumeric(_CostPrice)||parseInt(_CostPrice)<=0||parseInt(_CostPrice)>1000000){
+				showerrormsg('原价不合法！1-999999',100,1000);
+				$btn.button('reset');
+    			return false;
     		}
     		if(parseInt(_CostPrice)<parseInt(_Price)){
-    			$('#Price').focus();
-    			return;
+    			showerrormsg('转卖价高于出原价',100,1000);
+    			$btn.button('reset');
+    			return false;
     		}
-    		/*简介*/
-    		var _Presentation=$.trim($('#Presentation').val());
-    		var _keyid=$('#keyid').val();
-    		/*分类*/
-    		var _Category=$('#Category').val();
-    		var _Address=$('#AddressId').val();
-    		if(!$.isNumeric(_Address)||parseInt(_Address)<=0){
-    			$('#Address').focus();
-    			return;
-    		}
-    		$('#AddressId').children('option').each(function(){    			
-    			var tempadd=$.trim($(this).attr('address'));
-    			var tempval=parseInt($(this).val());
-    			if(tempval==parseInt(_Address)){
-    				if(!tempadd){
-    					alert("所选的地址为空！");
-    					_Address=0;
-    					$('#AddressId').focus();
-    					return;
-    				}
-    			}
-    		});
-    		if(!_Address){
-    			$('#Address').focus();
-    			return;
-    		}
-    		$('#GoodsId').val($('#url').attr('gid'));
-    		var _TradeWay=$('#TradeWay').val();  		
+
+    		$('#GoodsId').val($('#url').attr('gid'));		
     		    		/*判断是否传了图*/
     		var _imgcount=$('#imgcount').val();
     		if(parseInt(_imgcount)<=0){
-    			alert('至少上传一张图片！');
-    			return;
+    			showerrormsg('你还没上传商品图片呢！',100,1000);
+    			$btn.button('reset');
+    			return false;
     		}
-    		var btn_txt=$(this).val();
-    		$(this).attr('disabled',"true");
-    		$(this).val('....');
-    		$.post($('#url').attr('saveurl'),{
-    			'GoodsId':_GoodsId,
-    			'imgcount':_imgcount,
-    			'Title':_Title,
-    			'Price':_Price,
-    			'CostPrice':_CostPrice,
-    			'Presentation':_Presentation,
-    			'CategoryId':_Category,
-    			'AddressId':_Address,
-    			'TradeWay':_TradeWay,
-    			'Server':_Server,
-    			'keyid':_keyid
-    		},function(data){
-    			if(data.info==1){
-    				/*alert('Ok!');*/
-    				location.href=$('#url').attr('urlindex');
-    			}else{
-    				alert(data.info);
-    			}
-    		});
-    		$(this).val(btn_txt);
-    		$(this).removeAttr('disabled');   		  		
+    		var _Address=$('#AddressId').val();
+    		if(!$.isNumeric(_Address)||parseInt(_Address)<=0){
+    			showerrormsg('没有选择分类',100,1000);
+    			$btn.button('reset');
+    			return false;
+    		}
+    		if(!$('#AddressId').val()){
+    			showerrormsg('联系人地址为空！',100,1000);
+    			$btn.button('reset');
+    			return false;
+    		}
+			$.ajax({
+				type:'post',
+				cache:false,
+				url:$('#url').attr('saveurl'),
+				data:$('#addgoodsform').serialize(),
+				error: function(request) {
+					showerrormsg('网络错误',100,1000);
+					$btn.button('reset');
+                },
+                success: function(data) {
+					if(data.status==0){
+						showerrormsg(data.info,100,1000);
+						$btn.button('reset');
+					}else{
+					showsuccessmsg("发布成功",100,2000);
+					setTimeout(function(){
+						location.href=$('#url').attr('homeurl');
+						$btn.button('reset');
+					},500);
+					}
+                }
+			});  
+			return;		  		
     	});
     })
 </script></block>
@@ -494,15 +495,28 @@
 <block name="css">
 
 <style>
-	div.checkbox{
+	div.checkbox,
+	.photo{
 
 		cursor: pointer;
 	}
 	.serverok{
 		color: #fff;
 	}
-	.isok{
-		color: #ccc;
+
+	.photo{
+		position: relative;
+
+	}
+	.del{
+		position: absolute;
+		width: 20px;
+		height: 20px;
+		line-height: 20px;
+		top: 0px;
+		right: 0px;
+		background-color: #fff;
+		border-radius: 100%;
 	}
 
 </style>

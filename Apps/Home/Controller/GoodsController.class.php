@@ -27,12 +27,12 @@ class GoodsController extends BaseController {
 		$user = new userModel ();
 		$usermodel = null;
 		if ($user->islogin ( null, false, false )) {
-			$m = new view_user_info_avatarModel();
+			$m = new view_user_info_avatarModel ();
 			$usermodel = $m->getinfo ();
-			if($usermodel['status']==1){
-				$usermodel=$usermodel['msg'];
-			}else{
-				$usermodel=null;
+			if ($usermodel ['status'] == 1) {
+				$usermodel = $usermodel ['msg'];
+			} else {
+				$usermodel = null;
 			}
 		}
 		$this->assign ( 'usermodel', $usermodel );
@@ -92,6 +92,7 @@ class GoodsController extends BaseController {
 		}
 		$postarr = I ( 'post.' );
 		$model = new goodsModel ();
+		$postarr ['Server'] = implode ( '|', $postarr ['Server'] );
 		$rst = $model->savegoods ( $postarr );
 		if (( int ) $rst ['status'] == 0) {
 			$this->error ( $rst ['msg'] );

@@ -178,17 +178,22 @@ class user_addressModel extends Model {
 			return true;
 		}
 	}
+	/**
+	 * 添加一个默认地址
+	 * @param unknown $uid
+	 * @return boolean  */
 	public function adddefefault($uid){
 		$user=M('user')->where(array('Id'=>$uid))->find();
 		if(!$user){
 			return false;
 		}		
-		$data=array('UserId'=>$uid,'Address'=>'','IsDefault'=>1,'Status'=>10);
+		$data=array('UserId'=>$uid,'Contacts'=>$user['Nick'],'IsDefault'=>1,'Status'=>10);
 		if(checktel($user['Name'])){
 			$data['Tel']=$user['Name'];
 		}else if(checkmail($user['E-Mail'])){
 			$data['Tel']=$user['E-Mail'];
 		}
+		$data['Address']=$data['tel'];
 		$rst=$this->add($data);
 		if(!$rst){
 			return false;
