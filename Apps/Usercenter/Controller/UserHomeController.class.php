@@ -28,14 +28,23 @@ class UserHomeController extends BaseController{
 
 	public function index(){
 		$userid = cookie('_uid');
-		$model1 = new userModel();
-		$arr1 = $model1 -> finduser($userid);
-		$model2 = new attentionModel();
-		$arr2 = $model2 -> selectAttention($userid);
-		$fansnumber = $model2 -> selectFans($userid);
-		$this->assign('attnumber',$arr2['attnumber']);
-		$this->assign('fansnumber',$fansnumber);
-		$this->assign('user',$arr1['user']);
+//		$model1 = new userModel();
+//		$arr1 = $model1 -> finduser($userid);
+//		$model2 = new attentionModel();
+//		$arr2 = $model2 -> selectAttention($userid);
+//		$fansnumber = $model2 -> selectFans($userid);
+//		$this->assign('attnumber',$arr2['attnumber']);
+//		$this->assign('fansnumber',$fansnumber);
+//		$this->assign('user',$arr1['user']);
+//		$this->display();
+		$model = new view_user_info_avatarModel();
+		$arr = $model->getinfo();
+		if ($arr ['status'] == 1) {
+			$this->assign ( 'user', $arr['msg'] );
+			$this->display();
+		} else {
+			$this->error ( $arr ['msg'] );
+		}
 		$this->display();
 	}
 	
@@ -43,7 +52,7 @@ class UserHomeController extends BaseController{
 	 * 查询用户信息
 	 * Enter description here ...
 	 */
-	public function selectUser(){
+	public function user(){
 		$userid = cookie('_uid');
 		$model = new view_user_info_avatarModel();
 		$arr = $model->getinfo();
@@ -87,7 +96,7 @@ class UserHomeController extends BaseController{
 	/**
 	 * 已经购买
 	 */
-	public function selectBuy(){
+	public function buy(){
 		$userid = cookie('_uid');
 		$model = new view_goods_order_listModel();
 		$arr = $model->selectAllBuy($userid);
@@ -102,7 +111,7 @@ class UserHomeController extends BaseController{
 	/**
 	 * 已出售的商品
 	 */
-	public function selectSell(){
+	public function sell(){
 		$userid = cookie('_uid');
 		$model = new view_goods_order_listModel();
 		$arr = $model->selectAllSell($userid);
@@ -112,21 +121,6 @@ class UserHomeController extends BaseController{
 		} else {
 			$this->error ( $arr ['msg'] );
 		}
-	}
-	
-	/**
-	 * 正在出售的商品
-	 */
-	public function selectGoods(){
-//		$userid = cookie('_uid');
-//		$model = new view_goods_order_listModel()
-//		$arr = $model->selectAllGoods($userid);
-//		if ($arr ['status'] == 1) {
-//			$this->assign ( 'goods', $arr['msg'] );
-//			$this->display();
-//		} else {
-//			$this->error ( $arr ['msg'] );
-//		}
 	}
 	
 	/**

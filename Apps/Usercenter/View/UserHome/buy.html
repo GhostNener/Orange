@@ -1,4 +1,5 @@
-<layout name="layout" />
+<extend name="./Tpl/layout.html"/>
+<block name="content">
 <div class="container">
 <div class="text-center">
 		<h1>我的购买记录</h1>
@@ -8,18 +9,18 @@
 <table class="table table-bordered">
 	<tr>
 		<th class="text-center">Id</th>
-		<th class="text-center">Title</th>
+		<th class="text-center">BuyerId</th>
+		<th class="text-center">BuyerAddId</th>
+		<th class="text-center">SellerId</th>
+		<th class="text-center">SellerAddId</th>
+		<th class="text-center">GoodsId</th>
 		<th class="text-center">Price</th>
-		<th class="text-center">CostPrice</th>
-		<th class="text-center">Presentation</th>
-		<th class="text-center">CategoryId</th>
-		<th class="text-center">AddressId</th>
-		<th class="text-center">Server</th>
-		<th class="text-center">TradeWay</th>
-		<th class="text-center">Status</th>
+		<th class="text-center">E-Money</th>
+		<th class="text-center">CreateTime</th>
+		<td>{$v.Status}</td>
 		<th class="text-center">Show</th>
 	</tr>
-	<foreach name='sell' item='v'>
+	<foreach name='buy' item='v'>
 	<tr>
 		<td>{$v.Id}</td>
 		<td>{$v.BuyerId}</td>
@@ -32,9 +33,9 @@
 		<td>{$v.CreateTime}</td>
 		<td>{$v.Status}</td>
 		<td><a
-			href="#">Show</a></td>
+			href="{:U('Home/GoodsList/showgoods',array('Id'=>$v['Id']))}">Show</a></td>
 	</tr>
 	</foreach>
 </table>
 </div>
-</div>
+</block>

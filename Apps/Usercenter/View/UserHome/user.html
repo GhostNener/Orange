@@ -1,6 +1,7 @@
-<layout name="layout" />
+<extend name="./Tpl/layout.html"/>
+<block name="content">
 <div class="container">
-	<div class="text-center"><h1>用户信息</h1></div><br>
+	
 	<form class="form-horizontal" action="__APP__/Usercenter/UserHome/updateUser" method="post" enctype="multipart/form-data">
 		<div class="form-group">
 			<label for="Avatar" class="col-sm-2 control-label">Avatar</label>
@@ -73,3 +74,4 @@
 		</div>
 	</form>
 </div>
+</block>
