@@ -27,5 +27,10 @@ $(document).ready(function() {
                 $('#carousel-text').html($('#slide-content-'+id).html());
         });
 
+        $('#myTab a').click(function (e) {
+		  e.preventDefault()
+		  $(this).tab('show')
+		})	
+
 });
 

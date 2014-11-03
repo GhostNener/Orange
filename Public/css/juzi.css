@@ -57,12 +57,12 @@ a:hover,.navbar-default .navbar-nav .active a,a.list-group-item:hover,.navbar .n
     border-radius: 4px;
 }
 
-.btn-orange,.btnpublish{
+.btn-orange{
     background-color: #fa7d3c;
     color: #fff;
 }
 
-.btn-orange:hover,.btnpublish:hover,.btn-orange:focus,.btnpublish:focus{
+.btn-orange:hover{
     background-color: #CF6832;
     color: #ccc;
 }
@@ -267,10 +267,10 @@ footer {
 	border: 1px solid #ddd;
 	border-radius: 2px;
 	margin-bottom: 20px;
+	margin-top: 30px;
 }
 .board .nav-tabs {
     position: relative;
-    padding-top: 30px;
 }
 
 .board > div.board-inner{
@@ -295,7 +295,7 @@ footer {
     margin: 0 auto;
     left: 0;
     right: 0;
-    top: 60%;
+    top: 50%;
     z-index: 1;
 }
 
@@ -620,6 +620,10 @@ footer {
 	margin: 5px 0 5px 30%;
 }
 
+.profile-img{
+ display: inline;
+}
+
 .list-group-item {
     background-color: #fff;
     border-radius: 0px !important;
@@ -654,6 +658,99 @@ footer {
   fieldset { display: table-cell; }
 }
 
+/* profile-home */
+.w .centered {
+    text-align: center;
+}
+
+.w hr {
+    display: block;
+    height: 1px;
+    border: 0;
+    border-top: 1px solid #ccc;
+    margin: 1em 0;
+    padding: 0;
+}
+
+.w {
+	background-color: #ffffff;
+	border: 1px solid #dddddd;
+	-moz-box-shadow: 5px 5px rgba(0,0,0,0.2);
+	-webkit-box-shadow: 5px 5px rgba(0,0,0,0.2);
+	box-shadow: 5px 5px rgba(0,0,0,0.2);
+	margin-top: 10%;
+	margin-bottom: 10%;
+}
+
+.w .like{
+		overflow: hidden;
+		height: auto;
+}
+
+.w .col-md-4 {
+	padding-left: 0px;
+	padding-right: 0px;
+}
+
+.w .col-md-8 {
+	padding-left: 0px;
+	padding-right: 0px;
+}
+
+
+.w .nav-tabs {
+	border-bottom: 1px solid #dddddd;
+}
+
+.w .nav-tabs > li.active > a,.w .nav-tabs > li.active > a:hover,.w .nav-tabs > li.active > a:focus {
+	color: #555555;
+	cursor: default;
+	background-color: #ffffff;
+	border-left: 5px solid #fa7d3c;
+	border-bottom-color: transparent;
+	border-top-color: transparent;
+	border-right-color: transparent;
+	width: 100%;
+}
+
+.w .nav-tabs > li > a {
+	margin-right: 2px;
+	line-height: 1.428571429;
+	border-bottom: 1px solid #dddddd;
+	border-radius: 0 0 0 0;
+	width: 100%;
+	background-color: #f2f2f2;
+}
+
+.w .tab-content {
+	background-color: #ffffff;
+	padding-left: 15px;
+	padding-top: 20px;
+	padding-right: 15px;
+}
+
+.w .tab-content h5 {
+	color: #bdc3c7;
+	font-weight: 700;
+	letter-spacing: 1px;
+}
+
+.w a h6{
+	color: #555;
+}
+
+.w a h6:hover {
+	color: #fa7d3c;
+}	
+	
+.w .dl-horizontal dd{
+	margin-left: 100px;
+}
+.w .dl-horizontal dt{
+	width: auto;
+}
+
+
 /* 平板显示 */
 @media (min-width: 768px){
     .navbar-form .input-group>.form-control {
@@ -661,7 +758,7 @@ footer {
     }
 
     .nickname{
-		width:78px; 
+		width:70px; 
 		white-space:nowrap; 
 		overflow:hidden; 
 		text-overflow:ellipsis; 
@@ -675,16 +772,21 @@ footer {
     .nickul{
 		float: right;
     }
+
+	footer {
+  		padding-top: 20px;
+	}
+   
 }
 
-/* 平板显示 */
+/* 桌面显示 */
 @media (min-width: 992px){
     .navbar-form .input-group>.form-control {
       width: 400px;
     }
 
     .nickname{
-		width:98px; 
+		width:90px; 
 		white-space:nowrap; 
 		overflow:hidden; 
 		text-overflow:ellipsis; 
@@ -698,6 +800,24 @@ footer {
     .nickul{
 		float: right;
     }
+
+  	/*脚页*/
+	footer {
+	    margin-top: 0px; /* negative value of footer height */
+	}
+
+	.btnfollow{
+	    margin: 0 40px 40px 0;
+	    height: 70px;
+	    width: 70px;
+	}
+
+	.w .like{
+		overflow-x: hidden;
+		overflow-y: auto;
+		height: 360px;
+	}
+
 }
 
 /* 桌面端显示 */
@@ -707,7 +827,7 @@ footer {
     }
 
     .nickname{
-		width:190px; 
+		width:180px; 
 		white-space:nowrap; 
 		overflow:hidden; 
 		text-overflow:ellipsis; 
@@ -732,12 +852,6 @@ footer {
 	    padding-bottom:170px; /* this needs to be bigger than footer height*/
 	}
 
-	/*脚页*/
-	footer {
-	    margin-top: -170px; /* negative value of footer height */
-  		padding-top: 20px;
-	}
-
 	.affix{
 		width: 255px;
 	}
@@ -745,4 +859,15 @@ footer {
 	.profilemain{
 		min-height: 540px;
 	}
+
+	.btnfollow{
+	    margin: 0 200px 200px 0;
+	    height: 70px;
+	    width: 70px;
+	}
+	/*脚页*/
+	footer {
+	    margin-top: -170px; /* negative value of footer height */
+	}
 }
+
