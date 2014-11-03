@@ -50,7 +50,8 @@
 					<!-- 商品列表 -->
 					<foreach name="toplist" item="v">
 						<div class="col-sm-4 col-lg-4 col-md-4">
-							<a href="{:U('Home/Index/showgoods',array('Id'=>$v['Id']))}" target="_blank" class="thumbnail ">
+							<a href="{:U('Home/Index/showgoods',array('Id'=>
+								$v['Id']))}" target="_blank" class="thumbnail ">
 								<img src="__ROOT__{$v['ThumbURL']}" alt="">
 								<div class="caption">
 									<h4 class="pull-right message">{$v['TradeWayTxt']}</h4>
@@ -85,7 +86,8 @@
 					<!-- 商品列表 -->
 					<foreach name="newlist" item="v">
 						<div class="col-sm-4 col-lg-4 col-md-4">
-							<a href="{:U('Home/Index/showgoods',array('Id'=>$v['Id']))}" target="_blank" class="thumbnail ">
+							<a href="{:U('Home/Index/showgoods',array('Id'=>
+								$v['Id']))}" target="_blank" class="thumbnail ">
 								<img src="__ROOT__{$v['ThumbURL']}" alt="">
 								<div class="caption">
 									<h4 class="pull-right message">{$v['TradeWayTxt']}</h4>
@@ -120,7 +122,8 @@
 					<!-- 商品列表 -->
 					<foreach name="likelist" item="v">
 						<div class="col-sm-4 col-lg-4 col-md-4">
-							<a href="{:U('Home/Index/showgoods',array('Id'=>$v['Id']))}" target="_blank" class="thumbnail ">
+							<a href="{:U('Home/Index/showgoods',array('Id'=>
+								$v['Id']))}" target="_blank" class="thumbnail ">
 								<img src="__ROOT__{$v['ThumbURL']}" alt="">
 								<div class="caption">
 									<h4 class="pull-right message">{$v['TradeWayTxt']}</h4>
@@ -151,134 +154,134 @@
 				<div class="panel panel-default">
 					<div class="panel-body">
 						<button type="button" class="btn btn-orange btn-lg btn-block">打卡签到</button>
-						<!-- <button type="button" class="btn btn-orange btn-lg btn-block" disabled="disabled">已连续打卡 50 天</button>
-					-->
-					<!-- 商品分类 -->
-					<div class="sideitemnav">
-						<h4>商品分类</h4>
-						<hr>
-						<ul class="list-group">
-							<foreach name="clist" item="v">
-								<a href="#" class="list-group-item">
-									<span class="badge">new</span>
-									{$v['Title']}
-								</a>
-							</foreach>
-						</ul>
-					</div>
-					<!--/.sideitemnav-->
 
-					<!-- 热门活动 -->
-					<div class="sideitemnav">
-						<h4>热门活动</h4>
-						<hr>
-						<div class="media">
-							<a class="pull-left" href="#">
-								<img class="media-object" src="http://hhhhold.com/80x80" alt="..."></a>
-							<div class="media-body">
-								<h5 class="media-heading">每周抽奖日</h5>
-								<p>最好不要超过22个字哇哈哈哈哈</p>
-								<button type="button" class="btn btn-success">参与活动</button>
+						<!-- 商品分类 -->
+						<div class="sideitemnav">
+							<h4>商品分类</h4>
+							<hr>
+							<ul class="list-group">
+								<foreach name="clist" item="v">
+									<a href="#" class="list-group-item">
+										<span class="badge">new</span>
+										{$v['Title']}
+									</a>
+								</foreach>
+							</ul>
+						</div>
+						<!--/.sideitemnav-->
 
+						<!-- 热门活动 -->
+						<div class="sideitemnav">
+							<h4>热门活动</h4>
+							<hr>
+							<div class="media">
+								<a class="pull-left" href="#">
+									<img class="media-object" src="http://hhhhold.com/80x80" alt="..."></a>
+								<div class="media-body">
+									<h5 class="media-heading">每周抽奖日</h5>
+									<p>最好不要超过22个字哇哈哈哈哈</p>
+									<button type="button" class="btn btn-success">参与活动</button>
+
+								</div>
+							</div>
+
+							<hr>
+							<!--记得分隔符-->
+
+							<div class="media">
+								<a class="pull-left" href="#">
+									<img class="media-object" src="http://hhhhold.com/80x80" alt="..."></a>
+								<div class="media-body">
+									<h5 class="media-heading">每周抽奖日</h5>
+									<p>最好不要超过24个字哇哈哈哈哈</p>
+									<button type="button" class="btn btn-success">参与活动</button>
+
+								</div>
 							</div>
 						</div>
+						<!--/.sideitemnav-->
 
-						<hr>
-						<!--记得分隔符-->
+						<!-- 排行榜 -->
+						<div class="sideitemnav">
+							<h4>排行榜</h4>
+							<hr>
+							<ul id="myTab" class="nav nav-tabs">
+								<li class="active">
+									<a href="#tab1" data-toggle="tab">签到狂人</a>
+								</li>
+								<li>
+									<a href="#tab2" data-toggle="tab">大富豪</a>
+								</li>
+							</ul>
+							<div id="myTabContent" class="tab-content">
+								<div class="tab-pane fade in active" id="tab1">
+									<!-- 用户列表 -->
+									<div class="tabuser">
+										<a href="#">
+											<img src="http://hhhhold.com/40x40" alt="头像" class="img-circle">
+											<span>乔布斯</span>
+										</a>
+										<span class="info pull-right">
+											签到&nbsp
+											<span class="importinfo">50</span>
+											&nbsp天
+										</span>
+									</div>
+									<!--用户列表-->
 
-						<div class="media">
-							<a class="pull-left" href="#">
-								<img class="media-object" src="http://hhhhold.com/80x80" alt="..."></a>
-							<div class="media-body">
-								<h5 class="media-heading">每周抽奖日</h5>
-								<p>最好不要超过24个字哇哈哈哈哈</p>
-								<button type="button" class="btn btn-success">参与活动</button>
+									<div class="tabuser">
+										<a href="#">
+											<img src="http://hhhhold.com/40x40" alt="头像" class="img-circle">
+											<span>乔布斯</span>
+										</a>
+										<span class="info pull-right">
+											签到&nbsp
+											<span class="importinfo">50</span>
+											&nbsp天
+										</span>
+									</div>
+									<!--用户列表-->
+								</div>
 
+								<div class="tab-pane fade" id="tab2">
+									<!-- 用户列表 -->
+									<div class="tabuser">
+										<a href="#">
+											<img src="http://hhhhold.com/40x40" alt="头像" class="img-circle">
+											<span>乔布斯</span>
+										</a>
+										<span class="info pull-right">
+											交易&nbsp
+											<span class="importinfo">50</span>
+											&nbsp笔
+										</span>
+									</div>
+									<!--用户列表-->
+
+									<div class="tabuser">
+										<a href="#">
+											<img src="http://hhhhold.com/40x40" alt="头像" class="img-circle">
+											<span>乔布斯</span>
+										</a>
+										<span class="info pull-right">
+											交易&nbsp
+											<span class="importinfo">50</span>
+											&nbsp笔
+										</span>
+									</div>
+									<!--用户列表-->
+
+								</div>
 							</div>
+
 						</div>
-					</div>
-					<!--/.sideitemnav-->
-
-					<!-- 排行榜 -->
-					<div class="sideitemnav">
-						<h4>排行榜</h4>
-						<hr>
-						<ul id="myTab" class="nav nav-tabs">
-							<li class="active">
-								<a href="#tab1" data-toggle="tab">签到狂人</a>
-							</li>
-							<li>
-								<a href="#tab2" data-toggle="tab">大富豪</a>
-							</li>
-						</ul>
-						<div id="myTabContent" class="tab-content">
-							<div class="tab-pane fade in active" id="tab1">
-								<!-- 用户列表 -->
-								<div class="tabuser">
-									<a href="#">
-										<img src="http://hhhhold.com/40x40" alt="头像" class="img-circle">
-										<span>乔布斯</span>
-									</a>
-									<span class="info pull-right">
-										签到&nbsp
-										<span class="importinfo">50</span>
-										&nbsp天
-									</span>
-								</div>
-								<!--用户列表-->
-
-								<div class="tabuser">
-									<a href="#">
-										<img src="http://hhhhold.com/40x40" alt="头像" class="img-circle">
-										<span>乔布斯</span>
-									</a>
-									<span class="info pull-right">
-										签到&nbsp
-										<span class="importinfo">50</span>
-										&nbsp天
-									</span>
-								</div>
-								<!--用户列表-->
-							</div>
-
-							<div class="tab-pane fade" id="tab2">
-								<!-- 用户列表 -->
-								<div class="tabuser">
-									<a href="#">
-										<img src="http://hhhhold.com/40x40" alt="头像" class="img-circle">
-										<span>乔布斯</span>
-									</a>
-									<span class="info pull-right">
-										交易&nbsp
-										<span class="importinfo">50</span>
-										&nbsp笔
-									</span>
-								</div>
-								<!--用户列表-->
-
-								<div class="tabuser">
-									<a href="#">
-										<img src="http://hhhhold.com/40x40" alt="头像" class="img-circle">
-										<span>乔布斯</span>
-									</a>
-									<span class="info pull-right">
-										交易&nbsp
-										<span class="importinfo">50</span>
-										&nbsp笔
-									</span>
-								</div>
-								<!--用户列表-->
-
-							</div>
-						</div>
+						<!--/.sideitemnav-->
 
 					</div>
-					<!--/.sideitemnav-->
-
 				</div>
 			</div>
-		</div>
 
+		</div>
 	</div>
 </block>
 <block name="js">
@@ -308,8 +311,8 @@
 		<ul class="nav navbar-nav navbar-right nickul">
 			<li class="dropdown">
 				<a class="dropdown-toggle" data-toggle="dropdown" href="#">
-					<img src="http://hhhhold.com/18x18" class="nicknameimg">
-					<span class="nickname">&nbsp;如果汉字的长2的长字的长度太</span>
+					
+					<span class="nickname"><img src="http://hhhhold.com/18x18">&nbsp;{$usermodel['Nick']}&nbsp;</span>
 					&nbsp
 					<span class="caret"></span>
 					&nbsp

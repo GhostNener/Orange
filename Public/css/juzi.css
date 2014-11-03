@@ -767,10 +767,7 @@ footer {
 		overflow:hidden; 
 		text-overflow:ellipsis; 
 		float:left;
-    }
-
-    .nicknameimg{
-		float: left;
+		text-align: right;
     }
 
     .nickul{
@@ -791,14 +788,6 @@ footer {
 
     .nickname{
 		width:90px; 
-		white-space:nowrap; 
-		overflow:hidden; 
-		text-overflow:ellipsis; 
-		float:left;
-    }
-
-    .nicknameimg{
-		float: left;
     }
 
     .nickul{
@@ -832,14 +821,6 @@ footer {
 
     .nickname{
 		width:180px; 
-		white-space:nowrap; 
-		overflow:hidden; 
-		text-overflow:ellipsis; 
-		float:left;
-    }
-
-    .nicknameimg{
-		float: left;
     }
 
     .nickul{
