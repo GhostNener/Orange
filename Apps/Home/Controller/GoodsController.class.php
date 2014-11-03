@@ -104,6 +104,10 @@ class GoodsController extends BaseController {
 		// 以上代码解决FF302
 		$this->assign ( 'slist', $slist );
 		$this->assign ( 'alist', $alist );
+
+		//服务为空的时候
+		$this->assign( 'empty', '<h3 class="text-center text-import">暂不提供服务</h3>');
+		
 		$this->assign ( 'clist', $clist )->display ( 'modifgoods' );
 	}
 	/**

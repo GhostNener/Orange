@@ -112,125 +112,124 @@
 								<div class="form-group">
 									<label for="file_upload" class="col-sm-3 control-label">商品照片</label>
 									<div class="col-sm-9">
-										<input id="file_upload" name="file_upload" type="file" class="btn btn-success" multiple="true"></input>
-									<div id="image" class=" col-sm-10"></div>
-								</div>
-							</div>
-
-							<a href="#step2" class="btn btn-danger btn-outline-rounded green active-step pull-right">
-								选填内容&nbsp
-								<span class="glyphicon glyphicon-chevron-right"></span>
-							</a>
-						</div>
-
-						<!-- 选填内容 -->
-						<div class="tab-pane fade" id="step2">
-
-							<div class="form-group">
-								<label for="CategoryId" class="col-sm-3 control-label">商品分类</label>
-								<div class="col-sm-5">
-									<select class="form-control" id="CategoryId" name="CategoryId">
-										<foreach name="clist" item="v">
-											<option value="{$v['Id']}">{$v['Title']}</option>
-										</foreach>
-									</select>
-
-								</div>
-							</div>
-
-							<div class="form-group">
-								<label for="Presentation" class="col-sm-3 control-label">商品描述</label>
-								<div class="col-sm-8">
-									<textarea class="form-control" id="Presentation" name="Presentation" rows="3" placeholder="详细描述商品信息（选填）"></textarea>
-								</div>
-							</div>
-
-							<a href="#step1" class="btn btn-primary btn-outline-rounded green active-step">
-								<span class="glyphicon glyphicon-chevron-left"></span>
-								&nbsp基本信息
-							</a>
-							<a href="#step3" class="btn btn-orange btn-outline-rounded green active-step pull-right">
-								增值服务&nbsp
-								<span class="glyphicon glyphicon-chevron-right"></span>
-							</a>
-						</div>
-
-						<!-- 服务 -->
-						<div class="tab-pane fade" id="step3">
-							<div class="row">
-								<foreach name="slist" item="v">
-									<!-- 一个服务 -->
-									<div class="col-sm-4 col-lg-4 col-md-4 serverdiv">
-										<label  style="width:100%">
-											<div class="checkbox servercheckbox">
-												<input type="checkbox" class="hidden" name="Server[]" price="{$v['Price']}" value="{$v['Id']}"   >
-												<div class="thumbnail">
-													<h3 class="text-center">{$v['Title']}</h3>
-													<hr/>
-													<div class="caption">
-														<p style="font-weight: 400;">{$v['Presentation']}</p>
-													</div>
-													<hr/>
-													<h4 class="text-right text-p">
-														<span class="glyphicon glyphicon-ok pull-left text-success serverok"></span>
-														费用:&nbsp
-														<span class="importinfo">{$v['Price']}.00</span>
-													</h4>
-												</div>
-											</div>
-										</label>
+										<input id="file_upload" name="file_upload" type="file" class="btn btn-success" multiple="true">
+										<div id="image" class=" col-sm-10"></div>
 									</div>
-									<!--一个服务结束-->
-								</foreach>
+								</div>
+
+								<a href="#step2" class="btn btn-danger btn-outline-rounded green active-step pull-right">
+									选填内容&nbsp
+									<span class="glyphicon glyphicon-chevron-right"></span>
+								</a>
 							</div>
 
-							<!-- 服务为空的时候 -->
-							<!-- <h3 class="text-center text-import">暂不提供服务</h3>
-						-->
-						<a href="#step2" class="btn btn-danger btn-outline-rounded green active-step">
-							<span class="glyphicon glyphicon-chevron-left"></span>
-							&nbsp增值服务
-						</a>
-						<a href="#step4" id="getcostandb" class="btn btn-success btn-outline-rounded green active-step pull-right">
-							支付佣金&nbsp
-							<span class="glyphicon glyphicon-chevron-right"></span>
-						</a>
-					</div>
-					<div class="tab-pane fade" id="step4" >
+							<!-- 选填内容 -->
+							<div class="tab-pane fade" id="step2">
 
-						<h3 class="text-center text-import">
-							金橘余额:&nbsp
-							<span class="importinfo" id="balance"></span>
-						</h3>
-						<h3 class="text-center text-import">
-							共需支付:&nbsp
-							<span class="importinfo" id="needpay"></span>
-						</h3>
-						<!-- 积分不足时候显示 -->
-						<p class="text-center text-import rechargebnt">
-							<button type="button" class="btn btn-danger rechargebnt" >余额不足请充值</button>
-							<a id="refreshblan" class="btn btn-success " data-toggle="tooltip" data-placement="top" title="刷新" data-container="body">
-								<span class="glyphicon glyphicon-refresh"></span>
-							</a>
-						</p>
+								<div class="form-group">
+									<label for="CategoryId" class="col-sm-3 control-label">商品分类</label>
+									<div class="col-sm-5">
+										<select class="form-control" id="CategoryId" name="CategoryId">
+											<foreach name="clist" item="v">
+												<option value="{$v['Id']}">{$v['Title']}</option>
+											</foreach>
+										</select>
 
-						<a id="submitsave" class="btn btn-success btn-outline-rounded green active-step pull-right" data-loading-text="发布中..."  autocomplete="off" >
-							付款并发布&nbsp
-							<span class="glyphicon glyphicon-send"></span>
-						</a>
-					</div>
-					<div class="clearfix"></div>
+									</div>
+								</div>
+
+								<div class="form-group">
+									<label for="Presentation" class="col-sm-3 control-label">商品描述</label>
+									<div class="col-sm-8">
+										<textarea class="form-control" id="Presentation" name="Presentation" rows="3" placeholder="详细描述商品信息（选填）"></textarea>
+									</div>
+								</div>
+
+								<a href="#step1" class="btn btn-primary btn-outline-rounded green active-step">
+									<span class="glyphicon glyphicon-chevron-left"></span>
+									&nbsp基本信息
+								</a>
+								<a href="#step3" class="btn btn-orange btn-outline-rounded green active-step pull-right">
+									增值服务&nbsp
+									<span class="glyphicon glyphicon-chevron-right"></span>
+								</a>
+							</div>
+
+							<!-- 服务 -->
+							<div class="tab-pane fade" id="step3">
+								<div class="row">
+									<volist name="slist" id="v" empty="$empty">
+										<!-- 一个服务 -->
+										<div class="col-sm-4 col-lg-4 col-md-4 serverdiv">
+											<label  style="width:100%">
+												<div class="checkbox servercheckbox">
+													<input type="checkbox" class="hidden" name="Server[]" price="{$v['Price']}" value="{$v['Id']}"   >
+													<div class="thumbnail">
+														<h3 class="text-center">{$v['Title']}</h3>
+														<hr/>
+														<div class="caption">
+															<p style="font-weight: 400;">{$v['Presentation']}</p>
+														</div>
+														<hr/>
+														<h4 class="text-right text-p">
+															<span class="glyphicon glyphicon-ok pull-left text-success serverok"></span>
+															费用:&nbsp
+															<span class="importinfo">{$v['Price']}.00</span>
+														</h4>
+													</div>
+												</div>
+											</label>
+										</div>
+										<!--一个服务结束-->
+									</volist>
+
+								</div>
+
+								<a href="#step2" class="btn btn-danger btn-outline-rounded green active-step">
+									<span class="glyphicon glyphicon-chevron-left"></span>
+									&nbsp增值服务
+								</a>
+								<a href="#step4" id="getcostandb" class="btn btn-success btn-outline-rounded green active-step pull-right">
+									支付佣金&nbsp
+									<span class="glyphicon glyphicon-chevron-right"></span>
+								</a>
+							</div>
+							<div class="tab-pane fade" id="step4" >
+
+								<h3 class="text-center text-import">
+									金橘余额:&nbsp
+									<span class="importinfo" id="balance"></span>
+								</h3>
+								<h3 class="text-center text-import">
+									共需支付:&nbsp
+									<span class="importinfo" id="needpay"></span>
+								</h3>
+								<!-- 积分不足时候显示 -->
+								<p class="text-center text-import rechargebnt">
+									<button type="button" class="btn btn-danger rechargebnt" >余额不足请充值</button>
+									<a id="refreshblan" class="btn btn-success " data-toggle="tooltip" data-placement="top" title="刷新" data-container="body">
+										<span class="glyphicon glyphicon-refresh"></span>
+									</a>
+								</p>
+
+								<a id="submitsave" class="btn btn-success btn-outline-rounded green active-step pull-right" data-loading-text="发布中..."  autocomplete="off" >
+									付款并发布&nbsp
+									<span class="glyphicon glyphicon-send"></span>
+								</a>
+							</div>
+							<div class="clearfix"></div>
+						</div>
+					</form>
 				</div>
-			</form>
+			</div>
 		</div>
 	</div>
-</div>
 </block>
 <block name="js">
 
-<script src="__PUBLIC__/js/jquery.uploadify.min.js?{:time()}"></script>
-<link rel="stylesheet" href="__PUBLIC__/css/uploadify.css">
-<script type="text/javascript">
+	<script src="__PUBLIC__/js/jquery.uploadify.min.js?{:time()}"></script>
+	<link rel="stylesheet" href="__PUBLIC__/css/uploadify.css">
+	<script type="text/javascript">
 	/*删除图片  第一个参数为图片父控件的Id  第二个参数为图片相对路径*/
 
  function del(div_id, imgId) {
@@ -578,7 +577,7 @@ $(document).ready(function() {
 
 <block name="css">
 
-<style>
+	<style>
 	div.checkbox,
 	.photo{
 
@@ -611,49 +610,49 @@ $(document).ready(function() {
 </block>
 
 <block name="login">
-<if condition="$usermodel eq null">
-	<ul class="nav navbar-nav navbar-right">
-		<li>
-			<a href="{:U('Usercenter/User/index')}" >登录</a>
-		</li>
-		<li>
-			<a href="{:U('Usercenter/User/regist')}">注册</a>
-		</li>
-	</ul>
-	<else/>
-	<!-- 登录状态 -->
-	<ul class="nav navbar-nav navbar-right nickul">
-		<li class="dropdown">
-			<a class="dropdown-toggle" data-toggle="dropdown" href="#">
-				<img src="http://hhhhold.com/18x18" class="nicknameimg">
-				<span class="nickname">&nbsp;如果汉字的长2的长字的长度太</span>
-				&nbsp
-				<span class="caret"></span>
-				&nbsp
-				<span class="badge">3</span>
-			</a>
-			<ul class="dropdown-menu">
-				<li>
-					<a href="#">
-						<span class="badge pull-right">3</span>
-						未读消息
-					</a>
-				</li>
-				<li>
-					<a href="#">个人中心</a>
-				</li>
-				<li>
-					<a href="#">心愿单</a>
-				</li>
-				<li>
-					<a href="#">充值</a>
-				</li>
-				<li class="divider"></li>
-				<li>
-					<a href="{:U('Usercenter/User/logout')}">退出用户</a>
-				</li>
-			</ul>
-		</li>
-	</ul>
-</if>
+	<if condition="$usermodel eq null">
+		<ul class="nav navbar-nav navbar-right">
+			<li>
+				<a href="{:U('Usercenter/User/index')}" >登录</a>
+			</li>
+			<li>
+				<a href="{:U('Usercenter/User/regist')}">注册</a>
+			</li>
+		</ul>
+		<else/>
+		<!-- 登录状态 -->
+		<ul class="nav navbar-nav navbar-right nickul">
+			<li class="dropdown">
+				<a class="dropdown-toggle" data-toggle="dropdown" href="#">
+					<img src="http://hhhhold.com/18x18" class="nicknameimg">
+					<span class="nickname">&nbsp;如果汉字的长2的长字的长度太</span>
+					&nbsp
+					<span class="caret"></span>
+					&nbsp
+					<span class="badge">3</span>
+				</a>
+				<ul class="dropdown-menu">
+					<li>
+						<a href="#">
+							<span class="badge pull-right">3</span>
+							未读消息
+						</a>
+					</li>
+					<li>
+						<a href="#">个人中心</a>
+					</li>
+					<li>
+						<a href="#">心愿单</a>
+					</li>
+					<li>
+						<a href="#">充值</a>
+					</li>
+					<li class="divider"></li>
+					<li>
+						<a href="{:U('Usercenter/User/logout')}">退出用户</a>
+					</li>
+				</ul>
+			</li>
+		</ul>
+	</if>
 </block>

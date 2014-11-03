@@ -62,7 +62,7 @@ a:hover,.navbar-default .navbar-nav .active a,a.list-group-item:hover,.navbar .n
     color: #fff;
 }
 
-.btn-orange:hover{
+.btn-orange:hover,.btn-orange:focus{
     background-color: #CF6832;
     color: #ccc;
 }
@@ -750,6 +750,10 @@ footer {
 	width: auto;
 }
 
+/* 关于我们 */
+.media-profile{
+	margin-top: 10px;
+}
 
 /* 平板显示 */
 @media (min-width: 768px){
