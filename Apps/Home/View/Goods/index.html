@@ -1,47 +1,47 @@
 <extend name="./Tpl/layout.html"/>
 <block name="content">
 
-<div id="main" class="container">
-	<div class="text-center">
-		<h1>我的商品列表</h1>
-	</div>
-	<br>
-	<div class="text-center">
-		<a href="{:U('Home/Goods/add')}" class="btn btn-default">添加</a>
-	</div>
-	<br>
+	<div id="main" class="container">
+		<div class="text-center">
+			<h1>我的商品列表</h1>
+		</div>
+		<br>
+		<div class="text-center">
+			<a href="{:U('Home/Goods/add')}" class="btn btn-default">添加</a>
+		</div>
+		<br>
 
-	<div class="row">
-		<!-- 商品列表 -->
-		<foreach name="list" item="v">
-			<div class="col-sm-4 col-lg-4 col-md-4">
-				<div class="thumbnail">
-					<img src="__ROOT__{$v['ThumbURL']}" alt="">
-					<div class="caption">
-						<h4 class="pull-right message">{$v['TradeWayTxt']}</h4>
-						<p>
-							<img src="http://hhhhold.com/40x40" alt="头像" class="img-circle">
-							<span>{$v['Nick']}</span>
-						</p>
-						<p>{$v['Title']}</p>
-					</div>
-					<div class="ratings">
-						<h4 class="pull-right message">浏览 {$v['Views']}</h4>
-						<h4 class="pull-right message">评论 {$v['CommentCount']}&nbsp</h4>
-						<h3>
-							{$v['Price']}
-							<span>{$v['CostPrice']}</span>
-						</h3>
+		<div class="row">
+			<!-- 商品列表 -->
+			<foreach name="list" item="v">
+				<div class="col-sm-4 col-lg-4 col-md-4">
+					<div class="thumbnail">
+						<img src="__ROOT__{$v['ThumbURL']}" alt="">
+						<div class="caption">
+							<h4 class="pull-right message">{$v['TradeWayTxt']}</h4>
+							<p>
+								<img src="http://hhhhold.com/40x40" alt="头像" class="img-circle">
+								<span>{$v['Nick']}</span>
+							</p>
+							<p>{$v['Title']}</p>
+						</div>
+						<div class="ratings">
+							<h4 class="pull-right message">浏览 {$v['Views']}</h4>
+							<h4 class="pull-right message">评论 {$v['CommentCount']}&nbsp</h4>
+							<h3>
+								{$v['Price']}.00
+								<span>{$v['CostPrice']}.00</span>
+							</h3>
+						</div>
 					</div>
 				</div>
-			</div>
-		</foreach>
+			</foreach>
+		</div>
+		<div class="row">
+			<br>
+			{$page}
+			<br></div>
 	</div>
-	<div class="row">
-		<br>
-		{$page}
-		<br></div>
-</div>
 </block>
 <block name="login">
 	<if condition="$usermodel eq null">
@@ -82,7 +82,7 @@
 					</li>
 					<li class="divider"></li>
 					<li>
-						<a href="#">退出用户</a>
+						<a href="{:U('Usercenter/User/logout')}">退出用户</a>
 					</li>
 				</ul>
 			</li>

@@ -64,8 +64,8 @@
 									<h4 class="pull-right message">浏览 {$v['Views']}</h4>
 									<h4 class="pull-right message">评论 {$v['CommentCount']}&nbsp</h4>
 									<h3>
-										{$v['Price']}
-										<span>{$v['CostPrice']}</span>
+										{$v['Price']}.00
+										<span>{$v['CostPrice']}.00</span>
 									</h3>
 								</div>
 							</div>
@@ -333,7 +333,7 @@
 					</li>
 					<li class="divider"></li>
 					<li>
-						<a href="#">退出用户</a>
+						<a href="{:U('Usercenter/User/logout')}">退出用户</a>
 					</li>
 				</ul>
 			</li>

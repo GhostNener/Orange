@@ -46,6 +46,7 @@ class goods_imgModel extends Model {
 			unlink ( '.' . $delmodel ['SourceURL'] );
 			unlink ( '.' . $delmodel ['URL'] );
 			unlink ( '.' . $delmodel ['ThumbURL'] );
+			unlink ( '.' . $delmodel ['MD_URL'] );
 		}
 	}
 	
@@ -103,9 +104,10 @@ class goods_imgModel extends Model {
 		$urlarr = getallthumb ( $imgurl, $imgname );
 		$data = array (
 				'GoodsId' => 0,
-				'URL' => substr ( $urlarr [0], 1 ),
-				'ThumbURL' => substr ( $urlarr [1], 1 ),
 				'SourceURL' => substr ( $imgurl, 1 ),
+				'URL' => substr ( $urlarr [0], 1 ),
+				'MD_URL' => substr ( $urlarr [1], 1 ),
+				'ThumbURL' => substr ( $urlarr [2], 1 ),
 				'Title' => '',
 				'Status' => 0 
 		);
@@ -115,7 +117,7 @@ class goods_imgModel extends Model {
 			return array (
 					'status' => 1,
 					'imgid' => $imgid,
-					'msg' => substr ( $urlarr [1], 1 ) 
+					'msg' => substr ( $urlarr [2], 1 ) 
 			);
 		} else {
 			return array (

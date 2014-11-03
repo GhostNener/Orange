@@ -22,12 +22,12 @@ class UserController extends Controller {
 		$user = new userModel ();
 		$usermodel = null;
 		if ($user->islogin ( null, false, false )) {
-			$m = new view_user_info_avatarModel();
+			$m = new view_user_info_avatarModel ();
 			$usermodel = $m->getinfo ();
-			if($usermodel['status']==1){
-				$usermodel=$usermodel['msg'];
-			}else{
-				$usermodel=null;
+			if ($usermodel ['status'] == 1) {
+				$usermodel = $usermodel ['msg'];
+			} else {
+				$usermodel = null;
 			}
 		}
 		$this->assign ( 'usermodel', $usermodel );
@@ -39,7 +39,7 @@ class UserController extends Controller {
 	 */
 	public function index($isadmin = false) {
 		$model = new userModel ();
-		if ($model->islogin (null, $isadmin,false )) {
+		if ($model->islogin ( null, $isadmin, false )) {
 			if ($isadmin) {
 				$this->success ( '登录成功', U ( 'Admin/Index/index' ), 1 );
 			} else {
@@ -60,6 +60,18 @@ class UserController extends Controller {
 	public function regist() {
 		$this->display ( 'Index/regist' );
 	}
+	public function logout() {
+		$uid = cookie ( '_uid' );
+		if ($uid) {
+			session ( $uid, null );
+			cookie ( '_uid', null );
+			cookie ( '_key', null );
+			cookie ( 'admin_key', null );
+			cookie ( 'admin_uid', null );
+		}
+		redirect ( U ( 'Home/Index/index' ) );
+	}
+	
 	/**
 	 * 登录操作
 	 *
@@ -110,9 +122,9 @@ class UserController extends Controller {
 			$this->error ( '页面不存在' );
 		}
 		$arr = I ( 'post.' );
-		$arr['Nick']=null;
-		$arr['Name']=$arr['UserName'];
-		unset($arr['UserName']);
+		$arr ['Nick'] = null;
+		$arr ['Name'] = $arr ['UserName'];
+		unset ( $arr ['UserName'] );
 		$model = new userModel ();
 		$rst = $model->regist ( $arr );
 		if (! ( int ) $rst ['status']) {
@@ -145,7 +157,7 @@ class UserController extends Controller {
 	}
 	/**
 	 * 验证验证码
-	 * 
+	 *
 	 * @author NENER
 	 * @param
 	 *        	$code

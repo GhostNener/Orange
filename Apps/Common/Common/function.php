@@ -510,26 +510,28 @@ function getallthumb($url, $imgname) {
 	cutimg ( $url, $url_3, $arr_3, 2 );
 	return array (
 			$url_8,
+			$arr_3,
 			$url_1 
 	);
 }
 
 /**
- * 修改一个图片 让其翻转指定度数
+ * 旋转图片
  *
- * @param string $filename
- *        	文件名（包括文件路径）
- * @param float $degrees
+ * @param unknown $filename
+ *        	原始路径
+ * @param unknown $savesrc
+ *        	保存路径
+ * @param number $degrees
  *        	旋转度数
  * @return boolean
- * @author zhaocj
  */
-function rotateimg($filename, $src, $degrees = 90) {
+function rotateimg($filename, $savesrc, $degrees = 90) {
 	// 读取图片
 	$data = @getimagesize ( $filename );
 	if ($data == false)
 		return false;
-		// 读取旧图片
+		// 读取格式
 	switch ($data [2]) {
 		case 1 :
 			$src_f = imagecreatefromgif ( $filename );
@@ -540,19 +542,25 @@ function rotateimg($filename, $src, $degrees = 90) {
 		case 3 :
 			$src_f = imagecreatefrompng ( $filename );
 			break;
+		default :
+			$src_f = null;
+			break;
 	}
-	if ($src_f == "")
+	if (! $src_f) {
 		return false;
+	}
 	$rotate = @imagerotate ( $src_f, $degrees, 0 );
-	if (! imagejpeg ( $rotate, $src, 100 ))
+	if (! imagejpeg ( $rotate, $savesrc, 100 )) {
 		return false;
+	}
 	@imagedestroy ( $rotate );
 	return true;
 }
 /**
  * 获得exift 然后旋转
  *
- * @param unknown $filename        	
+ * @param unknown $filename
+ *        	图片路径
  */
 function getexif($filename) {
 	$exif = exif_read_data ( $filename, 0, true );
@@ -566,19 +574,19 @@ function getexif($filename) {
 			$degrees = 180;
 			break;
 		case 6 :
-			$degrees = 270;
+			$degrees = - 90;
 			break;
 		case 8 :
 			$degrees = 90;
 			break;
 		default :
-			 $degrees = 0;
+			$degrees = 0;
 			break;
 	}
-	if(!$r){
+	if (! $degrees) {
 		return 1;
 	}
-	rotateimg($filename,$filename,$degrees);
+	rotateimg ( $filename, $filename, $degrees );
 }
 
 /**
@@ -590,7 +598,7 @@ function getexif($filename) {
  *
  * @param array $size：宽
  *        	，高
- * @param number $type：裁剪类型：1：缩放填充，2：居中固定尺寸裁剪        	
+ * @param number $type：裁剪类型：1：等比缩放，2：居中固定尺寸裁剪        	
  */
 function cutimg($openurl, $saveurl, $size, $type = 1) {
 	getexif ( $openurl );
