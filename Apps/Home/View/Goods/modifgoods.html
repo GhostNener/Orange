@@ -207,7 +207,7 @@
 								<!-- 积分不足时候显示 -->
 								<p class="text-center text-import rechargebnt">
 									<button type="button" class="btn btn-danger rechargebnt" >余额不足请充值</button>
-									<a id="refreshblan" class="btn btn-success " data-toggle="tooltip" data-placement="top" title="刷新" data-container="body">
+									<a id="refreshblan" class="btn btn-success">刷新余额&nbsp;
 										<span class="glyphicon glyphicon-refresh"></span>
 									</a>
 								</p>
@@ -292,7 +292,7 @@ $(document).ready(function() {
 		var _cost=$('#Price').val();
 		if(!$.isNumeric(_cost)||parseInt(_cost)<=0||parseInt(_cost)>999999){
 			$('#step4').children().attr('disabled',true);
-			$('#step4').children().children().attr('disabled',true);
+			/*$('#step4').children().children().attr('disabled',true);*/
 			$('#step4').children().stop().fadeTo(500,0.22);
 			$('.rechargebnt').hide();
 			return false;
