@@ -42,9 +42,9 @@ class view_goods_listModel extends Model {
 		$allCount = $this->where ( $wherearr )->count ();
 		if ($allCount > $nubmer) {
 			$beg = mt_rand ( 1, ($allCount - $nubmer ) );
-			$list = $this->where ( $wherearr )->limit ( $beg, ($beg + $nubmer - 1) )->select ();
+			$list = $this->where ( $wherearr )->limit ( $beg,  $nubmer )->select ();
 		} else {
-			$list = $this->where ( $wherearr )->limit ( 1, $allCount )->select ();
+			$list = $this->where ( $wherearr )->limit ( 1, $nubmer )->select ();
 		}
 		return array (
 				'status' => 1,
@@ -63,8 +63,8 @@ class view_goods_listModel extends Model {
 		$whereArr = array (
 				'Id' => $Id 
 		);
-		$goods = M ( "goods" )->where ( $whereArr )->select ();
-		$model1 = M ( "goods_comment_list0" );
+		$goods = M ( "goods" )->where ( $whereArr )->find();
+		$model1 = M ( "goods_comment_temp" );
 		$model2 = M ( "goods_comment_list" );
 		$whereArr1 = array (
 				'GoodsId' => $Id,

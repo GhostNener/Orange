@@ -1,0 +1,251 @@
+	<extend name="./Tpl/layout.html"/>	
+
+	<block name="css">
+		<link href="__PUBLIC__/css/jquery.fancybox.css" rel="stylesheet">	
+		<link href="__PUBLIC__/css/jquery.fancybox-thumbs.css" rel="stylesheet"></block>
+	<block name="content">
+		<div id="main" class="container">
+			<!-- mobile端显示固定导航 -->	
+			<div class="col-md-3 visible-xs-block">
+				<div class="panel panel-default">
+					<div class="panel-body detail-panel">
+						<h4>{$goods.Title}</h4>
+						<h2 class="importinfo">
+							{$goods.Price}.00
+							<span class="oldprice">{$goods.CostPrice}.00</span>
+						</h2>
+
+						<hr/>	
+						<div class="row">
+							<div class="col-md-5">交易方式</div>
+							<div class="col-md-7">{$goods.TradeWayTxt}</div>
+						</div>
+						<hr/>	
+						<button class="btn btn-danger">
+							<span class="glyphicon glyphicon-heart"></span>
+							&nbsp加入心愿单
+						</button>
+						<button class="btn btn-primary">
+							<span class="glyphicon glyphicon-comment"></span>
+							&nbsp留言
+						</button>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-9">
+				<div class="panel panel-default">
+					<div class="panel-body">
+
+						<!-- Slider -->	
+						<div class="row">
+							<div class="col-xs-12" id="slider">
+								<!-- Top part of the slider -->	
+								<div id="carousel-bounding-box" data-toggle="tooltip" data-placement="top" title="点击查看原图" data-container="body" data-delay="500">
+									<div class="carousel slide" id="myCarousel">
+										<!-- Carousel items -->	
+										<div class="carousel-inner">
+											<for start="0" end="$imgcount">
+												<if condition="$i eq 0">
+													<div class="active item" data-slide-number="{$i}">
+														<a class="fancybox-thumbs" data-fancybox-group="thumb" href="__ROOT__{$goodsimg[$i]['URL']}">
+															<img src="__ROOT__{$goodsimg[$i]['MD_URL']}" alt="$goodsimg[$i]['Title']" />	
+														</a>
+													</div>
+													<else/>	
+													<div class=" item" data-slide-number="{$i}">
+														<a class="fancybox-thumbs" data-fancybox-group="thumb" href="__ROOT__{$goodsimg[$i]['URL']}">
+															<img src="__ROOT__{$goodsimg[$i]['MD_URL']}" alt="$goodsimg[$i]['Title']" />	
+														</a>
+													</div>
+												</if>
+											</for>
+										</div>
+										<!-- Carousel nav -->	
+										<a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+											<span class="glyphicon glyphicon-chevron-left"></span>
+										</a>
+										<a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+											<span class="glyphicon glyphicon-chevron-right"></span>
+										</a>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!--/Slider-->	
+
+						<div class="row hidden-xs" id="slider-thumbs">
+							<!-- Bottom switcher of slider -->	
+							<ul class="hide-bullets">
+								<for start="0" end="$imgcount">
+									<li class="col-sm-2">
+										<a href="#" class="thumbnail" id="carousel-selector-{$i}">
+											<img src="__ROOT__{$goodsimg[$i]['ThumbURL']}"></a>
+									</li>
+								</for>
+							</ul>
+						</div>
+
+						<hr/>	
+
+						<!-- 描述 -->	
+						<div class="row">
+
+							<div class="col-md-12">
+								<h4 class="pull-right message">2014-10-31 09:03:28</h4>
+								<a href="#">
+									<img src="http://hhhhold.com/40x40" alt="头像" class="img-circle">	
+									<span>乔布斯</span>
+								</a>
+								<span>lv</span>
+								<span class="importinfo">&nbsp32</span>
+							</div>
+
+							<div class="col-md-12">
+								<p class="detail-p">反正这里是详细的描述信息撒旦发射点发是；发神经的开发建设</p>
+							</div>
+
+						</div>
+					</div>
+				</div>
+
+				<!-- 评论列表 -->	
+				<div class="panel panel-default">
+					<div class="panel-body">
+						<div class="row">
+
+							<div class="timeline-centered">
+
+								<article class="timeline-entry">
+									<div class="timeline-entry-inner">
+										<div class="timeline-icon">
+											<img src="http://hhhhold.com/40x40" alt="头像" class="img-circle"></div>
+
+										<div class="timeline-label">
+											<span class="pull-right time">2014-10-31 10:10:12</span>
+											<h2>
+												<a href="#">乔布斯</a>
+											</h2>
+											<p class="content">
+												劳资卖的东西
+												劳资卖的东西
+												劳资卖的东西
+												劳资卖的东西
+												劳资卖的东西
+												劳资卖的东西
+												劳资卖的东西
+												劳资卖的东西
+												劳资卖的东西
+												劳资卖的东西
+												劳资卖的东西
+												劳资卖的东西
+												劳资卖的东西
+												劳资卖的东西
+												劳资卖的东西
+											</p>
+											<a class="replay">回复</a>
+										</div>
+									</div>
+								</article>
+
+								<article class="timeline-entry">
+
+									<div class="timeline-entry-inner">
+
+										<div class="timeline-icon bg-secondary"> <i class="entypo-suitcase"></i>
+										</div>
+
+										<div class="timeline-label">
+											<h2>
+												<a href="#">Job Meeting</a>
+											</h2>
+											<p>
+												You have a meeting at <strong>Laborator Office</strong>
+												Today.
+											</p>
+										</div>
+									</div>
+								</article>
+
+								<article class="timeline-entry">
+
+									<div class="timeline-entry-inner">
+
+										<div class="timeline-icon bg-warning"> <i class="entypo-camera"></i>
+										</div>
+
+										<div class="timeline-label">
+											<h2>
+												<a href="#">Arber Nushi</a>
+												<span>回复</span>
+												<a href="#">Profile Picture</a>
+											</h2>
+											Pianoforte principles our unaffected not for astonished travelling are particular.
+												Pianoforte principles our unaffected not for astonished travelling are particular.
+												Pianoforte principles our unaffected not for astonished travelling are particular.
+												Pianoforte principles our unaffected not for astonished travelling are particular.
+										</div>
+									</div>
+								</article>
+
+							</div>
+
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- web端显示的是浮动导航 -->	
+			<div class="col-md-3 hidden-xs">
+				<div class="panel panel-default" data-spy="affix">
+					<div class="panel-body detail-panel">
+						<h4>{$goods.Title}</h4>
+						<h2 class="importinfo">
+							{$goods.Price}.00
+							<span class="oldprice">{$goods.CostPrice}.00</span>
+						</h2>
+
+						<hr/>	
+						<div class="row">
+							<div class="col-md-5">交易方式</div>
+							<div class="col-md-7">{$goods.TradeWayTxt}</div>
+						</div>
+						<hr/>	
+						<button class="btn btn-danger">
+							<span class="glyphicon glyphicon-heart"></span>
+							&nbsp加入心愿单
+						</button>
+						<button class="btn btn-primary">
+							<span class="glyphicon glyphicon-comment"></span>
+							&nbsp留言
+						</button>
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</block>
+
+	<block name="js">
+
+		<script src="__PUBLIC__/js/jquery.fancybox.pack.js"></script>
+		<script src="__PUBLIC__/js/jquery.fancybox-thumbs.js"></script>
+		<script>
+		$(document).ready(function() {
+			$('.fancybox').fancybox();
+			$('.fancybox-thumbs').fancybox({
+				prevEffect : 'none',
+				nextEffect : 'none',
+
+				closeBtn  : false,
+				arrows    : false,
+				nextClick : true,
+
+				helpers : {
+					thumbs : {
+						width  : 50,
+						height : 50
+					}
+				}
+			});
+		});
+	</script>
+	</block>

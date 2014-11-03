@@ -113,7 +113,8 @@ class IndexController extends Controller {
 		$this->assign ( 'goods', $arr ['goods'] );
 		$this->assign ( 'commentlist', $arr ['commentlist'] );
 		$this->assign ( 'goodsimg', $arr ['goodsimg'] );
-		$this->display ();
+		$this->assign ( 'imgcount',count( $arr ['goodsimg'] ));
+		$this->display ('Index/detail');
 	}
 	
 	/**

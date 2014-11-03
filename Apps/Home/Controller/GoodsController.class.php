@@ -222,41 +222,4 @@ class GoodsController extends BaseController {
 		}
 		$this->success ( json_encode ( $rst ) );
 	}
-	
-	/**
-	 * 展示商品 详情 及评论
-	 */
-	public function showgoods($Id) {
-		$goods = D ( "goods" );
-		$wherrArr = array (
-				'g.Id' => $Id 
-		);
-		$model = $goods->table ( 'goods g,goods_img i' )->where ( array (
-				$wherrArr,
-				'i.GoodsId=g.Id' 
-		) )->field ( 'i.URL as imgURL,g.*' )->select ();
-		$this->assign ( 'model', $model );
-		// 评论
-		$goods_comment = D ( "goods_comment" );
-		// 评论查询条件
-		$wherrArr = array (
-				'c.GoodsId' => $Id,
-				'c.Status' => 10 
-		);
-		// 查询
-		$allComment = $goods_comment->table ( 'goods_comment c,user u' )->where ( array (
-				$wherrArr,
-				'u.Id=c.UserId' 
-		) )->field ( 'u.Nick as UserNick,c.*' )->select ();
-		// $allComment2 = $goods_comment -> table('goods_comment c,user u') -> where(array($wherrArr,'u.Id=c.AssesseeId')) ->field('u.Nick as assesseeNick') ->select ();
-		for($i = 0; $i < count ( $allComment ); $i ++) {
-			if ($allComment [$i] ['AssesseeId'] != "") {
-				$user = D ( "user" );
-				$s = $user->field ( 'Nick' )->find ( $allComment [$i] ['AssesseeId'] );
-				$allComment [$i] ['AN'] = $s ['Nick'];
-			}
-		}
-		$this->assign ( 'allComment', $allComment );
-		$this->display ();
-	}
 }

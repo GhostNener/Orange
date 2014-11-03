@@ -510,7 +510,7 @@ function getallthumb($url, $imgname) {
 	cutimg ( $url, $url_3, $arr_3, 2 );
 	return array (
 			$url_8,
-			$arr_3,
+			$url_3,
 			$url_1 
 	);
 }
