@@ -32,5 +32,14 @@ $(document).ready(function() {
 		  $(this).tab('show')
 		})	
 
+	/*导航栏切换*/
+	$(".navbar-nav").find("a").each(function(){
+		if (window.location.href.toLocaleLowerCase().indexOf($(this).attr("href").replace(".html","").toLocaleLowerCase(),1)>0) {
+			$(".navbar-nav").children().removeClass("active");
+			$(this).parent().addClass("active");
+			return false;
+		};
+	});
+
 });
 

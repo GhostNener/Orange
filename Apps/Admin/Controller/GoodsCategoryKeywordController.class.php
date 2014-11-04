@@ -36,7 +36,7 @@ class GoodsCategoryKeywordController extends BaseController {
 		$list = $model->where ( $wherrArr )->limit ( $Page->firstRow . ',' . $Page->listRows )->select ();
 		$this->assign ( 'list', $list );
 		$this->assign ( 'page', $showPage );
-		$this->assign ( 'CategoryId', $id )->display ( 'Index/category_keyword' );
+		$this->assign ( 'CategoryId', $id )->display ( 'GoodsCategory/category_keyword' );
 	}
 	/**
 	 * 渲染add模板
@@ -53,7 +53,7 @@ class GoodsCategoryKeywordController extends BaseController {
 				'Id' => $id 
 		) )->find ();
 		$this->assign ( 'cmodel', $cmodel );
-		$this->assign ( 'modif', 'add' )->display ( 'Index/modifcategory_keyword' );
+		$this->assign ( 'modif', 'add' )->display ( 'GoodsCategory/modifcategory_keyword' );
 	}
 	/**
 	 * 查询要修改的数据
@@ -75,7 +75,7 @@ class GoodsCategoryKeywordController extends BaseController {
 					'Id' => $model ['CategoryId'] 
 			) )->find ();
 			$this->assign ( 'cmodel', $cmodel );
-			$this->assign ( 'modif', 'update' )->display ( 'Index/modifcategory_keyword' );
+			$this->assign ( 'modif', 'update' )->display ( 'GoodsCategory/modifcategory_keyword' );
 		} else {
 			$this->error ( "操作失败", U ( 'index' ) );
 		}

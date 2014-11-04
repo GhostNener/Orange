@@ -27,7 +27,7 @@ h1,h2,h3,h4,h5,h6,p,label,div,label {
     color: #555;
 }
 
-h5{
+h5, .hightlight{
     font-weight: 600;
 }
 .checkbox label{
@@ -45,6 +45,10 @@ a,a.list-group-item,.navbar .navbar-nav li a,.navbar .navbar-brand{
 a:hover,.navbar-default .navbar-nav .active a,a.list-group-item:hover,.navbar .navbar-nav li a:hover,.navbar .navbar-brand:hover{
     color: #fa7d3c;
     text-decoration: none;
+}
+
+.navbar-inverse .navbar-nav>li>a, .navbar-inverse .navbar-header>a{
+	color: #fff;
 }
 
 .btn{

@@ -25,12 +25,13 @@ class GoodsCategoryController extends BaseController {
 		$allCount = $model->where ( $wherrArr )->count ();
 		// 分页
 		$Page = new \Think\Page ( $allCount, 10 );
+		
 		$showPage = $Page->show ();
 		// 分页查询
 		$list = $model->where ( $wherrArr )->limit ( $Page->firstRow . ',' . $Page->listRows )->select ();
 		$this->assign ( 'list', $list );
 		$this->assign ( 'page', $showPage );
-		$this->display ( 'Index/category' );
+		$this->display ();
 	}
 	/**
 	 * 删除
@@ -82,7 +83,7 @@ class GoodsCategoryController extends BaseController {
 					'CategoryId' => $id 
 			);
 			$this->assign ( 'model', $model );
-			$this->assign ( 'modif', 'update' )->display ( 'Index/modifcategory' );
+			$this->assign ( 'modif', 'update' )->display ( 'modifcategory' );
 		} else {
 			$this->error ( "操作失败", U ( 'index' ) );
 		}
@@ -94,7 +95,7 @@ class GoodsCategoryController extends BaseController {
 	 *        
 	 */
 	public function add() {
-		$this->assign ( 'modif', 'add' )->display ( 'Index/modifcategory' );
+		$this->assign ( 'modif', 'add' )->display ( 'modifcategory' );
 	}
 	/**
 	 * 保存
@@ -143,6 +144,6 @@ class GoodsCategoryController extends BaseController {
 			);
 			$model->where ( $whereArr )->save ( $data );
 		}
-		$this->success ( '操作成功', U ( 'index' ), 1 );
+		$this->success ( '操作成功' );
 	}
 }
