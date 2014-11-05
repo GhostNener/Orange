@@ -39,7 +39,7 @@
 						</ul>
 					</div>
 					<!-- 表单内容 -->
-					<form class="form-horizontal" id="addgoodsform"  role="form" method="post" >
+					<form class="form-horizontal" id="addgoodsform"  role="form" method="post"  onsubmit="return ajaxsubmit()">
 						<div class="tab-content">
 
 							<!-- 必填内容 -->
@@ -207,15 +207,16 @@
 								<!-- 积分不足时候显示 -->
 								<p class="text-center text-import rechargebnt">
 									<button type="button" class="btn btn-danger rechargebnt" >余额不足请充值</button>
-									<a id="refreshblan" class="btn btn-success">刷新余额&nbsp;
+									<a id="refreshblan" class="btn btn-success">
+										刷新余额&nbsp;
 										<span class="glyphicon glyphicon-refresh"></span>
 									</a>
 								</p>
 
-								<a id="submitsave" class="btn btn-success btn-outline-rounded green active-step pull-right" data-loading-text="发布中..."  autocomplete="off" >
+								<button type="submit" id="submitsave" class="btn btn-success btn-outline-rounded green active-step pull-right" data-loading-text="发布中..."  autocomplete="off" >
 									付款并发布&nbsp
 									<span class="glyphicon glyphicon-send"></span>
-								</a>
+								</button>
 							</div>
 							<div class="clearfix"></div>
 						</div>
@@ -229,32 +230,185 @@
 
 	<script src="__PUBLIC__/js/jquery.uploadify.min.js?{:time()}"></script>
 	<link rel="stylesheet" href="__PUBLIC__/css/uploadify.css">
-	<script type="text/javascript">
-	/*删除图片  第一个参数为图片父控件的Id  第二个参数为图片相对路径*/
-
- function del(div_id, imgId) {
-        var _pdivid = '#' + div_id;
-        var _url = $('#url').attr('appurl') + '/delimg';
-        $.post(_url, {
-            'Id': parseInt(imgId)
-        },
-        function(data) {
-            if (data.info == 1) {
-                $(_pdivid).html(data.info);
-                $(_pdivid).remove();
-                var _imgcount = parseInt($('#imgcount').val());
-                if ((_imgcount - 1) <= 0) {
-                    _imgcount = 0;
-                } else {
-                    _imgcount = _imgcount - 1;
-                }
-                $('#imgcount').val((_imgcount));
+	<script type="text/javascript">/*删除图片  第一个参数为图片父控件的Id  第二个参数为图片相对路径*/
+function del(div_id, imgId) {
+    var _pdivid = '#' + div_id;
+    var _url = $('#url').attr('appurl') + '/delimg';
+    $.post(_url, {
+        'Id': parseInt(imgId)
+    },
+    function(data) {
+        if (data.info == 1) {
+            $(_pdivid).html(data.info);
+            $(_pdivid).remove();
+            var _imgcount = parseInt($('#imgcount').val());
+            if ((_imgcount - 1) <= 0) {
+                _imgcount = 0;
             } else {
-                showerrormsg('删除失败!' + data.info, 100, 1000);
+                _imgcount = _imgcount - 1;
             }
-        },
-        'json');
+            $('#imgcount').val((_imgcount));
+        } else {
+            showerrormsg('删除失败!' + data.info, 100, 1000);
+        }
+    },
+    'json');
+}
+function ajaxsubmit() {
+
+    var $btn = $('#submitsave').button('loading');
+    /*	判断是否填写的title*/
+    var _Title = $.trim($('#Title').val());
+    if (!_Title) {
+        showerrormsg('标题不能为空', 100, 1000);
+        $btn.button('reset');
+        return false;
     }
+    /*判断是否填写价格*/
+    var _Price = $.trim($('#Price').val());
+    if (!$.isNumeric(_Price) || parseInt(_Price) <= 0 || parseInt(_Price) > 999999) {
+        showerrormsg('转卖价不合法！1-999999', 100, 1000);
+        $btn.button('reset');
+        return false;
+    }
+    /*判断是否填写原价*/
+    var _CostPrice = $.trim($('#CostPrice').val());
+    if (!$.isNumeric(_CostPrice) || parseInt(_CostPrice) <= 0 || parseInt(_CostPrice) >= 999999) {
+        showerrormsg('原价不合法！1-999999', 100, 1000);
+        $btn.button('reset');
+        return false;
+    }
+    if (parseInt(_CostPrice) < parseInt(_Price)) {
+        showerrormsg('转卖价高于出原价', 100, 1000);
+        $btn.button('reset');
+        return false;
+    }
+
+    $('#GoodsId').val($('#url').attr('gid'));
+    /*判断是否传了图*/
+    var _imgcount = $('#imgcount').val();
+    if (parseInt(_imgcount) <= 0) {
+        showerrormsg('你还没上传商品图片呢！', 100, 1000);
+        $btn.button('reset');
+        return false;
+    }
+    var _Address = $('#AddressId').val();
+    if (!$.isNumeric(_Address) || parseInt(_Address) <= 0) {
+        showerrormsg('没有选择分类', 100, 1000);
+        $btn.button('reset');
+        return false;
+    }
+    if (!$('#AddressId').val()) {
+        showerrormsg('联系人地址为空！', 100, 1000);
+        $btn.button('reset');
+        return false;
+    }
+    $.ajax({
+        type: 'post',
+        cache: false,
+        url: $('#url').attr('saveurl'),
+        data: $('#addgoodsform').serialize(),
+        error:  
+        function(request)  {
+            showerrormsg('网络错误', 100, 1000);
+            $btn.button('reset');  
+            return false;              
+        },
+         success:  
+        function(data)  {
+            if (data.status == 0) {
+                showerrormsg(data.info, 100, 1000);
+                computecost();
+                $btn.button('reset');
+                return false;
+            } else {
+                showsuccessmsg("发布成功", 100, 2000);
+                setTimeout(function() {
+                    location.href = $('#url').attr('homeurl');
+                    $btn.button('reset');
+                },
+                500);
+                return false;
+            }                
+        }
+    });
+    return false;
+
+}
+function checkdserver() {
+    $('.servercheckbox').each(function() {
+        var _ch = $(this).children("input").attr('checked');
+        if (!_ch) {
+            $(this).children('.thumbnail').css('border-color', '#DDD');
+            $(this).children('.thumbnail').children('h4').children().first().addClass('serverok');
+        } else {
+            $(this).children('.thumbnail').css('border-color', '#FA7D3C');
+            $(this).children('.thumbnail').children('h4').children().first().removeClass('serverok');
+
+        }
+    });
+}
+function computecost() {
+    var _cost = $('#Price').val();
+    if (!$.isNumeric(_cost) || parseInt(_cost) <= 0 || parseInt(_cost) > 999999) {
+        $('#step4').children().attr('disabled', true);
+        $('#balance').html("");
+        $('#needpay').html("");
+        $('#step4').children().addClass('disabled');
+        /*$('#step4').children().children().attr('disabled',true);*/
+        $('#step4').children().stop().fadeTo(500, 0.22);
+
+        $('.rechargebnt').hide();
+        return false;
+    }
+    var _se = new Array();
+    $('.servercheckbox').each(function() {
+        var _ch = $(this).children("input").attr('checked');
+        if (!_ch) {} else {
+            _se.push(parseInt($(this).children("input").val()));
+        }
+    });
+    $.ajax({
+        type: 'post',
+        cache: false,
+        url: $('#url').attr('computeurl'),
+        data: {
+            Price: _cost,
+            Server: _se
+        },
+        error:  
+        function(request)  {
+            showerrormsg('网络错误', 100, 1000);             
+        },
+         success:  
+        function(data)  {
+            if (data.status == 0) {
+                showerrormsg(data.info, 100, 1000);
+                $btn.button('reset');
+            } else {
+                var _rs = JSON.parse(data.info);
+                if (!_rs) {
+                    showerrormsg('网络错误', 100, 1000);
+                    return false;
+                }
+                $('#balance').html(_rs['balance'] + '.00');
+                 $('#needpay').html(_rs['cost'] + '.00');
+                  if (parseInt(_rs['cost']) > parseInt(_rs['balance'])) {
+                    $('#step4').children().attr('disabled', true);
+                    $('#step4').children().children().attr('disabled', false);
+                    $('#step4').children().addClass('disabled');
+                    $('.rechargebnt').show();
+                } else {
+                    $('.rechargebnt').hide();
+                    $('#step4').children().attr('disabled', false);
+                     $('#step4').children().removeClass('disabled');
+                }
+                $('#step4').children().stop().fadeTo(1000, 1);
+            }                
+        } 
+    });
+    return;
+}
 $(document).ready(function() {
     $('.servercheckbox').click(function(e) {
         var _ch = $(this).children("input").attr('checked');
@@ -267,79 +421,16 @@ $(document).ready(function() {
 
         }
     });
-    function checkdserver() {
-        $('.servercheckbox').each(function() {
-            var _ch = $(this).children("input").attr('checked');
-            if (!_ch) {
-                $(this).children('.thumbnail').css('border-color', '#DDD');
-                $(this).children('.thumbnail').children('h4').children().first().addClass('serverok');
-            } else {
-                $(this).children('.thumbnail').css('border-color', '#FA7D3C');
-                $(this).children('.thumbnail').children('h4').children().first().removeClass('serverok');
 
-            }
-        });
-    }
     checkdserver();
     /*刷新地址*/
-    $('#tabstep4').click(function(){
-    	computecost();
+    $('#tabstep4').click(function() {
+        computecost();
     });
-    $('#refreshblan').click(function(){
-    	computecost();
+    $('#refreshblan').click(function() {
+        computecost();
     });
-	function computecost(){
-		var _cost=$('#Price').val();
-		if(!$.isNumeric(_cost)||parseInt(_cost)<=0||parseInt(_cost)>999999){
-			$('#step4').children().attr('disabled',true);
-			/*$('#step4').children().children().attr('disabled',true);*/
-			$('#step4').children().stop().fadeTo(500,0.22);
-			$('.rechargebnt').hide();
-			return false;
-		}
-		var _se=new Array();
-		 $('.servercheckbox').each(function(){
-		 	var _ch = $(this).children("input").attr('checked');
-		 	if(!_ch){}else{
-		 		_se.push(parseInt($(this).children("input").val()));
-		 	}
-		 });
-		 $.ajax({
-		 	type: 'post',
-            cache: false,
-            url: $('#url').attr('computeurl'),
-            data: {Price:_cost,Server:_se},
-            error:  
-            function(request)  {
-                showerrormsg('网络错误', 100, 1000);             
-            },
-            success:  
-            function(data)  {
-                if (data.status == 0) {
-                    showerrormsg(data.info, 100, 1000);
-                    $btn.button('reset');
-                } else {
-                	var _rs=JSON.parse(data.info);
-                	if(!_rs){
-                		showerrormsg('网络错误',100,1000);
-                		return false;
-                	}
-                	$('#balance').html(_rs['balance']+'.00')
-                	$('#needpay').html(_rs['cost']+'.00')
-                	if(parseInt(_rs['cost'])>parseInt(_rs['balance'])){
-                		$('#step4').children().attr('disabled',true);
-						$('#step4').children().children().attr('disabled',false);
-						$('.rechargebnt').show();
-                	}else{
-                		$('.rechargebnt').hide();
-                		$('#step4').children().attr('disabled',false);
-                	}
-                	$('#step4').children().stop().fadeTo(1000,1);
-                }                
-            } 
-		 });
-		 return;
-	}
+
     $('#refreshadd').click(function(e) {
         var _url = $('#url').attr('appurl') + '/refreshadd';
         $.post(_url, {
@@ -408,83 +499,7 @@ $(document).ready(function() {
         },
         'json');
     });
-    /*提交按钮*/
-    $('#submitsave').click(function(e) {
-        var $btn = $(this).button('loading');
-        /*	判断是否填写的title*/
-        var _Title = $.trim($('#Title').val());
-        if (!_Title) {
-            showerrormsg('标题不能为空', 100, 1000);
-            $btn.button('reset');
-            return false;
-        }
-        /*判断是否填写价格*/
-        var _Price = $.trim($('#Price').val());
-        if (!$.isNumeric(_Price) || parseInt(_Price) <= 0 || parseInt(_Price) >999999) {
-            showerrormsg('转卖价不合法！1-999999', 100, 1000);
-            $btn.button('reset');
-            return false;
-        }
-        /*判断是否填写原价*/
-        var _CostPrice = $.trim($('#CostPrice').val());
-        if (!$.isNumeric(_CostPrice) || parseInt(_CostPrice) <= 0 || parseInt(_CostPrice) >= 999999) {
-            showerrormsg('原价不合法！1-999999', 100, 1000);
-            $btn.button('reset');
-            return false;
-        }
-        if (parseInt(_CostPrice) < parseInt(_Price)) {
-            showerrormsg('转卖价高于出原价', 100, 1000);
-            $btn.button('reset');
-            return false;
-        }
 
-        $('#GoodsId').val($('#url').attr('gid'));
-        /*判断是否传了图*/
-        var _imgcount = $('#imgcount').val();
-        if (parseInt(_imgcount) <= 0) {
-            showerrormsg('你还没上传商品图片呢！', 100, 1000);
-            $btn.button('reset');
-            return false;
-        }
-        var _Address = $('#AddressId').val();
-        if (!$.isNumeric(_Address) || parseInt(_Address) <= 0) {
-            showerrormsg('没有选择分类', 100, 1000);
-            $btn.button('reset');
-            return false;
-        }
-        if (!$('#AddressId').val()) {
-            showerrormsg('联系人地址为空！', 100, 1000);
-            $btn.button('reset');
-            return false;
-        }
-        $.ajax({
-            type: 'post',
-            cache: false,
-            url: $('#url').attr('saveurl'),
-            data: $('#addgoodsform').serialize(),
-            error:  
-            function(request)  {
-                showerrormsg('网络错误', 100, 1000);
-                $btn.button('reset');                
-            },
-            success:  
-            function(data)  {
-                if (data.status == 0) {
-                    showerrormsg(data.info, 100, 1000);
-                    computecost();
-                    $btn.button('reset');
-                } else {
-                    showsuccessmsg("发布成功", 100, 2000);
-                    setTimeout(function() {
-                        location.href = $('#url').attr('homeurl');
-                        $btn.button('reset');
-                    },
-                    500);
-                }                
-            }
-        });
-        return;
-    });
     $('#file_upload').uploadify({
         'fileTypeDesc': 'Image Files',
         'overrideEvents': ['onSelectError'],
@@ -572,7 +587,7 @@ $(document).ready(function() {
         }
     });
 });
-</script>
+	</script>
 </block>
 
 <block name="css">

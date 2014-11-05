@@ -47,7 +47,7 @@ class goodsModel extends Model {
 	 */
 	protected $_auto = array (
 			array (
-					'Createtime',
+					'CreateTime',
 					NOW_TIME,
 					self::MODEL_INSERT 
 			) 
@@ -193,7 +193,7 @@ class goodsModel extends Model {
 				'TradeWayTxt',
 				'TradeWay',
 				'Status',
-				'Createtime' 
+				'CreateTime' 
 		) )->where ( array (
 				'Id' => $goodsid 
 		) )->save ( $goodsmodel );

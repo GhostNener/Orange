@@ -4,7 +4,7 @@
 		<div class="col-md-6 col-md-offset-3">
 			<div class="panel panel-default login-panel">
 				<div class="panel-body">
-					<form id="loginform" class="form-horizontal" role="form" method="post" action="{:U('Usercenter/User/login')}">
+					<form id="loginform" class="form-horizontal" role="form" method="post" action="{:U('Usercenter/User/login')}" onsubmit="return ajaxsubmit()">
 						<div class="modal-body">
 							<div class="form-group">
 								<input type="hidden" id="isadmin" name="isadmin" value="{$admin}">
@@ -41,7 +41,7 @@
 						</div>
 						<div class="modal-footer">
 							<a href="#">忘记密码？</a>
-							<button type="button" id="loginbutton" data-loading-text="登录中..." class="btn btn-success" autocomplete="off" >登录</button>
+							<button type="submit" id="loginbutton"  class="btn btn-success" data-loading-text="登录中..." autocomplete="off" >登录</button>
 						</div>
 					</form>
 				</div>
@@ -58,106 +58,62 @@ img.verifycode{
 </block>
 <block name="js">
 	<script>
-$(function() {
-    $('#loginbutton').click(function(e) {
-        var $btn = $(this).button('loading');
-        if (!$.trim($('#UserName').val())) {
-            showerrormsg('用户名为空', 100, 1000);
-            $('#UserName').val('');
-            $('#UserName').focus();
-            $btn.button('reset');
-            return false;
-        }
-        if (!$.trim($('#Password').val())) {
-            showerrormsg('密码为空', 100, 1000);
-            $('#Password').val('');
-            $('#Password').focus();
-            $btn.button('reset');
-            return false;
-        }
-        $.ajax({
-            type: 'post',
-            cache: false,
-            url: $('#url').attr('login'),
-            data: $('#loginform').serialize(),
-            error:  
-            function(request)  {
-                showerrormsg('网络错误', 100, 1000);
+function reloadcode() {
+    var _src = $('#url').attr('getcode') + '?id=' + new Date().valueOf();
+    $('.verifycode').attr('src', _src);
+    $('#verifycode').parent().removeClass('has-error');
+    $('#verifycode').parent().removeClass('has-success');
+    //$('#verifycode').parent().addClass('has-error');
+    $('#verifycode').attr('status', 0);
+
+}
+function ajaxsubmit() {
+    var $btn = $('#loginbutton').button('loading');
+    if (!$.trim($('#UserName').val())) {
+        showerrormsg('用户名为空', 100, 1000);
+        $('#UserName').val('');
+        $('#UserName').focus();
+        $btn.button('reset');
+        return false;
+    }
+    if (!$.trim($('#Password').val())) {
+        showerrormsg('密码为空', 100, 1000);
+        $('#Password').val('');
+        $('#Password').focus();
+        $btn.button('reset');
+        return false;
+    }
+    $.ajax({
+        type: 'post',
+        cache: false,
+        url: $('#url').attr('login'),
+        data: $('#loginform').serialize(),
+        error:  
+        function(request)  {
+            showerrormsg('网络错误', 100, 1000);
+            reloadcode();
+            $btn.button('reset');   
+            return false;             
+        },
+                        success:  
+        function(data)  {
+            if (data.status == 0) {
+                showerrormsg(data.info, 100, 1000);
                 reloadcode();
-                $btn.button('reset');                
-            },
-                            success:  
-            function(data)  {
-                if (data.status == 0) {
-                    showerrormsg(data.info, 100, 1000);
-                    reloadcode();
-                    $btn.button('reset');
-                } else {
-                    location.href = $('#url').attr('home');
-                }                
-            }
-        });
+                $btn.button('reset');
+                return false;
+            } else {
+                location.href = $('#url').attr('home');
+            }                
+        }
     });
+    return false;
+}
+$(function() {
     $('.verifycode').click(function(e) {
         reloadcode();
     });
     /*刷新验证码*/
-    function reloadcode() {
-        var _src = $('#url').attr('getcode') + '?id=' + new Date().valueOf();
-        $('.verifycode').attr('src', _src);
-        $('#verifycode').parent().removeClass('has-error');
-        $('#verifycode').parent().removeClass('has-success');
-        //$('#verifycode').parent().addClass('has-error');
-        $('#verifycode').attr('status', 0);
-
-    }
 });
-</script>
-</block>
-<block name="login">
-	<if condition="$usermodel eq null">
-		<ul class="nav navbar-nav navbar-right">
-			<li>
-				<a href="{:U('Usercenter/User/index')}" >登录</a>
-			</li>
-			<li>
-				<a href="{:U('Usercenter/User/regist')}">注册</a>
-			</li>
-		</ul>
-		<else/>
-		<!-- 登录状态 -->
-		<ul class="nav navbar-nav navbar-right nickul">
-			<li class="dropdown">
-				<a class="dropdown-toggle" data-toggle="dropdown" href="#">
-					<img src="http://hhhhold.com/18x18" class="nicknameimg">
-					<span class="nickname">&nbsp;如果汉字的长2的长字的长度太</span>
-					&nbsp
-					<span class="caret"></span>
-					&nbsp
-					<span class="badge">3</span>
-				</a>
-				<ul class="dropdown-menu">
-					<li>
-						<a href="#">
-							<span class="badge pull-right">3</span>
-							未读消息
-						</a>
-					</li>
-					<li>
-						<a href="#">个人中心</a>
-					</li>
-					<li>
-						<a href="#">心愿单</a>
-					</li>
-					<li>
-						<a href="#">充值</a>
-					</li>
-					<li class="divider"></li>
-					<li>
-						<a href="{:U('Usercenter/User/logout')}">退出用户</a>
-					</li>
-				</ul>
-			</li>
-		</ul>
-	</if>
+	</script>
 </block>

@@ -32,7 +32,7 @@
 				</div>
 				<div class="tab-content">
 					<div class="tab-pane fade in active" id="tab1">
-						<form id="registform" class="form-horizontal" role="form">
+						<form id="registform" class="form-horizontal" role="form" onsubmit="return ajaxsubmit()">
 							<div class="form-group">
 								<label for="UserName" class="col-sm-3 control-label">邮箱</label>
 								<div class="col-sm-8">
@@ -51,7 +51,7 @@
 							<input type="hidden" id="url" value="0" regist="{:U('Usercenter/User/signup')}" home="{:U('Home/Index/index')}">
 							<div class="form-group">
 								<div class="col-sm-offset-3 col-sm-9">
-									<button type="button" id="registbutton" class="btn btn-orange" data-loading-text="注册中..."  autocomplete="off" >提交</button>
+									<button type="submit" id="registbutton" class="btn btn-orange" data-loading-text="注册中..."  autocomplete="off" >提交</button>
 								</div>
 							</div>
 						</form>
@@ -104,128 +104,82 @@
 </block>
 <block name="js">
 <script>
-$(function() {
-    $('#registbutton').click(function() {
-        var $btn = $(this).button('loading');
-        var _mail = $.trim($('#UserName').val());
-        var _pwd = $.trim($('#Password').val());
-        var _confirmpwd = $.trim($('#ConfirmPassword').val());
-        if (!_mail || !checkmail(_mail)) {
-            showerrormsg('邮箱不合法', 100, 1000);
-            $('#UserName').focus();
-            $btn.button('reset');
-            return false;
-        }
-        if (!_pwd || !checkpwd(_pwd)) {
-            showerrormsg('密码不合法！6-18位！', 100, 1000);
-            $('#Password').focus();
-            $btn.button('reset');
-            return false;
-        }
-        if (!_confirmpwd || !checkpwd(_confirmpwd) || _pwd != _confirmpwd) {
-            showerrormsg('确认密码不一致', 100, 1000);
-            $('#ConfirmPassword').focus();
-            $btn.button('reset');
-            return false;
-        }
-        $.ajax({
-            type: 'post',
-            cache: false,
-            url: $('#url').attr('regist'),
-            data: $('#registform').serialize(),
-            error:  
-            function(request)  {
-                showerrormsg('网络错误', 100, 1000);
-                $btn.button('reset');                
-            },
-                            success:  
-            function(data)  {
-                if (data.status == 0) {
-                    showerrormsg(data.info, 100, 1000);
+function checkmail(_mail) {
+    var ismail1 = /^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/;
+    var ismail2 = /^[a-z\d]+(\.[a-z\d]+)*@([\da-z](-[\da-z])?)+(\.{1,2}[a-z]+)+$/;
+    if (!ismail1.test(_mail) && !ismail2.test(_mail)) {
+        return false;
+    }
+    return true;
+}
+function checkpwd(_pwd) {
+    var ispwd = /^[a-z0-9_A-Z~!@#$%^&*]{6,18}$/;
+    /*/^(?!\D+$)(?!\d+$)[a-zA-Z0-9_]\w{6,16}$/*/
+    ;
+    if (!ispwd.test(_pwd)) {
+        return false;
+    }
+    return true;
+}
+function checkmobile(_uid) {
+    var isMobile = /^(?:13\d|14\d|15\d|18\d)\d{5}(\d{3}|\*{3})$/;
+    if (!isMobile.test(_uid)) {
+        return false;
+    }
+    return true;
+}
+function ajaxsubmit() {
+    var $btn = $('#registbutton').button('loading');
+    var _mail = $.trim($('#UserName').val());
+    var _pwd = $.trim($('#Password').val());
+    var _confirmpwd = $.trim($('#ConfirmPassword').val());
+    if (!_mail || !checkmail(_mail)) {
+        showerrormsg('邮箱不合法', 100, 1000);
+        $('#UserName').focus();
+        $btn.button('reset');
+        return false;
+    }
+    if (!_pwd || !checkpwd(_pwd)) {
+        showerrormsg('密码不合法！6-18位！', 100, 1000);
+        $('#Password').focus();
+        $btn.button('reset');
+        return false;
+    }
+    if (!_confirmpwd || !checkpwd(_confirmpwd) || _pwd != _confirmpwd) {
+        showerrormsg('确认密码不一致', 100, 1000);
+        $('#ConfirmPassword').focus();
+        $btn.button('reset');
+        return false;
+    }
+    $.ajax({
+        type: 'post',
+        cache: false,
+        url: $('#url').attr('regist'),
+        data: $('#registform').serialize(),
+        error:  
+        function(request)  {
+            showerrormsg('网络错误', 100, 1000);
+            $btn.button('reset'); 
+            return false;               
+        },
+                        success:  
+        function(data)  {
+            if (data.status == 0) {
+                showerrormsg(data.info, 100, 1000);
+                $btn.button('reset');
+                return false;
+            } else {
+                showsuccessmsg("注册成功！请激活！", 100, 2000);
+                setTimeout(function() {
+                    location.href = $('#url').attr('home');
                     $btn.button('reset');
-                } else {
-                    showsuccessmsg("注册成功！请激活！", 100, 2000);
-                    setTimeout(function() {
-                        location.href = $('#url').attr('home');
-                        $btn.button('reset');
-                    },
-                    2000);
-                }                
-            }
-        });
-        return;
+                },
+                2000);
+                return false;
+            }                
+        }
     });
-    function checkmail(_mail) {
-        var ismail1 = /^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/;
-        var ismail2 = /^[a-z\d]+(\.[a-z\d]+)*@([\da-z](-[\da-z])?)+(\.{1,2}[a-z]+)+$/;
-        if (!ismail1.test(_mail) && !ismail2.test(_mail)) {
-            return false;
-        }
-        return true;
-    }
-    function checkpwd(_pwd) {
-        var ispwd = /^[a-z0-9_A-Z~!@#$%^&*]{6,18}$/;
-        /*/^(?!\D+$)(?!\d+$)[a-zA-Z0-9_]\w{6,16}$/*/
-        ;
-        if (!ispwd.test(_pwd)) {
-            return false;
-        }
-        return true;
-    }
-    function checkmobile(_uid) {
-        var isMobile = /^(?:13\d|14\d|15\d|18\d)\d{5}(\d{3}|\*{3})$/;
-        if (!isMobile.test(_uid)) {
-            return false;
-        }
-        return true;
-    }
-});
+    return false;
+}
 </script>
-</block>
-<block name="login">
-<if condition="$usermodel eq null">
-<ul class="nav navbar-nav navbar-right">
-	<li>
-		<a href="{:U('Usercenter/User/index')}" >登录</a>
-	</li>
-	<li>
-		<a href="{:U('Usercenter/User/regist')}">注册</a>
-	</li>
-</ul>
-<else/>
-<!-- 登录状态 -->
-<ul class="nav navbar-nav navbar-right nickul">
-	<li class="dropdown">
-		<a class="dropdown-toggle" data-toggle="dropdown" href="#">
-			<img src="http://hhhhold.com/18x18" class="nicknameimg">
-			<span class="nickname">&nbsp;如果汉字的长2的长字的长度太</span>
-			&nbsp
-			<span class="caret"></span>
-			&nbsp
-			<span class="badge">3</span>
-		</a>
-		<ul class="dropdown-menu">
-			<li>
-				<a href="#">
-					<span class="badge pull-right">3</span>
-					未读消息
-				</a>
-			</li>
-			<li>
-				<a href="{:U('Usercenter/UserHome/index')}">个人中心</a>
-			</li>
-			<li>
-				<a href="#">心愿单</a>
-			</li>
-			<li>
-				<a href="#">充值</a>
-			</li>
-			<li class="divider"></li>
-			<li>
-						<a href="{:U('Usercenter/User/logout')}">退出用户</a>
-			</li>
-		</ul>
-	</li>
-</ul>
-</if>
 </block>

@@ -122,6 +122,10 @@ class IndexController extends Controller {
 	 */
 	public function addComment() {
 		$postarr = I ( 'post.' );
+		if(!cookie('_uid')){
+			$this->error ( '没有登录' );
+			return false;
+		}
 		$model = new goods_commentModel ();
 		$rst = $model->addComment ( $postarr );
 		if (( int ) $rst ['status'] == 0) {
