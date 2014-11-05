@@ -55,6 +55,7 @@
 			$.ajax({
 				type:'get',
 				url:$(this).attr('action'),
+				beforeSend: function(XMLHttpRequest) { $("body").append('<div  id="load" style="z-index:10; position:fixed; left:45%; top:30%"><img src="__PUBLIC__/Img/loading.gif" /></div>'); },
 				error: function(request) {
 					alert('网络连接失败');
 				},
@@ -76,7 +77,8 @@
 						$('#addModal').modal('show');
 						$('#addModal').find('.modal-title').text($(this).attr('modaltitle'));
 					}
-				}
+				},
+				complete: function(XMLHttpRequest, textStatus) {$("#load").remove();}
 
 			});
 			
