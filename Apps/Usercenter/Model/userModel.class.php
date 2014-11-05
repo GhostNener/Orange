@@ -133,7 +133,7 @@ class userModel extends Model {
 	
 	/**
 	 * 获得余额
-	 * 
+	 *
 	 * @param unknown $uid        	
 	 */
 	public function getbalance($uid, $type = 1) {
@@ -205,6 +205,8 @@ class userModel extends Model {
 		if ($model) {
 			return true;
 		}
+		$dal = M ();
+		$dal->startTrans ();
 		$rst = $this->where ( array (
 				'Id' => $uid,
 				'Status' => 101 
@@ -213,11 +215,20 @@ class userModel extends Model {
 				'LastKeyTime' => 0 
 		) );
 		if (! $rst) {
+			$dal->rollback ();
 			return false;
 		}
 		$add = new user_addressModel ();
 		$add->adddefefault ( $uid );
-		return true;
+		$avatar = new user_avatarModel ();
+		$rst2 = $avatar->adddefault ( $uid );
+		if (! $rst2) {
+			$dal->rollback ();
+			return false;
+		} else {
+			$dal->commit ();
+			return true;
+		}
 	}
 	
 	/**
@@ -365,23 +376,27 @@ class userModel extends Model {
 		if (! $rst) {
 			return $msg;
 		}
+		$avatar = new user_avatarModel ();
+		$dal=M();
+		$rst2 = $avatar->adddefault ( $rst['Id'] );
 		$newkey = $this->getnewkey ( $rst ['Id'] );
-		if (! $this->where ( array (
+		if (!$rst2||! $this->where ( array (
 				'Id' => $rst ['Id'] 
 		) )->save ( array (
 				'UserKey' => $newkey,
 				'Status' => 10 
 		) )) {
 			$msg ['msg'] = '激活失败';
+			$dal->rollback();
 			return $msg;
 		} else {
 			$msg ['msg'] = '激活成功';
 			$msg ['status'] = 1;
 			$add = new user_addressModel ();
 			$add->adddefefault ( $rst ['Id'] );
+			$dal->commit();
 			return $msg;
-		}
-		
+		}		
 		return $msg;
 	}
 	
@@ -401,9 +416,8 @@ class userModel extends Model {
 				'_uid' => 0 
 		);
 		$uid = trim ( $arr ['Name'] );
-		if(!$uid){
+		if (! $uid) {
 			$uid = trim ( $arr ['UserName'] );
-			
 		}
 		$pwd = $arr ['Password'];
 		$wherearr = array ();

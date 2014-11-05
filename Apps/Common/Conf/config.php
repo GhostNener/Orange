@@ -100,6 +100,8 @@ return array (
 		/*全文检索词典路径  【相对与ORG/phpAnalysis/】  */
 		'SEARCH_DIC' => 'dict/search_dic_full.dic' ,
 		/*用户默认昵称前缀  */
-		'RAND_NICK_PREFIX'=>''
+		'RAND_NICK_PREFIX'=>'',
+		/*用户默认头像地址  */
+		'DEFAULT_USER_AVATAR'=>'/Public/Img/aurl.jpg'
 );
 

@@ -17,14 +17,17 @@ class user_avatarModel extends Model {
 	 *
 	 * @var unknown
 	 */
-	protected $_auto = array (
-			array (
-					'Createtime',
-					NOW_TIME,
-					self::MODEL_INSERT 
-			) 
-	);
-	
+	protected $_auto = array ()
+
+	;
+	public function adddefault($uid) {
+		$data = array (
+				'UserId' => $uid,
+				'URL' => C ( 'DEFAULT_USER_AVATAR' ),
+				'Status' => 10 
+		);
+		return $this->add($data);
+	}
 	/**
 	 * 删除单个商品图片:原图，缩略图，正常用图
 	 *
@@ -158,7 +161,7 @@ class user_avatarModel extends Model {
 			return array (
 					'status' => 0,
 					'goodsid' => 0,
-					'msg' => '保存失败'
+					'msg' => '保存失败' 
 			);
 		}
 		$rst = $this->where ( array (
