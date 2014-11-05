@@ -114,6 +114,7 @@ class IndexController extends Controller {
 		$this->assign ( 'commentlist', $arr ['commentlist'] );
 		$this->assign ( 'goodsimg', $arr ['goodsimg'] );
 		$this->assign ( 'imgcount',count( $arr ['goodsimg'] ));
+		$this->assign( 'empty', '<h3 class="text-center text-import">暂不评论</h3>');
 		$this->display ('Index/detail');
 	}
 	
