@@ -36,7 +36,10 @@ class GoodsCategoryKeywordController extends BaseController {
 		$list = $model->where ( $wherrArr )->limit ( $Page->firstRow . ',' . $Page->listRows )->select ();
 
 		$catemodel = M ( 'goods_category' );
-		$catelist = $catemodel->select();
+		$cateWhereArr = array(
+				'Status' => 10
+			);
+		$catelist = $catemodel->where($cateWhereArr)->select();
 		$this->assign( 'catelist', $catelist );
 		$this->assign ( 'list', $list );
 		$this->assign ( 'page', $showPage );
@@ -51,7 +54,8 @@ class GoodsCategoryKeywordController extends BaseController {
 	public function update() {
 		$id = ( int ) I ( 'get.Id' );
 		if (! $id) {
-			$this->error ( "操作失败", U ( 'index' ) );
+			$status = 0;
+			$info = "操作失败";
 		}
 		$whereArr = array (
 				'Id' => $id 
@@ -62,11 +66,23 @@ class GoodsCategoryKeywordController extends BaseController {
 			$cmodel = M ( 'goods_category' )->where ( array (
 					'Id' => $model ['CategoryId'] 
 			) )->find ();
-			$this->assign ( 'cmodel', $cmodel );
-			$this->assign ( 'modif', 'update' )->display ( 'GoodsCategory/modifcategory_keyword' );
+			
+			$status = 1;
+			$info = "操作失败";
+			$method = "update";
+			$data = $model;
+
 		} else {
-			$this->error ( "操作失败", U ( 'index' ) );
+			$status = 0;
+			$info = "操作失败";
 		}
+
+		echo json_encode ( array (
+						'status' => $status,
+						'info' => $info,
+						'method' => $method,
+						'data' => $data 
+		) );
 	}
 	/**
 	 * 删除
