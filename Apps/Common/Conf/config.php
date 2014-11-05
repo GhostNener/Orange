@@ -48,7 +48,7 @@ return array (
 						/*最大800*800*/
 		'GOODS_IMG_880' => '800_800/',
 						/*缩略图100*100*/
-		'GOODS_IMG_320' => '100_100/',
+		'GOODS_IMG_320' => '320_160/',
 		'GOODS_IMG_830' => '800_300/',
 						/*商品图片 缩略图   分辨率 用于首页显示*/
 		'GOODS_IMG_XS' => array (
@@ -94,7 +94,7 @@ return array (
 		/*图片保存类型  */
 		'IMG_SAVE_TYPE' => 'jpg',
 		/*图片保存质量  */
-		'IMG_SAVE_QUALITY' => 90 ,
+		'IMG_SAVE_QUALITY' => 80 ,
 		/*分类词典路径  【相对与ORG/phpAnalysis/】  */
 		'CATEGOEY_DIC' => 'dict/category_dic_full.dic',
 		/*全文检索词典路径  【相对与ORG/phpAnalysis/】  */

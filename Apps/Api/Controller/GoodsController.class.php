@@ -90,7 +90,8 @@ class GoodsController extends LoginBaseController {
 		$postarr = file_get_contents ( 'php://input' );
 		$postarr = json_decode ( $postarr, true );
 		$model = new goodsModel ();
-		$rst = $model->savegoods ( $postarr );
+		$uid=api_get_uid();
+		$rst = $model->savegoods ( $postarr,$uid );
 		echo json_encode ( $rst );
 		return;
 	}

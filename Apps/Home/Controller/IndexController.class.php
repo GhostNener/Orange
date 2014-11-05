@@ -75,7 +75,7 @@ class IndexController extends Controller {
 		$this->assign ( 'newlist', $newlist );
 		$this->assign ( 'likelist', $likelist );
 		$this->assign ( 'clist', $clist );
-		$this->display ( 'Index/home' );
+		$this->display ( 'Index/index' );
 	}
 	
 	/**
@@ -102,7 +102,7 @@ class IndexController extends Controller {
 		$this->assign ( 'test', $test );
 		$this->assign ( 'list', $arr ['list'] );
 		$this->assign ( 'page', $arr ['page'] );
-		$this->display ( 'Index/search' );
+		$this->display ( 'Index/searchgoods' );
 	}
 	/**
 	 * 展示商品 详情 及评论
@@ -114,8 +114,8 @@ class IndexController extends Controller {
 		$this->assign ( 'commentlist', $arr ['commentlist'] );
 		$this->assign ( 'goodsimg', $arr ['goodsimg'] );
 		$this->assign ( 'imgcount',count( $arr ['goodsimg'] ));
-		$this->assign( 'empty', '<h3 class="text-center text-import">暂不评论</h3>');
-		$this->display ('Index/detail');
+		$this->assign( 'empty', '<h3 class="text-center text-import">暂无评论</h3>');
+		$this->display ('Index/showgoods');
 	}
 	
 	/**

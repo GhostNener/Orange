@@ -2,6 +2,32 @@
 use Vendor\PHPMailer;
 
 /**
+ * api专用 获取登录校验array
+ *@return array:_uid,_key
+ */
+function api_get_login_arr(){
+	$arr = I ( 'get.' );
+	if (! $arr ['_uid'] || ! $arr ['_key']) {
+		$arr = I ( 'post.' );
+	}
+	if (! $arr ['_uid'] || ! $arr ['_key']) {
+		$arr = file_get_contents ( "php://input" );
+		$arr = json_decode ( $arr, true );
+	}
+	return $arr;
+}
+
+/**
+ * api专用 获取uid
+ *@return int 
+ */
+function api_get_uid(){
+	$arr= api_login_arr();
+	return $arr['_uid'];
+}
+
+
+/**
  * 编码
  *
  * @param unknown $str        	
@@ -505,9 +531,15 @@ function getallthumb($url, $imgname) {
 	/* 获取大图配置 */
 	$arr_8 = C ( 'GOODS_IMG_MD_L' );
 	$arr_3 = C ( 'GOODS_IMG_MD_S' );
-	cutimg ( $url, $url_8, $arr_8, 1 );
-	cutimg ( $url, $url_1, $arr_1, 2 );
-	cutimg ( $url, $url_3, $arr_3, 2 );
+	if(!cutimg ( $url, $url_8, $arr_8, 1 )){
+		return false;
+	}
+	if(!cutimg ( $url_8, $url_3, $arr_3, 2 )){
+		return false;
+	}
+	if(!cutimg ( $url_3, $url_1, $arr_1, 2 )){
+		return false;
+	}
 	return array (
 			$url_8,
 			$url_3,

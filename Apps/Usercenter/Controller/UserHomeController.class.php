@@ -45,7 +45,7 @@ class UserHomeController extends BaseController{
 		} else {
 			$this->error ( $arr ['msg'] );
 		}
-		$this->display();
+		$this->display('UserHome/index');
 	}
 	
 	/**

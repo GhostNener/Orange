@@ -20,25 +20,6 @@ use Usercenter\Model\view_user_info_avatarModel;
 class GoodsController extends BaseController {
 	
 	/**
-	 * 自动验证
-	 */
-	public function _initialize() {
-		parent::_initialize ();
-		$user = new userModel ();
-		$usermodel = null;
-		if ($user->islogin ( null, false, false )) {
-			$m = new view_user_info_avatarModel ();
-			$usermodel = $m->getinfo ();
-			if ($usermodel ['status'] == 1) {
-				$usermodel = $usermodel ['msg'];
-			} else {
-				$usermodel = null;
-			}
-		}
-		$this->assign ( 'usermodel', $usermodel );
-	}
-	
-	/**
 	 * 个人商品列表
 	 */
 	public function index($status = 10) {
@@ -108,7 +89,7 @@ class GoodsController extends BaseController {
 		//服务为空的时候
 		$this->assign( 'empty', '<h3 class="text-center text-import">暂不提供服务</h3>');
 		
-		$this->assign ( 'clist', $clist )->display ( 'modifgoods' );
+		$this->assign ( 'clist', $clist )->display ( 'Goods/add' );
 	}
 	/**
 	 * 保存

@@ -145,7 +145,7 @@ class goodsModel extends Model {
 					'msg' => '没有数据' 
 			);
 		}
-		if ($uid == - 1) {
+		if ($uid == - 1||!$uid) {
 			$uid = cookie ( '_uid' );
 		}
 		$goodsid = $postarr ['GoodsId'];

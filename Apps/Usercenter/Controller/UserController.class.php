@@ -50,7 +50,7 @@ class UserController extends Controller {
 			if ($isadmin) {
 				$this->assign ( 'admin', true );
 			}
-			$this->display ( 'Index/login' );
+			$this->display ( 'User/index' );
 		}
 	}
 	/**
@@ -59,8 +59,11 @@ class UserController extends Controller {
 	 * @author NENER
 	 */
 	public function regist() {
-		$this->display ( 'Index/regist' );
+		$this->display ( 'User/regist' );
 	}
+	/**
+	*退出 
+	*/
 	public function logout() {
 		$uid = cookie ( '_uid' );
 		if ($uid) {

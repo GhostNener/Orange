@@ -16,14 +16,7 @@ class LoginBaseController extends BaseController {
 	 */
 	public function _initialize() {
 		parent::_initialize ();
-		$arr = I ( 'get.' );
-		if (! $arr ['_uid'] || ! $arr ['_key']) {
-			$arr = I ( 'post.' );
-		}
-		if (! $arr ['_uid'] || ! $arr ['_key']) {
-			$arr = file_get_contents ( "php://input" );
-			$arr = json_decode ( $arr, true );
-		}
+		$arr = api_get_login_arr();
 		$model = new userModel ();
 		$rst = $model->islogin ( $arr, false, true );
 		if (! $rst) {
