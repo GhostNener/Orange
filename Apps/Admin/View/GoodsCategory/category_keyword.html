@@ -1,4 +1,4 @@
-﻿<extend name="Public/base" />
+﻿<extend name="Public/cate" />
 <block name="js">
 	<script type="text/javascript">
 	$(function(){
@@ -22,48 +22,78 @@
 </block>
 
 <block name="content">
-	<div class="container">
-		<!-- 分类管理-->
-		<div class="text-center">
-			<h1>{$cmodel['Title']}-关键字列表</h1>
+	<div class="col-md-9">
+		<div class="panel panel-default">
+			<div class="panel-body">
+
+				<div class="table-responsive">
+					<table class="table table-striped">
+
+						<button class="btn btn-success" data-toggle="modal" data-target="#addModal">添加</button>
+						<thead>
+							<th>编号</th>
+							<th>分类</th>
+							<th>关键字</th>
+							<th>状态</th>
+							<th>操作</th>
+						</thead>
+						<tbody>
+							<foreach name='list' item='v'>
+								<tr>
+									<td>{$v.Id}</td>
+									<td>{$cmodel['Title']}</td>
+									<td width="300">{$v.Keyword}</td>
+									<td>{$v.Status}</td>
+									<td>
+										<a class="btn btn-danger btn-small" href="{:U(del,array('Id'=>$v['Id'], 'CategoryId'=>$CategoryId))}">删除</a>
+										<a class="btn btn-primary btn-small edit" action="{:U(update,array('Id'=>$v['Id']))}" modaltitle="编辑关键词">编辑</a>
+									</td>
+								</tr>
+							</foreach>
+						</tbody>
+					</table>
+				</div>
+
+				<nav>
+					<ul class="pagination">{$page}</ul>
+				</nav>
+
+			</div>
 		</div>
-		<br>
-		<input type="hidden" id="url" delurl="{:U(del)}">
-		<div>
-			<a href="{:U('GoodsCategory/add',array('CategoryId'=>
-				$CategoryId))}"
-			class="btn btn-default" target="_blank">添加
-			</a>
-			<a href="{:U('GoodsCategory/index')}"
-			class="btn btn-default">返回分类</a>
+	</div>
+	<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">
+						<span aria-hidden="true">&times;</span>
+						<span class="sr-only">Close</span>
+					</button>
+					<h4 class="modal-title hightlight" id="myModalLabel">添加关键字</h4>
+				</div>
+
+				<form class="form-horizontal" action="{:U('save')}" method="POST" onsubmit="return ajaxsubmit()">
+					<div class="modal-body">
+
+						<input type="hidden" class="form-control " name="modif" value="add">
+						<input type="hidden" class="form-control " name="Id" value="{$model.Id}">
+						<input type="hidden" class="form-control " name="Status" value="{$model.Status}">
+						<input type="hidden" class="form-control " name="CategoryId" value="{$cmodel['Id']}">
+
+						<div class="form-group">
+							<label class="col-sm-2 control-label">关键字</label>
+							<div class="col-sm-10">
+								<input type="text" class="form-control" name="Keyword" placeholder="你填啊" required></div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-danger" data-dismiss="modal">关闭</button>
+						<button type="reset" class="btn btn-warning">清空</button>
+						<button type="sbumit" class="btn btn-primary">保存</button>
+					</div>
+				</form>
+
+			</div>
 		</div>
-		<br>
-		<table class="table table-bordered">
-			<tr>
-				<th class="text-center">Id</th>
-				<th class="text-center">CategoryId</th>
-				<th class="text-center">Keyword</th>
-				<th class="text-center">Status</th>
-				<th>Hot</th>
-				<th colspan="2" class="text-center">Operate</th>
-			</tr>
-			<foreach name='list' item='v'>
-				<tr>
-					<td>{$v.Id}</td>
-					<td>{$v.CategoryId}</td>
-					<td>{$v.Keyword}</td>
-					<td>{$v.Status}</td>
-					<td>{$v.Hot}</td>
-					<td>
-						<a class="btn btn-default delkeyworl" delid="{$v['Id']}"  cateid="{$CategoryId}" >删除</a>
-					</td>
-					<td>
-						<a class="btn btn-default"
-				href="{:U(GoodsCategory/update,array('Id'=>$v['Id']))}" target="_blank">编辑</a>
-					</td>
-				</tr>
-			</foreach>
-		</table>
-		{$page}
 	</div>
 </block>

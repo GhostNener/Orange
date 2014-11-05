@@ -38,7 +38,15 @@ $(document).ready(function() {
 			$(".navbar-nav").children().removeClass("active");
 			$(this).parent().addClass("active");
 			return false;
-		};
+		}
+	});
+
+	/* 侧边栏导航切换 */
+	$(".list-group").find("a").each(function(){
+		if (window.location.href.toLocaleLowerCase().indexOf($(this).attr("href").replace(".html","").toLocaleLowerCase(),1)>0) {
+			$(".list-group").children().removeClass("active");
+			$(this).addClass("active");
+		}
 	});
 
 });

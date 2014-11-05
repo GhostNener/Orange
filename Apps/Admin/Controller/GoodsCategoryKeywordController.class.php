@@ -34,27 +34,15 @@ class GoodsCategoryKeywordController extends BaseController {
 		// 分页查询
 		
 		$list = $model->where ( $wherrArr )->limit ( $Page->firstRow . ',' . $Page->listRows )->select ();
+
+		$catemodel = M ( 'goods_category' );
+		$catelist = $catemodel->select();
+		$this->assign( 'catelist', $catelist );
 		$this->assign ( 'list', $list );
 		$this->assign ( 'page', $showPage );
 		$this->assign ( 'CategoryId', $id )->display ( 'GoodsCategory/category_keyword' );
 	}
-	/**
-	 * 渲染add模板
-	 *
-	 * @author NENER
-	 *        
-	 */
-	public function add() {
-		$id = I ( 'CategoryId' );
-		if (! $id) {
-			$this->error ( "操作失败" );
-		}
-		$cmodel = M ( 'goods_category' )->where ( array (
-				'Id' => $id 
-		) )->find ();
-		$this->assign ( 'cmodel', $cmodel );
-		$this->assign ( 'modif', 'add' )->display ( 'GoodsCategory/modifcategory_keyword' );
-	}
+
 	/**
 	 * 查询要修改的数据
 	 *
@@ -104,7 +92,7 @@ class GoodsCategoryKeywordController extends BaseController {
 			$this->error ( "至少保留一个关键字" );
 		}
 		if ($model->where ( $whereArr )->delete ()) {
-			$this->success ( "操作成功" );
+			$this->redirect( 'index' , array('CategoryId'=>$cid));
 		}
 	}
 	/**
@@ -122,6 +110,7 @@ class GoodsCategoryKeywordController extends BaseController {
 				"update" 
 		);
 		$modif = strtolower ( I ( 'post.modif' ) );
+
 		if (! in_array ( $modif, $modifArr )) {
 			$this->error ( "非法操作" );
 		}
@@ -131,6 +120,7 @@ class GoodsCategoryKeywordController extends BaseController {
 				'Keyword' => strtolower ( I ( 'Keyword' ) ),
 				'Hot' => ( int ) I ( 'Hot' ) 
 		);
+
 		if ($modif == "add") {
 			$data ['Status'] = 10;
 			$data ['Hot'] = 0;
@@ -143,18 +133,14 @@ class GoodsCategoryKeywordController extends BaseController {
 			if (! ($model->data ( $data )->add ())) {
 				$this->error ( "操作失败" );
 			}
-			redirect ( U ( 'GoodsCategoryKeyword/add', array (
-					'CategoryId' => $data ['CategoryId'] 
-			) ) );
-			return ;
+
 		} else {
 			$whereArr = array (
 					'Id' => ( int ) I ( "post.Id" ) 
 			);
 			$model->where ( $whereArr )->save ( $data );
 		}
-		$this->success ( '操作成功', U ( 'index', array (
-				'CategoryId' => $data ['CategoryId'] 
-		) ), 1 );
+
+		$this->success ( '操作成功' );
 	}
 }

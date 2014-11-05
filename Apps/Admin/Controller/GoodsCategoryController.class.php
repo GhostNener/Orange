@@ -24,11 +24,14 @@ class GoodsCategoryController extends BaseController {
 		// 总数
 		$allCount = $model->where ( $wherrArr )->count ();
 		// 分页
-		$Page = new \Think\Page ( $allCount, 10 );
+		$Page = new \Think\Page ( $allCount, 30 );
 		
 		$showPage = $Page->show ();
 		// 分页查询
 		$list = $model->where ( $wherrArr )->limit ( $Page->firstRow . ',' . $Page->listRows )->select ();
+
+		$catelist = $model->where( $wherrArr )->select();
+		$this->assign( 'catelist', $catelist );
 		$this->assign ( 'list', $list );
 		$this->assign ( 'page', $showPage );
 		$this->display ();
@@ -41,7 +44,7 @@ class GoodsCategoryController extends BaseController {
 	public function del() {
 		$id = ( int ) I ( 'get.Id' );
 		if (! $id) {
-			$this->error ( "页面不存在", U ( 'index' ) );
+			$this->error ( "页面不存在" );
 		}
 		$whereArr = array (
 				'Id' => $id 
@@ -58,10 +61,10 @@ class GoodsCategoryController extends BaseController {
 		$r2 = $dal->execute ( "update goods_category_keyword set Status=-1 where CategoryId=" . $id );
 		if ($r1 && $r2) { // 成功
 			$dal->commit (); // 提交事务
-			$this->success ( "操作成功", U ( 'index' ), 1 );
+			$this-> redirect ( 'index' );
 		} else {
 			$dal->rollback (); // 否则回滚
-			$this->error ( "操作失败", U ( 'index' ) );
+			$this->error ( "操作失败" );
 		}
 	}
 	/**
@@ -70,9 +73,11 @@ class GoodsCategoryController extends BaseController {
 	 * @author NENER
 	 */
 	public function update() {
+
 		$id = ( int ) I ( 'get.Id' );
 		if (! $id) {
-			$this->error ( "操作失败", U ( 'index' ) );
+			$status = 0;
+			$info = 'id都没有改个屁啊！';
 		}
 		$whereArr = array (
 				'Id' => $id 
@@ -82,21 +87,24 @@ class GoodsCategoryController extends BaseController {
 			$whereArrKeyword = array (
 					'CategoryId' => $id 
 			);
-			$this->assign ( 'model', $model );
-			$this->assign ( 'modif', 'update' )->display ( 'modifcategory' );
+
+			$status = 1;
+			$data = $model;
+			$method = 'update';
+
 		} else {
-			$this->error ( "操作失败", U ( 'index' ) );
+			$status = 0;
+			$info = '没成功，活该，重新再提交';
 		}
+
+		echo json_encode ( array (
+						'status' => $status,
+						'info' => $info,
+						'method' => $method,
+						'data' => $data 
+		) );
 	}
-	/**
-	 * 渲染add模板
-	 *
-	 * @author NENER
-	 *        
-	 */
-	public function add() {
-		$this->assign ( 'modif', 'add' )->display ( 'modifcategory' );
-	}
+
 	/**
 	 * 保存
 	 * 包含更新 ，添加
@@ -120,6 +128,18 @@ class GoodsCategoryController extends BaseController {
 				'Title' => I ( 'Title' ),
 				'Presentation' => I ( 'Presentation' ) 
 		);
+
+		/**
+		* 验证是否已存在
+		* @author Cinwell
+		*/
+		if (M ( 'goods_category' )->where ( array (
+					'Title' => $data ['Title'],
+					'Status' => 10 
+			) )->select ()) {
+				$this->error ( "已经添加过了，逗比" );
+			}
+
 		if ($modif == "add") {
 			$data ['Status'] = 10;
 			$dal = M ();

@@ -1,126 +1,81 @@
-<extend name="Public/base"/>
+<extend name="Public/cate"/>
 <block name="content">
-	<div id="main" class="container">
-		<div class="col-md-3">
-			<label>分类管理</label>
-			<ul class="list-group">
-				<li class="list-group-item active">商品分类</li>
-				<li class="list-group-item">生成词库</li>
-			</ul>
-			<label>词库管理</label>
-			<ul class="list-group">
-				<foreach name='list' item='v'>
-					<a class="list-group-item" href="{:U('GoodsCategoryKeyword/index',array('CategoryId'=>$v['Id']))}">{$v.Title}</a>
-				</foreach>
 
-			</ul>
-		</div>
+	<div class="col-md-9">
+		<div class="panel panel-default">
+			<div class="panel-body">
 
-		<div class="col-md-9">
-			<div class="panel panel-default">
-				<div class="panel-body">
-
-					<div class="table-responsive">
-						<table class="table table-striped">
-							<button class="btn btn-success" data-toggle="modal" data-target="#addModal">添加</button>
-							<thead>
-								<th>编号</th>
-								<th width="150px">名称</th>
-								<th width="400px">描述</th>
-								<th>状态</th>
-								<th>操作</th>
-							</thead>
-							<tbody>
-								<foreach name='list' item='v'>
-									<tr>
-										<td>{$v.Id}</td>
-										<td>{$v.Title}</td>
-										<td>{$v.Presentation}</td>
-										<td>{$v.Status}</td>
-										<td>
-											<a class="btn btn-danger btn-small" href="{:U(del,array('Id'=>$v['Id']))}">删除</a>
-											<a class="btn btn-primary btn-small" href="{:U(update,array('Id'=>$v['Id']))}">编辑</a>
-										</td>
-									</tr>
-								</foreach>
-							</tbody>
-						</table>
-					</div>
-
-					<nav>
-						<ul class="pagination">{$page}</ul>
-					</nav>
-
+				<div class="table-responsive">
+					<table class="table table-striped">
+						<button class="btn btn-success" data-toggle="modal" data-target="#addModal">添加</button>
+						<thead>
+							<th>编号</th>
+							<th width="150px">名称</th>
+							<th width="400px">描述</th>
+							<th>状态</th>
+							<th>操作</th>
+						</thead>
+						<tbody>
+							<foreach name='list' item='v'>
+								<tr>
+									<td>{$v.Id}</td>
+									<td>{$v.Title}</td>
+									<td>{$v.Presentation}</td>
+									<td>{$v.Status}</td>
+									<td>
+										<a class="btn btn-danger btn-small" href="{:U(del,array('Id'=>$v['Id']))}">删除</a>
+										<a class="btn btn-primary btn-small edit" action="{:U(update,array('Id'=>$v['Id']))}"  modaltitle="编辑分类">编辑</a>
+									</td>
+								</tr>
+							</foreach>
+						</tbody>
+					</table>
 				</div>
-			</div>
-		</div>
-		<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal">
-							<span aria-hidden="true">&times;</span>
-							<span class="sr-only">Close</span>
-						</button>
-						<h4 class="modal-title hightlight" id="myModalLabel">添加分类</h4>
-					</div>
 
-					<form class="form-horizontal" form="{:U('save')}">
-						<div class="modal-body">
+				<nav>
+					<ul class="pagination">{$page}</ul>
+				</nav>
 
-							<input type="hidden" class="form-control " name="modif" value="add">
-							<input type="hidden" class="form-control " name="Id" value="{$model.Id}">
-							<input type="hidden" class="form-control " name="Status" value="{$model.Status}">
-
-							<div class="form-group">
-								<label class="col-sm-2 control-label">名称</label>
-								<div class="col-sm-10">
-									<input type="text" class="form-control" name="Title" placeholder="分类名称"></div>
-							</div>
-							<div class="form-group">
-								<label class="col-sm-2 control-label">描述</label>
-								<div class="col-sm-10">
-									<input type="text" class="form-control" name="Presentation" placeholder="介绍下包含哪些东西"></div>
-							</div>
-						</div>
-					</form>
-					<div class="modal-footer">
-						<button id="btnclose" type="button" class="btn btn-danger" data-dismiss="modal">关闭</button>
-						<button id="btnsave" onclick="ajaxsubmit()" class="btn btn-primary" data-loading-text="保存中..." autocomplete="off">保存</button>
-					</div>
-
-				</div>
 			</div>
 		</div>
 	</div>
-</block>
+	<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">
+						<span aria-hidden="true">&times;</span>
+						<span class="sr-only">Close</span>
+					</button>
+					<h4 class="modal-title hightlight" id="myModalLabel">添加分类</h4>
+				</div>
 
-<block name="js">
-	<script type="text/javascript">
-		$(function() { 
-	      $("#btnsave").click(function(){
-	        var $btn = $(this).button('loading');
-	      });
-	   });  
-		function ajaxsubmit(){
-			var params = $("form").serialize();
-			$(this).attr
-			$.ajax({
-                type: "POST",
-                url:$("form").attr("form"),
-                data:$('form').serialize(),
-                error: function(request) {
-                    alert("网络连接失败");
-                },
-                success: function(data) {
-                    if (data.status != 1) {
-                    	alert(data.info);
-                    }
-                    else{
-                    	 location.reload();
-                    }
-                }
-            });
-		}
-	</script>
+				<form class="form-horizontal" action="{:U('save')}" method="post" onsubmit="return ajaxsubmit()">
+					<div class="modal-body">
+
+						<input type="hidden" class="form-control " name="modif" value="add">
+						<input type="hidden" class="form-control " name="Id" value="{$model.Id}">
+						<input type="hidden" class="form-control " name="Status" value="{$model.Status}">
+
+						<div class="form-group">
+							<label class="col-sm-2 control-label">名称</label>
+							<div class="col-sm-10">
+								<input type="text" class="form-control" id="Title" name="Title" placeholder="分类名称" required></div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">描述</label>
+							<div class="col-sm-10">
+								<input type="text" class="form-control" id="Presentation" name="Presentation" placeholder="介绍下包含哪些东西" required></div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-danger" data-dismiss="modal">关闭</button>
+						<button type="reset" class="btn btn-warning">清空</button>
+						<button type="submit" class="btn btn-primary">保存</button>
+					</div>
+				</form>
+
+			</div>
+		</div>
+	</div>
 </block>
