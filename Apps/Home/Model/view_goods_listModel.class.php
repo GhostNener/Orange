@@ -63,9 +63,9 @@ class view_goods_listModel extends Model {
 		$whereArr = array (
 				'Id' => $Id 
 		);
-		$goods = M ( "goods" )->where ( $whereArr )->find();
-		$model1 = M ( "goods_comment_temp" );
-		$model2 = M ( "goods_comment_list" );
+		$goods = M ( "view_goods_list" )->where ( $whereArr )->find();
+		$model1 = M ( "view_goods_comment_temp" );
+		$model2 = M ( "view_goods_comment_list" );
 		$whereArr1 = array (
 				'GoodsId' => $Id,
 				'Status' => 10,
