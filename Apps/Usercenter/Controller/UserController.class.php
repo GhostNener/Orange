@@ -42,6 +42,7 @@ class UserController extends Controller {
 		if ($model->islogin ( null, $isadmin, false )) {
 			if ($isadmin) {
 				$this->success ( '登录成功', U ( 'Admin/Index/index' ), 1 );
+				
 			} else {
 				$this->success ( '登录成功', U ( 'Home/Index/index' ), 1 );
 			}

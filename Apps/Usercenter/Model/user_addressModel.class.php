@@ -27,8 +27,8 @@ class user_addressModel extends Model {
 			array (
 					'IsDefault',
 					array (
-							1,
-							2 
+							0,
+							1 
 					),
 					'参数不合法！',
 					self::MUST_VALIDATE,
@@ -117,16 +117,17 @@ class user_addressModel extends Model {
 			return $msg;
 		}
 		$datain = array (
-				'UserId' => $data ['_uid'],
+				'UserId' => $data ['UserId'],
 				'Tel' => $data ['Tel'],
 				'QQ' => $data ['QQ'],
 				'Address' => $data ['Address'],
 				'IsDefault' => $data ['IsDefault'],
-				'Status' => 10 
+				'Status' => 10 ,
+				'Contacts'=>$data['Contacts']
 		);
-		$address = $this->create ( $data );
+		$address = $this->create ( $datain );
 		if (! $address) {
-			$msg ['msg'] = '添加失败';
+			$msg ['msg'] = $this->getError();
 			return $msg;
 		}
 		$dal = M ();

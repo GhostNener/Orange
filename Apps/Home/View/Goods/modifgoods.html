@@ -447,7 +447,7 @@ $(document).ready(function() {
                 }
                 $('#AddressId').children('option').remove();
                 $(_arr).each(function(i, v) {
-                    $('#AddressId').append("<option value=" + v['Id'] + " address=" + v['address'] + " >" + v['Tel'] + "&nbsp;&nbsp;" + v['Address'] + "</option>");
+                    $('#AddressId').append("<option value=" + v['Id'] + " address=" + v['address'] + "contacts="+v['Contacts']+" >" +v['Contacts']+"&nbsp;&nbsp;"+ v['Tel'] + "&nbsp;&nbsp;" + v['Address'] + "</option>");
                 });
                 return;
             }
