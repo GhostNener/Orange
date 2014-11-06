@@ -78,3 +78,30 @@ $(document).ready(function() {
 
 });
 
+/*errormsg successmsg   msgbox*/
+	loadmsg();
+	function alertmsg(id, msg, intime, outtime) {
+	    id = '#' + id;
+	    $(id).stop();
+	    $(id).children('.msgbox').html(msg);
+	    $(id).fadeIn(intime);
+	    setTimeout(function() {
+	        $(id).fadeOut(outtime);
+	    },
+	    outtime);
+
+	}
+	function showerrormsg(msg, intime, outtime) {
+	    alertmsg('errormsg', msg, intime, outtime);
+	}
+	function showsuccessmsg(msg, intime, outtime) {
+	    alertmsg('successmsg', msg, intime, outtime);
+	}
+
+	function loadmsg () {
+		$('#successmsg').remove();
+		$('#errormsg').remove();
+		$("body").append('<div id="successmsg" class=" text-center alertmsg"  role="alert"> <span class="alert alert-success  msgbox">msg</span> </div>'); 
+		$("body").append('<div id="errormsg" class="text-center alertmsg"  role="alert"> <span class="alert alert-danger msgbox">msg</span> </div>');
+	}
+

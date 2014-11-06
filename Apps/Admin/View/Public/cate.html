@@ -32,11 +32,11 @@
                 url: form.attr("action"),
                 data: form.serialize(),
                 error: function(request) {
-                    alert("网络连接失败");
+					showsuccessmsg('网络连接失败',100,1000);
                 },
                 success: function(data) {
                     if (data.status != 1) {
-                    	alert(data.info);
+						showsuccessmsg(data.info,100,1000);
 						$('button[type$=submit]').removeAttr('disabled');
 						$('button[type$=reset]').click();
 						$('button[type$=submit]').text('保存');
@@ -57,13 +57,13 @@
 				url:$(this).attr('action'),
 				beforeSend: loading(),
 				error: function(request) {
-					alert('网络连接失败');
+					showsuccessmsg('网络连接失败',100,1000);
 				},
 				success: function(data) {
 					var result = eval("("+data+")");
 					
 					if(result.status != 1){
-						alert(result.info);
+						showsuccessmsg(data.info,100,1000);
 						return false;
 					}
 					else{
@@ -92,10 +92,11 @@
 				url:$(this).attr('action'),
 				beforeSend: loading(),
 				error: function(request) {
-					alert('网络连接失败');
+					showsuccessmsg('网络连接失败',100,1000);
+
 				},
 				success: function(data) {
-					alert(data.info);
+					showsuccessmsg(data.info,100,1000);
 				},
 				complete: function() {
 					$("#load").remove();
