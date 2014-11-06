@@ -80,24 +80,4 @@ class view_goods_listModel extends Model {
 				'goodsimg' => $goodsimg 
 		);
 	}
-	
-	/*
-	 * 二维数组按指定的键值排序 $arr 数组 $key排序键值 $type排序方式
-	 */
-	public function array_sort($arr, $keys, $type) {
-		$keysvalue = $new_array = array ();
-		foreach ( $arr as $k => $v ) {
-			$keysvalue [$k] = $v [$keys];
-		}
-		if ($type == 'asc') {
-			asort ( $keysvalue );
-		} else {
-			arsort ( $keysvalue );
-		}
-		reset ( $keysvalue );
-		foreach ( $keysvalue as $k => $v ) {
-			$new_array [$k] = $arr [$k];
-		}
-		return $new_array;
-	}
 }

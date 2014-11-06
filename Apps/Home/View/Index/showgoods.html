@@ -6,9 +6,12 @@
 		<div id="main" class="container">
 			<!-- 购买按钮 -->	
 			<div class="navbar-fixed-bottom fixed-expand">
-				<button type="button" class="btn btn-orange btnpublish" data-toggle="tooltip" data-placement="top" title="立即购买">
-					<span class="glyphicon glyphicon-shopping-cart"></span>
-				</button>
+				<form action="{:U('Home/Order/index')}" method="post" role="form">
+				<input type="hidden" name="Id" value="{$goods['Id']}">
+					<button  type="submit" class="btn btn-orange btnpublish"  title="立即购买">
+						<span class="glyphicon glyphicon-shopping-cart"></span>
+					</button>
+				</form>
 			</div>
 			<!-- mobile端显示固定导航 -->	
 			<div class="col-md-3 visible-xs-block">

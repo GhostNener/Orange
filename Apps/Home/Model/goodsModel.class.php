@@ -52,6 +52,12 @@ class goodsModel extends Model {
 					self::MODEL_INSERT 
 			) 
 	);
+	/**
+	 * 获取交易方式对应的文本
+	 *
+	 * @param unknown $wayid        	
+	 * @return string
+	 */
 	private function gettradetxt($wayid) {
 		if (! $wayid) {
 			return '';
@@ -70,6 +76,19 @@ class goodsModel extends Model {
 				return '';
 				break;
 		}
+	}
+	/**
+	 * 查找一个商品
+	 * 
+	 * @param int $id        	
+	 * @return obj
+	 */
+	public function findone($id) {
+		$model = $this->where ( array (
+				'Status' => 10,
+				'Id' => $id 
+		) )->find ();
+		return $model;
 	}
 	
 	/**
@@ -91,10 +110,10 @@ class goodsModel extends Model {
 			);
 		}
 		$se = new goods_serviceModel ();
-		/*计算服务费  */
+		/* 计算服务费 */
 		$scost = $se->computecost ( $arr ['Server'] );
-		/*计算发布费  */
-		$temp = ceil($arr ['Price'] * 0.03 );
+		/* 计算发布费 */
+		$temp = ceil ( $arr ['Price'] * 0.03 );
 		if ($type == 2) {
 			return ($scost + $temp);
 		}
@@ -145,7 +164,7 @@ class goodsModel extends Model {
 					'msg' => '没有数据' 
 			);
 		}
-		if ($uid == - 1||!$uid) {
+		if ($uid == - 1 || ! $uid) {
 			$uid = cookie ( '_uid' );
 		}
 		$goodsid = $postarr ['GoodsId'];

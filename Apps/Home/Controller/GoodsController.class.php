@@ -9,7 +9,7 @@ use Home\Model\goods_serviceModel;
 use Home\Model\goods_imgModel;
 use Home\Model\view_goods_listModel;
 use Usercenter\Model\userModel;
-use Usercenter\Model\view_user_info_avatarModel;
+use Home\Model\goods_orderModel;
 
 /**
  * 前台商品管理
@@ -192,6 +192,30 @@ class GoodsController extends BaseController {
 			) ) );
 		}
 	}
+	/**
+	 * 购买 填写表单
+	 */
+	public function order($Id) {
+		$model = new goods_orderModel ();
+		$arr = $model->fillorder ( $Id );
+		$this->assign ( 'goods_fillorder', $arr ['goods_fillorder'] );
+		$this->assign ( 'useraddrlist', $arr ['useraddrlist'] );
+		$this->display ();
+	}
+	/**
+	 * 购买成功 生成表单
+	 */
+	public function order2() {
+		$postarr = I ( 'post' );
+		$model = new goods_orderModel ();
+		$rst = $model->order ( $postarr );
+		if (( int ) $rst ['status'] == 0) {
+			$this->error ( $rst ['msg'] );
+		} else {
+			$this->success ( 1 );
+		}
+	}
+	
 	/**
 	 * 刷新地址
 	 */

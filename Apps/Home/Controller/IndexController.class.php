@@ -4,7 +4,7 @@ namespace Home\Controller;
 
 use Home\Model\goods_commentModel;
 use Think\Controller;
-use Home\Model\goods_orderModel;
+
 use Home\Model\view_goods_listModel;
 use Home\Model\view_search_listModel;
 use Home\Model\view_goods_in_serviceModel;
@@ -136,35 +136,10 @@ class IndexController extends Controller {
 		$postarr = I ( 'post.' );
 		if(!cookie('_uid')){
 			$this->error ( '没有登录' );
-			return false;
+			die();
 		}
 		$model = new goods_commentModel ();
 		$rst = $model->addComment ( $postarr );
-		if (( int ) $rst ['status'] == 0) {
-			$this->error ( $rst ['msg'] );
-		} else {
-			$this->success ( 1 );
-		}
-	}
-	
-	/**
-	 * 购买 填写表单
-	 */
-	public function order($Id) {
-		$model = new goods_orderModel ();
-		$arr = $model->fillorder ( $Id );
-		$this->assign ( 'goods_fillorder', $arr ['goods_fillorder'] );
-		$this->assign ( 'useraddrlist', $arr ['useraddrlist'] );
-		$this->display ();
-	}
-	
-	/**
-	 * 购买成功 生成表单
-	 */
-	public function order2() {
-		$postarr = I ( 'post' );
-		$model = new goods_orderModel ();
-		$rst = $model->order ( $postarr );
 		if (( int ) $rst ['status'] == 0) {
 			$this->error ( $rst ['msg'] );
 		} else {
