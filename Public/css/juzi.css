@@ -21,14 +21,6 @@ h1,h2,h3,h4,h5,h6,p,label,div,label {
     color: #555;
 }
 
-h3{
-    padding: 0px;
-    margin: 0px;
-}
-
-h5, .hightlight{
-    font-weight: 600;
-}
 .checkbox label{
 	width: 100%;
 }
@@ -79,6 +71,12 @@ a.list-group-item.active>.badge, .nav-pills>.active>a>.badge{
 .thumbnail,.panel{
 	border-radius: 0px;
 }
+
+.ratings h3{
+    padding: 0px;
+    margin: 0px;
+}
+
 .progress{
  margin-bottom: 0px;
 }
@@ -206,6 +204,10 @@ footer {
 .sideitemnav{
     margin-top: 30px;
 }
+.sideitemnav h5, .hightlight{
+    font-weight: 600;
+}
+
 .sideitemnav h4{
     font-weight: 600;
     line-height: 30px;
@@ -595,7 +597,6 @@ footer {
 .login-panel{
 	margin-top: 10%;
 	padding-top: 20px;
-	border-radius: 0px;
 }
 
 /* 个人中心 */
@@ -641,6 +642,14 @@ footer {
 
 .btn-small{
 	padding: 1px 10px;
+}
+
+.btn-circle{
+	border-radius: 50px;
+	width: 50px;
+	height: 50px;
+	line-height: 40px;
+	font-size: 20px;
 }
 
 .editavatar{
@@ -780,8 +789,20 @@ footer {
 }
 
 form{
-
 	position: relative;
+}
+
+/* 订单 */
+.order-panel{
+	margin-top: 10%;
+}
+
+.order-panel .panel-heading{
+	border-radius: 0;
+}
+
+.order-panel .panel-footer h3{
+	margin-top: 5px;
 }
 
 /* 平板显示 */

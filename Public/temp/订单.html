@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+	<meta name="description" content="贵州财经大学-二手交易-以物换物-服务平台-c2c">
+	<meta name="author" content="橘子团队">
+	<title>大橘子-贵财二手交易平台</title>
+	<!-- Bootstrap Core CSS -->
+	<link href="css/bootstrap.min.css" rel="stylesheet">
+	<link href="css/normalize.css" rel="stylesheet">
+	<!-- Custom CSS -->
+	<link href="../css/juzi.css" rel="stylesheet">
+
+	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+	<!--[if lt IE 9]>
+	<script src="http://cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+	<script src="http://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+	<![endif]-->
+
+</head>
+
+<body>
+	<!-- 页身 -->
+	<div id="wrap">
+		<!-- 导航 -->
+		<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+			<div class="container">
+				<!-- Brand and toggle get grouped for better mobile display -->
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+						<span class="sr-only">Toggle navigation</span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<a class="navbar-brand" href="#">logo 大橘子</a>
+				</div>
+
+				<!-- Collect the nav links, forms, and other content for toggling -->
+				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+					<ul class="nav navbar-nav">
+						<li class="active">
+							<a href="#">首页</a>
+						</li>
+						<li>
+							<a href="#">发现</a>
+						</li>
+						<li>
+							<a href="#">
+								礼品
+								<span class="navbar-new"></span>
+							</a>
+						</li>
+					</ul>
+					<form class="navbar-form navbar-left" role="search">
+						<div class="input-group">
+							<input type="text" class="form-control" placeholder="搜索商品">
+							<div class="input-group-btn">
+								<button type="button" class="btn btn-default btn-expend">
+									<span class="glyphicon glyphicon-search"></span>
+								</button>
+							</div>
+							<!-- /btn-group -->
+						</div>
+						<!-- /input-group -->
+					</form>
+
+					<!-- 未登录状态 -->
+					<ul class="nav navbar-nav navbar-right">
+						<li>
+							<a href="#" data-toggle="modal" data-target=".bs-example-modal-sm">登录</a>
+						</li>
+						<li>
+							<a href="#">注册</a>
+						</li>
+					</ul>
+
+				</div>
+				<!-- /.navbar-collapse -->
+			</div>
+			<!-- /.container-fluid -->
+		</nav>
+
+		<!-- 内容 -->
+		<div id="main" class="container">
+
+			<div class="col-md-8 col-md-offset-2">
+				<div class="panel panel-orange order-panel">
+					<div class="panel-heading">
+						<span class="pull-right hidden-xs">2014-11-06 15:54:09</span>
+						<span>订单号: 10010010101010</span>
+					</div>
+					<form class="form-horizontal" role="form">
+
+						<div class="panel-body">
+							<div class="form-group">
+								<label class="col-sm-2 control-label">商品名</label>
+								<div class="col-sm-10">
+									<p class="form-control-static">劳资就是传说中的商品名</p>
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label class="col-sm-2 control-label">交易方式</label>
+								<div class="col-sm-10">
+									<div class="btn-group" data-toggle="buttons">
+										<label class="btn btn-default btn-expend active" data-toggle="tooltip" data-placement="bottom" title="用“金橘”作为货币交易,确定后“金橘”将被冻结, 直到确认收货后付款给卖家" data-container="body">
+											<input type="radio" name="options" id="option1" autocomplete="off" checked>线上</label>
+										<label class="btn btn-default btn-expend" data-toggle="tooltip" data-placement="bottom" title="线下联系卖家, 按显示的价格进行交易" data-container="body">
+											<input type="radio" name="options" id="option2" autocomplete="off">线下</label>
+									</div>
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label class="col-sm-2 control-label">联系人</label>
+								<div class="col-sm-8">
+									<div class="input-group">
+										<select class="form-control">
+											<option>1</option>
+											<option>2</option>
+											<option>3</option>
+											<option>4</option>
+											<option>5</option>
+										</select>
+										<span class="input-group-btn">
+
+											<button type="submit" class="btn btn-default btn-expend" data-toggle="tooltip" data-placement="top" title="刷新地址" data-container="body">
+												<span class="glyphicon glyphicon-refresh"></span>
+											</button>
+											<button type="submit" class="btn btn-default btn-expend" data-toggle="tooltip" data-placement="top" title="添加新地址" data-container="body">
+												<span class="glyphicon glyphicon-plus"></span>
+											</button>
+										</span>
+									</div>
+								</div>
+							</div>
+
+						</div>
+						<div class="panel-footer">
+							<h3 class="text-orange">
+								500.00
+								<button class="btn btn-orange pull-right">确定购买</button>
+
+							</h3>
+
+							<!-- 选择线上交易的时候显示余额 -->
+							<!-- <span>
+								金橘余额: 5000
+								<button class="btn btn-success btn-xs">
+									<span class="glyphicon glyphicon-refresh"></span>
+								</button>
+							</span>
+							 -->
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+	<!-- 页脚 -->
+	<footer>
+		<div class="container">
+			<div class="row hidden-xs">
+				<div class="col-md-5">
+					<p> <b>介绍</b>
+					</p>
+					<p>Logo design by 某某某</p>
+					<p>Powerd by ThinkPHP</p>
+					<p>Copyright &copy; 2014, 指尖科技-橘子团队</p>
+					<p>
+						<a href="http://www.miibeian.gov.cn/">黔ICP备14004869号-1</a>
+					</p>
+				</div>
+				<div class="col-md-5">
+					<p> <b>关于</b>
+					</p>
+					<p>
+						<a href="#">橘子团队</a>
+					</p>
+					<p>
+						<a href="#">问题反馈</a>
+					</p>
+					<p>
+						<a href="#">联系我们</a>
+					</p>
+					<p>
+						<a href="#">免责声明</a>
+					</p>
+				</div>
+				<div class="col-md-2">
+					<p>
+						<b>客户端下载(android)</b>
+					</p>
+					<img src="http://hhhhold.com/110x110" alt=""></div>
+			</div>
+			<div class="row visible-xs-inline">
+				<div class="col-md-12 text-center">
+					<p>
+						<a href="#">Copyright &copy; 2014, 指尖科技-橘子团队</a>
+					</p>
+					<p>
+						<a href="http://www.miibeian.gov.cn/">黔ICP备14004869号-1</a>
+					</p>
+				</div>
+
+			</div>
+		</div>
+	</footer>
+
+	<script src="js/jquery-1.11.0.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script src="../js/juzi.js"></script>
+
+</body>
+
+</html>
