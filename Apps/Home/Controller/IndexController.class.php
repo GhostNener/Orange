@@ -117,6 +117,10 @@ class IndexController extends Controller {
 	public function showgoods($Id) {
 		$model = new view_goods_listModel ();
 		$arr = $model->getgoodsdetails ( $Id );
+		if(!$arr||!$arr['goods']){
+			$this->error('商品不存在或已下架');
+			die();
+		}
 		$this->assign ( 'goods', $arr ['goods'] );
 		$this->assign ( 'commentlist', $arr ['commentlist'] );
 		$this->assign ( 'goodsimg', $arr ['goodsimg'] );

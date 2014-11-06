@@ -101,9 +101,10 @@
 												<a id="refreshadd" class="btn btn-default btn-expend" data-toggle="tooltip" data-placement="top" title="刷新地址" data-container="body">
 													<span class="glyphicon glyphicon-refresh"></span>
 												</a>
-												<a  href="{:U('Usercenter/Address/addaddress')}" target="_blank" class="btn btn-default btn-expend" data-toggle="tooltip" data-placement="top" title="添加新地址" data-container="body">
+												<a   class="btn btn-default btn-expend"  title="添加新地址" data-container="body" data-toggle="modal" data-target="#addressModal">
 													<span class="glyphicon glyphicon-plus"></span>
 												</a>
+
 											</span>
 										</div>
 									</div>
@@ -182,7 +183,6 @@
 										</div>
 										<!--一个服务结束-->
 									</volist>
-
 								</div>
 
 								<a href="#step2" class="btn btn-danger btn-outline-rounded green active-step">
@@ -221,6 +221,53 @@
 							<div class="clearfix"></div>
 						</div>
 					</form>
+
+					<div class="modal fade" id="addressModal" tabindex="-1" role="dialog" aria-labelledby="addressModalLabel" aria-hidden="true">
+						<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal">
+										<span aria-hidden="true">&times;</span>
+										<span class="sr-only">Close</span>
+									</button>
+									<h4 class="modal-title hightlight" id="addressModalLabel">添加地址</h4>
+								</div>
+								<form id="addressform" class="form-horizontal" action="{:U('Usercenter/Address/saveaddress')}" method="post" onsubmit="return ajaxaddresssubmit()">
+									<div class="modal-body">
+										<input type="hidden" name="modif" value="add">
+										<div class="form-group">
+											<label for="Contacts" class="col-sm-2 control-label">联系人</label>
+											<div class="col-sm-10">
+												<input type="tel" name="Contacts" id="Contacts" class="form-control" placeholder="联系人"></div>
+										</div>
+										<div class="form-group">
+											<label for="Tel" class="col-sm-2 control-label">联系电话</label>
+											<div class="col-sm-10">
+												<input type="tel" name="Tel" id="Tel" class="form-control" placeholder="联系电话"></div>
+										</div>
+										<div class="form-group">
+											<label for="Address" class="col-sm-2 control-label">联系地址</label>
+											<div class="col-sm-10">
+												<input type="tel" name="Address" id="Address" class="form-control" placeholder="联系地址"></div>
+										</div>
+										<div class="form-group">
+											<div class="col-sm-offset-2 col-sm-10">
+												<div class="checkbox">
+													<label>
+														<input id="IsDefault" name="IsDefault" value="1" type="checkbox">&nbsp;作为默认地址</label>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-danger" data-dismiss="modal">关闭</button>
+										<button id="submitaddress" type="submit" class="btn btn-primary" data-loading-text="提交中..." autocomplete="off" >提交</button>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+
 				</div>
 			</div>
 		</div>
@@ -254,6 +301,59 @@ function del(div_id, imgId) {
     },
     'json');
 }
+
+/*保存地址*/
+function ajaxaddresssubmit(){
+	var $btn = $('#submitaddress').button('loading');
+	if(!$.trim($('#Contacts').val())){
+		showerrormsg('联系人为空',100,1000);
+		$('#Contacts').focus();
+		$btn.button('reset');
+		return false;
+	}
+	var isMobile=/^(?:13\d|14\d|15\d|18\d)\d{5}(\d{3}|\*{3})$/; 
+	if(!$.trim($('#Tel').val())||!isMobile.test($('#Tel').val())){
+		showerrormsg('联系电话不合法',100,1000);
+		$('#Tel').focus();
+		$btn.button('reset');
+		return false;
+	}
+	if(!$.trim($('#Address').val())){
+		showerrormsg('联系地址为空',100,1000);
+		$('#Address').focus();
+		$btn.button('reset');
+		return false;
+	}
+	$.ajax({
+        type: 'post',
+        cache: false,
+        url: $('#addressform').attr('action'),
+        data: $('#addressform').serialize(),
+        error:  
+        function(request)  {
+            showerrormsg('网络错误', 100, 1000);
+            $btn.button('reset');  
+            return false;              
+        },
+         success:  
+        function(data)  {
+            if (data.status == 0) {
+                showerrormsg(data.info, 100, 1000);
+                $btn.button('reset');
+                return false;
+            } else {
+                showsuccessmsg("提交成功", 100, 1000);
+                $('#addressform')[0].reset();
+                $('#addressModal').modal('hide');
+                $btn.button('reset');
+                refaddress(false);
+                return false;
+            }                
+        }
+    });
+    return false;
+}
+/*保存商品*/
 function ajaxsubmit() {
 
     var $btn = $('#submitsave').button('loading');
@@ -409,6 +509,52 @@ function computecost() {
     });
     return;
 }
+
+function refaddress(isshowmsg) {
+    var _url = $('#url').attr('appurl') + '/refreshadd';
+    $.ajax({
+        type: 'post',
+        cache: false,
+        url: _url,
+        error:  
+        function(request)  {
+            showerrormsg('网络错误', 100, 1000);
+            return false;              
+        },
+         success:  
+        function(data)  {
+            if (data.status == 0) {
+                if (isshowmsg) {
+                    showerrormsg(data.info, 100, 1000);
+                }
+                return false;
+            } else {
+                if (!data.info) {
+                    if (isshowmsg) {
+                        showerrormsg('刷新失败', 100, 1000);
+                    }
+                    return;
+                }
+                var _arr = $.parseJSON(data.info);
+                if (!_arr) {
+                    if (isshowmsg) {
+                        showerrormsg('刷新失败', 100, 1000);
+                    }
+                    return;
+                }
+                $('#AddressId').children('option').remove();
+                $(_arr).each(function(i, v) {
+                    $('#AddressId').append("<option value=" + v['Id'] + " address=" + v['address'] + "contacts=" + v['Contacts'] + " >" + v['Contacts'] + "&nbsp;&nbsp;" + v['Tel'] + "&nbsp;&nbsp;" + v['Address'] + "</option>");
+                });
+                if (isshowmsg) {
+                    showsuccessmsg("刷新成功", 100, 500);
+                }
+                return;
+            }                
+        }
+    });
+}
+
 $(document).ready(function() {
     $('.servercheckbox').click(function(e) {
         var _ch = $(this).children("input").attr('checked');
@@ -423,7 +569,6 @@ $(document).ready(function() {
     });
 
     checkdserver();
-    /*刷新地址*/
     $('#tabstep4').click(function() {
         computecost();
     });
@@ -432,26 +577,7 @@ $(document).ready(function() {
     });
 
     $('#refreshadd').click(function(e) {
-        var _url = $('#url').attr('appurl') + '/refreshadd';
-        $.post(_url, {
-            '': ''
-        },
-        function(data) {
-            if (data.status == 1) {
-                if (!data.info) {
-                    return;
-                }
-                var _arr = $.parseJSON(data.info);
-                if (!_arr) {
-                    return;
-                }
-                $('#AddressId').children('option').remove();
-                $(_arr).each(function(i, v) {
-                    $('#AddressId').append("<option value=" + v['Id'] + " address=" + v['address'] + "contacts="+v['Contacts']+" >" +v['Contacts']+"&nbsp;&nbsp;"+ v['Tel'] + "&nbsp;&nbsp;" + v['Address'] + "</option>");
-                });
-                return;
-            }
-        });
+    	refaddress(true);
     });
     /*标题焦点离开事件  获取分类*/
     $('#Title').blur(function(e) {
