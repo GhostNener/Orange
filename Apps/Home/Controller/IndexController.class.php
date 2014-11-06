@@ -4,7 +4,6 @@ namespace Home\Controller;
 
 use Home\Model\goods_commentModel;
 use Think\Controller;
-
 use Home\Model\view_goods_listModel;
 use Home\Model\view_search_listModel;
 use Home\Model\view_goods_in_serviceModel;
@@ -12,6 +11,7 @@ use Usercenter\Model\userModel;
 use Usercenter\Model\view_user_info_avatarModel;
 use Home\Model\goods_categoryModel;
 use Home\Model\activityModel;
+use Home\Model\goodsModel;
 
 require_once './ORG/phpAnalysis/SearchDic.class.php';
 /**
@@ -30,10 +30,10 @@ class IndexController extends Controller {
 		if ($user->islogin ( null, false, false )) {
 			$m = new view_user_info_avatarModel ();
 			$usermodel = $m->getinfo ();
-			if($usermodel['status']==1){
-				$usermodel=$usermodel['msg'];
-			}else{
-				$usermodel=null;
+			if ($usermodel ['status'] == 1) {
+				$usermodel = $usermodel ['msg'];
+			} else {
+				$usermodel = null;
 			}
 		}
 		$this->assign ( 'usermodel', $usermodel );
@@ -42,12 +42,12 @@ class IndexController extends Controller {
 	 * 首页
 	 */
 	public function index() {
-		$limit=6;
+		$limit = 6;
 		/* 置顶 最新的 猜你喜欢 分类 */
 		$model = new view_goods_in_serviceModel ();
 		/* 获得置顶 */
 		$toplist = $model->getlist ( array (
-				'ServiceId' => C('TOP_SERVICE_ID'),
+				'ServiceId' => C ( 'TOP_SERVICE_ID' ),
 				'Status' => 10 
 		), $limit );
 		$toplist = $toplist ['list'];
@@ -71,12 +71,12 @@ class IndexController extends Controller {
 		$likelist = $model->getrandlist ( $limit );
 		$likelist = $likelist ['list'];
 		/* 获得分类 */
-		$model=new goods_categoryModel();
-		$clist=$model->getall();
-		/*获取活动图片  */
-		$model=new activityModel();
-		$activitylist=$model->getlist();
-		/*模板赋值  */
+		$model = new goods_categoryModel ();
+		$clist = $model->getall ();
+		/* 获取活动图片 */
+		$model = new activityModel ();
+		$activitylist = $model->getlist ();
+		/* 模板赋值 */
 		$this->assign ( 'topimg', $activitylist );
 		$this->assign ( 'toplist', $toplist );
 		$this->assign ( 'newlist', $newlist );
@@ -117,16 +117,18 @@ class IndexController extends Controller {
 	public function showgoods($Id) {
 		$model = new view_goods_listModel ();
 		$arr = $model->getgoodsdetails ( $Id );
-		if(!$arr||!$arr['goods']){
-			$this->error('商品不存在或已下架');
-			die();
+		if (! $arr || ! $arr ['goods']) {
+			$this->error ( '商品不存在或已下架' );
+			die ();
 		}
+		$m = new goodsModel ();
+		$m->VCChhandle ( $Id, 1 );
 		$this->assign ( 'goods', $arr ['goods'] );
 		$this->assign ( 'commentlist', $arr ['commentlist'] );
 		$this->assign ( 'goodsimg', $arr ['goodsimg'] );
-		$this->assign ( 'imgcount',count( $arr ['goodsimg'] ));
-		$this->assign( 'empty', '<h3 class="text-center text-import">暂无评论</h3>');
-		$this->display ('Index/showgoods');
+		$this->assign ( 'imgcount', count ( $arr ['goodsimg'] ) );
+		$this->assign ( 'empty', '<h3 class="text-center text-import">暂无评论</h3>' );
+		$this->display ( 'Index/showgoods' );
 	}
 	
 	/**
@@ -134,9 +136,9 @@ class IndexController extends Controller {
 	 */
 	public function addComment() {
 		$postarr = I ( 'post.' );
-		if(!cookie('_uid')){
+		if (! cookie ( '_uid' )) {
 			$this->error ( '没有登录' );
-			die();
+			die ();
 		}
 		$model = new goods_commentModel ();
 		$rst = $model->addComment ( $postarr );

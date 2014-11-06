@@ -79,7 +79,7 @@ class goodsModel extends Model {
 	}
 	/**
 	 * 查找一个商品
-	 * 
+	 *
 	 * @param int $id        	
 	 * @return obj
 	 */
@@ -89,6 +89,40 @@ class goodsModel extends Model {
 				'Id' => $id 
 		) )->find ();
 		return $model;
+	}
+	/**
+	 * 商品点击 评论 收藏 操作 量处理
+	 *
+	 * @param int $gid
+	 *        	商品Id
+	 * @param int $type
+	 *        	1:浏览，2：收藏，3：评论
+	 */
+	public function VCChhandle($gid, $type = 1) {
+		if (! $this->where ( array (
+				'Status' => 10,
+				'Id' => $gid 
+		) )->find ()) {
+			return false;
+		}
+		$filed = '';
+		switch ($type) {
+			case 1 :
+				$filed = 'Views';
+				break;
+			case 2 :
+				$filed = 'Collection';
+				break;
+			case 3 :
+				$filed = 'CommentCount';
+				break;
+			default :
+				return false;
+		}
+		return ($this->where ( array (
+				'Status' => 10,
+				'Id' => $gid 
+		) )->setInc ( $filed ));
 	}
 	
 	/**
@@ -138,15 +172,9 @@ class goodsModel extends Model {
 		if (! $c || ! $b || $b < $c) {
 			return false;
 		}
-		if (M ( 'user' )->where ( array (
+		return (M('user')->where ( array (
 				'Id' => $uid 
-		) )->save ( array (
-				'E-Money' => ($b - $c) 
-		) )) {
-			return true;
-		} else {
-			return false;
-		}
+		) )->setDec('E-Money',$c));
 	}
 	/**
 	 * 保存商品
