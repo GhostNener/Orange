@@ -55,7 +55,7 @@ class view_goods_listModel extends Model {
 	/**
 	 * 获取商品详情
 	 *
-	 * @param array $wherearr        	
+	 * @param int Id       	
 	 * @return goods 商品信息,commentlist 评论列表,goodsimg商品图片
 	 *        
 	 */

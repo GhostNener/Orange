@@ -64,4 +64,31 @@ class IndexController extends BaseController {
 			) );
 		}
 	}
+	/**
+	 * 获取商品 详情 及评论
+	 */
+	public function showgoods() {
+		$arr = file_get_contents ( "php://input" );
+		$arr = json_decode ( $arr, true );
+		if (! $arr) {
+			$arr = I ( 'param.' );
+		}
+		$Id = $arr ['Id'];
+		$model = new view_goods_listModel ();
+		$arr = $model->getgoodsdetails ( $Id );
+		if (! $arr || ! $arr ['goods']) {
+			echo json_encode ( array (
+					'status' => 0,
+					'msg' => '商品不存在或已下架' 
+			) );
+		} else {
+			echo json_encode ( array (
+					'status' => 1,
+					'msg' => 'ok',
+					'goods' => $arr ['goods'],
+					'imglist' => $arr ['goodsimg'],
+					'commentlist' => $arr ['commentlist'] 
+			) );
+		}
+	}
 }
