@@ -11,6 +11,7 @@ use Home\Model\view_goods_in_serviceModel;
 use Usercenter\Model\userModel;
 use Usercenter\Model\view_user_info_avatarModel;
 use Home\Model\goods_categoryModel;
+use Home\Model\activityModel;
 
 require_once './ORG/phpAnalysis/SearchDic.class.php';
 /**
@@ -71,6 +72,9 @@ class IndexController extends Controller {
 		/* 获得分类 */
 		$model=new goods_categoryModel();
 		$clist=$model->getall();
+		$model=new activityModel();
+		$activitylist=$model->getlist();
+		$this->assign ( 'topimg', $activitylist );
 		$this->assign ( 'toplist', $toplist );
 		$this->assign ( 'newlist', $newlist );
 		$this->assign ( 'likelist', $likelist );
