@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+	<meta name="description" content="贵州财经大学-二手交易-以物换物-服务平台-c2c">
+	<meta name="author" content="橘子团队">
+	<title>大橘子-贵财二手交易平台</title>
+	<!-- Bootstrap Core CSS -->
+	<link href="css/bootstrap.min.css" rel="stylesheet">
+	<link href="css/normalize.css" rel="stylesheet">
+	<!-- Custom CSS -->
+	<link href="css/juzi.css" rel="stylesheet">
+
+	<!-- 图片预览 额外要加的 -->
+	<link href="css/jquery.fancybox.css" rel="stylesheet">
+	<link href="css/jquery.fancybox-thumbs.css" rel="stylesheet">
+
+	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+	<!--[if lt IE 9]>
+	<script src="http://cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+	<script src="http://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+	<![endif]-->
+
+</head>
+
+<body>
+	<!-- 页身 -->
+	<div id="wrap">
+		<!-- 导航 -->
+		<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+			<div class="container">
+				<!-- Brand and toggle get grouped for better mobile display -->
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+						<span class="sr-only">Toggle navigation</span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<a class="navbar-brand" href="#">logo 大橘子</a>
+				</div>
+
+				<!-- Collect the nav links, forms, and other content for toggling -->
+				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+					<ul class="nav navbar-nav">
+						<li class="active">
+							<a href="#">首页</a>
+						</li>
+						<li>
+							<a href="#">发现</a>
+						</li>
+						<li>
+							<a href="#">
+								礼品
+								<span class="navbar-new"></span>
+							</a>
+						</li>
+					</ul>
+					<form class="navbar-form navbar-left" role="search">
+						<div class="input-group">
+							<input type="text" class="form-control" placeholder="搜索商品">
+							<div class="input-group-btn">
+								<button type="button" class="btn btn-default btn-expend">
+									<span class="glyphicon glyphicon-search"></span>
+								</button>
+							</div>
+							<!-- /btn-group -->
+						</div>
+						<!-- /input-group -->
+					</form>
+
+					<!-- 未登录状态 -->
+					<ul class="nav navbar-nav navbar-right">
+						<li>
+							<a href="#" data-toggle="modal" data-target=".bs-example-modal-sm">登录</a>
+						</li>
+						<li>
+							<a href="#">注册</a>
+						</li>
+					</ul>
+
+				</div>
+				<!-- /.navbar-collapse -->
+			</div>
+			<!-- /.container-fluid -->
+		</nav>
+
+		<!-- 内容 -->
+		<div id="main" class="container">
+
+			<!-- mobile端显示固定导航 -->
+			<div class="col-md-3 visible-xs-block">
+				<div class="panel panel-default">
+					<div class="panel-body detail-panel">
+						<h4>全新二手MX4 64G联通版低价出售</h4>
+						<h2 class="importinfo">
+							800.00
+							<span class="oldprice">900.00</span>
+						</h2>
+
+						<hr/>
+						<div class="row">
+							<div class="col-md-5">交易方式</div>
+							<div class="col-md-7">线上/线下</div>
+						</div>
+						<hr/>
+						<button class="btn btn-danger">
+							<span class="glyphicon glyphicon-heart"></span>
+							&nbsp加入心愿单
+						</button>
+						<button class="btn btn-primary">
+							<span class="glyphicon glyphicon-comment"></span>
+							&nbsp留言
+						</button>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-md-9">
+				<div class="panel panel-default">
+					<div class="panel-body">
+
+						<!-- Slider -->
+						<div class="row">
+							<div class="col-xs-12" id="slider">
+								<!-- Top part of the slider -->
+								<div id="carousel-bounding-box" data-toggle="tooltip" data-placement="top" title="点击查看原图" data-container="body" data-delay="500">
+									<div class="carousel slide" id="myCarousel">
+										<!-- Carousel items -->
+										<div class="carousel-inner">
+											<div class="active item" data-slide-number="0">
+												<a class="fancybox-thumbs" data-fancybox-group="thumb" href="http://placehold.it/3000x3000&text=one.jpg">
+													<img src="http://placehold.it/800x300&text=one" alt="" />
+												</a>
+											</div>
+
+											<div class="item" data-slide-number="1">
+												<a class="fancybox-thumbs" data-fancybox-group="thumb" href="http://placehold.it/1000x300&text=one.jpg">
+													<img src="http://placehold.it/800x300&text=one" alt="" />
+												</a>
+											</div>
+
+											<div class="item" data-slide-number="2">
+												<a class="fancybox-thumbs" data-fancybox-group="thumb" href="http://placehold.it/1000x300&text=one.jpg">
+													<img src="http://placehold.it/800x300&text=one" alt="" />
+												</a>
+											</div>
+
+											<div class="item" data-slide-number="3">
+												<a class="fancybox-thumbs" data-fancybox-group="thumb" href="http://placehold.it/1000x300&text=one.jpg">
+													<img src="http://placehold.it/800x300&text=one" alt="" />
+												</a>
+											</div>
+
+											<div class="item" data-slide-number="4">
+												<a class="fancybox-thumbs" data-fancybox-group="thumb" href="http://placehold.it/1000x300&text=one.jpg">
+													<img src="http://placehold.it/800x300&text=one" alt="" />
+												</a>
+											</div>
+
+											<div class="item" data-slide-number="5">
+												<a class="fancybox-thumbs" data-fancybox-group="thumb" href="http://placehold.it/1000x300&text=one.jpg">
+													<img src="http://placehold.it/800x300&text=one" alt="" />
+												</a>
+											</div>
+
+											<div class="item" data-slide-number="6">
+												<a class="fancybox-thumbs" data-fancybox-group="thumb" href="http://placehold.it/1000x300&text=one.jpg">
+													<img src="http://placehold.it/800x300&text=one" alt="" />
+												</a>
+											</div>
+
+											<div class="item" data-slide-number="7">
+												<a class="fancybox-thumbs" data-fancybox-group="thumb" href="http://placehold.it/1000x300&text=one.jpg">
+													<img src="http://placehold.it/800x300&text=one" alt="" />
+												</a>
+											</div>
+
+										</div>
+										<!-- Carousel nav -->
+										<a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+											<span class="glyphicon glyphicon-chevron-left"></span>
+										</a>
+										<a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+											<span class="glyphicon glyphicon-chevron-right"></span>
+										</a>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!--/Slider-->
+
+						<div class="row hidden-xs" id="slider-thumbs">
+							<!-- Bottom switcher of slider -->
+							<ul class="hide-bullets">
+								<li class="col-sm-2">
+									<a class="thumbnail" id="carousel-selector-0">
+										<img src="http://placehold.it/170x100&text=one"></a>
+								</li>
+
+								<li class="col-sm-2">
+									<a class="thumbnail" id="carousel-selector-1">
+										<img src="http://placehold.it/170x100&text=two"></a>
+								</li>
+
+								<li class="col-sm-2">
+									<a class="thumbnail" id="carousel-selector-2">
+										<img src="http://placehold.it/170x100&text=three"></a>
+								</li>
+
+								<li class="col-sm-2">
+									<a class="thumbnail" id="carousel-selector-3">
+										<img src="http://placehold.it/170x100&text=four"></a>
+								</li>
+
+								<li class="col-sm-2">
+									<a class="thumbnail" id="carousel-selector-4">
+										<img src="http://placehold.it/170x100&text=five"></a>
+								</li>
+
+								<li class="col-sm-2">
+									<a class="thumbnail" id="carousel-selector-5">
+										<img src="http://placehold.it/170x100&text=six"></a>
+								</li>
+								<li class="col-sm-2">
+									<a class="thumbnail" id="carousel-selector-6">
+										<img src="http://placehold.it/170x100&text=seven"></a>
+								</li>
+								<li class="col-sm-2">
+									<a class="thumbnail" id="carousel-selector-7">
+										<img src="http://placehold.it/170x100&text=eight"></a>
+								</li>
+							</ul>
+						</div>
+
+						<hr/>
+
+						<!-- 描述 -->
+						<div class="row">
+
+							<div class="col-md-12">
+								<h4 class="pull-right message">2014-10-31 09:03:28</h4>
+								<a href="#">
+									<img src="http://hhhhold.com/40x40" alt="头像" class="img-circle">
+									<span>乔布斯</span>
+								</a>
+								<span>lv</span>
+								<span class="importinfo">&nbsp32</span>
+							</div>
+
+							<div class="col-md-12">
+								<p class="detail-p">反正这里是详细的描述信息撒旦发射点发是；发神经的开发建设</p>
+							</div>
+
+						</div>
+					</div>
+				</div>
+
+				<!-- 评论列表 -->
+				<div class="panel panel-default">
+					<div class="panel-body">
+						<div class="row">
+
+							<div class="timeline-centered">
+
+								<article class="timeline-entry">
+									<div class="timeline-entry-inner">
+										<div class="timeline-icon">
+											<img src="http://hhhhold.com/40x40" alt="头像" class="img-circle"></div>
+
+										<div class="timeline-label">
+											<span class="pull-right time">2014-10-31 10:10:12</span>
+											<h2>
+												<a href="#">乔布斯</a>
+											</h2>
+											<p class="content">
+												劳资卖的东西
+												劳资卖的东西
+												劳资卖的东西
+												劳资卖的东西
+												劳资卖的东西
+												劳资卖的东西
+												劳资卖的东西
+												劳资卖的东西
+												劳资卖的东西
+												劳资卖的东西
+												劳资卖的东西
+												劳资卖的东西
+												劳资卖的东西
+												劳资卖的东西
+												劳资卖的东西
+											</p>
+											<a class="replay">回复</a>
+										</div>
+									</div>
+								</article>
+
+								<article class="timeline-entry">
+
+									<div class="timeline-entry-inner">
+
+										<div class="timeline-icon bg-secondary"> <i class="entypo-suitcase"></i>
+										</div>
+
+										<div class="timeline-label">
+											<h2>
+												<a href="#">Job Meeting</a>
+											</h2>
+											<p>
+												You have a meeting at <strong>Laborator Office</strong>
+												Today.
+											</p>
+										</div>
+									</div>
+								</article>
+
+								<article class="timeline-entry">
+
+									<div class="timeline-entry-inner">
+
+										<div class="timeline-icon bg-warning"> <i class="entypo-camera"></i>
+										</div>
+
+										<div class="timeline-label">
+											<h2>
+												<a href="#">Arber Nushi</a>
+												<span>回复</span>
+												<a href="#">Profile Picture</a>
+											</h2>
+											Pianoforte principles our unaffected not for astonished travelling are particular.
+												Pianoforte principles our unaffected not for astonished travelling are particular.
+												Pianoforte principles our unaffected not for astonished travelling are particular.
+												Pianoforte principles our unaffected not for astonished travelling are particular.
+										</div>
+									</div>
+								</article>
+
+							</div>
+
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- web端显示的是浮动导航 -->
+			<div class="col-md-3 hidden-xs">
+				<div class="panel panel-default" data-spy="affix">
+					<div class="panel-body detail-panel">
+						<h4>全新二手MX4 64G联通版低价出售</h4>
+						<h2 class="importinfo">
+							800.00
+							<span class="oldprice">900.00</span>
+						</h2>
+
+						<hr/>
+						<div class="row">
+							<div class="col-md-5">交易方式</div>
+							<div class="col-md-7">线上/线下</div>
+						</div>
+						<hr/>
+						<button class="btn btn-danger">
+							<span class="glyphicon glyphicon-heart"></span>
+							&nbsp加入心愿单
+						</button>
+						<button class="btn btn-primary">
+							<span class="glyphicon glyphicon-comment"></span>
+							&nbsp留言
+						</button>
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+	<!-- 购买按钮 -->
+	<div class="navbar-fixed-bottom fixed-expand">
+		<button type="button" class="btn btn-orange btnpublish" data-toggle="tooltip" data-placement="top" title="立即购买">
+			<span class="glyphicon glyphicon-shopping-cart"></span>
+		</button>
+	</div>
+
+	<!-- 页脚 -->
+	<footer>
+		<div class="container">
+			<div class="row hidden-xs">
+				<div class="col-md-5">
+					<p> <b>介绍</b>
+					</p>
+					<p>Logo design by 某某某</p>
+					<p>Powerd by ThinkPHP</p>
+					<p>Copyright &copy; 2014, 指尖科技-橘子团队</p>
+					<p>
+						<a href="http://www.miibeian.gov.cn/">黔ICP备14004869号-1</a>
+					</p>
+				</div>
+				<div class="col-md-5">
+					<p> <b>关于</b>
+					</p>
+					<p>
+						<a href="#">橘子团队</a>
+					</p>
+					<p>
+						<a href="#">问题反馈</a>
+					</p>
+					<p>
+						<a href="#">联系我们</a>
+					</p>
+					<p>
+						<a href="#">免责声明</a>
+					</p>
+				</div>
+				<div class="col-md-2">
+					<p>
+						<b>客户端下载(android)</b>
+					</p>
+					<img src="http://hhhhold.com/110x110" alt=""></div>
+			</div>
+			<div class="row visible-xs-inline">
+				<div class="col-md-12 text-center">
+					<p>
+						<a href="#">Copyright &copy; 2014, 指尖科技-橘子团队</a>
+					</p>
+					<p>
+						<a href="http://www.miibeian.gov.cn/">黔ICP备14004869号-1</a>
+					</p>
+				</div>
+
+			</div>
+		</div>
+	</footer>
+
+	<script src="js/jquery-1.11.0.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script src="js/juzi.js"></script>
+
+	<!-- 图片预览 额外要加的 -->
+	<script src="js/jquery.fancybox.pack.js"></script>
+	<script src="js/jquery.fancybox-thumbs.js"></script>
+	<script>
+		$(document).ready(function() {
+			$('.fancybox').fancybox();
+			$('.fancybox-thumbs').fancybox({
+				prevEffect : 'none',
+				nextEffect : 'none',
+
+				closeBtn  : false,
+				arrows    : false,
+				nextClick : true,
+
+				helpers : {
+					thumbs : {
+						width  : 50,
+						height : 50
+					}
+				}
+			});
+		});
+	</script>
+</body>
+
+</html>

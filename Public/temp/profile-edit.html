@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+	<meta name="description" content="贵州财经大学-二手交易-以物换物-服务平台-c2c">
+	<meta name="author" content="橘子团队">
+	<title>大橘子-贵财二手交易平台</title>
+	<!-- Bootstrap Core CSS -->
+	<link href="css/bootstrap.min.css" rel="stylesheet">
+	<link href="css/normalize.css" rel="stylesheet">
+	<!-- Custom CSS -->
+	<link href="css/juzi.css" rel="stylesheet">
+
+	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+	<!--[if lt IE 9]>
+	<script src="http://cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+	<script src="http://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+	<![endif]-->
+
+</head>
+
+<body>
+	<!-- 页身 -->
+	<div id="wrap">
+		<!-- 导航 -->
+		<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+			<div class="container">
+				<!-- Brand and toggle get grouped for better mobile display -->
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+						<span class="sr-only">Toggle navigation</span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<a class="navbar-brand" href="#">logo 大橘子</a>
+				</div>
+
+				<!-- Collect the nav links, forms, and other content for toggling -->
+				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+					<ul class="nav navbar-nav">
+						<li class="active">
+							<a href="#">首页</a>
+						</li>
+						<li>
+							<a href="#">发现</a>
+						</li>
+						<li>
+							<a href="#">
+								礼品
+								<span class="navbar-new"></span>
+							</a>
+						</li>
+					</ul>
+					<form class="navbar-form navbar-left" role="search">
+						<div class="input-group">
+							<input type="text" class="form-control" placeholder="搜索商品">
+							<div class="input-group-btn">
+								<button type="button" class="btn btn-default btn-expend">
+									<span class="glyphicon glyphicon-search"></span>
+								</button>
+							</div>
+							<!-- /btn-group -->
+						</div>
+						<!-- /input-group -->
+					</form>
+
+					<!-- 未登录状态 -->
+					<ul class="nav navbar-nav navbar-right">
+						<li>
+							<a href="#" data-toggle="modal" data-target=".bs-example-modal-sm">登录</a>
+						</li>
+						<li>
+							<a href="#">注册</a>
+						</li>
+					</ul>
+
+				</div>
+				<!-- /.navbar-collapse -->
+			</div>
+			<!-- /.container-fluid -->
+		</nav>
+
+		<!-- 内容 -->
+		<div id="main" class="container">
+			<div class="col-md-3">
+
+				<article>
+					<div class="profile" data-toggle="tooltip" data-placement="right" title="点击进入个人信息" data-container="body" data-delay="500">
+						<a href="profile-user.html">
+							<img src="http://placehold.it/150x150" alt="..." class="img-circle">
+							<p>乔布斯</p>
+							<p>等级: Lv 82 实习生</p>
+						</a>
+					</div>
+					<ul class="list-group">
+						<a class="list-group-item" href="profile-msg.html">
+							<span class="badge">4</span>
+							未读消息
+						</a>
+						<a class="list-group-item" href="profile-sell.html">在售商品</a>
+						<a class="list-group-item" href="profile-order.html">订单管理</a>
+						<a class="list-group-item" href="profile-follow.html">已关注</a>
+						<a class="list-group-item" href="profile-like.html">心愿单</a>
+						<a class="list-group-item active" href="profile-edit.html">编辑资料</a>
+						<a class="list-group-item" href="profile-home.html">个人页面</a>
+					</ul>
+				</article>
+			</div>
+			<div class="col-md-9">
+				<div class="panel panel-default profilemain">
+					<div class="panel-body">
+
+						<!-- Nav tabs -->
+						<ul class="nav nav-tabs" role="tablist">
+							<li role="presentation" class="active">
+								<a href="#tab1" role="tab" data-toggle="tab">基本信息</a>
+							</li>
+							<li role="presentation">
+								<a href="#tab2" role="tab" data-toggle="tab">联系地址</a>
+							</li>
+							<li role="presentation">
+								<a href="#tab3" role="tab" data-toggle="tab">修改密码</a>
+							</li>
+						</ul>
+
+						<!-- Tab panes -->
+						<div class="tab-content">
+							<div role="tabpanel" class="tab-pane active" id="tab1">
+
+								<form class="form-horizontal" role="form">
+									<div class="form-group">
+										<label for="NickName" class="col-sm-2 control-label">昵称</label>
+										<div class="col-sm-4">
+											<input type="text" class="form-control" name="NickName" id="NickName"></div>
+									</div>
+									<div class="form-group">
+										<label for="RealName" class="col-sm-2 control-label">真实姓名</label>
+										<div class="col-sm-4">
+											<input type="text" class="form-control" name="RealName" id="RealName"></div>
+									</div>
+									<div class="form-group">
+										<label for="Sex" class="col-sm-2 control-label">性别</label>
+										<div class="col-sm-4">
+											<label class="radio-inline">
+												<input type="radio" name="Sex" value="男">男</label>
+											<label class="radio-inline">
+												<input type="radio" name="Sex" value="女">女</label>
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="Birthday" class="col-sm-2 control-label">生日</label>
+										<div class="col-sm-4">
+											<div class="input-group">
+												<input type="datetime" class="form-control" name="Birthday" id="Birthday" onclick="calendar.show(this);" readonly="readonly" placeholder="点击选择日期">
+												<span class="input-group-addon">
+													<a class="glyphicon glyphicon-calendar" onclick="calendar.show(Birthday);"></a>
+												</span>
+											</div>
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="QQ" class="col-sm-2 control-label">QQ</label>
+										<div class="col-sm-4">
+											<input type="text" class="form-control" name="QQ" id="QQ"></div>
+									</div>
+
+									<div class="form-group">
+										<label for="Tel" class="col-sm-2 control-label">手机</label>
+										<div class="col-sm-4">
+											<input type="tel" class="form-control" name="Tel" id="Tel"></div>
+										<div class="col-sm-2">
+											<button class="btn btn-primary">验证</button>
+										</div>
+									</div>
+
+									<div class="form-group">
+										<label for="Email" class="col-sm-2 control-label">邮箱</label>
+										<div class="col-sm-4">
+											<input type="email" class="form-control" name="Email" id="Email" disabled="disabled"></div>
+
+										<div class="col-sm-2">
+											<button class="btn btn-primary" disabled="disabled">已验证</button>
+										</div>
+									</div>
+
+									<div class="form-group">
+										<div class="col-sm-offset-2 col-sm-10">
+											<button type="submit" class="btn btn-success">保存</button>
+										</div>
+									</div>
+
+								</form>
+
+							</div>
+							<div role="tabpanel" class="tab-pane" id="tab2">
+								<button class="btn btn-success">新建</button>
+								<div class="table-responsive">
+									<table class="table table-striped">
+										<thead>
+											<th>联系人</th>
+											<th>联系地址</th>
+											<th>手机号</th>
+											<th>QQ</th>
+											<th>操作</th>
+										</thead>
+										<tbody>
+											<tr>
+												<td>李清伟</td>
+												<td style="width:200px">贵州财经大学反正能找到我的地址</td>
+												<td>15519541782</td>
+												<td>493628086</td>
+												<td>
+													<button class="btn btn-primary btn-small" disabled="disabled" >默认地址</button>
+													<button class="btn btn-danger btn-small">删除</button>
+												</td>
+											</tr>
+											<tr>
+												<td>李清伟</td>
+												<td style="width:200px">贵州财经大学反正能找到我的地址</td>
+												<td>15519541782</td>
+												<td>493628086</td>
+												<td>
+													<button class="btn btn-primary btn-small">设为默认</button>
+													<button class="btn btn-danger btn-small">删除</button>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+							<div role="tabpanel" class="tab-pane" id="tab3">
+
+								<form class="form-horizontal" role="form">
+									<div class="form-group">
+										<label for="OldPassword" class="col-sm-2 control-label">原密码</label>
+										<div class="col-sm-4">
+											<input type="password" class="form-control" name="OldPassword" id="OldPassword"></div>
+									</div>
+									<div class="form-group">
+										<label for="NewPassword" class="col-sm-2 control-label">新密码</label>
+										<div class="col-sm-4">
+											<input type="password" class="form-control" name="NewPassword" id="NewPassword"></div>
+									</div>
+
+									<div class="form-group">
+										<label for="ConfirmPwd" class="col-sm-2 control-label">确认密码</label>
+										<div class="col-sm-4">
+											<input type="password" class="form-control" name="ConfirmPwd" id="ConfirmPwd"></div>
+									</div>
+
+									<div class="form-group">
+										<div class="col-sm-offset-2 col-sm-10">
+											<button type="submit" class="btn btn-success">提交</button>
+										</div>
+									</div>
+
+								</form>
+
+							</div>
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- 页脚 -->
+	<footer>
+		<div class="container">
+			<div class="row hidden-xs">
+				<div class="col-md-5">
+					<p> <b>介绍</b>
+					</p>
+					<p>Logo design by 某某某</p>
+					<p>Powerd by ThinkPHP</p>
+					<p>Copyright &copy; 2014, 指尖科技-橘子团队</p>
+					<p>
+						<a href="http://www.miibeian.gov.cn/">黔ICP备14004869号-1</a>
+					</p>
+				</div>
+				<div class="col-md-5">
+					<p> <b>关于</b>
+					</p>
+					<p>
+						<a href="#">橘子团队</a>
+					</p>
+					<p>
+						<a href="#">问题反馈</a>
+					</p>
+					<p>
+						<a href="#">联系我们</a>
+					</p>
+					<p>
+						<a href="#">免责声明</a>
+					</p>
+				</div>
+				<div class="col-md-2">
+					<p>
+						<b>客户端下载(android)</b>
+					</p>
+					<img src="http://placehold.it/110x110" alt=""></div>
+			</div>
+			<div class="row visible-xs-inline">
+				<div class="col-md-12 text-center">
+					<p>
+						<a href="#">Copyright &copy; 2014, 指尖科技-橘子团队</a>
+					</p>
+					<p>
+						<a href="http://www.miibeian.gov.cn/">黔ICP备14004869号-1</a>
+					</p>
+				</div>
+
+			</div>
+		</div>
+	</footer>
+
+	<script src="js/jquery-1.11.0.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script src="js/juzi.js"></script>
+
+	<!-- 日历选择器 -->
+	<script src="js/calendar.js"></script>
+
+</body>
+
+</html>
