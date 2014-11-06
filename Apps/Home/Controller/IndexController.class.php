@@ -89,7 +89,7 @@ class IndexController extends Controller {
 	 *        
 	 */
 	public function searchgoods() {
-		$test = I ( 'text' );
+		$test = I ( 'wd' );
 		if (! $test) {
 			redirect ( U ( 'Home/Index/index' ) );
 		}
