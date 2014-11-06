@@ -1,26 +1,4 @@
 ﻿<extend name="Public/cate" />
-<block name="js">
-	<script type="text/javascript">
-	$(function(){
-		$('.delkeyworl').click(function(e){
-			var _id=$(this).attr('delid');
-			var _cid=$(this).attr('cateid');
-			var _url=$('#url').attr('delurl');
-			$.post(_url,{
-				'CategoryId':_cid,
-				'Id':_id
-			},function(data){
-				if(data.status==1){
-					location.reload();
-				}else{
-					alert("删除失败！\n"+data.info);
-				}
-			});
-		});
-	});
-</script>
-</block>
-
 <block name="content">
 	<div class="col-md-9">
 		<div class="panel panel-default">
@@ -33,7 +11,7 @@
 						<thead>
 							<th>编号</th>
 							<th>分类</th>
-							<th>关键字</th>
+							<th width="300">关键字</th>
 							<th>状态</th>
 							<th>操作</th>
 						</thead>
@@ -42,7 +20,7 @@
 								<tr>
 									<td>{$v.Id}</td>
 									<td>{$cmodel['Title']}</td>
-									<td width="300">{$v.Keyword}</td>
+									<td>{$v.Keyword}</td>
 									<td>{$v.Status}</td>
 									<td>
 										<a class="btn btn-danger btn-small" href="{:U(del,array('Id'=>$v['Id'], 'CategoryId'=>$CategoryId))}">删除</a>
