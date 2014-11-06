@@ -23,7 +23,7 @@ class view_goods_in_serviceModel extends Model {
 		$allCount = $this->where ( $wherearr )->count ();
 		$Page = new \Think\Page ( $allCount, $limit );
 		$showPage = $Page->show ();
-		$list = $this->where ( $wherearr )->limit ( $Page->firstRow . ',' . $Page->listRows )->select ();
+		$list = $this->where ( $wherearr )->limit ( $Page->firstRow . ',' . $Page->listRows )->order('CreateTime DESC ')->select ();
 		return array (
 				'status' => 1,
 				'page' => $showPage,

@@ -104,6 +104,8 @@ return array (
 		/*用户默认头像地址  */
 		'DEFAULT_USER_AVATAR'=>'/Public/Img/aurl.jpg',
 		/*商品评论最大返回数量  */
-		'COMMENTS_LIST_COUNT'=>50
+		'COMMENTS_LIST_COUNT'=>50,
+		/*商品置顶服务Id  主要用于显示置顶商品  */
+		'TOP_SERVICE_ID'=>2
 );
 

@@ -23,7 +23,7 @@ class view_search_listModel extends Model {
 		$allcount = $allcount [0] ['COUNT'];
 		$Page = new \Think\Page ( $allcount, $limit );
 		$showPage = $Page->show ();
-		$q = "SELECT * FROM view_search_list WHERE MATCH(SearchTitle) AGAINST('" . $key . "')";
+		$q = "SELECT * FROM view_search_list WHERE MATCH(SearchTitle) AGAINST('" . $key . "') ORDER BY CreateTime DESC";
 		$qp = $q . " LIMIT " . $Page->firstRow . "," . $Page->listRows;
 		$list = $this->query ( $qp );
 		return array (

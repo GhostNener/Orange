@@ -42,13 +42,14 @@ class IndexController extends Controller {
 	 * 首页
 	 */
 	public function index() {
+		$limit=6;
 		/* 置顶 最新的 猜你喜欢 分类 */
 		$model = new view_goods_in_serviceModel ();
 		/* 获得置顶 */
 		$toplist = $model->getlist ( array (
-				'ServiceId' => 2,
+				'ServiceId' => C('TOP_SERVICE_ID'),
 				'Status' => 10 
-		), 6 );
+		), $limit );
 		$toplist = $toplist ['list'];
 		$wherenew = array (
 				'Status' => 10 
@@ -64,16 +65,18 @@ class IndexController extends Controller {
 		}
 		$model = new view_goods_listModel ();
 		/* 获得最新 */
-		$newlist = $model->getlist ( $wherenew, 6 );
+		$newlist = $model->getlist ( $wherenew, $limit );
 		$newlist = $newlist ['list'];
 		/* 获得猜你喜欢 */
-		$likelist = $model->getrandlist ( 6 );
+		$likelist = $model->getrandlist ( $limit );
 		$likelist = $likelist ['list'];
 		/* 获得分类 */
 		$model=new goods_categoryModel();
 		$clist=$model->getall();
+		/*获取活动图片  */
 		$model=new activityModel();
 		$activitylist=$model->getlist();
+		/*模板赋值  */
 		$this->assign ( 'topimg', $activitylist );
 		$this->assign ( 'toplist', $toplist );
 		$this->assign ( 'newlist', $newlist );
