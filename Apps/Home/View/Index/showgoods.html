@@ -269,11 +269,12 @@ function ajaxsubmit() {
 $(document).ready(function() {
 
     $('.replay').click(function() {
-        $('#refModalLabel').html('回复&nbsp;<a>' + $(this).attr('nick') + '</a>');
         if ($(this).attr('uid') == $('#UserId').val()) {
+        	$('#refModalLabel').html('留言');
             $('#AssesseeId').val('0');
         } else {
             $('#AssesseeId').val($(this).attr('uid'));
+            $('#refModalLabel').html('回复&nbsp;<a>' + $(this).attr('nick') + '</a>');
         }
 
     });
