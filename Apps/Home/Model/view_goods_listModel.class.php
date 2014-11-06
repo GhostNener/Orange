@@ -61,7 +61,8 @@ class view_goods_listModel extends Model {
 	 */
 	public function getgoodsdetails($Id) {
 		$whereArr = array (
-				'Id' => $Id 
+				'Id' => $Id ,
+				'Status'=>10
 		);
 		$goods = M ( "view_goods_list" )->where ( $whereArr )->find ();
 		$whereArr1 = array (
