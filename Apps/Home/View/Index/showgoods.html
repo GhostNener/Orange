@@ -1,10 +1,15 @@
 	<extend name="./Tpl/layout.html"/>	
-
 	<block name="css">
 		<link href="__PUBLIC__/css/jquery.fancybox.css" rel="stylesheet">	
 		<link href="__PUBLIC__/css/jquery.fancybox-thumbs.css" rel="stylesheet"></block>
 	<block name="content">
 		<div id="main" class="container">
+			<!-- 购买按钮 -->	
+			<div class="navbar-fixed-bottom fixed-expand">
+				<button type="button" class="btn btn-orange btnpublish" data-toggle="tooltip" data-placement="top" title="立即购买">
+					<span class="glyphicon glyphicon-shopping-cart"></span>
+				</button>
+			</div>
 			<!-- mobile端显示固定导航 -->	
 			<div class="col-md-3 visible-xs-block">
 				<div class="panel panel-default">
