@@ -1,3 +1,4 @@
+<!-- 首页通用两栏式模板 -->
 <include file="./Tpl/Public/header.html"/>
 <!-- 内容 -->
 <div id="main" class="container">
@@ -22,7 +23,8 @@
 						<hr>
 						<ul class="list-group">
 							<foreach name="clist" item="v">
-								<a href="{:U('Home/Index/cggoods',array('Id'=>$v['Id']))}" class="list-group-item">
+								<a href="{:U('Home/Index/cggoods',array('Id'=>
+									$v['Id']))}" class="list-group-item">
 									<span class="badge">new</span>
 									{$v['Title']}
 								</a>
