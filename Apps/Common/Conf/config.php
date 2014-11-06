@@ -106,6 +106,9 @@ return array (
 		/*商品评论最大返回数量  */
 		'COMMENTS_LIST_COUNT'=>50,
 		/*商品置顶服务Id  主要用于显示置顶商品  */
-		'TOP_SERVICE_ID'=>2
+		'TOP_SERVICE_ID'=>2,
+
+		'TMPL_ACTION_ERROR' => './Tpl/jump.html',
+		'TMPL_ACTION_SUCCESS' => './Tpl/jump.html'
 );
 

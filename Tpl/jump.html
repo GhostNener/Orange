@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>大橘子-消息提示</title>
+	<link href="__PUBLIC__/css/juzi.css" rel="stylesheet"></head>
+<body style="height:auto">
+	<div class="container">
+		<div class="col-md-12">
+			<div style="margin-top:10%;text-align:center;">
+				<?php if(isset($message)) {?>
+				<h2>
+					<?php echo($message); ?></h2>
+				<h2>o(^▽^)o</h2>
+				<?php }else{?>
+				<h2>
+					<?php echo($error); ?></h2>
+				<h2>╮(╯-╰)╭</h2>
+				<?php }?></div>
+			<div  style="margin-top:10%;text-align:center;">
+				<p>
+					页面自动
+					<a id="href" href="<?php echo($jumpUrl); ?>">跳转</a>
+					等待时间： <b id="wait"><?php echo($waitSecond); ?></b>
+				</p>
+			</div>
+		</div>
+	</div>
+
+</body>
+
+	<script type="text/javascript">
+(function(){
+var wait = document.getElementById('wait'),href = document.getElementById('href').href;
+var interval = setInterval(function(){
+	var time = --wait.innerHTML;
+	if(time <= 0) {
+		location.href = href;
+		clearInterval(interval);
+	};
+}, 1000);
+})();
+</script></html>
