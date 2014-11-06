@@ -31,7 +31,7 @@ class view_goods_listModel extends Model {
 	}
 	/**
 	 * 获取一串随机商品
-	 * 
+	 *
 	 * @param number $nubmer        	
 	 * @return array:status,list
 	 */
@@ -41,8 +41,8 @@ class view_goods_listModel extends Model {
 		);
 		$allCount = $this->where ( $wherearr )->count ();
 		if ($allCount > $nubmer) {
-			$beg = mt_rand ( 1, ($allCount - $nubmer ) );
-			$list = $this->where ( $wherearr )->limit ( $beg,  $nubmer )->select ();
+			$beg = mt_rand ( 1, ($allCount - $nubmer) );
+			$list = $this->where ( $wherearr )->limit ( $beg, $nubmer )->select ();
 		} else {
 			$list = $this->where ( $wherearr )->limit ( 1, $nubmer )->select ();
 		}
@@ -63,35 +63,19 @@ class view_goods_listModel extends Model {
 		$whereArr = array (
 				'Id' => $Id 
 		);
-		$goods = M ( "view_goods_list" )->where ( $whereArr )->find();
-		$model1 = M ( "view_goods_comment_temp" );
-		$model2 = M ( "view_goods_comment_list" );
+		$goods = M ( "view_goods_list" )->where ( $whereArr )->find ();
 		$whereArr1 = array (
-				'GoodsId' => $Id,
-				'Status' => 10,
-				'AssesseeId' => 0 
-		);
-		$whereArr2 = array (
 				'GoodsId' => $Id,
 				'Status' => 10 
 		);
 		$whereArr3 = array (
 				'GoodsId' => $Id 
 		);
-		$commentlist1 = $model1->where ( $whereArr1 )->select ();
-		$commentlist2 = $model2->where ( $whereArr2 )->select ();
-		if ($commentlist1 == null) {
-			$commentlist = $commentlist2;
-		} elseif ($commentlist2 == null) {
-			$commentlist = $commentlist1;
-		} else {
-			$commentlist = array_merge ( $commentlist1, $commentlist2 );
-		}
-		$newcommentlist = $this->array_sort ( $commentlist, 'CreateTime', 'desc' );
+		$commentlist = M ( "view_goods_comment_list" )->where ( $whereArr1 )->limit(C('COMMENTS_LIST_COUNT'))->select ();
 		$goodsimg = M ( 'goods_img' )->where ( $whereArr3 )->select ();
 		return array (
 				'goods' => $goods,
-				'commentlist' => $newcommentlist,
+				'commentlist' => $commentlist,
 				'goodsimg' => $goodsimg 
 		);
 	}

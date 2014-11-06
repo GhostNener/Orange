@@ -102,6 +102,8 @@ return array (
 		/*用户默认昵称前缀  */
 		'RAND_NICK_PREFIX'=>'',
 		/*用户默认头像地址  */
-		'DEFAULT_USER_AVATAR'=>'/Public/Img/aurl.jpg'
+		'DEFAULT_USER_AVATAR'=>'/Public/Img/aurl.jpg',
+		/*商品评论最大返回数量  */
+		'COMMENTS_LIST_COUNT'=>50
 );
 
