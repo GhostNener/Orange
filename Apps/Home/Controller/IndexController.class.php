@@ -70,9 +70,7 @@ class IndexController extends Controller {
 		/* 获得猜你喜欢 */
 		$likelist = $model->getrandlist ( $limit );
 		$likelist = $likelist ['list'];
-		/* 获得分类 */
-		$model = new goods_categoryModel ();
-		$clist = $model->getall ();
+		
 		/* 获取活动图片 */
 		$model = new activityModel ();
 		$activitylist = $model->getlist ();
@@ -81,7 +79,8 @@ class IndexController extends Controller {
 		$this->assign ( 'toplist', $toplist );
 		$this->assign ( 'newlist', $newlist );
 		$this->assign ( 'likelist', $likelist );
-		$this->assign ( 'clist', $clist );
+		$this->assign ( 'empty', '<h3 class="text-center text-import">暂无商品</h3>' );
+		$this->getheomecommon ();
 		$this->display ( 'Index/index' );
 	}
 	
@@ -102,14 +101,51 @@ class IndexController extends Controller {
 		$key = implode ( ' ', $arr );
 		$keyt = $key . ' ' . implode ( '', $arrtemp );
 		$model = new view_search_listModel ();
-		$arr = $model->getlist ( $key, 6 );
+		$arr = $model->getlist ( $key, 12 );
 		if (count ( $arr ['list'] ) <= 0) {
-			$arr = $model->getlist ( $keyt, 6 );
+			$arr = $model->getlist ( $keyt, 12 );
 		}
+		/* 获得分类 */
+		$this->getheomecommon ();
 		$this->assign ( 'test', $test );
-		$this->assign ( 'list', $arr ['list'] );
+		$this->assign ( 'goodlist', $arr ['list'] );
 		$this->assign ( 'page', $arr ['page'] );
-		$this->display ( 'Index/searchgoods' );
+		$this->assign ( 'empty', '<h3 class="text-center text-import">没有符合的商品</h3>' );
+		$this->display ( 'Index/commongoods' );
+	}
+	/**
+	 * 获取不同分类的商品
+	 */
+	public function cggoods() {
+		$id = I ( 'Id' );
+		$cmodel = D ( 'goods_category' )->where ( array (
+				'Status' => 10,
+				'Id' => $id 
+		) )->find ();
+		if (! $id || ! is_numeric ( $id ) || ! $cmodel) {
+			$this->error ( '页面不存在' );
+			die ();
+		}
+		$m = new view_goods_listModel ();
+		$arr = $m->getlist ( array (
+				'Status' => 10,
+				'CategoryId' => $id 
+		), 12 );
+		$this->getheomecommon ();
+		$this->assign ( 'goodlist', $arr ['list'] );
+		$this->assign ( 'page', $arr ['page'] );
+		$this->assign ( 'cmodel', $cmodel );
+		$this->assign ( 'empty', '<h3 class="text-center text-import">' . $cmodel ['Title'] . ' 分类暂无商品</h3>' );
+		$this->display ( 'Index/commongoods' );
+	}
+	
+	/**
+	 * 获取相同的模板变量并对模板进行赋值
+	 */
+	private function getheomecommon() {
+		$model = new goods_categoryModel ();
+		$clist = $model->getall ();
+		$this->assign ( 'clist', $clist );
 	}
 	/**
 	 * 展示商品 详情 及评论
@@ -136,7 +172,7 @@ class IndexController extends Controller {
 	 */
 	public function addComment() {
 		$postarr = I ( 'post.' );
-		if (!isloin ()) {
+		if (! isloin ()) {
 			$this->error ( '没有登录' );
 			die ();
 		}

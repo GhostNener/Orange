@@ -1,321 +1,158 @@
-<extend name="./Tpl/layout.html"/>
+<extend name="./Tpl/Home/hometpl.html"/>
 <block name="content">
+	<div class="col-md-9">
+		<div class="row carousel-holder">
+			<div class="col-md-12" >
+				<div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+					<ol class="carousel-indicators">
+						<for start="0" end=":count($topimg)">
+							<if condition="$i eq 0">
+								<li data-target="#carousel-example-generic" data-slide-to="{$i}" class="active"></li>
+								<else/>
+								<li data-target="#carousel-example-generic" data-slide-to="{$i}"></li>
+							</if>
+						</for>
+					</ol>
+					<div class="carousel-inner">
+						<for start="0" end=":count($topimg)">
+							<if condition="$i eq 0">
+								<div class="item active">
+									<a href="{$topimg[$i]['Href']}" title="{$topimg[$i]['Title']}">
+										<img class="slide-image" src="__ROOT__{$topimg[$i]['ImgURL']}" height="300" width="800" alt="{$topimg[$i]['Title']}"></a>
+								</div>
+								<else/>
+								<div class="item">
+									<a href="{$topimg[$i]['Href']}" title="{$topimg[$i]['Title']}">
+										<img class="slide-image" src="__ROOT__{$topimg[$i]['ImgURL']}" height="300" width="800" alt="{$topimg[$i]['Title']}"></a>
+								</div>
+							</if>
+						</for>
+					</div>
+					<a class="left carousel-control" href="#carousel-example-generic"  data-slide="prev">
+						<span class="glyphicon glyphicon-chevron-left"></span>
+					</a>
+					<a class="right carousel-control" href="#carousel-example-generic"  data-slide="next">
+						<span class="glyphicon glyphicon-chevron-right"></span>
+					</a>
+				</div>
+			</div>
 
-	<!-- 内容 -->
-	<div id="main" class="container">
-
-		<!-- 发布按钮 -->
-		<div class="navbar-fixed-bottom fixed-expand">
-			<button id="creategoods" url="{:U('Home/Goods/add')}" type="button" class="btn btn-orange btnpublish" data-toggle="tooltip" data-placement="top" title="发布商品">
-				<span class="glyphicon glyphicon-plus"></span>
-			</button>
 		</div>
+
+		<!-- 热门 -->
 		<div class="row">
-			<!-- 商品展示 -->
-			<div class="col-md-9">
-
-				<div class="row carousel-holder">
-
-					<div class="col-md-12" >
-						<div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
-							<ol class="carousel-indicators">
-								<for start="0" end=":count($topimg)">
-									<if condition="$i eq 0">
-										<li data-target="#carousel-example-generic" data-slide-to="{$i}" class="active"></li>
-										<else/>
-										<li data-target="#carousel-example-generic" data-slide-to="{$i}"></li>
+			<div class="col-sm-12">
+				<h4>热门</h4>
+			</div>
+			<!-- 商品列表 -->
+			<volist name="toplist" id="v" empty="$empty">
+				<div class="col-sm-4">
+					<a href="{:U('Home/Index/showgoods',array('Id'=>
+						$v['Id']))}" target="_blank" class="thumbnail ">
+						<img src="__ROOT__{$v['ThumbURL']}" alt="">
+						<div class="caption">
+							<h4 class="pull-right message">{$v['TradeWayTxt']}</h4>
+							<p>
+								<img src="http://hhhhold.com/40x40" alt="头像" class="img-circle">
+								<span>{$v['Nick']}</span>
+							</p>
+							<p>{$v['Title']}</p>
+						</div>
+						<div class="ratings">
+							<h4 class="pull-right message">浏览 {$v['Views']}</h4>
+							<h4 class="pull-right message">评论 {$v['CommentCount']}&nbsp</h4>
+							<h3>
+								{$v['Price']}.00
+								<if condition="$v['Price'] lt 10000">
+									<if condition="$v['CostPrice'] lt 10000">
+										<span>{$v['CostPrice']}.00</span>
 									</if>
-								</for>
-							</ol>
-							<div class="carousel-inner">
-								<for start="0" end=":count($topimg)">
-									<if condition="$i eq 0">
-										<div class="item active">
-											<a href="{$topimg[$i]['Href']}" title="{$topimg[$i]['Title']}">
-												<img class="slide-image" src="{$topimg[$i]['ImgURL']}" height="300" width="800" alt="{$topimg[$i]['Title']}"></a>
-										</div>
-										<else/>
-										<div class="item">
-											<a href="{$topimg[$i]['Href']}" title="{$topimg[$i]['Title']}">
-												<img class="slide-image" src="{$topimg[$i]['ImgURL']}" height="300" width="800" alt="{$topimg[$i]['Title']}"></a>
-										</div>
-									</if>
-								</for>
-							</div>
-							<a class="left carousel-control" href="#carousel-example-generic"  data-slide="prev">
-								<span class="glyphicon glyphicon-chevron-left"></span>
-							</a>
-							<a class="right carousel-control" href="#carousel-example-generic"  data-slide="next">
-								<span class="glyphicon glyphicon-chevron-right"></span>
-							</a>
+								</if>
+							</h3>
 						</div>
-					</div>
-
+					</a>
 				</div>
+			</volist>
+		</div>
 
-				<!-- 热门 -->
-				<div class="row">
-					<div class="col-sm-12">
-						<h4>热门</h4>
-					</div>
-					<!-- 商品列表 -->
-					<foreach name="toplist" item="v">
-						<div class="col-sm-4">
-							<a href="{:U('Home/Index/showgoods',array('Id'=>
-								$v['Id']))}" target="_blank" class="thumbnail ">
-								<img src="__ROOT__{$v['ThumbURL']}" alt="">
-								<div class="caption">
-									<h4 class="pull-right message">{$v['TradeWayTxt']}</h4>
-									<p>
-										<img src="http://hhhhold.com/40x40" alt="头像" class="img-circle">
-										<span>{$v['Nick']}</span>
-									</p>
-									<p>{$v['Title']}</p>
-								</div>
-								<div class="ratings">
-									<h4 class="pull-right message">浏览 {$v['Views']}</h4>
-									<h4 class="pull-right message">评论 {$v['CommentCount']}&nbsp</h4>
-									<h3>
-										{$v['Price']}.00
-										<if condition="$v['Price'] lt 10000">
-											<if condition="$v['CostPrice'] lt 10000">
-												<span>{$v['CostPrice']}.00</span>
-											</if>
-										</if>
-									</h3>
-								</div>
-							</a>
-						</div>
-					</foreach>
-				</div>
+		<hr>
+		<!--记得分隔符-->
 
-				<hr>
-				<!--记得分隔符-->
-
-				<!-- 最新 -->
-				<div class="row">
-					<div class="col-sm-12">
-						<h4>最新</h4>
-					</div>
-
-					<!-- 商品列表 -->
-					<foreach name="newlist" item="v">
-						<div class="col-sm-4">
-							<a href="{:U('Home/Index/showgoods',array('Id'=>
-								$v['Id']))}" target="_blank" class="thumbnail ">
-								<img src="__ROOT__{$v['ThumbURL']}" alt="">
-								<div class="caption">
-									<h4 class="pull-right message">{$v['TradeWayTxt']}</h4>
-									<p>
-										<img src="http://hhhhold.com/40x40" alt="头像" class="img-circle">
-										<span>{$v['Nick']}</span>
-									</p>
-									<p>{$v['Title']}</p>
-								</div>
-								<div class="ratings">
-									<h4 class="pull-right message">浏览 {$v['Views']}</h4>
-									<h4 class="pull-right message">评论 {$v['CommentCount']}&nbsp</h4>
-									<h3>
-										{$v['Price']}.00
-										<if condition="$v['Price'] lt 10000">
-											<if condition="$v['CostPrice'] lt 10000">
-												<span>{$v['CostPrice']}.00</span>
-											</if>
-										</if>
-									</h3>
-								</div>
-							</a>
-						</div>
-					</foreach>
-				</div>
-
-				<hr>
-				<!--记得分隔符-->
-
-				<!-- 猜你喜欢 -->
-				<div class="row">
-					<div class="col-sm-12">
-						<h4>猜你喜欢</h4>
-					</div>
-
-					<!-- 商品列表 -->
-					<foreach name="likelist" item="v">
-						<div class="col-sm-4">
-							<a href="{:U('Home/Index/showgoods',array('Id'=>
-								$v['Id']))}" target="_blank" class="thumbnail ">
-								<img src="__ROOT__{$v['ThumbURL']}" alt="">
-								<div class="caption">
-									<h4 class="pull-right message">{$v['TradeWayTxt']}</h4>
-									<p>
-										<img src="http://hhhhold.com/40x40" alt="头像" class="img-circle">
-										<span>{$v['Nick']}</span>
-									</p>
-									<p>{$v['Title']}</p>
-								</div>
-								<div class="ratings">
-									<h4 class="pull-right message">浏览 {$v['Views']}</h4>
-									<h4 class="pull-right message">评论 {$v['CommentCount']}&nbsp</h4>
-									<h3>
-										{$v['Price']}.00
-										<if condition="$v['Price'] lt 10000">
-											<if condition="$v['CostPrice'] lt 10000">
-												<span>{$v['CostPrice']}.00</span>
-											</if>
-										</if>
-									</h3>
-								</div>
-							</a>
-						</div>
-					</foreach>
-				</div>
-
+		<!-- 最新 -->
+		<div class="row">
+			<div class="col-sm-12">
+				<h4>最新</h4>
 			</div>
 
-			<!-- 功能菜单 -->
-			<div class="col-md-3">
-
-				<div class="panel panel-default">
-					<div class="panel-body">
-						<button type="button" class="btn btn-orange btn-lg btn-block">打卡签到</button>
-
-						<!-- 商品分类 -->
-						<div class="sideitemnav">
-							<h4>商品分类</h4>
-							<hr>
-							<ul class="list-group">
-								<foreach name="clist" item="v">
-									<a href="#" class="list-group-item">
-										<span class="badge">new</span>
-										{$v['Title']}
-									</a>
-								</foreach>
-							</ul>
+			<!-- 商品列表 -->
+			<volist name="newlist" id="v" empty="$empty">
+				<div class="col-sm-4">
+					<a href="{:U('Home/Index/showgoods',array('Id'=>
+						$v['Id']))}" target="_blank" class="thumbnail ">
+						<img src="__ROOT__{$v['ThumbURL']}" alt="">
+						<div class="caption">
+							<h4 class="pull-right message">{$v['TradeWayTxt']}</h4>
+							<p>
+								<img src="http://hhhhold.com/40x40" alt="头像" class="img-circle">
+								<span>{$v['Nick']}</span>
+							</p>
+							<p>{$v['Title']}</p>
 						</div>
-						<!--/.sideitemnav-->
-
-						<!-- 热门活动 -->
-						<div class="sideitemnav">
-							<h4>热门活动</h4>
-							<hr>
-							<div class="media">
-								<a class="pull-left" href="#">
-									<img class="media-object" src="http://hhhhold.com/80x80" alt="..."></a>
-								<div class="media-body">
-									<h5 class="media-heading">每周抽奖日</h5>
-									<p>最好不要超过22个字哇哈哈哈哈</p>
-									<button type="button" class="btn btn-success">参与活动</button>
-
-								</div>
-							</div>
-
-							<hr>
-							<!--记得分隔符-->
-
-							<div class="media">
-								<a class="pull-left" href="#">
-									<img class="media-object" src="http://hhhhold.com/80x80" alt="..."></a>
-								<div class="media-body">
-									<h5 class="media-heading">每周抽奖日</h5>
-									<p>最好不要超过24个字哇哈哈哈哈</p>
-									<button type="button" class="btn btn-success">参与活动</button>
-
-								</div>
-							</div>
+						<div class="ratings">
+							<h4 class="pull-right message">浏览 {$v['Views']}</h4>
+							<h4 class="pull-right message">评论 {$v['CommentCount']}&nbsp</h4>
+							<h3>
+								{$v['Price']}.00
+								<if condition="$v['Price'] lt 10000">
+									<if condition="$v['CostPrice'] lt 10000">
+										<span>{$v['CostPrice']}.00</span>
+									</if>
+								</if>
+							</h3>
 						</div>
-						<!--/.sideitemnav-->
-
-						<!-- 排行榜 -->
-						<div class="sideitemnav">
-							<h4>排行榜</h4>
-							<hr>
-							<ul id="myTab" class="nav nav-tabs">
-								<li class="active">
-									<a href="#tab1" data-toggle="tab">签到狂人</a>
-								</li>
-								<li>
-									<a href="#tab2" data-toggle="tab">大富豪</a>
-								</li>
-							</ul>
-							<div id="myTabContent" class="tab-content">
-								<div class="tab-pane fade in active" id="tab1">
-									<!-- 用户列表 -->
-									<div class="tabuser">
-										<a href="#">
-											<img src="http://hhhhold.com/40x40" alt="头像" class="img-circle">
-											<span>乔布斯</span>
-										</a>
-										<span class="info pull-right">
-											签到&nbsp
-											<span class="importinfo">50</span>
-											&nbsp天
-										</span>
-									</div>
-									<!--用户列表-->
-
-									<div class="tabuser">
-										<a href="#">
-											<img src="http://hhhhold.com/40x40" alt="头像" class="img-circle">
-											<span>乔布斯</span>
-										</a>
-										<span class="info pull-right">
-											签到&nbsp
-											<span class="importinfo">50</span>
-											&nbsp天
-										</span>
-									</div>
-									<!--用户列表-->
-								</div>
-
-								<div class="tab-pane fade" id="tab2">
-									<!-- 用户列表 -->
-									<div class="tabuser">
-										<a href="#">
-											<img src="http://hhhhold.com/40x40" alt="头像" class="img-circle">
-											<span>乔布斯</span>
-										</a>
-										<span class="info pull-right">
-											交易&nbsp
-											<span class="importinfo">50</span>
-											&nbsp笔
-										</span>
-									</div>
-									<!--用户列表-->
-
-									<div class="tabuser">
-										<a href="#">
-											<img src="http://hhhhold.com/40x40" alt="头像" class="img-circle">
-											<span>乔布斯</span>
-										</a>
-										<span class="info pull-right">
-											交易&nbsp
-											<span class="importinfo">50</span>
-											&nbsp笔
-										</span>
-									</div>
-									<!--用户列表-->
-
-								</div>
-							</div>
-
-						</div>
-						<!--/.sideitemnav-->
-
-					</div>
+					</a>
 				</div>
+			</volist>
+		</div>
+
+		<hr>
+		<!--记得分隔符-->
+
+		<!-- 猜你喜欢 -->
+		<div class="row">
+			<div class="col-sm-12">
+				<h4>猜你喜欢</h4>
 			</div>
 
+			<!-- 商品列表 -->
+			<volist name="likelist" id="v" empty="$empty">
+				<div class="col-sm-4">
+					<a href="{:U('Home/Index/showgoods',array('Id'=>
+						$v['Id']))}" target="_blank" class="thumbnail ">
+						<img src="__ROOT__{$v['ThumbURL']}" alt="">
+						<div class="caption">
+							<h4 class="pull-right message">{$v['TradeWayTxt']}</h4>
+							<p>
+								<img src="http://hhhhold.com/40x40" alt="头像" class="img-circle">
+								<span>{$v['Nick']}</span>
+							</p>
+							<p>{$v['Title']}</p>
+						</div>
+						<div class="ratings">
+							<h4 class="pull-right message">浏览 {$v['Views']}</h4>
+							<h4 class="pull-right message">评论 {$v['CommentCount']}&nbsp</h4>
+							<h3>
+								{$v['Price']}.00
+								<if condition="$v['Price'] lt 10000">
+									<if condition="$v['CostPrice'] lt 10000">
+										<span>{$v['CostPrice']}.00</span>
+									</if>
+								</if>
+							</h3>
+						</div>
+					</a>
+				</div>
+			</volist>
 		</div>
 	</div>
-</block>
-<block name="js">
-	<script>
-	$(function (){
-		$('#creategoods').click(function(e){
-			var _url=$(this).attr('url');
-			location.href=_url;
-		});
-
-	});
-
-</script>
 </block>

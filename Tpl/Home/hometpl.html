@@ -1,0 +1,159 @@
+<include file="./Tpl/Public/header.html"/>
+<!-- 内容 -->
+<div id="main" class="container">
+	<!-- 发布按钮 -->
+	<div class="navbar-fixed-bottom fixed-expand">
+		<button id="creategoods" url="{:U('Home/Goods/add')}" type="button" class="btn btn-orange btnpublish" data-toggle="tooltip" data-placement="top" title="发布商品">
+			<span class="glyphicon glyphicon-plus"></span>
+		</button>
+	</div>
+	<div class="row">
+		<!-- 商品展示 -->
+		<block name="content"></block>
+		<!-- 功能菜单 -->
+		<div class="col-md-3">
+			<div class="panel panel-default">
+				<div class="panel-body">
+					<button type="button" class="btn btn-orange btn-lg btn-block">打卡签到</button>
+
+					<!-- 商品分类 -->
+					<div class="sideitemnav">
+						<h4>商品分类</h4>
+						<hr>
+						<ul class="list-group">
+							<foreach name="clist" item="v">
+								<a href="{:U('Home/Index/cggoods',array('Id'=>$v['Id']))}" class="list-group-item">
+									<span class="badge">new</span>
+									{$v['Title']}
+								</a>
+							</foreach>
+						</ul>
+					</div>
+					<!--/.sideitemnav-->
+
+					<!-- 热门活动 -->
+					<div class="sideitemnav">
+						<h4>热门活动</h4>
+						<hr>
+						<div class="media">
+							<a class="pull-left" href="#">
+								<img class="media-object" src="http://hhhhold.com/80x80" alt="..."></a>
+							<div class="media-body">
+								<h5 class="media-heading">每周抽奖日</h5>
+								<p>最好不要超过22个字哇哈哈哈哈</p>
+								<button type="button" class="btn btn-success">参与活动</button>
+
+							</div>
+						</div>
+
+						<hr>
+						<!--记得分隔符-->
+
+						<div class="media">
+							<a class="pull-left" href="#">
+								<img class="media-object" src="http://hhhhold.com/80x80" alt="..."></a>
+							<div class="media-body">
+								<h5 class="media-heading">每周抽奖日</h5>
+								<p>最好不要超过24个字哇哈哈哈哈</p>
+								<button type="button" class="btn btn-success">参与活动</button>
+
+							</div>
+						</div>
+					</div>
+					<!--/.sideitemnav-->
+
+					<!-- 排行榜 -->
+					<div class="sideitemnav">
+						<h4>排行榜</h4>
+						<hr>
+						<ul id="myTab" class="nav nav-tabs">
+							<li class="active">
+								<a href="#tab1" data-toggle="tab">签到狂人</a>
+							</li>
+							<li>
+								<a href="#tab2" data-toggle="tab">大富豪</a>
+							</li>
+						</ul>
+						<div id="myTabContent" class="tab-content">
+							<div class="tab-pane fade in active" id="tab1">
+								<!-- 用户列表 -->
+								<div class="tabuser">
+									<a href="#">
+										<img src="http://hhhhold.com/40x40" alt="头像" class="img-circle">
+										<span>乔布斯</span>
+									</a>
+									<span class="info pull-right">
+										签到&nbsp
+										<span class="importinfo">50</span>
+										&nbsp天
+									</span>
+								</div>
+								<!--用户列表-->
+
+								<div class="tabuser">
+									<a href="#">
+										<img src="http://hhhhold.com/40x40" alt="头像" class="img-circle">
+										<span>乔布斯</span>
+									</a>
+									<span class="info pull-right">
+										签到&nbsp
+										<span class="importinfo">50</span>
+										&nbsp天
+									</span>
+								</div>
+								<!--用户列表-->
+							</div>
+
+							<div class="tab-pane fade" id="tab2">
+								<!-- 用户列表 -->
+								<div class="tabuser">
+									<a href="#">
+										<img src="http://hhhhold.com/40x40" alt="头像" class="img-circle">
+										<span>乔布斯</span>
+									</a>
+									<span class="info pull-right">
+										交易&nbsp
+										<span class="importinfo">50</span>
+										&nbsp笔
+									</span>
+								</div>
+								<!--用户列表-->
+
+								<div class="tabuser">
+									<a href="#">
+										<img src="http://hhhhold.com/40x40" alt="头像" class="img-circle">
+										<span>乔布斯</span>
+									</a>
+									<span class="info pull-right">
+										交易&nbsp
+										<span class="importinfo">50</span>
+										&nbsp笔
+									</span>
+								</div>
+								<!--用户列表-->
+
+							</div>
+						</div>
+
+					</div>
+					<!--/.sideitemnav-->
+
+				</div>
+			</div>
+		</div>
+
+	</div>
+</div>
+<include file="./Tpl/Public/footer.html"/>
+<block name="js">
+	<script>
+	$(function (){
+		$('#creategoods').click(function(e){
+			var _url=$(this).attr('url');
+			location.href=_url;
+		});
+
+	});
+
+</script>
+</block>
