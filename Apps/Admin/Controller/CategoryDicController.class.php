@@ -28,7 +28,7 @@ class CategoryDicController extends BaseController {
 		$cr->seachdic = C ( 'SEARCH_DIC' );
 		$rst = $cr->buildDic ( $arr );
 		if ($rst) {
-			$this->success ( "操作成功!<br>共" . count ( $arr ) . "个关键字：", U ( 'GoodsCategory/index' ), 1 );
+			$this->success ( "操作成功\n共" . count ( $arr ) . "个关键字" );
 		} else {
 			$this->error ( '操作失败', U ( 'GoodsCategory/index' ) );
 		}
