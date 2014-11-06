@@ -15,17 +15,17 @@ use Usercenter\Model\view_user_info_avatarModel;
 class BaseController extends Controller {
 	/**
 	 * 检测登录
+	 * 
 	 * @author NENER
 	 */
 	public function _initialize() {
 		$model = new userModel ();
-		$rst = $model->islogin ( null,false,false );
+		$rst = $model->islogin ( null, false, false );
 		if (! $rst) {
 			redirect ( U ( 'Usercenter/User/index', array (
 					'isadmin' => false 
 			) ) );
-		}else{
-
+		} else {
 			$m = new view_user_info_avatarModel ();
 			$usermodel = $m->getinfo ();
 			if ($usermodel ['status'] == 1) {

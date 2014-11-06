@@ -136,7 +136,7 @@ class IndexController extends Controller {
 	 */
 	public function addComment() {
 		$postarr = I ( 'post.' );
-		if (! cookie ( '_uid' )) {
+		if (!isloin ()) {
 			$this->error ( '没有登录' );
 			die ();
 		}
@@ -145,6 +145,8 @@ class IndexController extends Controller {
 		if (( int ) $rst ['status'] == 0) {
 			$this->error ( $rst ['msg'] );
 		} else {
+			$m = new goodsModel ();
+			$m->VCChhandle ( $postarr ['GoodsId'], 3 );
 			$this->success ( 1 );
 		}
 	}

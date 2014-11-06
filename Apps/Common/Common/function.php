@@ -1,11 +1,13 @@
 <?php
 use Vendor\PHPMailer;
+use Usercenter\Model\userModel;
 
 /**
  * api专用 获取登录校验array
- *@return array:_uid,_key
+ *
+ * @return array:_uid,_key
  */
-function api_get_login_arr(){
+function api_get_login_arr() {
 	$arr = I ( 'get.' );
 	if (! $arr ['_uid'] || ! $arr ['_key']) {
 		$arr = I ( 'post.' );
@@ -19,13 +21,22 @@ function api_get_login_arr(){
 
 /**
  * api专用 获取uid
- *@return int 
+ *
+ * @return int
  */
-function api_get_uid(){
-	$arr= api_login_arr();
-	return $arr['_uid'];
+function api_get_uid() {
+	$arr = api_get_login_arr ();
+	return $arr ['_uid'];
 }
-
+/**
+ * 前台公用检测登录
+ * 
+ * @return boolean
+ */
+function isloin() {
+	$m = new userModel ();
+	return ($m->islogin ( null, false, false ));
+}
 
 /**
  * 编码
@@ -531,13 +542,13 @@ function getallthumb($url, $imgname) {
 	/* 获取大图配置 */
 	$arr_8 = C ( 'GOODS_IMG_MD_L' );
 	$arr_3 = C ( 'GOODS_IMG_MD_S' );
-	if(!cutimg ( $url, $url_8, $arr_8, 1 )){
+	if (! cutimg ( $url, $url_8, $arr_8, 1 )) {
 		return false;
 	}
-	if(!cutimg ( $url_8, $url_3, $arr_3, 2 )){
+	if (! cutimg ( $url_8, $url_3, $arr_3, 2 )) {
 		return false;
 	}
-	if(!cutimg ( $url_3, $url_1, $arr_1, 2 )){
+	if (! cutimg ( $url_3, $url_1, $arr_1, 2 )) {
 		return false;
 	}
 	return array (
