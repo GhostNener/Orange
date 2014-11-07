@@ -1,0 +1,261 @@
+<extend name="./userlayout"/>
+<block name="content">
+<div class="col-md-9">
+	<div class="panel panel-default profilemain">
+		<div class="panel-body">
+			<!-- Nav tabs -->
+			<ul class="nav nav-tabs" role="tablist">
+				<li role="presentation" class="active">
+					<a href="#tab1" role="tab" data-toggle="tab">未完成</a>
+				</li>
+				<li role="presentation">
+					<a href="#tab2" role="tab" data-toggle="tab">已售商品</a>
+				</li>
+				<li role="presentation">
+					<a href="#tab3" role="tab" data-toggle="tab">已买商品</a>
+				</li>
+			</ul>
+
+			<!-- Tab panes -->
+			<div class="tab-content">
+				<div role="tabpanel" class="tab-pane active" id="tab1">
+
+					<div class="table-responsive">
+						<table class="table table-striped">
+							<thead>
+								<th>类型</th>
+								<th>商品</th>
+								<th>价格</th>
+								<th style="width:100px">交易方式</th>
+								<th style="width:200px">联系人</th>
+								<th>状态</th>
+							</thead>
+							<tbody>
+								<tr>
+									<td>
+										<span class="label label-success">售出</span>
+									</td>
+									<td>
+										国行MX4全新我是来凑字数的哇哈凑字数的哇哈哈哈国行MX4全新我是来凑字数的哇哈凑字数的哇哈哈哈国行MX4全新我是来凑字数的哇哈凑字数的哇哈哈哈
+									</td>
+									<td>800.00</td>
+									<td>线上</td>
+									<td>
+										李清伟：1551954782
+										<br/>
+										贵州省花溪区贵州财经大学软件工程哇哈哈
+									</td>
+									<td>
+										<button class="btn btn-warning btn-small">未评价</button>
+									</td>
+								</tr>
+
+								<tr>
+									<td>
+										<span class="label label-success">售出</span>
+									</td>
+									<td>国行MX4全新我是来凑字数的哇哈凑字数的哇哈哈哈</td>
+									<td>800.00</td>
+									<td>线上</td>
+									<td>
+										李清伟：1551954782
+										<br/>
+										贵州省花溪区贵州财经大学软件工程哇哈哈
+									</td>
+									<td>
+										<button class="btn btn-success btn-small">完成</button>
+									</td>
+								</tr>
+
+								<tr>
+									<td>
+										<span class="label label-primary">买入</span>
+									</td>
+									<td>国行MX4全新我是来凑字数的哇哈凑字数的哇哈哈哈</td>
+									<td>800.00</td>
+									<td>线上</td>
+									<td>
+										李清伟：1551954782
+										<br/>
+										贵州省花溪区贵州财经大学软件工程哇哈哈
+									</td>
+									<td>
+										<button class="btn btn-warning btn-small">未评价</button>
+									</td>
+								</tr>
+
+								<tr>
+									<td>
+										<span class="label label-primary">买入</span>
+									</td>
+									<td>国行MX4全新我是来凑字数的哇哈凑字数的哇哈哈哈</td>
+									<td>800.00</td>
+									<td>线上</td>
+									<td>
+										李清伟：1551954782
+										<br/>
+										贵州省花溪区贵州财经大学软件工程哇哈哈
+									</td>
+									<td>
+										<button class="btn btn-primary btn-small">完成</button>
+									</td>
+								</tr>
+
+							</tbody>
+						</table>
+					</div>
+
+					<nav class="pull-right">
+						<ul class="pagination">
+							<li class="disabled">
+								<a href="#">&laquo;</a>
+							</li>
+							<li class="active">
+								<a href="#">
+									1
+									<span class="sr-only">(current)</span>
+								</a>
+							</li>
+							<li>
+								<a href="#">2</a>
+							</li>
+							<li>
+								<a href="#">3</a>
+							</li>
+							<li>
+								<a href="#">4</a>
+							</li>
+							<li>
+								<a href="#">5</a>
+							</li>
+							<li>
+								<a href="#">&raquo;</a>
+							</li>
+						</ul>
+					</nav>
+
+				</div>
+				<div role="tabpanel" class="tab-pane" id="tab2">
+
+					<div class="table-responsive">
+						<table class="table table-striped">
+							<thead>
+								<th>商品</th>
+								<th>价格</th>
+								<th width="100px">交易方式</th>
+								<th>买家</th>
+								<th width="80px">评分</th>
+								<th>删除</th>
+							</thead>
+							<tbody>
+								<foreach name="buy" item="v">
+								<tr>
+									<td>{$v['Title']}</td>
+									<td>{$v['Price']}</td>
+									<td><if condition="$v['TradeWay'] eq 1"> 线上<else /> 线下</if></td>
+									<td><a href="#">{$v['buyNick']}</a></td>
+									<td class="text-orange">★★★★</td>
+									<td>
+										<button class="btn btn-danger btn-small">删除订单</button>
+									</td>
+								</tr>
+								</foreach>
+							</tbody>
+						</table>
+					</div>
+
+					<nav class="pull-right">
+						<ul class="pagination">
+							<li class="disabled">
+								<a href="#">&laquo;</a>
+							</li>
+							<li class="active">
+								<a href="#">
+									1
+									<span class="sr-only">(current)</span>
+								</a>
+							</li>
+							<li>
+								<a href="#">2</a>
+							</li>
+							<li>
+								<a href="#">3</a>
+							</li>
+							<li>
+								<a href="#">4</a>
+							</li>
+							<li>
+								<a href="#">5</a>
+							</li>
+							<li>
+								<a href="#">&raquo;</a>
+							</li>
+						</ul>
+					</nav>
+
+				</div>
+				<div role="tabpanel" class="tab-pane" id="tab3">
+
+					<div class="table-responsive">
+						<table class="table table-striped">
+							<thead>
+								<th>商品</th>
+								<th>价格</th>
+								<th width="100px">交易方式</th>
+								<th>卖家</th>
+								<th width="80px">评分</th>
+								<th>删除</th>
+							</thead>
+							<tbody>
+								<foreach name="list" item="v">
+								<tr>
+									<td>{v['']}</td>
+									<td>800.00</td>
+									<td>线上</td>
+									<td><a href="#">@cinwell</a></td>
+									<td class="text-orange">★★★★</td>
+									<td>
+										<button class="btn btn-danger btn-small">删除订单</button>
+									</td>
+								</tr>
+								</foreach>
+							</tbody>
+						</table>
+					</div>
+
+					<nav class="pull-right">
+						<ul class="pagination">
+							<li class="disabled">
+								<a href="#">&laquo;</a>
+							</li>
+							<li class="active">
+								<a href="#">
+									1
+									<span class="sr-only">(current)</span>
+								</a>
+							</li>
+							<li>
+								<a href="#">2</a>
+							</li>
+							<li>
+								<a href="#">3</a>
+							</li>
+							<li>
+								<a href="#">4</a>
+							</li>
+							<li>
+								<a href="#">5</a>
+							</li>
+							<li>
+								<a href="#">&raquo;</a>
+							</li>
+						</ul>
+					</nav>
+
+				</div>
+			</div>
+
+		</div>
+	</div>
+</div>
+</block>

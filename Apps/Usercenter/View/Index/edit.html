@@ -1,0 +1,159 @@
+<extend name="./userlayout"/>
+<block name="content">
+<div class="col-md-9">
+	<div class="panel panel-default profilemain">
+		<div class="panel-body">
+
+			<!-- Nav tabs -->
+			<ul class="nav nav-tabs" role="tablist">
+				<li role="presentation" class="active">
+					<a href="#tab1" role="tab" data-toggle="tab">基本信息</a>
+				</li>
+				<li role="presentation">
+					<a href="#tab2" role="tab" data-toggle="tab">联系地址</a>
+				</li>
+				<li role="presentation">
+					<a href="#tab3" role="tab" data-toggle="tab">修改密码</a>
+				</li>
+			</ul>
+
+			<!-- Tab panes -->
+			<div class="tab-content">
+				<div role="tabpanel" class="tab-pane active" id="tab1">
+
+					<form class="form-horizontal" role="form">
+						<div class="form-group">
+							<label for="NickName" class="col-sm-2 control-label">昵称</label>
+							<div class="col-sm-4">
+								<input type="text" class="form-control" name="NickName" id="NickName"></div>
+						</div>
+						<div class="form-group">
+							<label for="RealName" class="col-sm-2 control-label">真实姓名</label>
+							<div class="col-sm-4">
+								<input type="text" class="form-control" name="RealName" id="RealName"></div>
+						</div>
+						<div class="form-group">
+							<label for="Sex" class="col-sm-2 control-label">性别</label>
+							<div class="col-sm-4">
+								<label class="radio-inline">
+									<input type="radio" name="Sex" value="男">男</label>
+								<label class="radio-inline">
+									<input type="radio" name="Sex" value="女">女</label>
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="Birthday" class="col-sm-2 control-label">生日</label>
+							<div class="col-sm-4">
+								<div class="input-group">
+									<input type="datetime" class="form-control" name="Birthday" id="Birthday" onclick="calendar.show(this);" readonly="readonly" placeholder="点击选择日期">
+									<span class="input-group-addon">
+										<a class="glyphicon glyphicon-calendar" onclick="calendar.show(Birthday);"></a>
+									</span>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="QQ" class="col-sm-2 control-label">QQ</label>
+							<div class="col-sm-4">
+								<input type="text" class="form-control" name="QQ" id="QQ"></div>
+						</div>
+
+						<div class="form-group">
+							<label for="Tel" class="col-sm-2 control-label">手机</label>
+							<div class="col-sm-4">
+								<input type="tel" class="form-control" name="Tel" id="Tel"></div>
+							<div class="col-sm-2">
+								<button class="btn btn-primary">验证</button>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label for="Email" class="col-sm-2 control-label">邮箱</label>
+							<div class="col-sm-4">
+								<input type="email" class="form-control" name="Email" id="Email" disabled="disabled"></div>
+
+							<div class="col-sm-2">
+								<button class="btn btn-primary" disabled="disabled">已验证</button>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<div class="col-sm-offset-2 col-sm-10">
+								<button type="submit" class="btn btn-success">保存</button>
+							</div>
+						</div>
+
+					</form>
+
+				</div>
+				<div role="tabpanel" class="tab-pane" id="tab2">
+					<button class="btn btn-success">新建</button>
+					<div class="table-responsive">
+						<table class="table table-striped">
+							<thead>
+								<th>联系人</th>
+								<th>联系地址</th>
+								<th>手机号</th>
+								<th>QQ</th>
+								<th>操作</th>
+							</thead>
+							<tbody>
+								<tr>
+									<td>李清伟</td>
+									<td style="width:200px">贵州财经大学反正能找到我的地址</td>
+									<td>15519541782</td>
+									<td>493628086</td>
+									<td>
+										<button class="btn btn-primary btn-small" disabled="disabled" >默认地址</button>
+										<button class="btn btn-danger btn-small">删除</button>
+									</td>
+								</tr>
+								<tr>
+									<td>李清伟</td>
+									<td style="width:200px">贵州财经大学反正能找到我的地址</td>
+									<td>15519541782</td>
+									<td>493628086</td>
+									<td>
+										<button class="btn btn-primary btn-small">设为默认</button>
+										<button class="btn btn-danger btn-small">删除</button>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<div role="tabpanel" class="tab-pane" id="tab3">
+
+					<form class="form-horizontal" role="form">
+						<div class="form-group">
+							<label for="OldPassword" class="col-sm-2 control-label">原密码</label>
+							<div class="col-sm-4">
+								<input type="password" class="form-control" name="OldPassword" id="OldPassword"></div>
+						</div>
+						<div class="form-group">
+							<label for="NewPassword" class="col-sm-2 control-label">新密码</label>
+							<div class="col-sm-4">
+								<input type="password" class="form-control" name="NewPassword" id="NewPassword"></div>
+						</div>
+
+						<div class="form-group">
+							<label for="ConfirmPwd" class="col-sm-2 control-label">确认密码</label>
+							<div class="col-sm-4">
+								<input type="password" class="form-control" name="ConfirmPwd" id="ConfirmPwd"></div>
+						</div>
+
+						<div class="form-group">
+							<div class="col-sm-offset-2 col-sm-10">
+								<button type="submit" class="btn btn-success">提交</button>
+							</div>
+						</div>
+
+					</form>
+
+				</div>
+			</div>
+
+		</div>
+	</div>
+</div>
+</block>

@@ -1,0 +1,29 @@
+<include file="./Tpl/Public/header.html"/>
+<!-- 内容 -->
+<div id="main" class="container">
+	<div class="col-md-3">
+		<article>
+			<div class="profile" data-toggle="tooltip" data-placement="right" title="点击进入个人信息" data-container="body" data-delay="500">
+				<a href="profile-user.html">
+					<img src="__APP__{$user['URL']}" alt="..." class="img-circle">
+					<p>{$user['Nick']}</p>
+					<p>等级: Lv 82 实习生</p>
+				</a>
+			</div>
+			<ul class="list-group">
+				<a class="list-group-item" href="{:U('Usercenter/Index/msg')}">
+					<span class="badge">4</span>
+					未读消息
+				</a>
+				<a class="list-group-item" href="{:U('Usercenter/Index/sell')}">在售商品</a>
+				<a class="list-group-item" href="{:U('Usercenter/Index/order')}">订单管理</a>
+				<a class="list-group-item" href="{:U('Usercenter/Index/follow')}">已关注</a>
+				<a class="list-group-item" href="{:U('Usercenter/Index/like')}">心愿单</a>
+				<a class="list-group-item" href="{:U('Usercenter/Index/edit')}">编辑资料</a>
+				<a class="list-group-item" href="{:U('Usercenter/Index/home')}">个人页面</a>
+			</ul>
+		</article>
+	</div>
+	<block name="content"></block>
+</div>
+<include file="./Tpl/Public/footer.html"/>
