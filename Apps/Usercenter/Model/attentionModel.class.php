@@ -12,7 +12,7 @@ class attentionModel extends Model{
 	/**
 	 * 查询关注
 	 */
-	public function selectAttention($userid){
+	public function getAttention($userid){
 		$whereArr = array('UserId' => $userid);
 		$attention = $this ->table('attention a,user u')-> where(array($whereArr,'a.AttentionId=u.Id'))->field('a.*,u.Nick as AttentionNick') -> select();
 		if ($attention){
@@ -29,7 +29,7 @@ class attentionModel extends Model{
 	/**
 	 * 获取粉丝数
 	 */
-	public function selectFans($userid){
+	public function getFans($userid){
 		$whereArr = array('AttentionId' => $userid);
 		$fans = $this -> where($whereArr) -> select();
 		return count($fans);

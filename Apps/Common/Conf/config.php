@@ -62,7 +62,7 @@ return array (
 		),
 		'GOODS_IMG_MD_S' => array (
 				800,
-				300
+				300 
 		),			
 						/*关闭自动模板布局*/
 		'LAYOUT_ON' => false ,
@@ -100,15 +100,17 @@ return array (
 		/*全文检索词典路径  【相对与ORG/phpAnalysis/】  */
 		'SEARCH_DIC' => 'dict/search_dic_full.dic' ,
 		/*用户默认昵称前缀  */
-		'RAND_NICK_PREFIX'=>'',
+		'RAND_NICK_PREFIX' => '',
 		/*用户默认头像地址  */
-		'DEFAULT_USER_AVATAR'=>'/Public/Img/aurl.jpg',
+		'DEFAULT_USER_AVATAR' => '/Public/Img/aurl.jpg',
 		/*商品评论最大返回数量  */
-		'COMMENTS_LIST_COUNT'=>50,
+		'COMMENTS_LIST_COUNT' => 50,
 		/*商品置顶服务Id  主要用于显示置顶商品  */
-		'TOP_SERVICE_ID'=>2,
-
+		'TOP_SERVICE_ID' => 2,
+		/*商品订单session 缓存值  */
+		'GOODS_ORDER_SESSION_VALUE' => 1024 * 1024 * 9,
+		/*定制成功以及错误模板  */
 		'TMPL_ACTION_ERROR' => './Tpl/jump.html',
-		'TMPL_ACTION_SUCCESS' => './Tpl/jump.html'
+		'TMPL_ACTION_SUCCESS' => './Tpl/jump.html' 
 );
 

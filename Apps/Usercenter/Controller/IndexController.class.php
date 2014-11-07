@@ -2,6 +2,8 @@
 
 namespace Usercenter\Controller;
 
+use Usercenter\Model\favoriteModel;
+
 use Usercenter\Model\view_user_info_avatarModel;
 use Usercenter\Model\view_goods_order_listModel;
 use Usercenter\Model\user_addressModel;
@@ -24,6 +26,14 @@ class IndexController extends BaseController {
 		$model = new view_user_info_avatarModel();
 		$arr = $model->getinfo();
 		if ($arr ['status'] == 1) {
+			$user = $arr['msg'];
+			$grade = $user['Grade'];
+			$model2 = new user_gradeModel();
+			$rst = $model2 ->getgrade($grade);
+			$model3 = new attentionModel();
+			$attn = $model3 -> getAttention($userid);
+			$this->assign('attn',$attn['attnumber']);
+			$this->assign('grade',$rst);
 			$this->assign ( 'user', $arr['msg'] );
 			$this->display();
 		} else {
@@ -103,10 +113,10 @@ class IndexController extends BaseController {
 	/**
 	 * 我的关注
 	 */
-	public function attention(){
+	public function follow(){
 		$userid = cookie('_uid');
 		$model = new attentionModel();
-		$arr = $model -> selectAttention($userid);
+		$arr = $model -> getAttention($userid);
 		if (( int ) $arr ['status'] == 0) {
 			$this->error ( $arr ['msg'] );
 		} else {
@@ -121,7 +131,7 @@ class IndexController extends BaseController {
 	public function favorite(){
 		$userid= cookie('_uid');
 		$model = new user_homeModel($userid);
-		$favorite = $model->selectFavorite($userid);
+		$favorite = $model->getFavorite($userid);
 		$this->assign('favorite',$favorite);
 		$this->display ();
 	}
@@ -133,6 +143,20 @@ class IndexController extends BaseController {
 		$model = new goods_categoryModel ();
 		$clist = $model->getall ();
 		$this->assign ( 'clist', $clist );
+	}
+	
+	/**
+	 * 添加心愿单
+	 */
+	public function addfavorite(){
+		$userid= cookie('_uid');
+		$model = new favoriteModel();
+		$rst = $model->addfavorite($Id, $userid);
+		if ((int)$rst['status']==1){
+			$this->success($rst['msg']);
+		}else {
+			$this->error($rst['msg']);
+		}
 	}
 }
 ?>

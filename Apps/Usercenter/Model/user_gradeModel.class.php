@@ -10,5 +10,16 @@ use Think\Model;
  */
 class user_gradeModel extends Model{
 	
-	
+	/**
+	 * 通过用户积分获取相应等级信息
+	 * @param int $grade：用户grade       	
+	 * @return $rst ：符合的等级
+	 */
+	public function getgrade($grade){
+		$whereArr['MinEXP'] = array('ELT',$grade);
+		$whereArr['MaxEXP'] = array('EGT',$grade);
+		$whereArr['Status'] = 10; 
+		$rst = $this->where($whereArr)->find();
+		return $rst;
+	}
 }

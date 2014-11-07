@@ -1,80 +1,121 @@
 <?php
+
 namespace Home\Model;
+
 use Think\Model;
+use Usercenter\Model\userModel;
+use Usercenter\Model\user_addressModel;
 
 /**
  * 订单模型
- * @author DongZ
  *
+ * @author DongZ
+ *        
  */
-class goods_orderModel extends Model{
+class goods_orderModel extends Model {
 	
 	/**
-	 * 填写订单
+	 * 自动验证
+	 *
+	 * @var unknown
 	 */
-	public function fillorder($Id){
-		$userid = cookie ( '_uid' );
-		$model = M('goods_fillorder');
-		$whereArr = array(
-			'Id' => $Id
-		);
-		$goods_fillorder = $model -> where($whereArr) -> select();
-		// 查询用户地址
-		$whereArr1 = array(
-			'Status' => 10,
-			'UserId' => $userid 
-		);
-		$useraddrlist = D ( 'user_address' )->order ( 'IsDefault DESC' )->where($whereArr1)->select ();
-		return array(
-			'goods_fillorder'  => $goods_fillorder,
-			'useraddrlist' => $useraddrlist
-		);
-	}
-	
+	protected $_validate = array (
+			array (
+					'GoodsId',
+					'checkgoods',
+					'商品已下架或不存在',
+					self::MUST_VALIDATE,
+					'callback' 
+			),
+			array (
+					'GoodsId',
+					'',
+					'商品已下架或不存在',
+					self::MUST_VALIDATE,
+					'unique' 
+			) 
+	);
 	/**
-	 * 生成订单
-	 * 
-	 * @param array $postarr:
-	 *        	post数组
-	 * @return array 保存信息： 包含 status 状态 ；
-	 *         msg 消息
+	 * 自动校验商品
+	 *
+	 * @param int $id        	
 	 */
-	public function order($postarr){
-		if (empty ( $postarr )) {
-			return array (
-					'status' => 0,
-					'msg' => '没有数据' 
-			);
+	protected function checkgoods($id) {
+		$m = new goodsModel ();
+		$model = $m->findone ( $id );
+		if (! $model) {
+			return false;
 		}
-		$goods_order = M ( "goods_order" );
-		$data = array (
-				'BuyerId' => cookie ( '_uid' ),
-				'BuyerAddId' => $_POST ['BuyerAddId'],
-				'SellerId' => $_POST ['SellerId'],
-				'SellerAddId' => $_POST ['SellerAddId'],
-				'GoodsId' => $_POST ['GoodsId'],
-				'Price' => $_POST ['Price'],
-				'E-Money' => $_POST ['E-Money'],
-				'CreateTime' => date ( "Y-m-d H:i:s", time () ),
-				//'AssesseId' => $_POST['AssesseId'],
-				'Status' => 10 
-		);
-		$z = $goods_order->add ( $data );
-		if ($z) {
-			$goods = M ( "goods" );
-			$where = array (
-					'Id' => $_POST ['GoodsId'] 
-			);
-			$goods->where ( $where )->setField ( 'Status', 20 );
-			return array(
-				'status' => 1,
-				'msg' => '操作成功'
-			);
-			// $this->redirect('Goods/showgoods',array('Id'=>$data['GoodsId']),0,'');
+	}
+	/**
+	 * 创建一个订单
+	 *
+	 * @param array $data
+	 *        	:GoodsId,Code,CreateTime,BuyerAddId,TradeWay
+	 * @param array $uid
+	 *        	用户id
+	 * @return array ：status，msg ，address
+	 *        
+	 */
+	public function createone($data, $uid = -1) {
+		$msg ['status'] = 0;
+		$m = new goodsModel ();
+		$model = $m->findone ( $data ['GoodsId'] );
+		if (! $model) {
+			$msg ['msg'] = '商品已下架或不存在';
+			return $msg;
+		}
+		$waylist = createtradeway ( $model ['TradeWay'], 2 );
+		if (! in_array ( $data ['TradeWay'], $waylist )) {
+			$msg ['msg'] = '交易方式不合法';
+			return $msg;
+		}
+		if (! $uid || $uid == - 1) {
+			$data ['BuyerId'] = cookie ( '_uid' );
 		} else {
-			return array(
-				'status' => 0,
-				'msg' => '操作失败'
+			$data ['BuyerId'] = $uid;
+		}
+		$data ['Price'] = $model ['Price'];
+		$data ['SellerId'] = $model ['UserId'];
+		$data ['SellerAddId'] = $model ['AddressId'];
+		$data ['Status'] = 10;
+		/* 创建模型 */
+		$order = $this->create ( $data );
+		if (! $order) {
+			$msg ['msg'] = $this->getError ();
+			return $msg;
+		}
+		$dal = M ();
+		$dal->startTrans ();
+		/* 如果是线上交易 冻结对应的电子货币 */
+		if (( int ) $data ['TradeWay'] == 1) {
+			$um = new userModel ();
+			$r1 = $um->payEM ( $data ['BuyerId'], ( int ) $data ['Price'] );
+		} else {
+			$r1 = true;
+		}
+		if (! $r1) {
+			$msg ['msg'] = '余额不足';
+			$dal->rollback ();
+			return $msg;
+		}
+		/* 进行商品冻结 */
+		$r2 = $m->freeze ( $data ['GoodsId'], 1 );
+		/* 保存订单 */
+		$r3 = $this->add ( $order );
+		/* 对事务进行处理 */
+		if (! $r2 || ! $r3) {
+			$msg ['msg'] = '对不起！购买失败，请重试！';
+			$dal->rollback ();
+			return $msg;
+		} else {
+			$dal->commit ();
+			$am = new user_addressModel ();
+			$address = $am->getbyid ( $data ['SellerAddId'] );
+			return array (
+					'status' => 1,
+					'msg' => '交易生效，请与卖家联系',
+					'address' => $address 
 			);
 		}
 	}

@@ -26,9 +26,10 @@ class goods_serviceModel extends Model {
 	}
 	/**
 	 * 计算服务费用
-	 * 
-	 * @param unknown $arr        	
-	 * @return number
+	 *
+	 * @param array $arr
+	 *        	服务id数组
+	 * @return number 花费
 	 */
 	public function computecost($arr) {
 		if (! $arr) {

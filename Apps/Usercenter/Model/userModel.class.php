@@ -130,12 +130,28 @@ class userModel extends Model {
 	protected function pwd_md5($Password, $RegistTime) {
 		return $this->encrypt ( $Password, NOW_TIME );
 	}
+	/**
+	 * 扣除费用
+	 *
+	 * @param unknown $uid        	
+	 * @param unknown $cost        	
+	 * @return boolean Ambigous unknown>
+	 */
+	public function payEM($uid, $cost) {
+		if (( int ) $cost > ($this->getbalance ( $uid, 2 ))) {
+			return false;
+		}
+		return ($this->where ( array (
+				'Id' => $uid 
+		) )->setDec ( 'E-Money', $cost ));
+	}
 	
 	/**
 	 * 获得余额
 	 *
-	 * @param unknown $uid 
-	 * @param $type  1：返回数组 ：status  msg     balance，2返回余额   	
+	 * @param unknown $uid        	
+	 * @param $type 1：返回数组
+	 *        	：status msg balance，2返回余额
 	 */
 	public function getbalance($uid, $type = 1) {
 		$r = $this->field ( 'E-Money' )->where ( array (
@@ -378,26 +394,26 @@ class userModel extends Model {
 			return $msg;
 		}
 		$avatar = new user_avatarModel ();
-		$dal=M();
-		$rst2 = $avatar->adddefault ( $rst['Id'] );
+		$dal = M ();
+		$rst2 = $avatar->adddefault ( $rst ['Id'] );
 		$newkey = $this->getnewkey ( $rst ['Id'] );
-		if (!$rst2||! $this->where ( array (
+		if (! $rst2 || ! $this->where ( array (
 				'Id' => $rst ['Id'] 
 		) )->save ( array (
 				'UserKey' => $newkey,
 				'Status' => 10 
 		) )) {
 			$msg ['msg'] = '激活失败';
-			$dal->rollback();
+			$dal->rollback ();
 			return $msg;
 		} else {
 			$msg ['msg'] = '激活成功';
 			$msg ['status'] = 1;
 			$add = new user_addressModel ();
 			$add->adddefefault ( $rst ['Id'] );
-			$dal->commit();
+			$dal->commit ();
 			return $msg;
-		}		
+		}
 		return $msg;
 	}
 	
@@ -510,12 +526,7 @@ class userModel extends Model {
 	 *        
 	 */
 	public function getnewkey($uid) {
-		/* 生成key */
-		$guid = uniqid ();
-		$flag = randstr ( 11 );
-		$key = md5 ( $flag . $uid . $guid . microtime ( true ) );
-		$key = $key . $flag;
-		return $key;
+		return createonekey ( $uid, 11, 6 );
 	}
 	/**
 	 * 检查是否登录

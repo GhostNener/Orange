@@ -143,6 +143,7 @@ class IndexController extends Controller {
 	 * 获取相同的模板变量并对模板进行赋值
 	 */
 	private function getheomecommon() {
+		/* 分类复制 */
 		$model = new goods_categoryModel ();
 		$clist = $model->getall ();
 		$this->assign ( 'clist', $clist );
