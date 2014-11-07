@@ -4,62 +4,20 @@
 	<div class="panel panel-default profilemain">
 		<div class="panel-body">
 			<div class="row userlist">
-
+			<foreach name='attention' item='v'>
 				<div class="col-md-4">
 					<div class="media">
 						<a class="pull-left" href="#">
 							<img class="media-object" src="http://hhhhold.com/80x80" alt="..."></a>
 						<div class="media-body">
-							<h5 class="media-heading">用户名</h5>
+							<h5 class="media-heading">{$v.AttentionNick}</h5>
 							<p>Lv 3 实习生</p>
-							<button type="button" class="btn btn-success">心愿单</button>
+							<a href=""><button type="button" class="btn btn-success">心愿单</button></a>
 							<button type="button" class="btn btn-danger">果取关</button>
-
 						</div>
 					</div>
 				</div>
-
-				<div class="col-md-4">
-					<div class="media">
-						<a class="pull-left" href="#">
-							<img class="media-object" src="http://hhhhold.com/80x80" alt="..."></a>
-						<div class="media-body">
-							<h5 class="media-heading">用户名</h5>
-							<p>Lv 3 实习生</p>
-							<button type="button" class="btn btn-success">心愿单</button>
-							<button type="button" class="btn btn-danger">果取关</button>
-
-						</div>
-					</div>
-				</div>
-
-				<div class="col-md-4">
-					<div class="media">
-						<a class="pull-left" href="#">
-							<img class="media-object" src="http://hhhhold.com/80x80" alt="..."></a>
-						<div class="media-body">
-							<h5 class="media-heading">用户名</h5>
-							<p>Lv 3 实习生</p>
-							<button type="button" class="btn btn-success">心愿单</button>
-							<button type="button" class="btn btn-danger">果取关</button>
-
-						</div>
-					</div>
-				</div>
-
-				<div class="col-md-4">
-					<div class="media">
-						<a class="pull-left" href="#">
-							<img class="media-object" src="http://hhhhold.com/80x80" alt="..."></a>
-						<div class="media-body">
-							<h5 class="media-heading">用户名</h5>
-							<p>Lv 3 实习生</p>
-							<button type="button" class="btn btn-success">心愿单</button>
-							<button type="button" class="btn btn-danger">果取关</button>
-
-						</div>
-					</div>
-				</div>
+			</foreach>
 			</div>
 		</div>
 	</div>
