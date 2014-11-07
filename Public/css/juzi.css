@@ -109,11 +109,6 @@ a.list-group-item.active>.badge, .nav-pills>.active>a>.badge{
     margin-bottom: 30px;
 }
 
-.carousel-control,
-.item {
-    border-radius: 4px;
-}
-
 /*消息小圆点*/
 .navbar-new {
     position: absolute;
