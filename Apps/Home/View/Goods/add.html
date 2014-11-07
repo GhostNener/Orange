@@ -657,7 +657,7 @@ $(document).ready(function() {
         /*File数组参数名*/
         'progressData': 'percentage',
         'removeTimeout': 0,
-        'onFallback': function() {alert('没有可用的flash');location.href = $('#url').attr('homeurl'); },
+        'onFallback': function() {alert('请安装flash player插件');location.href = $('#url').attr('homeurl'); },
         'onSelectError': function(file, errorCode, errorMsg) {
             var msgText = "上传失败\n";
             switch (errorCode) {
