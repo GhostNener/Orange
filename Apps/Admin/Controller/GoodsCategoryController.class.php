@@ -61,7 +61,8 @@ class GoodsCategoryController extends BaseController {
 		$r2 = $dal->execute ( "update goods_category_keyword set Status=-1 where CategoryId=" . $id );
 		if ($r1 && $r2) { // 成功
 			$dal->commit (); // 提交事务
-			$this-> redirect ( 'index' );
+			$this->success ( "操作成功" );
+			
 		} else {
 			$dal->rollback (); // 否则回滚
 			$this->error ( "操作失败" );
