@@ -1,0 +1,85 @@
+<extend name="./Tpl/layout.html"/>
+<block name="content">
+	<div id="main" class="container">
+
+		<div class="col-md-8 col-md-offset-2">
+			<div class="panel panel-orange order-panel">
+				<div class="panel-heading">
+					<span class="pull-right hidden-xs">{:date('Y-m-d H:i:s',$ordermodel['time'])}</span>
+					<span>订单号: {$ordermodel['code']}</span>
+				</div>
+				<form class="form-horizontal" role="form">
+
+					<div class="panel-body">
+						<div class="form-group">
+							<label class="col-sm-2 control-label">商品名</label>
+							<div class="col-sm-10">
+								<p class="form-control-static">{$goods['Title']}</p>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-sm-2 control-label">交易方式</label>
+							<div class="col-sm-10">
+								<div class="btn-group" data-toggle="buttons">
+									<for start="0" end=":count($tradewaylist)" >
+										<if condition="$i eq 0">
+											<label class="btn btn-default btn-expend active" data-toggle="tooltip" data-placement="bottom" title="{$tradewaylist[$i]['msg']}" data-container="body">
+												<input type="radio" name="TradeWay" id="option{$i+1}" autocomplete="off" checked>{$tradewaylist[$i]['txt']}</label>
+											<else/>
+											<label class="btn btn-default btn-expend " data-toggle="tooltip" data-placement="bottom" title="{$tradewaylist[$i]['msg']}" data-container="body">
+												<input type="radio" name="TradeWay" id="option{$i+1}" autocomplete="off" checked>{$tradewaylist[$i]['txt']}</label>
+										</if>
+
+									</for>
+								</div>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-sm-2 control-label">联系人</label>
+							<div class="col-sm-8">
+								<div class="input-group">
+									<select class="form-control">
+										<option>1</option>
+										<option>2</option>
+										<option>3</option>
+										<option>4</option>
+										<option>5</option>
+									</select>
+									<span class="input-group-btn">
+
+										<button type="submit" class="btn btn-default btn-expend" data-toggle="tooltip" data-placement="top" title="刷新地址" data-container="body">
+											<span class="glyphicon glyphicon-refresh"></span>
+										</button>
+										<button type="submit" class="btn btn-default btn-expend" data-toggle="tooltip" data-placement="top" title="添加新地址" data-container="body">
+											<span class="glyphicon glyphicon-plus"></span>
+										</button>
+									</span>
+								</div>
+							</div>
+						</div>
+
+					</div>
+					<div class="panel-footer">
+						<h3 class="text-orange">
+							500.00
+							<button class="btn btn-orange pull-right">确定购买</button>
+
+						</h3>
+
+						<!-- 选择线上交易的时候显示余额 -->
+						<!-- <span>
+						金橘余额: 5000
+						<button class="btn btn-success btn-xs">
+							<span class="glyphicon glyphicon-refresh"></span>
+						</button>
+					</span>
+					-->
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+</block>
