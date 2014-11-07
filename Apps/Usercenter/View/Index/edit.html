@@ -25,27 +25,27 @@
 						<div class="form-group">
 							<label for="NickName" class="col-sm-2 control-label">昵称</label>
 							<div class="col-sm-4">
-								<input type="text" class="form-control" name="NickName" id="NickName"></div>
+								<input type="text" class="form-control" name="Nick" id="Nick" value="{$model['Nick']}"></div>
 						</div>
 						<div class="form-group">
 							<label for="RealName" class="col-sm-2 control-label">真实姓名</label>
 							<div class="col-sm-4">
-								<input type="text" class="form-control" name="RealName" id="RealName"></div>
+								<input type="text" class="form-control" name="RealName" id="RealName" value="{$model['RealName']}"></div>
 						</div>
 						<div class="form-group">
 							<label for="Sex" class="col-sm-2 control-label">性别</label>
 							<div class="col-sm-4">
 								<label class="radio-inline">
-									<input type="radio" name="Sex" value="男">男</label>
+								<input type="radio" name="Sex" value="男" <if condition="$model['Sex'] eq 1">checked="checked"</if>>男</label>
 								<label class="radio-inline">
-									<input type="radio" name="Sex" value="女">女</label>
+								<input type="radio" name="Sex" value="女" <if condition="$model['Sex'] eq 2">checked="checked"</if>>女</label>
 							</div>
 						</div>
 						<div class="form-group">
 							<label for="Birthday" class="col-sm-2 control-label">生日</label>
 							<div class="col-sm-4">
 								<div class="input-group">
-									<input type="datetime" class="form-control" name="Birthday" id="Birthday" onclick="calendar.show(this);" readonly="readonly" placeholder="点击选择日期">
+									<input type="datetime" class="form-control" name="Birthday" id="Birthday" onclick="calendar.show(this);" value="{$model['Birthday']}" readonly="readonly" placeholder="点击选择日期">
 									<span class="input-group-addon">
 										<a class="glyphicon glyphicon-calendar" onclick="calendar.show(Birthday);"></a>
 									</span>
@@ -55,7 +55,7 @@
 						<div class="form-group">
 							<label for="QQ" class="col-sm-2 control-label">QQ</label>
 							<div class="col-sm-4">
-								<input type="text" class="form-control" name="QQ" id="QQ"></div>
+								<input type="text" class="form-control" name="QQ" id="QQ" value="{$model['TP_QQ']}"></div>
 						</div>
 
 						<div class="form-group">
@@ -82,10 +82,9 @@
 								<button type="submit" class="btn btn-success">保存</button>
 							</div>
 						</div>
-
 					</form>
-
 				</div>
+				
 				<div role="tabpanel" class="tab-pane" id="tab2">
 					<button class="btn btn-success">新建</button>
 					<div class="table-responsive">
@@ -95,29 +94,20 @@
 								<th>联系地址</th>
 								<th>手机号</th>
 								<th>QQ</th>
-								<th>操作</th>
+								<th colspan="3">操作</th>
 							</thead>
 							<tbody>
+								<foreach name='address' item='v'>
 								<tr>
-									<td>李清伟</td>
-									<td style="width:200px">贵州财经大学反正能找到我的地址</td>
-									<td>15519541782</td>
-									<td>493628086</td>
-									<td>
-										<button class="btn btn-primary btn-small" disabled="disabled" >默认地址</button>
-										<button class="btn btn-danger btn-small">删除</button>
-									</td>
+									<td>{$v['Contacts']}</td>
+									<td style="width:200px">{$v['Address']}</td>
+									<td>{$v['Tel']}</td>
+									<td>{$v['QQ']}</td>
+									<td><a href="{:U('Usercenter/Address/deladdress',array('Id' => $v['Id']))}" class="btn btn-danger btn-small">删除</a></td>
+									<td><a href="{:U('Usercenter/Address/modifaddress',array('Id' => $v['Id']))}" class="btn btn-danger btn-small">编辑</a></td>
+									<td><a href="{:U('Usercenter/Address/setdefault',array('Id' => $v['Id']))}" class="btn btn-primary btn-small">设为默认地址</a></td>
 								</tr>
-								<tr>
-									<td>李清伟</td>
-									<td style="width:200px">贵州财经大学反正能找到我的地址</td>
-									<td>15519541782</td>
-									<td>493628086</td>
-									<td>
-										<button class="btn btn-primary btn-small">设为默认</button>
-										<button class="btn btn-danger btn-small">删除</button>
-									</td>
-								</tr>
+								</foreach>
 							</tbody>
 						</table>
 					</div>
@@ -147,12 +137,9 @@
 								<button type="submit" class="btn btn-success">提交</button>
 							</div>
 						</div>
-
 					</form>
-
 				</div>
 			</div>
-
 		</div>
 	</div>
 </div>

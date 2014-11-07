@@ -49,8 +49,11 @@ class IndexController extends BaseController {
 		$userid = cookie('_uid');
 		$model = new view_user_info_avatarModel();
 		$arr = $model->getinfo();
+		$adder = new  user_addressModel();
+		$rst = $adder-> getall($userid);
 		if ($arr ['status'] == 1) {
 			$this->assign ( 'model', $arr['msg'] );
+			$this->assign('address',$rst);
 			$this->display();
 		} else {
 			$this->error ( $arr ['msg'] );
@@ -92,28 +95,19 @@ class IndexController extends BaseController {
 	public function order(){
 		$userid = cookie('_uid');
 		$model = new view_goods_order_listModel();
-		$arr = $model->selectAllBuy($userid);
-		if ($arr ['status'] == 1) {
-			$this->assign ( 'buy', $arr['msg'] );
-			$this->display();
+		$arrBuy = $model->selectAllBuy($userid);
+		$arrSell = $model->selectAllSell($userid);
+		if ($arrBuy ['status'] == 1) {
+			$this->assign ( 'buy', $arrBuy['msg'] );
 		} else {
-			$this->error ( $arr ['msg'] );
+			$this->error ( $arrBuy ['msg'] );
 		}
-	}
-	
-	/**
-	 * 已出售的商品
-	 */
-	public function sell(){
-		$userid = cookie('_uid');
-		$model = new view_goods_order_listModel();
-		$arr = $model->selectAllSell($userid);
-		if ($arr ['status'] == 1) {
-			$this->assign ( 'sell', $arr['msg'] );
-			$this->display();
+		if ($arrSell ['status'] == 1) {
+			$this->assign ( 'sell', $arrSell['msg'] );
 		} else {
-			$this->error ( $arr ['msg'] );
+			$this->error ( $arrSell ['msg'] );
 		}
+		$this->display();
 	}
 	
 	/**
@@ -140,6 +134,15 @@ class IndexController extends BaseController {
 		$favorite = $model->getFavorite($userid);
 		$this->assign('favorite',$favorite);
 		$this->display ();
+	}
+	
+	/**
+	 * 获取相同的模板变量并对模板进行赋值
+	 */
+	private function getcommon() {
+		$model = new goods_categoryModel ();
+		$clist = $model->getall ();
+		$this->assign ( 'clist', $clist );
 	}
 	
 	/**

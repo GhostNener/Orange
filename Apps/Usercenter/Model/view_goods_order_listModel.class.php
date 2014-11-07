@@ -23,7 +23,7 @@ class view_goods_order_listModel extends Model{
 			$msg ['msg'] = $rst;
 		}else {
 			$mag['status'] = 0;
-			$msg['msg'] = '网络繁忙，请稍后在试！';
+			$msg['msg'] = '无购买记录！';
 		}
 		return $msg;
 	}
@@ -41,7 +41,7 @@ class view_goods_order_listModel extends Model{
 			$msg ['msg'] = $rst;
 		}else {
 			$mag['status'] = 0;
-			$msg['msg'] = '网络繁忙，请稍后在试！';
+			$msg['msg'] = '无出售记录！';
 		}
 		return $msg;
 	}

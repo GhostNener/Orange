@@ -207,12 +207,12 @@
 								<th>删除</th>
 							</thead>
 							<tbody>
-								<foreach name="list" item="v">
+								<foreach name="sell" item="v">
 								<tr>
-									<td>{v['']}</td>
-									<td>800.00</td>
-									<td>线上</td>
-									<td><a href="#">@cinwell</a></td>
+									<td>{$v['Title']}</td>
+									<td>{$v['Price']}</td>
+									<td><if condition="$v['TradeWay'] eq 1"> 线上<else /> 线下</if></td>
+									<td><a href="#">{$v['Nick']}</a></td>
 									<td class="text-orange">★★★★</td>
 									<td>
 										<button class="btn btn-danger btn-small">删除订单</button>
