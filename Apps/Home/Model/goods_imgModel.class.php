@@ -43,7 +43,6 @@ class goods_imgModel extends Model {
 			$delmodel = $idormodel;
 		}
 		if ($delmodel) {
-			unlink ( '.' . $delmodel ['SourceURL'] );
 			unlink ( '.' . $delmodel ['URL'] );
 			unlink ( '.' . $delmodel ['ThumbURL'] );
 			unlink ( '.' . $delmodel ['MD_URL'] );
@@ -104,7 +103,6 @@ class goods_imgModel extends Model {
 		$urlarr = getallthumb ( $imgurl, $imgname );
 		$data = array (
 				'GoodsId' => 0,
-				'SourceURL' => substr ( $imgurl, 1 ),
 				'URL' => substr ( $urlarr [0], 1 ),
 				'MD_URL' => substr ( $urlarr [1], 1 ),
 				'ThumbURL' => substr ( $urlarr [2], 1 ),

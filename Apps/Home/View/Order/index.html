@@ -8,7 +8,7 @@
 					<span class="pull-right hidden-xs">{:date('Y-m-d H:i:s',$ordermodel['time'])}</span>
 					<span>订单号: {$ordermodel['code']}</span>
 				</div>
-				<form id="orderform" action="{:U('Home/Order/sureorder')}" method="post" class="form-horizontal" role="form" onsubmit="return ajaxsubmit">
+				<form id="orderform" action="{:U('Home/Order/createorder')}" method="post" class="form-horizontal" role="form" onsubmit="return ajaxsubmit">
 					<input type="hidden" name="Code" value="{$ordermodel['code']}">
 					<input type="hidden" name="GoodsId" value="{$goods['Id']}">
 					<input type="hidden" name="CreateTime" value="{$ordermodel['time']}">
@@ -273,7 +273,7 @@ function checktradway() {
 }
 /*购买*/
 function ajaxsubmit(){
-	var $btn = $('#submitaddress').button('loading');
+	var $btn = $('#surebuybtn').button('loading');
 }
 $(function() {
 	$('.tradewayradio').click(function(e){

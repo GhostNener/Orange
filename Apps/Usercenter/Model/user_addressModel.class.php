@@ -65,7 +65,7 @@ class user_addressModel extends Model {
 	);
 	
 	/**
-	 * 获取地址
+	 * 获取用户所有地址
 	 *
 	 * @param int $userid：用户Id        	
 	 * @return array ：所有符合的地址列表
@@ -79,7 +79,7 @@ class user_addressModel extends Model {
 	}
 	
 	/**
-	 * 通过地址Id获取地址
+	 * 通过地址Id获取单个地址
 	 *
 	 * @param int $id：地址Id        	
 	 * @return array ：符合的地址

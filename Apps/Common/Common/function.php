@@ -1,6 +1,27 @@
 <?php
 use Vendor\PHPMailer;
 use Usercenter\Model\userModel;
+use Org\Util\String;
+
+/**
+ * 生成一个相对唯一的key
+ *
+ * @param string $str
+ *        	种子字符
+ * @param number $rand1
+ *        	随机码位数
+ * @param number $randHF
+ *        	前缀以及后缀随机码位数
+ * @return string
+ */
+function createonekey($str = 'BigOranger', $rand1 = 6, $randHF = 6) {
+	/* 生成key */
+	$guid = uniqid ();
+	$flag = randstr ( $rand1 );
+	$key = sha1 ( $flag . $str . $guid . microtime ( true ), false );
+	$key = randstr ( $randHF ) . $key . randstr ( $randHF );
+	return $key;
+}
 
 /**
  * api专用 获取登录校验array
@@ -18,9 +39,93 @@ function api_get_login_arr() {
 	}
 	return $arr;
 }
+/**
+ * 创建可用的交易方式
+ *
+ * @param int $id
+ *        	交易id
+ * @param number $type
+ *        	1:返回关联数组 ，id，txt，msg 2：返回普通数组
+ * @return array
+ */
+function createtradeway($id, $type = 1) {
+	switch (( int ) $id) {
+		case 1 :
+			if ($type == 2) {
+				$arr [] = $id;
+			} else {
+				$arr [] = array (
+						'id' => $id,
+						'txt' => '线上',
+						'msg' => '用“金橘”作为货币交易,确定后“金橘”将被冻结, 直到确认收货后付款给卖家' 
+				);
+			}
+			break;
+		case 2 :
+			if ($type == 2) {
+				$arr [] = $id;
+			} else {
+				$arr [] = array (
+						'id' => $id,
+						'txt' => '线下',
+						'msg' => '线下联系卖家, 按显示的价格进行交易' 
+				);
+			}
+			break;
+		case 3 :
+			if ($type == 2) {
+				$arr [] = 1;
+				$arr [] = 2;
+			} else {
+				$arr [] = array (
+						'id' => 1,
+						'txt' => '线上',
+						'msg' => '用“金橘”作为货币交易,确定后“金橘”将被冻结, 直到确认收货后付款给卖家' 
+				);
+				$arr [] = array (
+						'id' => 2,
+						'txt' => '线下',
+						'msg' => '线下联系卖家, 按显示的价格进行交易' 
+				);
+			}
+			break;
+		default :
+			$arr = null;
+			break;
+	}
+	return $arr;
+}
 
 /**
- * api专用 获取uid
+ * 获取交易方式对应的文本
+ *
+ * @param int $wayid
+ *        	id
+ * @return string
+ */
+function gettradewaytxt($wayid) {
+	if (! $wayid) {
+		return '';
+	}
+	switch ($wayid) {
+		case 1 :
+			$rst = '线上';
+			break;
+		case 2 :
+			$rst = '线下';
+			break;
+		case 3 :
+			$rst = '线上/线下';
+			break;
+		default :
+			$rst = '';
+			break;
+	}
+	return $rst;
+}
+
+/**
+ * api专用 ——获取uid
  *
  * @return int
  */
@@ -29,20 +134,27 @@ function api_get_uid() {
 	return $arr ['_uid'];
 }
 /**
- * 前台公用检测登录
- * 
+ * 公用（非API）——检测登录
+ *
+ * @param boolean $isadmin
+ *        	是否是管理员 默认不是
  * @return boolean
  */
-function isloin() {
+function isloin($isadmin = false) {
 	$m = new userModel ();
-	return ($m->islogin ( null, false, false ));
+	if (! $isadmin) {
+		return ($m->islogin ( null, false, false ));
+	} else {
+		return ($m->islogin ( null, true, false ));
+	}
 }
 
 /**
- * 编码
+ * 中文词转成GB18030编码
  *
- * @param unknown $str        	
- * @return unknown string
+ * @param String $str
+ *        	源
+ * @return String string 结果
  */
 function zhCode($str) {
 	if (! preg_match ( "/^[\x7f-\xff]+$/", $str )) {
@@ -61,8 +173,10 @@ function zhCode($str) {
 /**
  * 中文转拼音
  *
- * @param unknown $_String        	
- * @param string $_Code        	
+ * @param string $_String
+ *        	源
+ * @param string $_Code
+ *        	源编码 默认UTF8
  * @return mixed
  */
 function Pinyin($_String, $_Code = 'UTF8') { // GBK页面可改为gb2312，其他随意填写为UTF8
@@ -519,8 +633,8 @@ function _U2_Utf8_Gb($_C) {
  * @param string $url:
  *        	原始图片的路径
  * @param string $imgname:
- *        	保存的文件名【需要包含文件后缀】
- * @return array:压缩图路径 第一个参数是 大图 第二个是缩略图
+ *        	保存的文件名【不是路径，包含文件后缀的文件名】
+ * @return array:压缩图路径 从大到小
  */
 function getallthumb($url, $imgname) {
 	/* 获取后缀 */
@@ -534,8 +648,9 @@ function getallthumb($url, $imgname) {
 	$url_8 = $rooturl . C ( 'GOODS_IMG_880' ) . $imgname;
 	/* 800*300 */
 	$url_3 = $rooturl . C ( 'GOODS_IMG_830' ) . $imgname;
-	$imagedal = new \Think\Image ();
-	$imagedal->open ( $url );
+	/*
+	 * $imagedal = new \Think\Image (); $imagedal->open ( $url );
+	 */
 	// $size = $imagedal->size ();
 	/* 获取小图配置 */
 	$arr_1 = C ( 'GOODS_IMG_XS' );
@@ -551,6 +666,8 @@ function getallthumb($url, $imgname) {
 	if (! cutimg ( $url_3, $url_1, $arr_1, 2 )) {
 		return false;
 	}
+	/* 删除源图 */
+	unlink (  $url );
 	return array (
 			$url_8,
 			$url_3,
@@ -561,11 +678,11 @@ function getallthumb($url, $imgname) {
 /**
  * 旋转图片
  *
- * @param unknown $filename
+ * @param string $filename
  *        	原始路径
- * @param unknown $savesrc
+ * @param string $savesrc
  *        	保存路径
- * @param number $degrees
+ * @param string $degrees
  *        	旋转度数
  * @return boolean
  */
@@ -602,7 +719,7 @@ function rotateimg($filename, $savesrc, $degrees = 90) {
 /**
  * 获得exift 然后旋转
  *
- * @param unknown $filename
+ * @param string $filename
  *        	图片路径
  */
 function getexif($filename) {
@@ -636,8 +753,8 @@ function getexif($filename) {
  * 裁剪图片
  *
  * @param string $openurl
- *        	：图片地址
- * @param string $saveurl：保存地址        	
+ *        	：图片路径
+ * @param string $saveurl：保存路径        	
  *
  * @param array $size：宽
  *        	，高
@@ -657,7 +774,7 @@ function cutimg($openurl, $saveurl, $size, $type = 1) {
 /**
  * 检查是否为空
  *
- * @param unknown $v        	
+ * @param obj $v        	
  * @return boolean
  */
 function checknull($v) {
@@ -667,6 +784,12 @@ function checknull($v) {
 		return true;
 	}
 }
+/**
+ * 检查是不是QQ
+ * 
+ * @param int $qq        	
+ * @return boolean
+ */
 function checkqq($qq) {
 	$isQQ = "/^[1-9]{1}[0-9]{4,9}$/";
 	preg_match ( $isQQ, $qq, $result );
@@ -679,7 +802,7 @@ function checkqq($qq) {
 /**
  * 检查手机是否合法
  *
- * @param unknown $tel        	
+ * @param int $tel        	
  * @return boolean
  */
 function checktel($tel) {
@@ -696,7 +819,7 @@ function checktel($tel) {
 /**
  * 验证密码是否合法
  *
- * @param unknown $Password        	
+ * @param int $Password        	
  * @return boolean
  */
 function checkpwd($Password) {
@@ -710,7 +833,7 @@ function checkpwd($Password) {
 /**
  * 检查邮件
  *
- * @param unknown $Name        	
+ * @param int $Name        	
  * @return boolean
  */
 function checkmail($mial) {

@@ -52,31 +52,33 @@ class goodsModel extends Model {
 					self::MODEL_INSERT 
 			) 
 	);
+	
 	/**
-	 * 获取交易方式对应的文本
+	 * 冻结商品
 	 *
-	 * @param unknown $wayid        	
-	 * @return string
+	 * @param int $id        	
+	 * @param number $type
+	 *        	1:购买购买冻结，2：举报被冻结
 	 */
-	private function gettradetxt($wayid) {
-		if (! $wayid) {
-			return '';
-		}
-		switch ($wayid) {
+	public function freeze($id, $type = 1) {
+		switch ($type) {
 			case 1 :
-				return '线上';
+				$st = 20;
 				break;
 			case 2 :
-				return '线下';
-				break;
-			case 3 :
-				return '线上/线下';
+				$st = 30;
 				break;
 			default :
-				return '';
-				break;
+				return false;
 		}
+		return ($this->where ( array (
+				'Id' => $id,
+				'Status' => 10 
+		) )->save ( array (
+				'Status' => $st 
+		) ));
 	}
+	
 	/**
 	 * 查找一个商品
 	 *
@@ -127,10 +129,12 @@ class goodsModel extends Model {
 	
 	/**
 	 * 计算发布费用
-	 *
+	 * 
 	 * @param array $arr
-	 *        	Price，Server
-	 * @return multitype:number string
+	 *        	Price,Server数组
+	 * @param number $type
+	 *        	1：返回数组 status，msg，cost 2：直接返回花费
+	 * @return number multitype:number
 	 */
 	public function computecost($arr, $type = 1) {
 		if (! $arr || ! $arr ['Price']) {
@@ -160,9 +164,9 @@ class goodsModel extends Model {
 	/**
 	 * 支付发布费用
 	 *
-	 * @param unknown $arr
+	 * @param array $arr
 	 *        	：Price，Server
-	 * @param unknown $uid
+	 * @param int $uid
 	 *        	：uid
 	 */
 	private function payserver($arr, $uid) {
@@ -172,9 +176,7 @@ class goodsModel extends Model {
 		if (! $c || ! $b || $b < $c) {
 			return false;
 		}
-		return (M('user')->where ( array (
-				'Id' => $uid 
-		) )->setDec('E-Money',$c));
+		return ($um->payEM ( $uid, $c ));
 	}
 	/**
 	 * 保存商品
@@ -222,7 +224,7 @@ class goodsModel extends Model {
 					'msg' => '余额不足！' 
 			);
 		}
-		$postarr ['TradeWayTxt'] = $this->gettradetxt ( ( int ) $postarr ['TradeWay'] );
+		$postarr ['TradeWayTxt'] = gettradewaytxt ( ( int ) $postarr ['TradeWay'] );
 		$goodsmodel = $this->create ( $postarr );
 		if (! $goodsmodel) {
 			return array (
