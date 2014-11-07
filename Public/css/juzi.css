@@ -215,7 +215,14 @@ footer {
 .sideitemnav .list-group-item{
     border: none;
 }
-
+.sideitemnav .list-group-item.active,
+.sideitemnav .list-group-item.active:hover, 
+.sideitemnav .list-group-item:hover, 
+.sideitemnav .list-group-item:focus,
+.sideitemnav .list-group-item:active{
+    background-color: #F8F7F5;
+    border: none;
+}
 /*最新活动*/
 .sideitemnav .media p{
     font-size: 12px;
