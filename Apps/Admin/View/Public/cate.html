@@ -4,9 +4,14 @@
 		<label>分类管理</label>
 		<ul class="list-group">
 			<a class="list-group-item" href="{:U('/Admin/GoodsCategory')}">商品分类</a>
-			<a class="list-group-item create" href="#" action="{:U('/Admin/CategoryDic/crate')}">生成词库</a>
 		</ul>
 		<label>词库管理</label>
+		<ul class="list-group">
+			<a class="list-group-item" href="#">搜索关键字</a>
+			<a class="list-group-item" href="#">分类关键字</a>
+			<a class="list-group-item create" href="#" action="{:U('/Admin/CategoryDic/crate')}">生成词库</a>
+		</ul>
+		<label>分类词库</label>
 		<ul class="list-group">
 			<foreach name='catelist' item='v'>
 				<a class="list-group-item" href="{:U('GoodsCategoryKeyword/index',array('CategoryId'=>$v['Id']))}">{$v.Title}</a>
@@ -21,7 +26,6 @@
 <include file="Public/footer"/>
 
 <script type="text/javascript">
-
 		//表单提交
 		function ajaxsubmit(){
 			var form = $("form");
@@ -107,7 +111,6 @@
 		function loading() { 
 					$("body").append('<div  id="load" style="z-index:10; position:fixed; left:45%; top:30%"><img src="__PUBLIC__/Img/loading.gif" /></div>'); 
 				}
-		
 	</script>
 
 </body>
