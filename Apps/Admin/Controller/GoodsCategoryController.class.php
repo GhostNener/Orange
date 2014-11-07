@@ -129,18 +129,19 @@ class GoodsCategoryController extends BaseController {
 				'Presentation' => I ( 'Presentation' ) 
 		);
 
-		/**
-		* 验证是否已存在
-		* @author Cinwell
-		*/
-		if (M ( 'goods_category' )->where ( array (
-					'Title' => $data ['Title'],
-					'Status' => 10 
-			) )->select ()) {
-				$this->error ( "已经添加过了，逗比" );
-			}
-
 		if ($modif == "add") {
+
+			/**
+			* 验证是否已存在
+			* @author Cinwell
+			*/
+			if (M ( 'goods_category' )->where ( array (
+						'Title' => $data ['Title'],
+						'Status' => 10 
+				) )->select ()) {
+					$this->error ( "已经添加过了，逗比" );
+				}
+
 			$data ['Status'] = 10;
 			$dal = M ();
 			$dal->startTrans ();
