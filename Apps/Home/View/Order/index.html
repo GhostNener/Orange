@@ -8,8 +8,12 @@
 					<span class="pull-right hidden-xs">{:date('Y-m-d H:i:s',$ordermodel['time'])}</span>
 					<span>订单号: {$ordermodel['code']}</span>
 				</div>
-				<form class="form-horizontal" role="form">
-
+				<form id="orderform" action="{:U('Home/Order/sureorder')}" method="post" class="form-horizontal" role="form" onsubmit="">
+					<input type="hidden" name="Code" value="{$ordermodel['code']}">
+					<input type="hidden" name="GoodsId" value="{$goods['Title']}">
+					<input type="hidden" name="CreateTime" value="{$ordermodel['time']}">
+					<input type="hidden" id="goodsprice" value="{$goods['Price']}">
+					<input type="hidden" id="burl" value="{:U('Home/Order/getbalance')}">
 					<div class="panel-body">
 						<div class="form-group">
 							<label class="col-sm-2 control-label">商品名</label>
@@ -17,44 +21,41 @@
 								<p class="form-control-static">{$goods['Title']}</p>
 							</div>
 						</div>
-
 						<div class="form-group">
 							<label class="col-sm-2 control-label">交易方式</label>
 							<div class="col-sm-10">
 								<div class="btn-group" data-toggle="buttons">
 									<for start="0" end=":count($tradewaylist)" >
 										<if condition="$i eq 0">
-											<label class="btn btn-default btn-expend active" data-toggle="tooltip" data-placement="bottom" title="{$tradewaylist[$i]['msg']}" data-container="body">
-												<input type="radio" name="TradeWay" id="option{$i+1}" autocomplete="off" checked>{$tradewaylist[$i]['txt']}</label>
+											<label class="btn btn-default btn-expend active tradewayradio" data-toggle="tooltip" data-placement="bottom" title="{$tradewaylist[$i]['msg']}" data-container="body">
+												<input type="radio" class="tradewayradio" name="TradeWay" id="option{$i+1}" value="{$tradewaylist[$i]['id']}" autocomplete="off" checked>{$tradewaylist[$i]['txt']}</label>
 											<else/>
-											<label class="btn btn-default btn-expend " data-toggle="tooltip" data-placement="bottom" title="{$tradewaylist[$i]['msg']}" data-container="body">
-												<input type="radio" name="TradeWay" id="option{$i+1}" autocomplete="off" checked>{$tradewaylist[$i]['txt']}</label>
+											<label class="btn btn-default btn-expend tradewayradio " data-toggle="tooltip" data-placement="bottom" title="{$tradewaylist[$i]['msg']}" data-container="body">
+												<input type="radio" class="tradewayradio" name="TradeWay" id="option{$i+1}" value="{$tradewaylist[$i]['id']}"  autocomplete="off" >{$tradewaylist[$i]['txt']}</label>
 										</if>
 
 									</for>
 								</div>
 							</div>
 						</div>
-
 						<div class="form-group">
 							<label class="col-sm-2 control-label">联系人</label>
 							<div class="col-sm-8">
 								<div class="input-group">
-									<select class="form-control">
-										<option>1</option>
-										<option>2</option>
-										<option>3</option>
-										<option>4</option>
-										<option>5</option>
+									<select class="form-control" id="BuyerAddId" name="BuyerAddId">
+										<foreach name="useraddress" item="v">
+											<option value="{$v['Id']}" address="{$v['Address']}" contacts="{$v['Contacts']}">
+												{$v['Contacts']}&nbsp;&nbsp;{$v['Tel']}&nbsp;&nbsp;{$v['Address']}
+											</option>
+										</foreach>
 									</select>
 									<span class="input-group-btn">
-
-										<button type="submit" class="btn btn-default btn-expend" data-toggle="tooltip" data-placement="top" title="刷新地址" data-container="body">
+										<a id="refreshadd" url="{:U('Home/Goods/refreshadd')}" class="btn btn-default btn-expend" data-toggle="tooltip" data-placement="top" title="刷新地址" data-container="body">
 											<span class="glyphicon glyphicon-refresh"></span>
-										</button>
-										<button type="submit" class="btn btn-default btn-expend" data-toggle="tooltip" data-placement="top" title="添加新地址" data-container="body">
+										</a>
+										<a   class="btn btn-default btn-expend"  title="添加新地址" data-container="body" data-toggle="modal" data-target="#addressModal">
 											<span class="glyphicon glyphicon-plus"></span>
-										</button>
+										</a>
 									</span>
 								</div>
 							</div>
@@ -63,23 +64,238 @@
 					</div>
 					<div class="panel-footer">
 						<h3 class="text-orange">
-							500.00
-							<button class="btn btn-orange pull-right">确定购买</button>
+							{$goods['Price']}.00
+							<button id="surebuybtn" class="btn btn-orange pull-right">确定购买</button>
 
 						</h3>
 
 						<!-- 选择线上交易的时候显示余额 -->
-						<!-- <span>
-						金橘余额: 5000
-						<button class="btn btn-success btn-xs">
-							<span class="glyphicon glyphicon-refresh"></span>
-						</button>
-					</span>
-					-->
+						<span id="embalance">
+							金橘余额:
+							<span class="text-orange">.00</span>
+							<button id="refbalance" type="button" class="btn btn-success btn-xs" title="刷新余额">
+								<span class="glyphicon glyphicon-refresh"></span>
+							</button>
+							<button id="rechargebtn" type="button" class="btn btn-danger btn-xs" >余额不足请充值</button>
+						</span>
+					</div>
+				</form>
+
+				<div class="modal fade" id="addressModal" tabindex="-1" role="dialog" aria-labelledby="addressModalLabel" aria-hidden="true">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal">
+									<span aria-hidden="true">&times;</span>
+									<span class="sr-only">Close</span>
+								</button>
+								<h4 class="modal-title hightlight" id="addressModalLabel">添加地址</h4>
+							</div>
+							<form id="addressform" class="form-horizontal" action="{:U('Usercenter/Address/saveaddress')}" method="post" onsubmit="return ajaxaddresssubmit()">
+								<div class="modal-body">
+									<input type="hidden" name="modif" value="add">
+									<div class="form-group">
+										<label for="Contacts" class="col-sm-2 control-label">联系人</label>
+										<div class="col-sm-10">
+											<input type="tel" name="Contacts" id="Contacts" class="form-control" placeholder="联系人"></div>
+									</div>
+									<div class="form-group">
+										<label for="Tel" class="col-sm-2 control-label">联系电话</label>
+										<div class="col-sm-10">
+											<input type="tel" name="Tel" id="Tel" class="form-control" placeholder="联系电话"></div>
+									</div>
+									<div class="form-group">
+										<label for="Address" class="col-sm-2 control-label">联系地址</label>
+										<div class="col-sm-10">
+											<input type="tel" name="Address" id="Address" class="form-control" placeholder="联系地址"></div>
+									</div>
+									<div class="form-group">
+										<div class="col-sm-offset-2 col-sm-10">
+											<div class="checkbox">
+												<label>
+													<input id="IsDefault" name="IsDefault" value="1" type="checkbox">&nbsp;作为默认地址</label>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-danger" data-dismiss="modal">关闭</button>
+									<button id="submitaddress" type="submit" class="btn btn-primary" data-loading-text="提交中..." autocomplete="off" >提交</button>
+								</div>
+							</form>
+						</div>
+					</div>
 				</div>
-			</form>
+			</div>
 		</div>
 	</div>
-</div>
+</block>
+<block name="js">
+	<script>
+/*保存地址*/
+function ajaxaddresssubmit(){
+	var $btn = $('#submitaddress').button('loading');
+	if(!$.trim($('#Contacts').val())){
+		showerrormsg('联系人为空',100,1000);
+		$('#Contacts').focus();
+		$btn.button('reset');
+		return false;
+	}
+	var isMobile=/^(?:13\d|14\d|15\d|18\d)\d{5}(\d{3}|\*{3})$/; 
+	if(!$.trim($('#Tel').val())||!isMobile.test($('#Tel').val())){
+		showerrormsg('联系电话不合法',100,1000);
+		$('#Tel').focus();
+		$btn.button('reset');
+		return false;
+	}
+	if(!$.trim($('#Address').val())){
+		showerrormsg('联系地址为空',100,1000);
+		$('#Address').focus();
+		$btn.button('reset');
+		return false;
+	}
+	$.ajax({
+        type: 'post',
+        cache: false,
+        url: $('#addressform').attr('action'),
+        data: $('#addressform').serialize(),
+        error:  
+        function(request)  {
+            showerrormsg('网络错误', 100, 1000);
+            $btn.button('reset');  
+            return false;              
+        },
+         success:  
+        function(data)  {
+            if (data.status == 0) {
+                showerrormsg(data.info, 100, 1000);
+                $btn.button('reset');
+                return false;
+            } else {
+                showsuccessmsg("提交成功", 100, 1000);
+                $('#addressform')[0].reset();
+                $('#addressModal').modal('hide');
+                $btn.button('reset');
+                refaddress(false);
+                return false;
+            }                
+        }
+    });
+    return false;
+}
+/*刷新地址*/
+function refaddress(isshowmsg) {
+    var _url = $('#refreshadd').attr('url');
+    $.ajax({
+        type: 'post',
+        cache: false,
+        url: _url,
+        error:  
+        function(request)  {
+            showerrormsg('网络错误', 100, 1000);
+            return false;              
+        },
+         success:  
+        function(data)  {
+            if (data.status == 0) {
+                if (isshowmsg) {
+                    showerrormsg(data.info, 100, 1000);
+                }
+                return false;
+            } else {
+                if (!data.info) {
+                    if (isshowmsg) {
+                        showerrormsg('刷新失败', 100, 1000);
+                    }
+                    return;
+                }
+                var _arr = $.parseJSON(data.info);
+                if (!_arr) {
+                    if (isshowmsg) {
+                        showerrormsg('刷新失败', 100, 1000);
+                    }
+                    return;
+                }
+                $('#BuyerAddId').children('option').remove();
+                $(_arr).each(function(i, v) {
+                    $('#BuyerAddId').append("<option value=" + v['Id'] + " address=" + v['address'] + "contacts=" + v['Contacts'] + " >" + v['Contacts'] + "&nbsp;&nbsp;" + v['Tel'] + "&nbsp;&nbsp;" + v['Address'] + "</option>");
+                });
+                if (isshowmsg) {
+                    showsuccessmsg("刷新成功", 100, 500);
+                }
+                return;
+            }                
+        }
+    });
+}
+/*获取余额*/
+function getbalance(isshowmsg){
+    $.ajax({
+        type: 'post',
+        cache: false,
+        url: $('#burl').val(),
+        error:  
+        function(request)  {
+            showerrormsg('网络错误', 100, 1000);
+            return false;              
+        },
+         success:  
+        function(data)  {
+            if (data.status == 0) {
+                if (isshowmsg) {
+                    showerrormsg(data.info, 100, 1000);
+                }
+                return false;
+            } else {
+            	if(isshowmsg){showsuccessmsg('刷新余额成功',100,500);}
+            	$('#embalance').children('span').html(data.info+'.00');
+            	$('#embalance').show();
+            	var _b=parseInt(data.info);
+            	if($('#goodsprice').val()>_b){
+            		$('#rechargebtn').show();
+            		$('#surebuybtn').attr('disabled',true);
+            	}else{
+            		$('#rechargebtn').hide();
+            		$('#surebuybtn').attr('disabled',false);
+            	}
+            }                
+        }
+    });
+}
+/*初始化检查是不是线上*/
+function checktradway() {
+    $('input:radio:checked').each(function() {
+        if ($(this).val() == 1 && $(this).attr('checked')) {
+            getbalance(false);
+            return true;
+        }
+    });
+}
 
+$(function() {
+	$('.tradewayradio').click(function(e){
+		var _id=$(this).children().val();
+		if(_id==1){
+			getbalance(false);
+		}else{
+			$('#embalance').hide();
+            $('#surebuybtn').attr('disabled',false);
+		}
+	})
+    $('#refreshadd').click(function(e) {
+        refaddress(true);
+    });
+    $('#refbalance').click(function(e) {
+        getbalance(true);
+    });
+    checktradway();
+})
+	</script>
+</block>
+<block name="css">
+	<style>
+#embalance{
+display: none;
+}
+	</style>
 </block>

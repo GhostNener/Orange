@@ -134,7 +134,8 @@ class userModel extends Model {
 	/**
 	 * 获得余额
 	 *
-	 * @param unknown $uid        	
+	 * @param unknown $uid 
+	 * @param $type  1：返回数组 ：status  msg     balance，2返回余额   	
 	 */
 	public function getbalance($uid, $type = 1) {
 		$r = $this->field ( 'E-Money' )->where ( array (
