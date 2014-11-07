@@ -21,7 +21,7 @@ class CategoryDicController extends BaseController {
 				'Status' => 10 
 		) )->select ();
 		if (! $arr) {
-			$this->error ( "操作失败\n没有查询到数据", U ( 'GoodsCategory/index' ) );
+			$this->error ( "操作失败\n没有查询到数据" );
 		}
 		$cr = new \Cratedic ();
 		$cr->categorydic = C ( 'CATEGOEY_DIC' );
@@ -30,7 +30,7 @@ class CategoryDicController extends BaseController {
 		if ($rst) {
 			$this->success ( "操作成功\n共" . count ( $arr ) . "个关键字" );
 		} else {
-			$this->error ( '操作失败', U ( 'GoodsCategory/index' ) );
+			$this->error ( '操作失败' );
 		}
 	}
 }

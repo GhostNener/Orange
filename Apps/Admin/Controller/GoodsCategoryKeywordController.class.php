@@ -108,7 +108,9 @@ class GoodsCategoryKeywordController extends BaseController {
 			$this->error ( "至少保留一个关键字" );
 		}
 		if ($model->where ( $whereArr )->delete ()) {
-			$this->redirect( 'index' , array('CategoryId'=>$cid));
+			$this->success ( '操作成功' );
+		}else{
+			$this->error ( "操作失败" );
 		}
 	}
 	/**
@@ -151,6 +153,12 @@ class GoodsCategoryKeywordController extends BaseController {
 			}
 
 		} else {
+
+			//如果存在待审核 1 状态的，表示更新为可用 10 状态
+			if (I('post.tempStatus')) {
+				$data['Status'] = 10;
+			}
+
 			$whereArr = array (
 					'Id' => ( int ) I ( "post.Id" ) 
 			);
@@ -158,5 +166,60 @@ class GoodsCategoryKeywordController extends BaseController {
 		}
 
 		$this->success ( '操作成功' );
+	}
+
+	/**
+	 * 待审核的关键字列表
+	 *
+	 * @author Cinwell
+	 */
+	public function tempCateKeyList() {
+		
+		$whereArr = array (
+				'Status' => 1
+		);
+
+		$model = M ( 'view_keyword' );
+		
+		// 总数
+		$allCount = $model->where ( $whereArr )->count ();
+		// 分页
+		$Page = new \Think\Page ( $allCount, 10 );
+		$showPage = $Page->show ();
+		// 分页查询
+		
+		$list = $model->where ( $whereArr )->limit ( $Page->firstRow . ',' . $Page->listRows )->select ();
+
+		$catemodel = M ( 'goods_category' );
+		$cateWhereArr = array(
+				'Status' => 10
+			);
+		$catelist = $catemodel->where($cateWhereArr)->select();
+		$this->assign( 'catelist', $catelist );
+		$this->assign ( 'list', $list );
+		$this->assign ( 'page', $showPage );
+		$this->display ( 'GoodsCategory/keycategory' );
+	}
+
+	/**
+	 * 保存待审核关键字
+	 *
+	 * @author Cinwell
+	 */
+
+	public function SaveTempKey()
+	{
+		$data = array (
+				'Status' => 10
+		);
+
+		$whereArr = array (
+					'Id' => ( int ) I ( "Id" ) 
+		);
+
+		$model = M ( 'goods_category_keyword' );
+		$model->where ( $whereArr )->save ( $data );
+		$this->success ( '操作成功' );
+
 	}
 }

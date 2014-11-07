@@ -8,8 +8,8 @@
 		<label>词库管理</label>
 		<ul class="list-group">
 			<a class="list-group-item" href="#">搜索关键字</a>
-			<a class="list-group-item" href="#">分类关键字</a>
-			<a class="list-group-item create" href="#" action="{:U('/Admin/CategoryDic/crate')}">生成词库</a>
+			<a class="list-group-item" href="{:U('GoodsCategoryKeyword/tempCateKeyList')}">分类关键字</a>
+			<a class="list-group-item save" href="#" action="{:U('CategoryDic/crate')}">生成词库</a>
 		</ul>
 		<label>分类词库</label>
 		<ul class="list-group">
@@ -47,6 +47,7 @@
 
                     }
                     else{
+						showsuccessmsg(data.info,100,1000);
                     	window.location.href=window.location.href;
                     }
                 }
@@ -56,9 +57,10 @@
 		
 		//异步获取数据
 		$('.edit').click(function () {
+			var a = $(this);
 			$.ajax({
 				type:'get',
-				url:$(this).attr('action'),
+				url: a.attr('action'),
 				beforeSend: loading(),
 				error: function(request) {
 					showsuccessmsg('网络连接失败',100,1000);
@@ -75,11 +77,17 @@
 						//填充数据
 						for(var p in result.data){        
 		       				$('input[name$='+p+']').val(result.data[p]);
+		       				$('select[name$='+p+']').children().each(function () {
+		       					if ($(this).attr('value')==result.data[p]) {
+		       						$(this).attr('selected','selected');
+		       						return;
+		       					};
+		       				});
 						}
 
 						$('input[name$=modif]').val(result.method);
 						$('#addModal').modal('show');
-						$('#addModal').find('.modal-title').text($(this).attr('modaltitle'));
+						$('#myModalLabel').text(a.attr('modaltitle'));
 					}
 				},
 				complete: function() {
@@ -90,7 +98,7 @@
 			
 		});
 
-		$('.create').click(function () {
+		$('.save').click(function () {
 			$.ajax({
 				type:'get',
 				url:$(this).attr('action'),
@@ -101,6 +109,7 @@
 				},
 				success: function(data) {
 					showsuccessmsg(data.info,100,1000);
+                    window.location.href=window.location.href;
 				},
 				complete: function() {
 					$("#load").remove();
