@@ -45,6 +45,7 @@ class Cratedic {
 		return true;
 		exit ();
 	}
+	
 	/**
 	 * 关键字数据导出文本txt
 	 *
@@ -76,22 +77,22 @@ class Cratedic {
 	 * @param string $sourcespatha
 	 *        	：源文件绝对路径
 	 * @param string $sourcespathb
-	 *        	：：源文件绝对路径
+	 *        	：基础源文件绝对路径
 	 * @param string $savepath
 	 *        	：要保存的绝对路径
 	 * @param array $searcharr
 	 *        	：数据库搜索关键字数据
 	 */
 	private function jointtxt($sourcespatha, $sourcespathb, $savepath, $searcharr) {
-		$strbase = file_get_contents ( $sourcespatha );
-		$newdic = file_get_contents ( $sourcespathb );
-		$newdic = $newdic . "\n" . $strbase . "\n";
+		$strbase = file_get_contents ( $sourcespathb );
+		$newdic = file_get_contents ($sourcespatha  );
 		$fp = fopen ( $savepath, 'w+' );
 		fwrite ( $fp, $newdic );
 		foreach ( $searcharr as $k ) {
 			$strTemp = strtolower ( $k ['Keyword'] ) . ',' . $k ['CategoryId'] . "\n";
 			fwrite ( $fp, $strTemp );
 		}
+		fwrite ( $fp, $strbase );
 		fclose ( $fp );
 	}
 }
