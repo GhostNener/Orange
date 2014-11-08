@@ -19,10 +19,7 @@ class goods_categoryModel extends Model {
 	 * @return array：分类列表
 	 */
 	public function getall() {
-		$arr = $this->field ( array (
-				'Id',
-				'Title' 
-		) )->where ( array (
+		$arr = $this->where ( array (
 				'Status' => 10 
 		) )->select ();
 		return $arr;

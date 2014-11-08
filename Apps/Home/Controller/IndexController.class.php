@@ -35,13 +35,20 @@ class IndexController extends Controller {
 				$usermodel = null;
 			}
 		}
+		$isclockin = checkclockin ();
+		if ($isclockin) {
+			$isclockin = 1;
+		} else {
+			$isclockin = 0;
+		}
+		$this->assign ( 'isclockin', $isclockin );
 		$this->assign ( 'usermodel', $usermodel );
 	}
 	/**
 	 * 首页
 	 */
 	public function index() {
-/* 		$gid = cookie ( '_viewgid' ,null); */
+		/* $gid = cookie ( '_viewgid' ,null); */
 		$limit = 6;
 		/* 置顶 最新的 猜你喜欢 分类 */
 		$model = new view_goods_in_serviceModel ();
@@ -161,7 +168,7 @@ class IndexController extends Controller {
 			die ();
 		}
 		$gid = cookie ( '_viewgid' );
-		if (! $gid || !( int ) $gid == $Id) {
+		if (! $gid || ! ( int ) $gid == $Id) {
 			$m = new goodsModel ();
 			$m->VCChhandle ( $Id, 1 );
 			$gid = cookie ( '_viewgid', $Id );
@@ -180,7 +187,7 @@ class IndexController extends Controller {
 	public function addComment() {
 		$postarr = I ( 'post.' );
 		if (! isloin ()) {
-			$this->error ( '没有登录' );
+			$this->error ( '你还没有登录' );
 			die ();
 		}
 		$model = new goods_commentModel ();
@@ -191,6 +198,28 @@ class IndexController extends Controller {
 			$m = new goodsModel ();
 			$m->VCChhandle ( $postarr ['GoodsId'], 3 );
 			$this->success ( 1 );
+		}
+	}
+	/**
+	 * 用户签到操作
+	 *
+	 * @author NENER
+	 */
+	public function clockin() {
+		if (! IS_POST) {
+			$this->error ( '页面不存在' );
+			die ();
+		}
+		if (! isloin ()) {
+			$this->error ( '你还没有登录' );
+			die ();
+		}
+		$m = new userModel ();
+		$arr = $m->clockin ();
+		if ($arr ['status'] == 0) {
+			$this->error ( $arr ['msg'] );
+		} else {
+			$this->success ( $arr ['msg'] );
 		}
 	}
 }

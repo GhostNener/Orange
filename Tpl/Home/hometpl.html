@@ -15,7 +15,17 @@
 		<div class="col-md-3">
 			<div class="panel panel-default">
 				<div class="panel-body">
-					<button type="button" class="btn btn-orange btn-lg btn-block">打卡签到</button>
+					<if condition="$usermodel eq null">
+						<a href="{:U('Usercenter/User/index')}" class="btn btn-orange btn-lg btn-block">打卡签到</a>
+						<else/>
+						<if condition="$isclockin eq 1">
+							<button  class="btn btn-orange btn-lg btn-block disabled">今日已签到</button>
+							<else/>
+							<form id="clockinform" action="{:U('Home/Index/clockin')}" method="post" onsubmit="return ajaxclockin()">
+								<button id="clockinbtn"  type="submit" class="btn btn-orange btn-lg btn-block" data-loading-text="签到中..." autocomplete="off">打卡签到</button>
+							</form>
+						</if>
+					</if>
 
 					<!-- 商品分类 -->
 					<div class="sideitemnav">
@@ -25,7 +35,7 @@
 							<foreach name="clist" item="v">
 								<a href="{:U('Home/Index/cggoods',array('Id'=>
 									$v['Id']))}" class="list-group-item">
-									<span class="badge">new</span>
+									<span class="badge">{$v['Hot']}</span>
 									{$v['Title']}
 								</a>
 							</foreach>
@@ -149,13 +159,45 @@
 <include file="./Tpl/Public/footer.html"/>
 <block name="js">
 	<script>
-	$(function (){
-		$('#creategoods').click(function(e){
-			var _url=$(this).attr('url');
-			location.href=_url;
-		});
+function ajaxclockin() {
+    var $btn = $('#clockinbtn').button('loading');
+    $.ajax({
+        type: 'post',
+        cache: false,
+        url: $('#clockinform').attr('action'),
+        data: $('#clockinform').serialize(),
+        error:  
+        function(request)  {
+            showerrormsg('网络错误', 100, 1000);
+            $btn.button('reset');  
+            return false;              
+        },
+         success:  
+        function(data)  {
+            if (data.status == 0) {
+                showerrormsg(data.info, 100, 1000);
+                $btn.button('reset');
+                return false;
+            } else {
+                showsuccessmsg(data.info, 100, 2000);
+                setTimeout(function() {
+                    location.reload();
+                    $btn.button('reset');
+                },
+                3000);
+                return false;
+            }                
+        }
+    });
+    return false;
+}
+$(function() {
+    $('#creategoods').click(function(e) {
+        var _url = $(this).attr('url');
+        location.href = _url;
+    });
 
-	});
+});
 
 </script>
 </block>

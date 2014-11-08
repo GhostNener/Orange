@@ -5,7 +5,7 @@ use Org\Util\String;
 
 /**
  * 标题拆分数组
- * 
+ *
  * @param string $title
  *        	标题
  * @param string $iscoding
@@ -191,6 +191,17 @@ function isloin($isadmin = false) {
 	} else {
 		return ($m->islogin ( null, true, false ));
 	}
+}
+
+/**
+ * (公用)检查今天是否签到了
+ *
+ * @param unknown $uid        	
+ * @return boolean true 签过了，false 没有
+ */
+function checkclockin($uid = -1) {
+	$m = new userModel ();
+	return ($m->checkclockin ( $uid ));
 }
 
 /**

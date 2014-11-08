@@ -77,19 +77,6 @@ class IndexController extends BaseController {
 	}
 	
 	/**
-	 * 签到
-	 */
-	public function sign(){
-		$model = new userModel();
-		$rst = $model -> sign();
-		if (( int ) $rst ['status'] == 0) {
-			$this->error ( $rst ['msg'] );
-		} else {
-			$this->success ( 1 );
-		}
-	}
-	
-	/**
 	 * 订单管理
 	 */
 	public function order(){

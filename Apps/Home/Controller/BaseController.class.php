@@ -33,9 +33,9 @@ class BaseController extends Controller {
 		}
 		if (! $rst) {
 			redirect ( U ( 'Usercenter/User/index', array (
-					'isadmin'=>false)));
-		}else{
-
+					'isadmin' => false 
+			) ) );
+		} else {
 			$m = new view_user_info_avatarModel ();
 			$usermodel = $m->getinfo ();
 			if ($usermodel ['status'] == 1) {
@@ -43,6 +43,13 @@ class BaseController extends Controller {
 			} else {
 				$usermodel = null;
 			}
+			$isclockin = checkclockin ();
+			if ($isclockin) {
+				$isclockin = 1;
+			} else {
+				$isclockin = 0;
+			}
+			$this->assign ( 'isclockin', $isclockin );
 			$this->assign ( 'usermodel', $usermodel );
 		}
 	}

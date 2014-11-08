@@ -650,21 +650,116 @@ class userModel extends Model {
 	
 	/**
 	 * 用户签到
-	 * 
+	 *
 	 * @param int $uid        	
 	 */
 	public function clockin($uid = -1) {
-		$msg['status']=0;
-		$msg['msg']='用户不存在';
-		if(!$uid||$uid==-1){
-			$uid=cookie('_uid');
+		$msg ['status'] = 0;
+		$msg ['msg'] = '用户不存在或未登录';
+		if (! $uid || $uid == - 1) {
+			$uid = cookie ( '_uid' );
 		}
-		if(!$uid){
+		if (! $uid) {
 			return $msg;
 		}
-		$user=$this->where(array('Id'=>$uid,'Status'=>10))->find();
-		if(!$user){
+		$user = $this->where ( array (
+				'Id' => $uid,
+				'Status' => 10 
+		) )->find ();
+		if (! $user) {
 			return $msg;
+		}
+		$lasttime = ( int ) $user ['LastClockinTime'];
+		if (($this->checkclockin ( $uid ))) {
+			$msg ['msg'] = '今天已经签到过了';
+			return $msg;
+		}
+		/* 连续打卡 */
+		if ($lasttime >= strtotime ( date ( 'Y-m-d', strtotime ( '-1 day' ) ) )) {
+			$msg ['msg'] = $this->handleclockin ( $uid, 1 );
+		} else {
+			/* 断签 */
+			$msg ['msg'] = $this->handleclockin ( $uid, 2 );
+		}
+		$msg ['status'] = 1;
+		return $msg;
+	}
+	/**
+	 * 签到处理
+	 *
+	 * @param int $uid
+	 *        	用户id
+	 * @param int $type
+	 *        	1：表示续签，2：表示断签
+	 * @return string 签到消息
+	 */
+	private function handleclockin($uid, $type = 1) {
+		$msg = '签到失败，请重试';
+		$dal = M ();
+		$dal->startTrans ();
+		switch ($type) {
+			/* 续签操作 */
+			case 1 :
+				$r1 = $this->where ( array (
+						'Id' => $uid,
+						'Status' => 10 
+				) )->setInc ( 'ClockinCount' );
+				$r2 = $this->where ( array (
+						'Id' => $uid,
+						'Status' => 10 
+				) )->save ( array (
+						'LastClockinTime' => time () 
+				) );
+				$c = $this->where ( array (
+						'Id' => $uid,
+						'Status' => 10 
+				) )->field ( 'ClockinCount' )->find ();
+				$c = $c ['ClockinCount'];
+				break;
+			case 2 :
+				$r1 = $this->where ( array (
+						'Id' => $uid,
+						'Status' => 10 
+				) )->save ( array (
+						'LastClockinTime' => time (),
+						'ClockinCount' => 1 
+				) );
+				$r2 = $r1;
+				$c = 1;
+				break;
+			default :
+				return $msg;
+		}
+		if (! $r1 || ! $r2) {
+			$dal->rollback ();
+			return $msg;
+		} else {
+			$dal->commit ();
+			return '签到成功，已连续签到' . $c . '天';
+		}
+	}
+	/**
+	 * 检查今天是否签到了
+	 *
+	 * @param unknown $uid        	
+	 * @return boolean true 签过了，false 没有
+	 */
+	public function checkclockin($uid = -1) {
+		if (! $uid || $uid == - 1) {
+			$uid = cookie ( '_uid' );
+		}
+		$user = $this->where ( array (
+				'Id' => $uid,
+				'Status' => 10 
+		) )->find ();
+		if (! $user) {
+			return true;
+		}
+		$lasttime = ( int ) $user ['LastClockinTime'];
+		if ($lasttime >= ( int ) strtotime ( date ( 'Y-m-d' ) )) {
+			return true;
+		} else {
+			return false;
 		}
 	}
 }
