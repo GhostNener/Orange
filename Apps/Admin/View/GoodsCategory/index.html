@@ -11,8 +11,9 @@
 					<table class="table table-striped">
 						<thead>
 							<th>编号</th>
-							<th width="150px">名称</th>
-							<th width="400px">描述</th>
+							<th width="100">名称</th>
+							<th width="400">描述</th>
+							<th width="50">标签</th>
 							<th>状态</th>
 							<th>操作</th>
 						</thead>
@@ -22,6 +23,7 @@
 									<td>{$v.Id}</td>
 									<td>{$v.Title}</td>
 									<td>{$v.Presentation}</td>
+									<td>{$v.Hot}</td>
 									<td>{$v.Status}</td>
 									<td>
 										<a class="btn btn-danger btn-small save" action="{:U(del,array('Id'=>$v['Id']))}">删除</a>
@@ -59,11 +61,19 @@
 							<div class="col-sm-10">
 								<input type="text" class="form-control" id="Title" name="Title" placeholder="分类名称" required></div>
 						</div>
+
 						<div class="form-group">
 							<label class="col-sm-2 control-label">描述</label>
 							<div class="col-sm-10">
 								<input type="text" class="form-control" id="Presentation" name="Presentation" placeholder="介绍下包含哪些东西" required></div>
 						</div>
+
+						<div class="form-group">
+							<label class="col-sm-2 control-label">标签</label>
+							<div class="col-sm-10">
+								<input type="text" class="form-control" id="Hot" name="Hot" placeholder="显示在分类旁边的内容"></div>
+						</div>
+
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-danger" data-dismiss="modal">关闭</button>

@@ -127,7 +127,8 @@ class GoodsCategoryController extends BaseController {
 		$model = M ( 'goods_category' );
 		$data = array (
 				'Title' => I ( 'Title' ),
-				'Presentation' => I ( 'Presentation' ) 
+				'Presentation' => I ( 'Presentation' ),
+				'Hot' => I ( 'Hot' ) 
 		);
 
 		if ($modif == "add") {
@@ -150,8 +151,7 @@ class GoodsCategoryController extends BaseController {
 			$dataKey = array (
 					'CategoryId' => $r1,
 					'Keyword' => $data ['Title'],
-					'Status' => 10,
-					'Hot' => 0 
+					'Status' => 10
 			);
 			$r2 = M ( 'goods_category_keyword' )->data ( $dataKey )->add ();
 			if ($r1 && $r2) {
