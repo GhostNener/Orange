@@ -10,7 +10,6 @@ use Think\Model;
  * @author NENER
  *        
  */
-require_once './ORG/phpAnalysis/SearchDic.class.php';
 class goods_searchModel extends Model {
 	/**
 	 * 自动验证
@@ -24,9 +23,9 @@ class goods_searchModel extends Model {
 					'已存在！',
 					self::EXISTS_VALIDATE,
 					'unique' 
-			));
-
-
+			) 
+	);
+	
 	/**
 	 * 用户模型自动完成
 	 *
@@ -38,7 +37,7 @@ class goods_searchModel extends Model {
 					'seachfc',
 					self::MODEL_INSERT,
 					'callback' 
-			) ,
+			),
 			array (
 					'SourceTitle',
 					'seachfcnoc',
@@ -56,31 +55,25 @@ class goods_searchModel extends Model {
 		if (! $title) {
 			return '';
 		}
-		$sh = new \SearchDic ();
-		$sh->searchdic = C ( 'SEARCH_DIC' );
-		$arr = $sh->searchpart ( $title );
+		$arr = searchpart ( $title );
 		if (count ( $arr ) <= 0) {
 			return '';
 		} else {
 			$rst = implode ( ' ', $arr );
-			$rst2=implode ( '', $arr );
-			$rst=$rst.' '.$rst2;
 			return $rst;
 		}
 	}
-		/**
+	/**
 	 * 自动完成
 	 *
-	 * @param unknown $title        	
+	 * @param string $title        	
 	 * @return string
 	 */
 	protected function seachfcnoc($title) {
 		if (! $title) {
 			return '';
 		}
-		$sh = new \SearchDic ();
-		$sh->searchdic = C ( 'SEARCH_DIC' );
-		$arr = $sh->searchpart ( $title ,false);
+		$arr = searchpart ( $title, false );
 		if (count ( $arr ) <= 0) {
 			return '';
 		} else {
@@ -88,12 +81,19 @@ class goods_searchModel extends Model {
 			return $rst;
 		}
 	}
+	/**
+	 * 添加商品索引
+	 * 
+	 * @param unknown $data        	
+	 */
 	public function saveone($data) {
-		$data['SourceTitle']=$data['SearchTitle'];
+		$data ['SourceTitle'] = $data ['SearchTitle'];
 		$model = $this->create ( $data );
 		if (! $model) {
-			$this->where(array('GoodsId'=>$data['GoodsId']))->save( $data );
-		}else{
+			$this->where ( array (
+					'GoodsId' => $data ['GoodsId'] 
+			) )->save ( $data );
+		} else {
 			$this->add ( $model );
 		}
 	}

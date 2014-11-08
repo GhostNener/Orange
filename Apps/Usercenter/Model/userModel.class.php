@@ -649,47 +649,22 @@ class userModel extends Model {
 	}
 	
 	/**
-	 * 签到
+	 * 用户签到
+	 * 
+	 * @param int $uid        	
 	 */
-	public function sign() {
-		$userid = cookie ( '_uid' );
-		$whereArr = array (
-				'Id' => $userid 
-		);
-		$meArr = $this->where ( $whereArr )->find ();
-		$lastSignTime = $meArr ['LastSignTime']; // 最后一次签到时间
-		$signTime = date ( 'y-m-d', $lastSignTime ); // 格式化最后一次签到时间
-		if ($signTime == date ( 'y-m-d', time () )) { // 判断是否连签
-			return array (
-					'status' => 0,
-					'msg' => '已签到' 
-			);
-		} else {
-			if (time () - $totalTime > 60 * 60 * 24) {
-				$data ['SignCount'] = 0;
-			} else {
-				$data ['SignCount'] = array (
-						'exp',
-						'SignCount+1' 
-				);
-			}
-			$data ['LastSignTime'] = date ( "Y-m-d H:i:s", time () );
-			$data ['Grade'] = array (
-					'exp',
-					'Grade+1' 
-			);
-			$rst = $this->where ( $whereArr )->save ( $data );
-			if ($rst) {
-				return array (
-						'status' => 1,
-						'msg' => '操作成功' 
-				);
-			} else {
-				return array (
-						'status' => 0,
-						'msg' => '操作失败' 
-				);
-			}
+	public function clockin($uid = -1) {
+		$msg['status']=0;
+		$msg['msg']='用户不存在';
+		if(!$uid||$uid==-1){
+			$uid=cookie('_uid');
+		}
+		if(!$uid){
+			return $msg;
+		}
+		$user=$this->where(array('Id'=>$uid,'Status'=>10))->find();
+		if(!$user){
+			return $msg;
 		}
 	}
 }

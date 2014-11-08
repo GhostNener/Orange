@@ -26,22 +26,20 @@ class Cratedic {
 	 * @param array $searcharr数据库搜索关键字数据        	
 	 * @return boolean
 	 */
-	public function buildDic($arr, $searcharr) {
+	public function buildDic($arr) {
 		// txt文件路径
 		$txtpath = dirname ( __FILE__ ) . $this->dictxt;
 		if (! ($this->expotrTxt ( $txtpath, $arr ))) {
 			return false;
 		}
-		$basetxt = dirname ( __FILE__ ) . $this->basetxt;
-		$temptxt = dirname ( __FILE__ ) . $this->temptxt;
 		/* 生成关键字词典 */
 		PhpAnalysis::$loadInit = false;
 		$pa = new PhpAnalysis ( 'utf-8', 'utf-8', false, '', $this->categorydic );
 		$pa->MakeDict ( $txtpath );
 		/* 生成全文检索词典 */
-		$this->jointtxt ( $txtpath, $basetxt, $temptxt, $searcharr );
+/* 		$this->jointtxt ( $txtpath, $basetxt, $temptxt, $searcharr );
 		$pa = new PhpAnalysis ( 'utf-8', 'utf-8', false, '', $this->searchdic );
-		$pa->MakeDict ( $temptxt );
+		$pa->MakeDict ( $temptxt ); */
 		return true;
 		exit ();
 	}
@@ -83,7 +81,7 @@ class Cratedic {
 	 * @param array $searcharr
 	 *        	：数据库搜索关键字数据
 	 */
-	private function jointtxt($sourcespatha, $sourcespathb, $savepath, $searcharr) {
+/* 	private function jointtxt($sourcespatha, $sourcespathb, $savepath, $searcharr) {
 		$strbase = file_get_contents ( $sourcespathb );
 		$newdic = file_get_contents ($sourcespatha  );
 		$fp = fopen ( $savepath, 'w+' );
@@ -94,6 +92,6 @@ class Cratedic {
 		}
 		fwrite ( $fp, $strbase );
 		fclose ( $fp );
-	}
+	} */
 }
 ?>

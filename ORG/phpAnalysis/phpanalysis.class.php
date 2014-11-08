@@ -19,7 +19,7 @@ class PhpAnalysis {
 	public $resultType = 1;
 	
 	// 句子长度小于这个数值时不拆分，notSplitLen = n(个汉字) * 2 + 1
-	public $notSplitLen = 5;
+	public $notSplitLen = 3;
 	
 	// 把英文单词全部转小写
 	public $toLower = false;

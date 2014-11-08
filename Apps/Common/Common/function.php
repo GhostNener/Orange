@@ -4,6 +4,50 @@ use Usercenter\Model\userModel;
 use Org\Util\String;
 
 /**
+ * 标题拆分数组
+ * 
+ * @param string $title
+ *        	标题
+ * @param string $iscoding
+ *        	是否进行编码
+ * @param string $removerepeat
+ *        	是否去重
+ * @return array
+ */
+function searchpart($title, $iscoding = true, $removerepeat = false) {
+	$str = strtolower ( $title );
+	preg_match_all ( '/./u', $str, $okresult );
+	return cutsingle ( $okresult [0], $iscoding, $removerepeat );
+}
+/**
+ * 移除重复词以及 单个词
+ *
+ * @param array $arr        	
+ * @param bool $iscoding
+ *        	是否进行编码
+ * @return array
+ */
+function cutsingle($arr, $iscoding = true, $removerepeat = false) {
+	if ($removerepeat) {
+		$arr = array_flip ( $arr );
+		$arr = array_flip ( $arr );
+	}
+	if (! $iscoding) {
+		return $arr;
+	}
+	foreach ( $arr as $k => $v ) {
+		$v = trim ( $v );
+		if (! preg_match ( "/^[\x7f-\xff]+$/", $v )) {
+			$len = 1;
+		} else {
+			$len = 3;
+			$arr [$k] = zhCode ( $v );
+		}
+	}
+	return $arr;
+}
+
+/**
  * 生成一个相对唯一的key
  *
  * @param string $str
@@ -667,7 +711,7 @@ function getallthumb($url, $imgname) {
 		return false;
 	}
 	/* 删除源图 */
-	unlink (  $url );
+	unlink ( $url );
 	return array (
 			$url_8,
 			$url_3,
@@ -786,7 +830,7 @@ function checknull($v) {
 }
 /**
  * 检查是不是QQ
- * 
+ *
  * @param int $qq        	
  * @return boolean
  */
@@ -862,7 +906,7 @@ function randstr($length = 8) {
 	if ($length <= 0) {
 		return null;
 	}
-	$pattern = '1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLOMNOPQRSTUVWXYZ_'; // 字符池
+	$pattern = '1234567890abcdefghijklmnopqrstuvwxyz_ABCDEFGHIJKLOMNOPQRSTUVWXYZ'; // 字符池
 	$end = strlen ( $pattern ) - 1;
 	$rst = '';
 	for($i = 0; $i < $length; $i ++) {

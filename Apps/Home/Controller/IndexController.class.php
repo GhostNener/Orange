@@ -13,7 +13,6 @@ use Home\Model\goods_categoryModel;
 use Home\Model\activityModel;
 use Home\Model\goodsModel;
 
-require_once './ORG/phpAnalysis/SearchDic.class.php';
 /**
  * 商品首页
  *
@@ -95,14 +94,16 @@ class IndexController extends Controller {
 		if (! $test) {
 			redirect ( U ( 'Home/Index/index' ) );
 		}
-		$seach = new \SearchDic ();
-		$arr = $seach->searchpart ( $test );
+		$arr = searchpart ( $test );
 		$arrtemp = $arr;
-		$key = implode ( ' ', $arr );
-		$keyt = $key . ' ' . implode ( '', $arrtemp );
+		$key = implode ( ' +', $arr );
+		$keyt = '+*' . implode ( '* +*', $arrtemp ) . '*';
+		$key = '+' . $key;
 		$model = new view_search_listModel ();
 		$arr = $model->getlist ( $key, 12 );
+		/* 搜不到进行通配符搜索 */
 		if (count ( $arr ['list'] ) <= 0) {
+			
 			$arr = $model->getlist ( $keyt, 12 );
 		}
 		/* 获得分类 */

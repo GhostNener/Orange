@@ -266,6 +266,7 @@ class goodsModel extends Model {
 		}
 		if ($rst1 && $rst2 && $srst) {
 			$dal->commit ();
+			/*建立商品索引  */
 			$searchdata = array (
 					'GoodsId' => $goodsid,
 					'SearchTitle' => $postarr ['Title'] . ' ' . $postarr ['Presentation'] 
