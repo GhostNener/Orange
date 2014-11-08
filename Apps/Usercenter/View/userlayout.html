@@ -4,10 +4,10 @@
 	<div class="col-md-3">
 		<article>
 			<div class="profile" data-toggle="tooltip" data-placement="right" title="点击进入个人信息" data-container="body" data-delay="500">
-				<a href="profile-user.html">
+				<a href="{:U('Usercenter/Index/index')}">
 					<img src="__APP__{$user['URL']}" alt="..." class="img-circle">
 					<p>{$user['Nick']}</p>
-					<p>等级: Lv 82 实习生</p>
+					<p>等级: {$grade['Title']}</p>
 				</a>
 			</div>
 			<ul class="list-group">

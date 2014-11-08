@@ -6,112 +6,38 @@
 
 			<div class="row">
 				<!-- 商品列表 -->
-				<div class="col-sm-4 col-lg-4 col-md-4">
-					<div class="thumbnail">
-						<img src="http://hhhhold.com/320x160" alt="">
-						<div class="caption">
-							<h4 class="pull-right message">线上/线下</h4>
-							<p>
-								<img src="http://hhhhold.com/40x40" alt="头像" class="img-circle">
-								<span>乔布斯</span>
-							</p>
-							<p>全新Iphone手机出售啦哇哈哈哈快来买啊哇哈哈哈</p>
+				<volist name="likelist" id="v" empty="$empty">
+					<div class="col-sm-4 col-lg-4 col-md-4">
+						<div class="thumbnail">
+							<img src="__ROOT__{$v['ThumbURL']}" alt="">
+							<div class="caption">
+								<h4 class="pull-right message">{$v['TradeWayTxt']}</h4>
+								<p>
+									<img src="__ROOT__{$v['avatarURL']}" alt="头像" class="img-circle">
+									<span>{$v['Nick']}</span>
+								</p>
+								<p>{$v['Title']}</p>
+							</div>
+							<div class="ratings">
+								<h4 class="pull-right message">浏览 {$v['Views']}</h4>
+								<h4 class="pull-right message">评论 {$v['CommentCount']}&nbsp</h4>
+								<h3>
+									{$v['Price']}.00
+									<if condition="$v['Price'] lt 10000">
+										<if condition="$v['CostPrice'] lt 10000">
+											<span>{$v['CostPrice']}.00</span>
+										</if>
+									</if>
+								</h3>
+							</div>
 						</div>
-						<div class="ratings">
-							<h4 class="pull-right message">浏览 50</h4>
-							<h4 class="pull-right message">评论 50&nbsp</h4>
-							<h3>
-								50.00
-								<span>60.00</span>
-							</h3>
-						</div>
-					</div>
-					<div class="operation">
-						<button class="btn btn-success">购买</button>
-						<button class="btn btn-danger">删除</button>
-					</div>
-				</div>
-
-				<div class="col-sm-4 col-lg-4 col-md-4">
-					<div class="thumbnail">
-						<img src="http://hhhhold.com/320x160" alt="">
-						<div class="caption">
-							<h4 class="pull-right message">线上/线下</h4>
-							<p>
-								<img src="http://hhhhold.com/40x40" alt="头像" class="img-circle">
-								<span>乔布斯</span>
-							</p>
-							<p>全新Iphone手机出售啦哇哈哈哈快来买啊哇哈哈哈</p>
-						</div>
-						<div class="ratings">
-							<h4 class="pull-right message">浏览 50</h4>
-							<h4 class="pull-right message">评论 50&nbsp</h4>
-							<h3>
-								50.00
-								<span>60.00</span>
-							</h3>
+						<div class="operation">
+							<button class="btn btn-success">购买</button>
+							<button class="btn btn-danger">删除</button>
 						</div>
 					</div>
-					<div class="operation">
-						<button class="btn btn-success">购买</button>
-						<button class="btn btn-danger">删除</button>
-					</div>
-				</div>
-
-				<div class="col-sm-4 col-lg-4 col-md-4">
-					<div class="thumbnail">
-						<img src="http://hhhhold.com/320x160" alt="">
-						<div class="caption">
-							<h4 class="pull-right message">线上/线下</h4>
-							<p>
-								<img src="http://hhhhold.com/40x40" alt="头像" class="img-circle">
-								<span>乔布斯</span>
-							</p>
-							<p>全新Iphone手机出售啦哇哈哈哈快来买啊哇哈哈哈</p>
-						</div>
-						<div class="ratings">
-							<h4 class="pull-right message">浏览 50</h4>
-							<h4 class="pull-right message">评论 50&nbsp</h4>
-							<h3>
-								50.00
-								<span>60.00</span>
-							</h3>
-						</div>
-					</div>
-					<div class="operation">
-						<button class="btn btn-success">购买</button>
-						<button class="btn btn-danger">删除</button>
-					</div>
-				</div>
-
-				<div class="col-sm-4 col-lg-4 col-md-4">
-					<div class="thumbnail">
-						<img src="http://hhhhold.com/320x160" alt="">
-						<div class="caption">
-							<h4 class="pull-right message">线上/线下</h4>
-							<p>
-								<img src="http://hhhhold.com/40x40" alt="头像" class="img-circle">
-								<span>乔布斯</span>
-							</p>
-							<p>全新Iphone手机出售啦哇哈哈哈快来买啊哇哈哈哈</p>
-						</div>
-						<div class="ratings">
-							<h4 class="pull-right message">浏览 50</h4>
-							<h4 class="pull-right message">评论 50&nbsp</h4>
-							<h3>
-								50.00
-								<span>60.00</span>
-							</h3>
-						</div>
-					</div>
-					<div class="operation">
-						<button class="btn btn-success">购买</button>
-						<button class="btn btn-danger">删除</button>
-					</div>
-				</div>
-
+				</volist>
 			</div>
-
 		</div>
 	</div>
 </div>

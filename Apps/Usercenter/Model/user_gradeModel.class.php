@@ -4,8 +4,7 @@ use Think\Model;
 
 /**
  * 用户积分模型
- * Enter description here ...
- * @author DongZ
+
  *
  */
 class user_gradeModel extends Model{
@@ -15,11 +14,16 @@ class user_gradeModel extends Model{
 	 * @param int $grade：用户grade       	
 	 * @return $rst ：符合的等级
 	 */
-	public function getgrade($grade){
-		$whereArr['MinEXP'] = array('ELT',$grade);
-		$whereArr['MaxEXP'] = array('EGT',$grade);
+	public function getgrade($EXP){
+		$whereArr['MinEXP'] = array('ELT',$EXP);
+		$whereArr['MaxEXP'] = array('EGT',$EXP);
 		$whereArr['Status'] = 10; 
 		$rst = $this->where($whereArr)->find();
+		//显示需要升级的经验
+		$rst['EXPDiff1'] = $rst['MaxEXP']-$rst['MinEXP'];
+		//显示当前经验
+		$rst['EXPDiff2'] = $EXP-$rst['MinEXP'];
+		$rst['division'] = (int)(($rst['EXPDiff2'] / $rst['EXPDiff1'])*100);
 		return $rst;
 	}
 }
