@@ -1,0 +1,124 @@
+<extend name="Public/activity"/>
+<block name="content">
+	<div class="col-md-9">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<button class="btn btn-success" data-toggle="modal" data-target="#addModal">添加</button>
+			</div>
+			<div class="panel-body">
+				<div class="table-responsive">
+					<table class="table table-striped">
+						<thead>
+							<th>编号</th>
+							<th width="300">标题</th>
+							<th width="50">置顶</th>
+							<th width="50">热门</th>
+							<th>创建时间</th>
+							<th>操作</th>
+						</thead>
+						<tbody>
+							<foreach name='list' item='v'>
+								<tr>
+									<td>{$v.Id}</td>
+									<td>{$v.Title}</td>
+									<td>{$v.IsTop}</td>
+									<td>{$v.IsHot}</td>
+									<td>
+										<?php echo date("Y-m-d H:i:s ", $v[CreateTime]); ?></td>
+									<td>
+										<a class="btn btn-danger btn-small" action="{:U(del,array('Id'=>$v['Id']))}">删除</a>
+										<a class="btn btn-info btn-small" action="{:U(del,array('Id'=>$v['Id']))}">查看</a>
+										<a class="btn btn-primary btn-small" action="{:U(update,array('Id'=>$v['Id']))}"  modaltitle="编辑分类">编辑</a>
+									</td>
+								</tr>
+							</foreach>
+						</tbody>
+					</table>
+				</div>
+				<div class="page">{$page}</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog  modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">
+						<span aria-hidden="true">&times;</span>
+						<span class="sr-only">Close</span>
+					</button>
+					<h4 class="modal-title hightlight" id="myModalLabel">添加资讯</h4>
+				</div>
+
+				<form class="form-horizontal" action="{:U('save')}" method="post" onsubmit="return ajaxsubmit()">
+					<div class="modal-body">
+
+						<input type="hidden" class="form-control " name="modif" value="add">
+						<input type="hidden" class="form-control " name="Id" value="{$model.Id}">
+
+						<div class="form-group">
+							<label class="col-sm-2 control-label">显示大图</label>
+							<div class="col-sm-10">
+								<input type="file" id="ImgURL" name="ImgURL" placeholder="分类名称" required>
+								<p class="help-block">800x300</p>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-sm-2 control-label">活动小图</label>
+							<div class="col-sm-10">
+								<input type="file" id="ThumURL" name="ThumURL">
+								<p class="help-block">80x80</p>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-sm-2 control-label">类型</label>
+							<div class="col-sm-10">
+								<label class="checkbox-inline">
+									<input type="checkbox" id="IsHot" value="1">热门活动</label>
+								<label class="checkbox-inline">
+									<input type="checkbox" id="IsTop" value="1">置顶轮播</label>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-sm-2 control-label">链接</label>
+							<div class="col-sm-10">
+								<input type="url" class="form-control" id="Href" name="Href" placeholder="需要额外跳转其他页面才填">
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-sm-2 control-label">标题</label>
+							<div class="col-sm-10">
+								<input type="text" class="form-control" id="Title" name="Title" placeholder="活动名称" required></div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-sm-2 control-label">简介</label>
+							<div class="col-sm-10">
+								<input type="text" class="form-control" id="Presentation" name="Presentation" placeholder="如果是热门活动就要填简介，24字以内"></div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-sm-2 control-label">内容</label>
+							<div class="col-sm-10">
+								<textarea class="form-control" id="Contents" name="Contents" placeholder="具体内容"></textarea>
+							</div>
+						</div>
+
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-danger" data-dismiss="modal">关闭</button>
+						<button type="reset" class="btn btn-warning">清空</button>
+						<button type="submit" class="btn btn-primary">保存</button>
+					</div>
+				</form>
+
+			</div>
+		</div>
+	</div>
+
+</block>

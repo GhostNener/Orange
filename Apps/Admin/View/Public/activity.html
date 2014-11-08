@@ -1,0 +1,39 @@
+<include file="Public/header" />
+<div class="container">
+	<div class="col-md-3">
+		<label>活动分类</label>
+		<ul class="list-group">
+			<a class="list-group-item" href="{:U('/Admin/activity')}">全部</a>
+			<a class="list-group-item" href="#">置顶轮播</a>
+			<a class="list-group-item" href="#">热门活动</a>
+		</ul>
+		<ul class="list-group">
+			<a class="list-group-item" href="#">回收站</a>
+		</ul>
+	</div>
+
+	<block name="content"></block>
+</div>
+
+<include file="Public/footer"/>
+<script src="__PUBLIC__/kindeditor/kindeditor-min.js"></script>
+<script type="text/javascript">
+	$(function () {
+        var editorContent = null;
+        KindEditor.ready(function (k) {
+
+            editorContent = k.create('textarea[name="Contents"]', {
+                allowImageUpload: true,
+                uploadJson: '/Upload/UploadFile'
+                , items: [
+                     'source', 'preview','|', 'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold', 'italic', 'underline','removeformat', '|', 'justifyleft', 'justifycenter', 'justifyright', 'insertorderedlist',
+                    'insertunorderedlist', '|', 'image', 'insertfile','link','quickformat', 'wordpaste','|', 'fullscreen']
+            });
+        });
+        $('textarea[name="Contents"]').css('width','100%');
+    })
+
+</script>
+</body>
+
+</html>
