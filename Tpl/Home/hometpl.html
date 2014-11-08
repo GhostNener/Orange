@@ -25,7 +25,7 @@
 							<foreach name="clist" item="v">
 								<a href="{:U('Home/Index/cggoods',array('Id'=>
 									$v['Id']))}" class="list-group-item">
-									<span class="badge">new</span>
+									<span class="badge">{$v['Hot']}</span>
 									{$v['Title']}
 								</a>
 							</foreach>

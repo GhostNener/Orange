@@ -21,6 +21,7 @@ class goods_categoryModel extends Model {
 	public function getall() {
 		$arr = $this->field ( array (
 				'Id',
+				'Hot',
 				'Title' 
 		) )->where ( array (
 				'Status' => 10 
