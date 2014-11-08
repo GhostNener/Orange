@@ -158,7 +158,7 @@ class IndexController extends Controller {
 			die ();
 		}
 		$gid = cookie ( '_viewgid' );
-		if (! $gid || ! ( int ) $gid == $Id) {
+		if (! $gid || ( int ) $gid!= (int)$Id) {
 			$m = new goodsModel ();
 			$m->VCChhandle ( $Id, 1 );
 			$gid = cookie ( '_viewgid', $Id );
