@@ -43,8 +43,10 @@ class CategoryDicController extends BaseController {
 		if ($rst) {
 			if (! $searchm) {
 				$warmmsg = '但系统没有建立搜索词库！';
+			} else {
+				$warmmsg = '';
 			}
-			$this->success ( "操作成功," . $warmmsg . "\n共" . count ( $arr ) + count ( $arrseach ) . "个关键字" );
+			$this->success ( "操作成功," . $warmmsg . "\n共" . (count ( $arr ) + count ( $arrseach )) . "个关键字" );
 		} else {
 			$this->error ( '操作失败' );
 		}
