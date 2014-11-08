@@ -41,6 +41,7 @@ class IndexController extends Controller {
 	 * 首页
 	 */
 	public function index() {
+/* 		$gid = cookie ( '_viewgid' ,null); */
 		$limit = 6;
 		/* 置顶 最新的 猜你喜欢 分类 */
 		$model = new view_goods_in_serviceModel ();
@@ -159,8 +160,12 @@ class IndexController extends Controller {
 			$this->error ( '商品不存在或已下架' );
 			die ();
 		}
-		$m = new goodsModel ();
-		$m->VCChhandle ( $Id, 1 );
+		$gid = cookie ( '_viewgid' );
+		if (! $gid || !( int ) $gid == $Id) {
+			$m = new goodsModel ();
+			$m->VCChhandle ( $Id, 1 );
+			$gid = cookie ( '_viewgid', $Id );
+		}
 		$this->assign ( 'goods', $arr ['goods'] );
 		$this->assign ( 'commentlist', $arr ['commentlist'] );
 		$this->assign ( 'goodsimg', $arr ['goodsimg'] );

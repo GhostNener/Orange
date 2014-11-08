@@ -49,9 +49,7 @@ class TestDicController extends Controller {
 		if (! $test) {
 			$this->error ( '没有数据' );
 		}
-		$seach = new \SearchDic ();
-		$arr = $seach->searchpart ( $test );
-		$t2 = microtime ( true );
+		$arr = searchpart ( $test );
 		$arr = implode ( '<br>', $arr );
 		$t2 = microtime ( true );
 		echo $arr . '<br>耗时：' . ($t2 - $t1);
