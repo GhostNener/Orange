@@ -50,6 +50,7 @@ class goods_searchModel extends Model {
 	 *
 	 * @param unknown $title        	
 	 * @return string
+	 *
 	 */
 	protected function seachfc($title) {
 		if (! $title) {
@@ -83,8 +84,10 @@ class goods_searchModel extends Model {
 	}
 	/**
 	 * 添加商品索引
-	 * 
-	 * @param unknown $data        	
+	 *
+	 * @param array $data
+	 *        	:SourceTitle,SearchTitle
+	 * @author NENER
 	 */
 	public function saveone($data) {
 		$data ['SourceTitle'] = $data ['SearchTitle'];

@@ -55,6 +55,7 @@ class goods_orderModel extends Model {
 	 * @param array $uid
 	 *        	用户id
 	 * @return array ：status，msg ，address
+	 * @author NENER
 	 *        
 	 */
 	public function createone($data, $uid = -1) {

@@ -30,6 +30,7 @@ class goods_serviceModel extends Model {
 	 * @param array $arr
 	 *        	服务id数组
 	 * @return number 花费
+	 * @author NENER
 	 */
 	public function computecost($arr) {
 		if (! $arr) {

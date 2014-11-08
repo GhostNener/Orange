@@ -101,19 +101,9 @@ class IndexController extends Controller {
 		$test = I ( 'wd' );
 		if (! $test) {
 			redirect ( U ( 'Home/Index/index' ) );
-		}
-		$arr = searchpart ( $test );
-		$arrtemp = $arr;
-		$key = implode ( ' +', $arr );
-		$keyt = '+*' . implode ( '* +*', $arrtemp ) . '*';
-		$key = '+' . $key;
+		}	
 		$model = new view_search_listModel ();
-		$arr = $model->getlist ( $key, 12 );
-		/* 搜不到进行通配符搜索 */
-		if (count ( $arr ['list'] ) <= 0) {
-			
-			$arr = $model->getlist ( $keyt, 12 );
-		}
+		$arr = $model->getsearchlist ( $test, 12 );		
 		/* 获得分类 */
 		$this->getheomecommon ();
 		$this->assign ( 'test', $test );

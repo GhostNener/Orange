@@ -128,9 +128,10 @@ class goods_imgModel extends Model {
 	/**
 	 * 上传文件
 	 *
-	 * @param unknown $config
+	 * @param array $config
 	 *        	上传配置
-	 * @return Ambigous <boolean, multitype:mixed string >
+	 * @return array status,msg
+	 * @author NENER
 	 */
 	public function uploadfile($config) {
 		$upload = new \Think\Upload ( $config ); // 实例化上传类

@@ -25,9 +25,10 @@ class goods_in_serviceModel extends Model {
 			) 
 	);
 	/**
-	 *
+	 *保存商品服务
 	 * @param unknown $data        	
 	 * @return boolean
+	 * @author NENER
 	 */
 	public function saveone($data) {
 		if (! $data) {

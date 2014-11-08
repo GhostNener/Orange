@@ -1,15 +1,16 @@
 <?php
+
 namespace Home\Model;
+
 use Think\Model;
 
 /**
  * 商品评论及回复模型
- * 
- * @author DongZ
  *
+ * @author DongZ
+ *        
  */
-class goods_commentModel extends Model{
-	
+class goods_commentModel extends Model {
 	
 	/**
 	 * 保存商品评论及回复
@@ -18,6 +19,7 @@ class goods_commentModel extends Model{
 	 *        	post数组
 	 * @return array 保存信息： 包含 status 状态 ；
 	 *         msg 消息
+	 * @author NENER
 	 */
 	public function addComment($postarr) {
 		if (empty ( $postarr )) {
@@ -31,7 +33,7 @@ class goods_commentModel extends Model{
 				'GoodsId' => $postarr ['GoodsId'],
 				'Content' => $postarr ['Content'],
 				'CreateTime' => date ( "Y-m-d H:i:s", time () ),
-				'UserId' => cookie('_uid'),
+				'UserId' => cookie ( '_uid' ),
 				'AssesseeId' => $postarr ['AssesseeId'],
 				'Status' => 10 
 		);

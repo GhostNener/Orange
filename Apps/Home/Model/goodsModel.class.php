@@ -84,6 +84,7 @@ class goodsModel extends Model {
 	 *
 	 * @param int $id        	
 	 * @return obj
+	 * @author NENER
 	 */
 	public function findone($id) {
 		$model = $this->where ( array (
@@ -99,6 +100,7 @@ class goodsModel extends Model {
 	 *        	商品Id
 	 * @param int $type
 	 *        	1:浏览，2：收藏，3：评论
+	 * @author NENER
 	 */
 	public function VCChhandle($gid, $type = 1) {
 		if (! $this->where ( array (
@@ -129,12 +131,13 @@ class goodsModel extends Model {
 	
 	/**
 	 * 计算发布费用
-	 * 
+	 *
 	 * @param array $arr
 	 *        	Price,Server数组
 	 * @param number $type
 	 *        	1：返回数组 status，msg，cost 2：直接返回花费
 	 * @return number multitype:number
+	 * @author NENER
 	 */
 	public function computecost($arr, $type = 1) {
 		if (! $arr || ! $arr ['Price']) {
@@ -168,6 +171,7 @@ class goodsModel extends Model {
 	 *        	：Price，Server
 	 * @param int $uid
 	 *        	：uid
+	 * @author NENER
 	 */
 	private function payserver($arr, $uid) {
 		$um = new userModel ();
@@ -266,7 +270,7 @@ class goodsModel extends Model {
 		}
 		if ($rst1 && $rst2 && $srst) {
 			$dal->commit ();
-			/*建立商品索引  */
+			/* 建立商品索引 */
 			$searchdata = array (
 					'GoodsId' => $goodsid,
 					'SearchTitle' => $postarr ['Title'] . ' ' . $postarr ['Presentation'] 
