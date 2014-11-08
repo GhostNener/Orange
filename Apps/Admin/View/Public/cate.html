@@ -7,9 +7,9 @@
 		</ul>
 		<label>词库管理</label>
 		<ul class="list-group">
-			<a class="list-group-item" href="#">搜索关键字</a>
+			<a class="list-group-item" href="{:U('GoodsCategoryKeyword/tempSearchKeyList')}">搜索关键字</a>
 			<a class="list-group-item" href="{:U('GoodsCategoryKeyword/tempCateKeyList')}">分类关键字</a>
-			<a class="list-group-item save" href="#" action="{:U('CategoryDic/crate')}">生成词库</a>
+			<a class="list-group-item save" href="javascript:void(0);" action="{:U('CategoryDic/crate')}">生成词库</a>
 		</ul>
 		<label>分类词库</label>
 		<ul class="list-group">
@@ -98,11 +98,21 @@
 			
 		});
 
+		var lock = false;
 		$('.save').click(function () {
+			$(this).removeClass('save');
+			$(this).addClass('disabled');
+			$(this).attr("disabled", "disabled"); 
+			if (lock) {
+				return;
+			};
 			$.ajax({
 				type:'get',
 				url:$(this).attr('action'),
-				beforeSend: loading(),
+				beforeSend: function(){
+					loading();
+					lock = true;
+				},
 				error: function(request) {
 					showerrormsg('网络连接失败',100,1000);
 
@@ -114,6 +124,7 @@
 				complete: function() {
 					$("#load").remove();
 				}
+
 				});
 		});
 

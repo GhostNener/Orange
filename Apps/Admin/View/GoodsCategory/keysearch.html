@@ -3,7 +3,7 @@
 	<div class="col-md-9">
 		<div class="panel panel-default">
 			<div class="panel-heading">
-			待审核分类关键字列表
+				<button class="btn btn-success" data-toggle="modal" data-target="#addModal">添加</button>
 			</div>
 			<div class="panel-body">
 				<div class="table-responsive">
@@ -11,7 +11,7 @@
 						<thead>
 							<th>编号</th>
 							<th>分类</th>
-							<th width="300">关键字</th>
+							<th width="400">关键字</th>
 							<th>状态</th>
 							<th>操作</th>
 						</thead>
@@ -19,12 +19,12 @@
 							<foreach name='list' item='v'>
 								<tr>
 									<td>{$v.Id}</td>
-									<td>{$cmodel['Title']}</td>
+									<td>{$v.Title}</td>
 									<td>{$v.Keyword}</td>
 									<td>{$v.Status}</td>
 									<td>
-										<a class="btn btn-danger btn-small" href="{:U(del,array('Id'=>$v['Id'], 'CategoryId'=>$CategoryId))}">删除</a>
-										<a class="btn btn-primary btn-small edit" action="{:U(update,array('Id'=>$v['Id']))}" modaltitle="收录关键字">收录</a>
+										<a class="btn btn-danger btn-small save" action="{:U(del,array('Id'=>$v['Id'], 'CategoryId'=>$v['CategoryId']))}">删除</a>
+										<a class="btn btn-primary btn-small edit" action="{:U(update,array('Id'=>$v['Id']))}" modaltitle="编辑关键字">编辑</a>
 									</td>
 								</tr>
 							</foreach>
@@ -51,9 +51,9 @@
 				<form class="form-horizontal" action="{:U('save')}" method="POST" onsubmit="return ajaxsubmit()">
 					<div class="modal-body">
 
-						<input type="hidden" class="form-control " name="modif" value="update">
+						<input type="hidden" class="form-control " name="modif" value="add">
 						<input type="hidden" class="form-control " name="Id" value="{$model.Id}">
-						<input type="hidden" class="form-control " name="Status" value="{$model.Status}">
+						<input type="hidden" class="form-control " name="Status" value="10">
 						<input type="hidden" class="form-control " name="CategoryId" value="{$cmodel['Id']}">
 
 						<div class="form-group">
