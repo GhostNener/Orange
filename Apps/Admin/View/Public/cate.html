@@ -48,7 +48,9 @@
                     }
                     else{
 						showsuccessmsg(data.info,100,1000);
-                    	window.location.href=window.location.href;
+						setTimeout(function(){
+							window.location.href=window.location.href;
+						},500);                  	
                     }
                 }
             });
@@ -119,7 +121,9 @@
 				},
 				success: function(data) {
 					showsuccessmsg(data.info,100,1000);
-                    window.location.href=window.location.href;
+						setTimeout(function(){
+							window.location.href=window.location.href;
+						},1000);                  	
 				},
 				complete: function() {
 					$("#load").remove();

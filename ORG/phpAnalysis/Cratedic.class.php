@@ -22,10 +22,11 @@ class Cratedic {
 	 * 编译词典
 	 *
 	 * @param array $arr
-	 *        	数据库关键字数据
+	 *        	数据库分类关键字数据
+	 * @param array $searcharr数据库搜索关键字数据        	
 	 * @return boolean
 	 */
-	public function buildDic($arr) {
+	public function buildDic($arr, $searcharr) {
 		// txt文件路径
 		$txtpath = dirname ( __FILE__ ) . $this->dictxt;
 		if (! ($this->expotrTxt ( $txtpath, $arr ))) {
@@ -38,7 +39,7 @@ class Cratedic {
 		$pa = new PhpAnalysis ( 'utf-8', 'utf-8', false, '', $this->categorydic );
 		$pa->MakeDict ( $txtpath );
 		/* 生成全文检索词典 */
-		$this->jointtxt ( $txtpath, $basetxt, $temptxt );
+		$this->jointtxt ( $txtpath, $basetxt, $temptxt, $searcharr );
 		$pa = new PhpAnalysis ( 'utf-8', 'utf-8', false, '', $this->searchdic );
 		$pa->MakeDict ( $temptxt );
 		return true;
@@ -72,19 +73,25 @@ class Cratedic {
 	/**
 	 * 拼接文件 生成新的文件
 	 *
-	 * @param unknown $sourcespatha
+	 * @param string $sourcespatha
 	 *        	：源文件绝对路径
-	 * @param unknown $sourcespathb
+	 * @param string $sourcespathb
 	 *        	：：源文件绝对路径
-	 * @param unknown $savepath
+	 * @param string $savepath
 	 *        	：要保存的绝对路径
+	 * @param array $searcharr
+	 *        	：数据库搜索关键字数据
 	 */
-	private function jointtxt($sourcespatha, $sourcespathb, $savepath) {
+	private function jointtxt($sourcespatha, $sourcespathb, $savepath, $searcharr) {
 		$strbase = file_get_contents ( $sourcespatha );
 		$newdic = file_get_contents ( $sourcespathb );
-		$newdic = $newdic . "\n" . $strbase;
+		$newdic = $newdic . "\n" . $strbase . "\n";
 		$fp = fopen ( $savepath, 'w+' );
 		fwrite ( $fp, $newdic );
+		foreach ( $searcharr as $k ) {
+			$strTemp = strtolower ( $k ['Keyword'] ) . ',' . $k ['CategoryId'] . "\n";
+			fwrite ( $fp, $strTemp );
+		}
 		fclose ( $fp );
 	}
 }

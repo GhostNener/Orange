@@ -28,7 +28,8 @@ class SearchDic {
 	/**
 	 * 搜索分类
 	 *
-	 * @param unknown $str        	
+	 * @param array $str
+	 *        	标题
 	 */
 	public function search($str) {
 		$str = strtolower ( $str );
@@ -45,8 +46,9 @@ class SearchDic {
 	/**
 	 * 对查询结果进行处理 把关键字和Id分割 去掉不存的关键字
 	 *
-	 * @param unknown $arr        	
-	 * @return unknown
+	 * @param string $arr
+	 *        	分词数组
+	 * @return array
 	 */
 	private function StrToArr($arr) {
 		foreach ( $arr as $k => $v ) {
@@ -62,10 +64,11 @@ class SearchDic {
 	/**
 	 * 搜索分词
 	 *
-	 * @param unknown $title        	
+	 * @param string $title
+	 *        	标题
 	 * @return string
 	 */
-	public function searchpart($title,$iscoding=true) {
+	public function searchpart($title, $iscoding = true) {
 		$str = strtolower ( $title );
 		PhpAnalysis::$loadInit = false;
 		$pa = new PhpAnalysis ( 'utf-8', 'utf-8', $this->pri_dict, '', $this->searchdic );
@@ -77,19 +80,21 @@ class SearchDic {
 		$pa->unitWord = $this->do_unit;
 		$pa->StartAnalysis ( $this->do_fork );
 		/* 执行分词 并返回分词结果 */
-		$okresult = $pa->GetFinallyResult ( '', false );		
-		return $this->cutsingle ( $okresult,$iscoding);
+		$okresult = $pa->GetFinallyResult ( '', false );
+		return $this->cutsingle ( $okresult, $iscoding );
 	}
 	/**
 	 * 移除重复词以及 单个词
-	 *
-	 * @param unknown $arr        	
-	 * @return multitype:
+	 * 
+	 * @param array $arr        	
+	 * @param bool $iscoding
+	 *        	是否进行编码
+	 * @return array
 	 */
-	private function cutsingle($arr,$iscoding=true) {
+	private function cutsingle($arr, $iscoding = true) {
 		$arr = array_flip ( $arr );
 		$arr = array_flip ( $arr );
-		if(!$iscoding){
+		if (! $iscoding) {
 			return $arr;
 		}
 		foreach ( $arr as $k => $v ) {
@@ -106,8 +111,8 @@ class SearchDic {
 	/**
 	 * 编码
 	 *
-	 * @param unknown $str        	
-	 * @return unknown string
+	 * @param array $str        	
+	 * @return string string
 	 */
 	private function zhCode($str) {
 		if (! preg_match ( "/^[\x7f-\xff]+$/", $str )) {

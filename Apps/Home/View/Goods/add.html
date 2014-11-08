@@ -492,17 +492,17 @@ function computecost() {
                 }
                 $('#balance').html(_rs['balance'] + '.00');
                  $('#needpay').html(_rs['cost'] + '.00');
+                  $('#step4').children().stop().fadeTo(1000, 1);
                   if (parseInt(_rs['cost']) > parseInt(_rs['balance'])) {
                     $('#step4').children().attr('disabled', true);
                     $('#step4').children().children().attr('disabled', false);
                     $('#step4').children().addClass('disabled');
                     $('.rechargebnt').show();
                 } else {
-                    $('.rechargebnt').hide();
                     $('#step4').children().attr('disabled', false);
-                     $('#step4').children().removeClass('disabled');
-                }
-                $('#step4').children().stop().fadeTo(1000, 1);
+                    $('#step4').children().removeClass('disabled');
+                    $('.rechargebnt').hide();
+                }       
             }                
         } 
     });

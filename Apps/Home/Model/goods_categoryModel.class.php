@@ -10,11 +10,12 @@ use Think\Model;
  * @author NENER
  *        
  */
-require_once  './ORG/phpAnalysis/SearchDic.class.php';
+require_once './ORG/phpAnalysis/SearchDic.class.php';
 class goods_categoryModel extends Model {
 	/**
 	 * 获取所有分类
-	 *@author NENER
+	 *
+	 * @author NENER
 	 * @return array：分类列表
 	 */
 	public function getall() {
@@ -29,7 +30,8 @@ class goods_categoryModel extends Model {
 	
 	/**
 	 * 根据标题回去分类列表
-	 *@author NENER
+	 *
+	 * @author NENER
 	 * @param string $str：标题        	
 	 * @return array：status，msg
 	 */
@@ -80,6 +82,7 @@ class goods_categoryModel extends Model {
 					'Id',
 					'Title' 
 			) )->where ( array (
+					'Status' => 10,
 					'Id' => array (
 							'neq',
 							$other ['Id'] 
