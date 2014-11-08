@@ -222,40 +222,4 @@ class GoodsCategoryKeywordController extends BaseController {
 		$this->success ( '操作成功' );
 
 	}
-
-	/**
-	 * 搜索关键字列表
-	 *
-	 * @author Cinwell
-	 */
-	public function tempSearchKeyList() {
-		
-		$whereArr = array (
-				'Title' => '搜索关键字'
-		);
-
-		$model = M ( 'view_keyword' );
-		
-		$cmodel = M ( 'goods_category' )->where ( $whereArr )->find ();
-		$this->assign ( 'cmodel', $cmodel );
-		
-		// 总数
-		$allCount = $model->where ( $whereArr )->count ();
-		// 分页
-		$Page = new \Think\Page ( $allCount, 10 );
-		$showPage = $Page->show ();
-		// 分页查询
-		
-		$list = $model->where ( $whereArr )->limit ( $Page->firstRow . ',' . $Page->listRows )->select ();
-
-		$catemodel = M ( 'goods_category' );
-		$cateWhereArr = array(
-				'Status' => 10
-			);
-		$catelist = $catemodel->where($cateWhereArr)->select();
-		$this->assign( 'catelist', $catelist );
-		$this->assign ( 'list', $list );
-		$this->assign ( 'page', $showPage );
-		$this->display ( 'GoodsCategory/keysearch' );
-	}
 }
