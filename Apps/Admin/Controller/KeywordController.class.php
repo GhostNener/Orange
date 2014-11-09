@@ -9,7 +9,7 @@ namespace Admin\Controller;
  * @author NENER
  *        
  */
-class GoodsCategoryKeywordController extends BaseController {
+class KeywordController extends BaseController {
 	public function index() {
 		$id = I ( 'CategoryId' );
 		if (! $id) {
@@ -43,7 +43,7 @@ class GoodsCategoryKeywordController extends BaseController {
 		$this->assign( 'catelist', $catelist );
 		$this->assign ( 'list', $list );
 		$this->assign ( 'page', $showPage );
-		$this->assign ( 'CategoryId', $id )->display ( 'GoodsCategory/category_keyword' );
+		$this->assign ( 'CategoryId', $id )->display ( 'Category/category_keyword' );
 	}
 
 	/**
@@ -139,15 +139,18 @@ class GoodsCategoryKeywordController extends BaseController {
 				'Hot' => ( int ) I ( 'Hot' ) 
 		);
 
-		if ($modif == "add") {
-			$data ['Status'] = 10;
-			$data ['Hot'] = 0;
-			if (M ( 'goods_category_keyword' )->where ( array (
+		//添加之前判断是否存在
+		if (M ( 'goods_category_keyword' )->where ( array (
 					'Keyword' => $data ['Keyword'],
 					'Status' => 10 
 			) )->select ()) {
 				$this->error ( "关键字已存在" );
-			}
+		}
+
+		if ($modif == "add") {
+			$data ['Status'] = 10;
+			$data ['Hot'] = 0;
+			
 			if (! ($model->data ( $data )->add ())) {
 				$this->error ( "操作失败" );
 			}
@@ -198,7 +201,7 @@ class GoodsCategoryKeywordController extends BaseController {
 		$this->assign( 'catelist', $catelist );
 		$this->assign ( 'list', $list );
 		$this->assign ( 'page', $showPage );
-		$this->display ( 'GoodsCategory/keycategory' );
+		$this->display ( 'Category/keycategory' );
 	}
 
 	/**
@@ -214,7 +217,7 @@ class GoodsCategoryKeywordController extends BaseController {
 		);
 
 		$whereArr = array (
-					'Id' => ( int ) I ( "Id" ) 
+				'Id' => ( int ) I ( "Id" ) 
 		);
 
 		$model = M ( 'goods_category_keyword' );

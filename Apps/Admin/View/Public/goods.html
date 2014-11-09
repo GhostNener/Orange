@@ -1,0 +1,16 @@
+<include file="Public/header" />
+<div class="container">
+	<div class="col-md-3">
+		<ul class="list-group">
+			<a class="list-group-item" href="{:U('index')}">全部</a>
+			<a class="list-group-item" href="{:U('index',array('status'=>-1))}">被举报</a>
+		</ul>
+	</div>
+
+	<block name="content"></block>
+</div>
+
+<include file="Public/footer"/>
+</body>
+
+</html>

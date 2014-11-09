@@ -1,0 +1,18 @@
+<include file="Public/header" />
+<div class="container">
+	<div class="col-md-3">
+		<ul class="list-group">
+			<a class="list-group-item" href="{:U('index')}">全部</a>
+			<a class="list-group-item" href="{:U('index',array('Type'=>goods))}">商品日志</a>
+			<a class="list-group-item" href="{:U('index',array('Type'=>user))}">用户行为</a>
+			<a class="list-group-item" href="{:U('index',array('Type'=>order))}">订单日志</a>
+		</ul>
+	</div>
+
+	<block name="content"></block>
+</div>
+
+<include file="Public/footer"/>
+</body>
+
+</html>

@@ -1,17 +1,19 @@
-﻿<extend name="Public/cate" />
+<extend name="Public/cate"/>
 <block name="content">
+
 	<div class="col-md-9">
 		<div class="panel panel-default">
 			<div class="panel-heading">
-				<button class="btn btn-success" data-toggle="modal" data-backdrop="static" data-target="#addModal">添加</button>
+				<button class="btn btn-success" data-toggle="modal" data-backdrop="static" modaltitle='添加分类' data-target="#addModal">添加</button>
 			</div>
 			<div class="panel-body">
 				<div class="table-responsive">
 					<table class="table table-striped">
 						<thead>
 							<th>编号</th>
-							<th>分类</th>
-							<th width="400">关键字</th>
+							<th width="100">名称</th>
+							<th width="400">描述</th>
+							<th width="50">标签</th>
 							<th>状态</th>
 							<th>操作</th>
 						</thead>
@@ -19,21 +21,20 @@
 							<foreach name='list' item='v'>
 								<tr>
 									<td>{$v.Id}</td>
-									<td>{$cmodel['Title']}</td>
-									<td>{$v.Keyword}</td>
+									<td>{$v.Title}</td>
+									<td>{$v.Presentation}</td>
+									<td>{$v.Hot}</td>
 									<td>{$v.Status}</td>
 									<td>
-										<a class="btn btn-danger btn-small save" action="{:U(del,array('Id'=>$v['Id'], 'CategoryId'=>$CategoryId))}">删除</a>
-										<a class="btn btn-primary btn-small edit" action="{:U(update,array('Id'=>$v['Id']))}" modaltitle="编辑关键字">编辑</a>
+										<a class="btn btn-danger btn-small save" action="{:U(del,array('Id'=>$v['Id']))}">删除</a>
+										<a class="btn btn-primary btn-small edit" action="{:U(update,array('Id'=>$v['Id']))}"  modaltitle="编辑分类">编辑</a>
 									</td>
 								</tr>
 							</foreach>
 						</tbody>
 					</table>
 				</div>
-
-				<div class="page pull-right">{$page}</div>
-
+				<div class="page">{$page}</div>
 			</div>
 		</div>
 	</div>
@@ -45,22 +46,34 @@
 						<span aria-hidden="true">&times;</span>
 						<span class="sr-only">Close</span>
 					</button>
-					<h4 class="modal-title hightlight" id="myModalLabel">添加关键字</h4>
+					<h4 class="modal-title hightlight" id="myModalLabel">添加分类</h4>
 				</div>
 
-				<form class="form-horizontal" action="{:U('save')}" method="POST" onsubmit="return ajaxsubmit()">
+				<form class="form-horizontal" action="{:U('save')}" method="post" onsubmit="return ajaxsubmit()">
 					<div class="modal-body">
 
 						<input type="hidden" class="form-control " name="modif" value="add">
 						<input type="hidden" class="form-control " name="Id" value="{$model.Id}">
 						<input type="hidden" class="form-control " name="Status" value="{$model.Status}">
-						<input type="hidden" class="form-control " name="CategoryId" value="{$cmodel['Id']}">
 
 						<div class="form-group">
-							<label class="col-sm-2 control-label">关键字</label>
+							<label class="col-sm-2 control-label">名称</label>
 							<div class="col-sm-10">
-								<input type="text" class="form-control" name="Keyword" placeholder="你填啊" required></div>
+								<input type="text" class="form-control" id="Title" name="Title" placeholder="分类名称" required></div>
 						</div>
+
+						<div class="form-group">
+							<label class="col-sm-2 control-label">描述</label>
+							<div class="col-sm-10">
+								<input type="text" class="form-control" id="Presentation" name="Presentation" placeholder="介绍下包含哪些东西" required></div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-sm-2 control-label">标签</label>
+							<div class="col-sm-10">
+								<input type="text" class="form-control" id="Hot" name="Hot" placeholder="显示在分类旁边的内容"></div>
+						</div>
+
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-danger" data-dismiss="modal">关闭</button>

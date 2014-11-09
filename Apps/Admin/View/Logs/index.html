@@ -1,0 +1,44 @@
+<extend name="Public/logs"/>
+<block name="content">
+	<div class="col-md-9">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<form class="form-inline" role="form" action="{:U('index')}">
+					<div class="form-group">
+						<input type="text" class="form-control" name="Action" placeholder="行为"></div>
+					<div class="form-group">
+						<input type="text" class="form-control" name="UserName" placeholder="用户全名"></div>
+					<div class="form-group">
+						<button type="submit" class="btn btn-default btn-expend">搜索</button>
+					</div>
+				</form>
+			</div>
+			<div class="panel-body">
+				<div class="table-responsive">
+					<table class="table table-striped">
+						<thead>
+							<th>编号</th>
+							<th width="300">操作</th>
+							<th>用户</th>
+							<th>IP</th>
+							<th>时间</th>
+						</thead>
+						<tbody>
+							<foreach name='list' item='v'>
+								<tr>
+									<td>{$v.Id}</td>
+									<td>{$v.Action}</td>
+									<td>{$v.UserName}</td>
+									<td>{$v.IP}</td>
+									<td>
+										<?php echo date("Y-m-d H:i:s ", $v[CreateTime]); ?></td>
+								</tr>
+							</foreach>
+						</tbody>
+					</table>
+				</div>
+				<div class="page pull-right">{$page}</div>
+			</div>
+		</div>
+	</div>
+</block>

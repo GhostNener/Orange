@@ -9,7 +9,7 @@ namespace Admin\Controller;
  * @author NENER
  *        
  */
-class GoodsCategoryController extends BaseController {
+class CategoryController extends BaseController {
 	/**
 	 * 首页
 	 *
@@ -128,18 +128,19 @@ class GoodsCategoryController extends BaseController {
 				'Hot' => I ( 'Hot' ) 
 		);
 
-		if ($modif == "add") {
 
-			/**
-			* 验证是否已存在
-			* @author Cinwell
-			*/
-			if (M ( 'goods_category' )->where ( array (
-						'Title' => $data ['Title'],
-						'Status' => 10 
-				) )->select ()) {
-					$this->error ( "已经添加过了，逗比" );
-				}
+		/**
+		* 验证是否已存在
+		* @author Cinwell
+		*/
+		if (M ( 'goods_category' )->where ( array (
+					'Title' => $data ['Title'],
+					'Status' => 10 
+			) )->select ()) {
+				$this->error ( "已经添加过了，逗比" );
+			}
+
+		if ($modif == "add") {
 
 			$data ['Status'] = 10;
 			$dal = M ();

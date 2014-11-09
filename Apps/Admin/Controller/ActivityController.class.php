@@ -80,7 +80,6 @@ class ActivityController extends BaseController {
 		$model = M ( 'activity' );
 
 		//富文本内容
-
 		$data = array (
 				'Href' => I ( 'Href' ),
 				'Title' => I ( 'Title' ),

@@ -3,7 +3,15 @@
 	<script src="__PUBLIC__/js/bootstrap.min.js"></script>
 	<script src="__PUBLIC__/js/juzi.js"></script>
 	<script type="text/javascript">
-		//表单提交
+	
+		//添加操作
+		$('button[data-target]').click(function () {
+			$($(this).attr('data-target')).find('.modal-title').text($(this).attr('modaltitle'));
+			$($(this).attr('data-target')).find('input[name="modif"]').val('add');
+			$($(this).attr('data-target')).find('button[type="reset"]').click();
+		});
+
+		//异步提交表单
 		function ajaxsubmit(){
 			var form = $("form");
 			$('button[type="submit"]').attr('disabled' ,'disabled');
@@ -25,7 +33,7 @@
                     else{
 						showsuccessmsg(data.info,100,1000);
 						setTimeout(function(){
-							//window.location.href=window.location.href;
+							window.location.href=window.location.href;
 						},500);                  	
                     }
                 },
@@ -39,6 +47,7 @@
             return false;
 		}
 		
+		//同步提交表单
 		function syncsubmit () {
 			$('button[type="submit"]').attr('disabled' ,'disabled');
 			$('button[type="submit"]').text('等啊等...');
@@ -96,6 +105,7 @@
 			
 		});
 
+		//异步get请求
 		var lock = false;
 		$('.save').click(function () {
 			$(this).removeClass('save');
