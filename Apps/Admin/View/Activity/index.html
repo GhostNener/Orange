@@ -26,9 +26,9 @@
 									<td>
 										<?php echo date("Y-m-d H:i:s ", $v[CreateTime]); ?></td>
 									<td>
-										<a class="btn btn-danger btn-small" action="{:U(del,array('Id'=>$v['Id']))}">删除</a>
-										<a class="btn btn-info btn-small" action="{:U(del,array('Id'=>$v['Id']))}">查看</a>
-										<a class="btn btn-primary btn-small" action="{:U(update,array('Id'=>$v['Id']))}"  modaltitle="编辑分类">编辑</a>
+										<a class="btn btn-danger btn-small save" action="{:U(del,array('Id'=>$v['Id']))}">删除</a>
+										<a class="btn btn-info btn-small" href="{$v['Href']?$v['Href']:'#'}" target="_blank">查看</a>
+										<a class="btn btn-primary btn-small edit" action="{:U(update,array('Id'=>$v['Id']))}"  modaltitle="编辑资讯">编辑</a>
 									</td>
 								</tr>
 							</foreach>
@@ -60,7 +60,7 @@
 						<div class="form-group">
 							<label class="col-sm-2 control-label">显示大图</label>
 							<div class="col-sm-10">
-								<input type="file" id="ImgURL" name="ImgURL" placeholder="分类名称" required>
+								<input type="file" id="ImgURL" name="ImgURL" remove-attr="required" required>
 								<p class="help-block">800x300</p>
 							</div>
 						</div>
@@ -86,7 +86,12 @@
 						<div class="form-group">
 							<label class="col-sm-2 control-label">链接</label>
 							<div class="col-sm-10">
-								<input type="url" class="form-control" id="Href" name="Href" placeholder="需要额外跳转其他页面才填">
+								<div class="input-group">
+									<input type="url" class="form-control" id="Href" name="Href" placeholder="需要额外跳转其他页面才填">
+									<span class="input-group-btn">
+										<button class="btn btn-default btn-expend" type="button" onclick="javascript:window.open(document.getElementById('Href').value)">浏览</button>
+									</span>
+								</div>
 							</div>
 						</div>
 
@@ -121,4 +126,25 @@
 		</div>
 	</div>
 
+</block>
+<block name='js'>
+	<script src="__PUBLIC__/kindeditor/kindeditor-min.js"></script>
+	<script type="text/javascript">
+    var editorContent = null;
+	$(function () {
+        KindEditor.ready(function (k) {
+
+            editorContent = k.create('textarea[name="Contents"]', {
+                allowImageUpload: true,
+                uploadJson: '/Upload/UploadFile'
+                , items: [
+                     'source', 'preview','|', 'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold', 'italic', 'underline','removeformat', '|', 'justifyleft', 'justifycenter', 'justifyright', 'insertorderedlist',
+                    'insertunorderedlist', '|', 'image', 'insertfile','link','quickformat', 'wordpaste','|', 'fullscreen']
+            });
+        });
+        $('textarea[name="Contents"]').css('width','100%');
+
+    })
+
+</script>
 </block>

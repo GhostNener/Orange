@@ -18,7 +18,7 @@ return array (
 				'Usercenter' 
 		),
 				/* 多级过滤  */
-    'DEFAULT_FILTER' => 'strip_tags,htmlspecialchars',
+    	'DEFAULT_FILTER' => 'strip_tags,htmlspecialchars',
 				/*url重写*/
 		'URL_MODEL' => 2,
 				/*url分隔符*/

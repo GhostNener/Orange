@@ -6,8 +6,8 @@
 		//表单提交
 		function ajaxsubmit(){
 			var form = $("form");
-			$('button[type$=submit]').attr('disabled' ,'disabled');
-			$('button[type$=submit]').text('等啊等...');
+			$('button[type="submit"]').attr('disabled' ,'disabled');
+			$('button[type="submit"]').text('等啊等...');
 			$.ajax({
                 type: form.attr("method"),
                 url: form.attr("action"),
@@ -31,17 +31,17 @@
                 },
                 complete:function () {
 					$("#load").remove();
-                	$('button[type$=submit]').removeAttr('disabled');
-					$('button[type$=reset]').click();
-					$('button[type$=submit]').text('保存');
+                	$('button[type="submit"]').removeAttr('disabled');
+					$('button[type="reset"]').click();
+					$('button[type="submit"]').text('保存');
                 }
             });
             return false;
 		}
 		
 		function syncsubmit () {
-			$('button[type$=submit]').attr('disabled' ,'disabled');
-			$('button[type$=submit]').text('等啊等...');
+			$('button[type="submit"]').attr('disabled' ,'disabled');
+			$('button[type="submit"]').text('等啊等...');
 			loading();
 		}
 
@@ -65,19 +65,27 @@
 					else{
 
 						//填充数据
-						for(var p in result.data){        
-		       				$('input[name$='+p+']').val(result.data[p]);
-		       				$('select[name$='+p+']').children().each(function () {
-		       					if ($(this).attr('value')==result.data[p]) {
-		       						$(this).attr('selected','selected');
-		       						return;
-		       					};
-		       				});
-						}
+						for(var p in result.data){    
+		       				$('input[type!="file"][name="'+p+'"]').val(result.data[p]);
 
-						$('input[name$=modif]').val(result.method);
+		       				if ($('select[name="'+p+'"]').length>0) {
+				       				$('select[name="'+p+'"]').children().each(function () {
+				       					if ($(this).attr('value')==result.data[p]) {
+				       						$(this).attr('selected','selected');
+				       						return;
+				       					};
+				       				});
+			       			}
+
+		       				if ($('textarea[name="'+p+'"]').length>0) {
+									editorContent.html(result.data[p]);
+								};
+							}
+
+						$('input[name="modif"]').val(result.method);
 						$('#addModal').modal('show');
 						$('#myModalLabel').text(a.attr('modaltitle'));
+						$('input[remove-attr]').removeAttr($('input[remove-attr]').attr('remove-attr'));
 					}
 				},
 				complete: function() {
@@ -123,4 +131,4 @@
 		function loading() { 
 					$("body").append('<div  id="load" style="z-index:99999; position:fixed; left:45%; top:30%"><img src="__PUBLIC__/Img/loading.gif" /></div>'); 
 				}
-</script>
+	</script>

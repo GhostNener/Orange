@@ -85,17 +85,14 @@ class GoodsCategoryController extends BaseController {
 		);
 		$model = M ( 'goods_category' )->where ( $whereArr )->find ();
 		if ($model) {
-			$whereArrKeyword = array (
-					'CategoryId' => $id 
-			);
-
+			
 			$status = 1;
 			$data = $model;
 			$method = 'update';
 
 		} else {
 			$status = 0;
-			$info = '没成功，活该，重新再提交';
+			$info = '没成功，活该，重新再请求';
 		}
 
 		echo json_encode ( array (
