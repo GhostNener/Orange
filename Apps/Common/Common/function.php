@@ -4,6 +4,18 @@ use Usercenter\Model\userModel;
 use Org\Util\String;
 
 /**
+ * 获取连续签到天数
+ *
+ * @param int $uid        	
+ * @return number
+ * @author NENER
+ */
+function getclockincount($uid = -1) {
+	$m = new userModel ();
+	return $m->getclockincount ( $uid );
+}
+
+/**
  * 上传文件
  *
  * @param array $config
@@ -18,7 +30,6 @@ function uploadfile($config, $file = null) {
 	} else {
 		$images = $upload->upload ( $file );
 	}
-	
 	if (! $images) {
 		return array (
 				'status' => 0,

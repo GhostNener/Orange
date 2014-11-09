@@ -762,5 +762,25 @@ class userModel extends Model {
 			return false;
 		}
 	}
+	/**
+	 * 获取连续签到天数
+	 * 
+	 * @param unknown $uid        	
+	 * @return number
+	 */
+	public function getclockincount($uid = -1) {
+		if (! $uid || $uid == - 1) {
+			$uid = cookie ( '_uid' );
+		}
+		$user = $this->field ( 'ClockinCount' )->where ( array (
+				'Id' => $uid,
+				'Status' => 10 
+		) )->find ();
+		if (! $user) {
+			return 0;
+		} else {
+			return ( int ) $user ['ClockinCount'];
+		}
+	}
 }
 ?>
