@@ -4,6 +4,36 @@ use Usercenter\Model\userModel;
 use Org\Util\String;
 
 /**
+ * 检查文件是否存在
+ *
+ * @param string $path
+ *        	路径
+ * @param number $type
+ *        	1，绝对路径
+ * @return boolean
+ */
+function checkfile_exists($path, $type = 1) {
+	if ($type == 1) {
+		$path = '.' . $path;
+	}
+	return file_exists ( $path );
+}
+/**
+ * 获得默认图
+ *
+ * @param number $type
+ *        	1：商品默认缩略图：320_160，2:大图：800_300
+ * @return string
+ */
+function getdefaultimg($type = 1) {
+	switch ($type) {
+		case 1 :
+			return C ( 'DEFAULT_GOODS_IMG_320' );
+		case 2 :
+			return C ( 'DEFAULT_GOODS_IMG_830' );
+	}
+}
+/**
  * 获取连续签到天数
  *
  * @param int $uid        	

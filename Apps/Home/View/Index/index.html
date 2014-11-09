@@ -18,12 +18,20 @@
 							<if condition="$i eq 0">
 								<div class="item active">
 									<a href="{$topimg[$i]['Href']}" title="{$topimg[$i]['Title']}">
-										<img class="slide-image" src="__ROOT__{$topimg[$i]['ImgURL']}" height="300" width="800" alt="{$topimg[$i]['Title']}"></a>
+										<if condition="checkfile_exists($topimg[$i]['ImgURL']) eq 1">
+											<img class="slide-image" src="__ROOT__{$topimg[$i]['ImgURL']}" height="300" width="800" alt="{$topimg[$i]['Title']}">
+											<else/>
+											<img class="slide-image" src="__ROOT__{:getdefaultimg(2)}" height="300" width="800" alt="{$topimg[$i]['Title']}"></if>
+									</a>
 								</div>
 								<else/>
 								<div class="item">
 									<a href="{$topimg[$i]['Href']}" title="{$topimg[$i]['Title']}">
-										<img class="slide-image" src="__ROOT__{$topimg[$i]['ImgURL']}" height="300" width="800" alt="{$topimg[$i]['Title']}"></a>
+										<if condition="checkfile_exists($topimg[$i]['ImgURL']) eq 1">
+											<img class="slide-image" src="__ROOT__{$topimg[$i]['ImgURL']}" height="300" width="800" alt="{$topimg[$i]['Title']}">
+											<else/>
+											<img class="slide-image" src="__ROOT__{:getdefaultimg(2)}" height="300" width="800" alt="{$topimg[$i]['Title']}"></if>
+									</a>
 								</div>
 							</if>
 						</for>
@@ -49,7 +57,10 @@
 				<div class="col-sm-4">
 					<a href="{:U('Home/Index/showgoods',array('Id'=>
 						$v['Id']))}" target="_blank" class="thumbnail ">
-						<img src="__ROOT__{$v['ThumbURL']}" alt="">
+						<if condition="checkfile_exists($v['ThumbURL']) eq 1">
+							<img src="__ROOT__{$v['ThumbURL']}" alt="{$v['Title']}">
+							<else/>
+							<img src="__ROOT__{:getdefaultimg(1)}" alt="{$v['Title']}"></if>
 						<div class="caption">
 							<h4 class="pull-right message">{$v['TradeWayTxt']}</h4>
 							<p>
@@ -89,7 +100,10 @@
 				<div class="col-sm-4">
 					<a href="{:U('Home/Index/showgoods',array('Id'=>
 						$v['Id']))}" target="_blank" class="thumbnail ">
-						<img src="__ROOT__{$v['ThumbURL']}" alt="">
+						<if condition="checkfile_exists($v['ThumbURL']) eq 1">
+							<img src="__ROOT__{$v['ThumbURL']}" alt="{$v['Title']}">
+							<else/>
+							<img src="__ROOT__{:getdefaultimg(1)}" alt="{$v['Title']}"></if>
 						<div class="caption">
 							<h4 class="pull-right message">{$v['TradeWayTxt']}</h4>
 							<p>
@@ -129,7 +143,10 @@
 				<div class="col-sm-4">
 					<a href="{:U('Home/Index/showgoods',array('Id'=>
 						$v['Id']))}" target="_blank" class="thumbnail ">
-						<img src="__ROOT__{$v['ThumbURL']}" alt="">
+						<if condition="checkfile_exists($v['ThumbURL']) eq 1">
+							<img src="__ROOT__{$v['ThumbURL']}" alt="{$v['Title']}">
+							<else/>
+							<img src="__ROOT__{:getdefaultimg(1)}" alt="{$v['Title']}"></if>
 						<div class="caption">
 							<h4 class="pull-right message">{$v['TradeWayTxt']}</h4>
 							<p>

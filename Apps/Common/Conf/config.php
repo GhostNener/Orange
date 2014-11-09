@@ -103,6 +103,10 @@ return array (
 		'RAND_NICK_PREFIX' => '',
 		/*用户默认头像地址  */
 		'DEFAULT_USER_AVATAR' => '/Public/Img/aurl.jpg',
+		/*商品缩略图  */
+		'DEFAULT_GOODS_IMG_320'=>'/Public/Img/320_160_IMG_NOT_FOUND.jpg',
+		/*商品800_300图  */
+		'DEFAULT_GOODS_IMG_830'=>'/Public/Img/800_300_IMG_NOT_FOUND.jpg',
 		/*商品评论最大返回数量  */
 		'COMMENTS_LIST_COUNT' => 50,
 		/*商品置顶服务Id  主要用于显示置顶商品  */
