@@ -43,17 +43,6 @@ class ActivityController extends BaseController {
 			$this->error ( "非法操作" );
 		}
 
-		//处理图片
-		$config = C ( 'IMG_UPLOAD_CONFIG' );
-		$config ['savePath'] = 'Activity/' . C ( 'GOODS_IMG_SOURCE' );
-		if (empty($_FILES)) {
-			echo "aaa";
-			return;
-		}
-		$rstarr = uploadfile ( $config ,null);
-var_dump($rstarr);
-return;
-
 		$model = M ( 'activity' );
 		$data = array (
 				'Href' => I ( 'Href' ),
@@ -63,7 +52,24 @@ return;
 				'IsHot' => I ( 'IsHot' ),
 				'IsTop' => I ( 'IsTop' )
 		);
+		foreach ($_FILES as $key => $value) {
+			$config = C('IMG_UPLOAD_CONFIG');
+			$config['saveName'] = $key.time();
+			$config ['savePath'] = 'Activity/' . C ( 'GOODS_IMG_SOURCE' );
 
+			$rstarr = uploadfile ( $config , $_FILES[$value]);
+			$srcpath = $config['rootPath'].$rstarr['msg'][$key]['savepath'].$rstarr['msg'][$key]['savename'];
+		 	if ($key=='ImgURL') {
+		 		$savepath = $config['rootPath'].'Activity/800_300/'.time().'.jpg';
+		 		cutimg($srcpath,$savepath,array(800,300),2);
+		 	}
+		 	else{
+		 		$savepath = $config['rootPath'].'Activity/80_80/'.time().'.jpg';
+		 		cutimg($srcpath,$savepath,array(80,80),2);
+		 	}
+		 	unlink ( $srcpath );
+			$data[$key] = substr($savepath, 1);
+		}
 		if ($modif == "add") {
 
 			$data ['Status'] = 10;
