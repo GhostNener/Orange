@@ -4,6 +4,35 @@ use Usercenter\Model\userModel;
 use Org\Util\String;
 
 /**
+ * 上传文件
+ *
+ * @param array $config
+ *        	上传配置
+ * @return array status,msg
+ * @author NENER
+ */
+function uploadfile($config, $file = null) {
+	$upload = new \Think\Upload ( $config ); // 实例化上传类
+	if (! $file) {
+		$images = $upload->upload ();
+	} else {
+		$images = $upload->upload ( $file );
+	}
+	
+	if (! $images) {
+		return array (
+				'status' => 0,
+				'msg' => $upload->getError () 
+		);
+	} else {
+		return array (
+				'status' => 1,
+				'msg' => $images 
+		);
+	}
+}
+
+/**
  * 标题拆分数组
  *
  * @param string $title

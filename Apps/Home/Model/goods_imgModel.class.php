@@ -134,19 +134,7 @@ class goods_imgModel extends Model {
 	 * @author NENER
 	 */
 	public function uploadfile($config) {
-		$upload = new \Think\Upload ( $config ); // 实例化上传类
-		$images = $upload->upload ();
-		if (! $images) {
-			return array (
-					'status' => 0,
-					'msg' => $upload->getError () 
-			);
-		} else {
-			return array (
-					'status' => 1,
-					'msg' => $images 
-			);
-		}
+		return uploadfile ( $config, null );
 	}
 	
 	/**
