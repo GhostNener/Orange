@@ -18,7 +18,7 @@ class activityModel extends Model {
 	 * @param number $limit   
 	 * @author NENER     	
 	 */
-	public function getlist($wherearr=array('Status'=>10), $limit = 6) {
+	public function getlist($wherearr=array('Status'=>10), $limit = 5) {
 		$arr=$this->where($wherearr)->limit($limit)->order('CreateTime desc')->select();
 		return $arr;
 	}

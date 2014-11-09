@@ -46,31 +46,20 @@
 					<!-- 热门活动 -->
 					<div class="sideitemnav">
 						<h4>热门活动</h4>
-						<hr>
-						<div class="media">
-							<a class="pull-left" href="#">
-								<img class="media-object" src="http://hhhhold.com/80x80" alt="..."></a>
-							<div class="media-body">
-								<h5 class="media-heading">每周抽奖日</h5>
-								<p>最好不要超过22个字哇哈哈哈哈</p>
-								<button type="button" class="btn btn-success">参与活动</button>
+						<volist name="hotactivity" id="v" empty="$emptyact">
+							<hr>
+							<div class="media">
+								<a class="pull-left" href="#">
+									<img class="media-object" src="__ROOT__{$v['ThumURL']}" alt="{$v['Title']}"></a>
+								<div class="media-body">
+									<h5 class="media-heading">{$v['Title']}</h5>
+									<p>{$v['Presentation']}</p>
+									<a class="btn btn-success">参与活动</a>
 
+								</div>
 							</div>
-						</div>
+						</volist>
 
-						<hr>
-						<!--记得分隔符-->
-
-						<div class="media">
-							<a class="pull-left" href="#">
-								<img class="media-object" src="http://hhhhold.com/80x80" alt="..."></a>
-							<div class="media-body">
-								<h5 class="media-heading">每周抽奖日</h5>
-								<p>最好不要超过24个字哇哈哈哈哈</p>
-								<button type="button" class="btn btn-success">参与活动</button>
-
-							</div>
-						</div>
 					</div>
 					<!--/.sideitemnav-->
 
@@ -196,7 +185,6 @@ $(function() {
         var _url = $(this).attr('url');
         location.href = _url;
     });
-
 });
 
 </script>

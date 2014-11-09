@@ -29,7 +29,7 @@ class IndexController extends BaseController {
 		$clist = $model->getall ();
 		/* 获取活动图片 */
 		$model = new activityModel ();
-		$activitylist = $model->getlist ();
+		$activitylist = $model->getlist (array('Status'=>10,'IsTop'=>1));
 		/* 返回结果 */
 		echo json_encode ( array (
 				'status' => 1,
