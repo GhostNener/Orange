@@ -19,6 +19,7 @@ return array (
 		),
 				/* 多级过滤  */
     	'DEFAULT_FILTER' => 'strip_tags,htmlspecialchars',
+    			'SESSION_AUTO_START' => true,
 				/*url重写*/
 		'URL_MODEL' => 2,
 				/*url分隔符*/
@@ -73,7 +74,9 @@ return array (
 		 * */
 		'USER_KEY_EFFECTIVE' => 30 * 24 * 60 * 60 ,
 		/*cookie前缀  */
-		'COOKIE_PREFIX' => 'ORANGER',
+		'COOKIE_PREFIX' => 'BIGORANGER_C',
+		/*SESSION前缀  */
+		'SESSION_PREFIX' => 'BIGORANGER_S',
 		/*管理员所在组 name*/
 		'ADMIN_ROLE_NAME' => 'Administrator',
 		/*记住我 cookie保存时间*/
@@ -103,6 +106,9 @@ return array (
 		'RAND_NICK_PREFIX' => '',
 		/*用户默认头像地址  */
 		'DEFAULT_USER_AVATAR' => '/Public/Img/aurl.jpg',
+		'DEFAULT_GOODS_IMG_320' => '/Public/Img/320_160_IMG_NOT_FOUND.jpg',
+		/*商品800_300图  */
+		'DEFAULT_GOODS_IMG_830' => '/Public/Img/800_300_IMG_NOT_FOUND.jpg',
 		/*商品评论最大返回数量  */
 		'COMMENTS_LIST_COUNT' => 50,
 		/*商品置顶服务Id  主要用于显示置顶商品  */
