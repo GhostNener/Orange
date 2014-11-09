@@ -73,12 +73,14 @@ class OrderController extends BaseController {
 		$arr = I ( 'post.' );
 		$m = new goods_orderModel ();
 		$rst = $m->createone ( $arr );
+
 		if ($rst ['status'] == 0) {
 			$this->error ( $rst ['msg'], U ( 'Home/Index/index' ) );
 			die ();
 		} else {
 			$this->assign ( 'omodel', $rst );
 			$this->display ();
+
 		}
 	}
 	

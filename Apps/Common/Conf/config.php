@@ -19,6 +19,7 @@ return array (
 		),
 				/* 多级过滤  */
     'DEFAULT_FILTER' => 'strip_tags,htmlspecialchars',
+		'SESSION_AUTO_START' => true,
 				/*url重写*/
 		'URL_MODEL' => 2,
 				/*url分隔符*/
@@ -73,14 +74,16 @@ return array (
 		 * */
 		'USER_KEY_EFFECTIVE' => 30 * 24 * 60 * 60 ,
 		/*cookie前缀  */
-		'COOKIE_PREFIX' => 'ORANGER',
+		'COOKIE_PREFIX' => 'BIGORANGER_C',
+		/*SESSION前缀  */
+		'SESSION_PREFIX' => 'BIGORANGER_S',
 		/*管理员所在组 name*/
 		'ADMIN_ROLE_NAME' => 'Administrator',
 		/*记住我 cookie保存时间*/
 		'COOKIE_REMEMBER_TIME' => 30 * 24 * 60 * 60 ,
 		/* 普通用户用户组Id */
 		'USER_ROLEID' => 2,
-		/*  */
+		/* 激活邮件配置 */
 		'ORANGER_MAIL' => array (
 				'SMTP_HOST' => 'smtp.ym.163.com', // SMTP服务器
 				'SMTP_PORT' => 25, // SMTP服务器端口
@@ -104,16 +107,16 @@ return array (
 		/*用户默认头像地址  */
 		'DEFAULT_USER_AVATAR' => '/Public/Img/aurl.jpg',
 		/*商品缩略图  */
-		'DEFAULT_GOODS_IMG_320'=>'/Public/Img/320_160_IMG_NOT_FOUND.jpg',
+		'DEFAULT_GOODS_IMG_320' => '/Public/Img/320_160_IMG_NOT_FOUND.jpg',
 		/*商品800_300图  */
-		'DEFAULT_GOODS_IMG_830'=>'/Public/Img/800_300_IMG_NOT_FOUND.jpg',
+		'DEFAULT_GOODS_IMG_830' => '/Public/Img/800_300_IMG_NOT_FOUND.jpg',
 		/*商品评论最大返回数量  */
 		'COMMENTS_LIST_COUNT' => 50,
 		/*商品置顶服务Id  主要用于显示置顶商品  */
 		'TOP_SERVICE_ID' => 2,
 		/*商品订单session 缓存值  */
 		'GOODS_ORDER_SESSION_VALUE' => 1024 * 1024 * 9,
-		'SEARCH_CATEGORY_NAME'=>'搜索关键字',
+		'SEARCH_CATEGORY_NAME' => '搜索关键字',
 		/*定制成功以及错误模板  */
 		'TMPL_ACTION_ERROR' => './Tpl/jump.html',
 		'TMPL_ACTION_SUCCESS' => './Tpl/jump.html' 
