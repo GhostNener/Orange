@@ -3,9 +3,9 @@
 	<div class="col-md-3">
 		<label>活动分类</label>
 		<ul class="list-group">
-			<a class="list-group-item" href="{:U('/Admin/activity')}">全部</a>
-			<a class="list-group-item" href="#">置顶轮播</a>
-			<a class="list-group-item" href="#">热门活动</a>
+			<a class="list-group-item" href="{:U('index')}">全部</a>
+			<a class="list-group-item" href="{:U('index',array(type=>'top'))}">置顶轮播</a>
+			<a class="list-group-item" href="{:U('index',array(type=>'hot'))}">热门活动</a>
 		</ul>
 		<ul class="list-group">
 			<a class="list-group-item" href="#">回收站</a>

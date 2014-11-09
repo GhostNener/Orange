@@ -10,11 +10,20 @@ namespace Admin\Controller;
  */
 class ActivityController extends BaseController {
 	public function index() {
-			$model = M ( 'activity' );
+
+		$model = M ( 'activity' );
 		// 查询条件
 		$wherrArr = array (
 				'Status' => 10 
 		);
+		
+		$type = I('type');
+		if ($type=='hot') {
+			$wherrArr['IsHot'] = 1;
+		} else if($type=='top'){
+			$wherrArr['IsTop'] = 1;
+		}
+		
 		// 总数
 		$allCount = $model->where ( $wherrArr )->count ();
 		// 分页
@@ -52,12 +61,17 @@ class ActivityController extends BaseController {
 				'IsHot' => I ( 'IsHot' ),
 				'IsTop' => I ( 'IsTop' )
 		);
+
+		//处理图片
 		foreach ($_FILES as $key => $value) {
 			$config = C('IMG_UPLOAD_CONFIG');
 			$config['saveName'] = $key.time();
 			$config ['savePath'] = 'Activity/' . C ( 'GOODS_IMG_SOURCE' );
 
-			$rstarr = uploadfile ( $config , $_FILES[$value]);
+			$rstarr = uploadfile ( $config , null);
+			if (!$rstarr['status']) {
+				continue;
+			}
 			$srcpath = $config['rootPath'].$rstarr['msg'][$key]['savepath'].$rstarr['msg'][$key]['savename'];
 		 	if ($key=='ImgURL') {
 		 		$savepath = $config['rootPath'].'Activity/800_300/'.time().'.jpg';

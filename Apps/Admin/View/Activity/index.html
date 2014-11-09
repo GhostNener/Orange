@@ -51,7 +51,7 @@
 					<h4 class="modal-title hightlight" id="myModalLabel">添加资讯</h4>
 				</div>
 
-				<form class="form-horizontal" action="{:U('save')}" method="post" enctype="multipart/form-data">
+				<form class="form-horizontal" action="{:U('save')}" onsubmit="syncsubmit()" method="post" enctype="multipart/form-data">
 					<div class="modal-body">
 
 						<input type="hidden" class="form-control " name="modif" value="add">
@@ -77,9 +77,9 @@
 							<label class="col-sm-2 control-label">类型</label>
 							<div class="col-sm-10">
 								<label class="checkbox-inline">
-									<input type="checkbox" id="IsHot" value="1">热门活动</label>
+									<input type="checkbox" id="IsHot" name="IsHot" value="1">热门活动</label>
 								<label class="checkbox-inline">
-									<input type="checkbox" id="IsTop" value="1">置顶轮播</label>
+									<input type="checkbox" id="IsTop" name="IsTop" value="1">置顶轮播</label>
 							</div>
 						</div>
 
@@ -113,7 +113,7 @@
 					<div class="modal-footer">
 						<button type="button" class="btn btn-danger" data-dismiss="modal">关闭</button>
 						<button type="reset" class="btn btn-warning">清空</button>
-						<button type="submit" class="btn btn-primary">保存</button>
+						<button type="submit" class="btn btn-primary loading">保存</button>
 					</div>
 				</form>
 

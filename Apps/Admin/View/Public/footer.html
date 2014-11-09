@@ -39,6 +39,12 @@
             return false;
 		}
 		
+		function syncsubmit () {
+			$('button[type$=submit]').attr('disabled' ,'disabled');
+			$('button[type$=submit]').text('等啊等...');
+			loading();
+		}
+
 		//异步获取数据
 		$('.edit').click(function () {
 			var a = $(this);
@@ -115,6 +121,6 @@
 		});
 
 		function loading() { 
-					$("body").append('<div  id="load" style="z-index:10; position:fixed; left:45%; top:30%"><img src="__PUBLIC__/Img/loading.gif" /></div>'); 
+					$("body").append('<div  id="load" style="z-index:99999; position:fixed; left:45%; top:30%"><img src="__PUBLIC__/Img/loading.gif" /></div>'); 
 				}
 </script>
