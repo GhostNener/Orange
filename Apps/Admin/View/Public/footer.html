@@ -12,23 +12,28 @@
                 type: form.attr("method"),
                 url: form.attr("action"),
                 data: form.serialize(),
+                beforeSend: function(){
+					loading();
+				},
                 error: function(request) {
 					showerrormsg('网络连接失败',100,1000);
                 },
                 success: function(data) {
                     if (data.status != 1) {
 						showerrormsg(data.info,100,1000);
-						$('button[type$=submit]').removeAttr('disabled');
-						$('button[type$=reset]').click();
-						$('button[type$=submit]').text('保存');
-
                     }
                     else{
 						showsuccessmsg(data.info,100,1000);
 						setTimeout(function(){
-							window.location.href=window.location.href;
+							//window.location.href=window.location.href;
 						},500);                  	
                     }
+                },
+                complete:function () {
+					$("#load").remove();
+                	$('button[type$=submit]').removeAttr('disabled');
+					$('button[type$=reset]').click();
+					$('button[type$=submit]').text('保存');
                 }
             });
             return false;

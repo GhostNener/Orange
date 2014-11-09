@@ -31,6 +31,58 @@ class ActivityController extends BaseController {
 
 	public function save()
 	{
-		# code...
+		if (! IS_POST) {
+			$this->error ( "页面不存在" );
+		}
+		$modifArr = array (
+				"add",
+				"update" 
+		);
+		$modif = strtolower ( I ( 'post.modif' ) );
+		if (! in_array ( $modif, $modifArr )) {
+			$this->error ( "非法操作" );
+		}
+
+		//处理图片
+		$config = C ( 'IMG_UPLOAD_CONFIG' );
+		$config ['savePath'] = 'Activity/' . C ( 'GOODS_IMG_SOURCE' );
+		if (empty($_FILES)) {
+			echo "aaa";
+			return;
+		}
+		$rstarr = uploadfile ( $config ,null);
+var_dump($rstarr);
+return;
+
+		$model = M ( 'activity' );
+		$data = array (
+				'Href' => I ( 'Href' ),
+				'Title' => I ( 'Title' ),
+				'Presentation' => I ( 'Presentation' ),
+				'Contents' => I ( 'Contents' ),
+				'IsHot' => I ( 'IsHot' ),
+				'IsTop' => I ( 'IsTop' )
+		);
+
+		if ($modif == "add") {
+
+			$data ['Status'] = 10;
+			$data ['CreateTime'] = time();
+			$dal = M ();
+			$dal->startTrans ();
+			$r1 = $model->data ( $data )->add ();
+			if ($r1) {
+				$dal->commit ();
+			} else {
+				$dal->rollback ();
+				$this->error ( "操作失败" );
+			}
+		} else {
+			$whereArr = array (
+					'Id' => ( int ) I ( "post.Id" ) 
+			);
+			$model->where ( $whereArr )->save ( $data );
+		}
+		$this->success ( '操作成功' );
 	}
 }
