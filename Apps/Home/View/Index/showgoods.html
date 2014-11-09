@@ -7,7 +7,7 @@
 			<!-- 购买按钮 -->	
 			<div class="navbar-fixed-bottom fixed-expand">
 				<form action="{:U('Home/Order/index')}" method="post" role="form">
-				<input type="hidden" name="Id" value="{$goods['Id']}">
+					<input type="hidden" name="Id" value="{$goods['Id']}">	
 					<button  type="submit" class="btn btn-orange btnpublish"  title="立即购买">
 						<span class="glyphicon glyphicon-shopping-cart"></span>
 					</button>
@@ -63,13 +63,21 @@
 												<if condition="$i eq 0">
 													<div class="active item" data-slide-number="{$i}">
 														<a class="fancybox-thumbs" data-fancybox-group="thumb" href="__ROOT__{$goodsimg[$i]['URL']}">
-															<img src="__ROOT__{$goodsimg[$i]['MD_URL']}" alt="{$goodsimg[$i]['Title']}" />	
+															<if condition="checkfile_exists($goodsimg[$i]['MD_URL']) eq 1">
+																<img src="__ROOT__{$goodsimg[$i]['MD_URL']}" alt="{$goodsimg[$i]['Title']}" />	
+																<else/>	
+																<img src="__ROOT__{:getdefaultimg(2)}" alt="{$goodsimg[$i]['Title']}" />	
+															</if>
 														</a>
 													</div>
 													<else/>	
 													<div class=" item" data-slide-number="{$i}">
 														<a class="fancybox-thumbs" data-fancybox-group="thumb" href="__ROOT__{$goodsimg[$i]['URL']}">
-															<img src="__ROOT__{$goodsimg[$i]['MD_URL']}" alt="{$goodsimg[$i]['Title']}" />	
+															<if condition="checkfile_exists($goodsimg[$i]['MD_URL']) eq 1">
+																<img src="__ROOT__{$goodsimg[$i]['MD_URL']}" alt="{$goodsimg[$i]['Title']}" />	
+																<else/>	
+																<img src="__ROOT__{:getdefaultimg(2)}" alt="{$goodsimg[$i]['Title']}" />	
+															</if>
 														</a>
 													</div>
 												</if>
@@ -87,14 +95,18 @@
 							</div>
 						</div>
 						<!--/Slider-->	
-
 						<div class="row hidden-xs" id="slider-thumbs">
 							<!-- Bottom switcher of slider -->	
 							<ul class="hide-bullets">
 								<for start="0" end="$imgcount">
 									<li class="col-sm-2">
 										<a href="#" class="thumbnail" id="carousel-selector-{$i}">
-											<img src="__ROOT__{$goodsimg[$i]['ThumbURL']}"></a>
+											<if condition="checkfile_exists($goodsimg[$i]['ThumbURL']) eq 1">
+												<img src="__ROOT__{$goodsimg[$i]['ThumbURL']}">	
+												<else/>	
+												<img src="__ROOT__{:getdefaultimg(1)}"  />	
+											</if>
+										</a>
 									</li>
 								</for>
 							</ul>

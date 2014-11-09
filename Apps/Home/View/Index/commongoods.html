@@ -10,7 +10,10 @@
 				<div class="col-sm-4">
 					<a href="{:U('Home/Index/showgoods',array('Id'=>
 						$v['Id']))}" target="_blank" class="thumbnail ">
-						<img src="__ROOT__{$v['ThumbURL']}" alt="">
+						<if condition="checkfile_exists($v['ThumbURL']) eq 1">
+							<img src="__ROOT__{$v['ThumbURL']}" alt="{$v['Title']}">
+							<else/>
+							<img src="__ROOT__{:getdefaultimg(1)}" alt="{$v['Title']}"></if>
 						<div class="caption">
 							<h4 class="pull-right message">{$v['TradeWayTxt']}</h4>
 							<p>

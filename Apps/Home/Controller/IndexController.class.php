@@ -80,7 +80,10 @@ class IndexController extends Controller {
 		
 		/* 获取活动图片 */
 		$model = new activityModel ();
-		$activitylist = $model->getlist (array('Status'=>10,'IsTop'=>1));
+		$activitylist = $model->getlist ( array (
+				'Status' => 10,
+				'IsTop' => 1 
+		) );
 		/* 模板赋值 */
 		$this->assign ( 'topimg', $activitylist );
 		$this->assign ( 'toplist', $toplist );
@@ -101,9 +104,9 @@ class IndexController extends Controller {
 		$test = I ( 'wd' );
 		if (! $test) {
 			redirect ( U ( 'Home/Index/index' ) );
-		}	
+		}
 		$model = new view_search_listModel ();
-		$arr = $model->getsearchlist ( $test, 12 );		
+		$arr = $model->getsearchlist ( $test, 12 );
 		/* 获得分类 */
 		$this->getheomecommon ();
 		$this->assign ( 'test', $test );
@@ -148,7 +151,10 @@ class IndexController extends Controller {
 		$this->assign ( 'clist', $clist );
 		/* 获取活动图片 */
 		$model = new activityModel ();
-		$hotactivitylist = $model->getlist (array('Status'=>10,'IsHot'=>1),3);
+		$hotactivitylist = $model->getlist ( array (
+				'Status' => 10,
+				'IsHot' => 1 
+		), 3 );
 		$this->assign ( 'hotactivity', $hotactivitylist );
 		$this->assign ( 'emptyact', '<hr><h5 class="text-center text-import">暂无活动</h5>' );
 	}
@@ -163,7 +169,7 @@ class IndexController extends Controller {
 			die ();
 		}
 		$gid = cookie ( '_viewgid' );
-		if (! $gid || ( int ) $gid!= (int)$Id) {
+		if (! $gid || ( int ) $gid != ( int ) $Id) {
 			$m = new goodsModel ();
 			$m->VCChhandle ( $Id, 1 );
 			$gid = cookie ( '_viewgid', $Id );

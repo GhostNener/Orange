@@ -526,7 +526,7 @@ class userModel extends Model {
 	 *        
 	 */
 	public function getnewkey($uid) {
-		return createonekey ( $uid, 11, 6 );
+		return createonekey ( $uid, 20, 11 );
 	}
 	/**
 	 * 检查是否登录
@@ -551,17 +551,16 @@ class userModel extends Model {
 				$_key = cookie ( '_key' );
 				$_id = cookie ( '_uid' );
 			}
+			$_LTK = cookie ( '_lastLTK' );
 		} else {
 			$_key = $arr ['_key'];
 			$_id = $arr ['_uid'];
+			$_LTK = time ();
 		}
+		$_key = trim ( $_key );
+		$_LTK = trim ( $_LTK );
 		if (! $_key || ! $_id) {
 			return false;
-		}
-		if (session ( '?' . $_id )) {
-			if (session ( $_id ) == $_key) {
-				return true;
-			}
 		}
 		if ($_id && $_key) {
 			$wherearr = array (
@@ -584,7 +583,21 @@ class userModel extends Model {
 			if ((time () - ( int ) $rst ['LastKeyTime']) > $keteffecttime) {
 				return false;
 			}
+			$s = session ( $_id );
+			if ($s && $_LTK) {
+				if ($s == $_key) {
+					return true;
+					die ();
+				}
+			}
 			session ( $_id, $_key );
+			/* 最后一次登录时间key */
+			cookie ( '_lastLTK', createonekey ( microtime ( true ), 20, 10 ) );
+			$this->where ( array (
+					'Id' => $_id 
+			) )->save ( array (
+					'LastLoginTime' => time () 
+			) );
 			return true;
 		}
 	}
@@ -764,7 +777,7 @@ class userModel extends Model {
 	}
 	/**
 	 * 获取连续签到天数
-	 * 
+	 *
 	 * @param unknown $uid        	
 	 * @return number
 	 */

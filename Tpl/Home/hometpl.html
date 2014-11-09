@@ -167,12 +167,12 @@ function ajaxclockin() {
                 $btn.button('reset');
                 return false;
             } else {
-                showsuccessmsg(data.info, 100, 1000);
+                showsuccessmsg(data.info, 10, 1000);
                 setTimeout(function() {
                     location.reload();
                     $btn.button('reset');
                 },
-                500);
+                200);
                 return false;
             }                
         }

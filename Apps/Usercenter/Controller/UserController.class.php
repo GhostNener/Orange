@@ -112,6 +112,7 @@ class UserController extends Controller {
 			cookie ( '_key', $rst ['_key'], C ( 'COOKIE_REMEMBER_TIME' ) );
 			cookie ( '_uid', $rst ['_uid'], C ( 'COOKIE_REMEMBER_TIME' ) );
 		}
+/* 		cookie ( '_lastLTK', createonekey ( microtime ( true ), 20, 10 ) ); */
 		session ( $rst ['_uid'], $rst ['_key'] );
 		$this->success ( $rst ['msg'] );
 	}
