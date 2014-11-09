@@ -10,7 +10,13 @@
 						<dt>联系人</dt>
 						<dd>{$omodel['address']['Contacts']}</dd>
 						<dt>联系电话</dt>
-						<dd>{$omodel['address']['Tel']}</dd>
+						<dd>
+							{$omodel['address']['Tel']}
+							<a class="btn btn-success btn-sm visible-xs-inline-block" href="tel:{$omodel['address']['Tel']}">
+								<span class="glyphicon glyphicon-earphone"></span>
+								&nbsp拨打电话
+							</a>
+						</dd>
 						<dt>QQ</dt>
 						<dd>{$omodel['address']['QQ']}</dd>
 						<dt>地址</dt>
