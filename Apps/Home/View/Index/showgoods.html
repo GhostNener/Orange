@@ -275,6 +275,8 @@ function ajaxsubmit() {
                 return false;
             } else {
                 showsuccessmsg("提交成功", 100, 2000);
+                $btn.button('reset');
+                $('#refModalLabel').modal('hide');
                 setTimeout(function() {
                     $btn.button('reset');
                     location.reload();

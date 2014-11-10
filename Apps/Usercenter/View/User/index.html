@@ -86,6 +86,13 @@ function ajaxsubmit() {
         $btn.button('reset');
         return false;
     }
+    if(!$.trim($('#verifycode').val())){
+    	showerrormsg('验证码为空', 100, 1000);
+        $('#verifycode').val('');
+        $('#verifycode').focus();
+        $btn.button('reset');
+        return false;
+    }
     $.ajax({
         type: 'post',
         cache: false,
@@ -103,6 +110,7 @@ function ajaxsubmit() {
             if (data.status == 0) {
                 showerrormsg(data.info, 100, 1000);
                 reloadcode();
+                 $('#verifycode').val('');
                 $btn.button('reset');
                 return false;
             } else {

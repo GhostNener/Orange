@@ -169,10 +169,9 @@ function ajaxclockin() {
             } else {
                 showsuccessmsg(data.info, 10, 1000);
                 setTimeout(function() {
-                    location.reload();
-                    $btn.button('reset');
+                    location.href=location.href;
                 },
-                200);
+                100);
                 return false;
             }                
         }
