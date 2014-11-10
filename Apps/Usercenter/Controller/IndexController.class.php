@@ -2,6 +2,8 @@
 
 namespace Usercenter\Controller;
 
+use Home\Model\goodsModel;
+
 use Usercenter\Model\view_favorite_listModel;
 use Usercenter\Model\view_user_attention_listModel;
 use Usercenter\Model\view_user_arrention_listModel;
@@ -158,16 +160,23 @@ class IndexController extends LoginController {
 	 */
 	public function delattention($AttentionId) {
 		$userid = cookie('_uid');
-		
+		$dal = M();
+		//开始事务
+		$dal = startTrans();
 		$model = new attentionModel();
 		$rst = $model->delattention(array(
 				'AttentionId' =>$AttentionId,
 				'UserId' => $userid
 		));
-		if (( int ) $rst ['status'] == 1) {
-			$this->success ( $rst ['msg'] );
-		} else {
-			$this->error ( $rst ['msg'] );
+		$model2 = new goodsModel();
+		$c = $model2->VCChhandle($gid,2,false);
+		if (!$rst||!$c) {
+			//失败 回滚
+			$dal->rollback();
+			$this->error("操作失败！");
+		}else {
+			//操作成功 提交事务
+			$dal->commit();
 		}
 	}
 	
@@ -184,7 +193,7 @@ class IndexController extends LoginController {
 		);
 		/* 获得心愿单 */
 		$model = new view_favorite_listModel();
-		$arr = $model -> getlist($wherearr, $limit );
+		$arr = $model -> getlist($whereall, $limit );
 		/* 模板赋值 */
 		$this->assign('likelist',$arr['list']);
 		$this->assign ( 'page', $arr['page'] );

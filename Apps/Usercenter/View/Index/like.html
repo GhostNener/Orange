@@ -32,8 +32,7 @@
 						</div>
 						<div class="operation">
 							<button class="btn btn-success">购买</button>
-							<td><a onclick="javascript:return p_del()" href="{:U('Usercenter/Address/deladdress',array('Id' => $v['Id']))}" class="btn btn-danger btn-small">删除</a></td>
-							<button class="btn btn-danger">删除</button>
+							<a onclick="javascript:return p_del()" href="{:U('Usercenter/Address/deladdress',array('Id' => $v['Id']))}" class="btn btn-danger">删除</a>
 						</div>
 					</div>
 				</volist>
@@ -42,4 +41,18 @@
 		</div>
 	</div>
 </div>
+</block>
+
+<block name="js">
+<script type="text/javascript">
+/* 确认删除*/
+function p_del() {   
+	var msg = "您真的要删除吗？";   
+	if (confirm(msg)==true){   
+		return true;   
+	}else{   
+		return false;   
+	}   
+}
+</script>
 </block>

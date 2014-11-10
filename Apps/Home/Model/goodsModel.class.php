@@ -100,9 +100,10 @@ class goodsModel extends Model {
 	 *        	商品Id
 	 * @param int $type
 	 *        	1:浏览，2：收藏，3：评论
+	 *        @param $isInc  是否是增加
 	 * @author NENER
 	 */
-	public function VCChhandle($gid, $type = 1) {
+	public function VCChhandle($gid, $type = 1,$isInc=true) {
 		if (! $this->where ( array (
 				'Status' => 10,
 				'Id' => $gid 
@@ -123,10 +124,18 @@ class goodsModel extends Model {
 			default :
 				return false;
 		}
-		return ($this->where ( array (
+		if($isInc){
+			return ($this->where ( array (
 				'Status' => 10,
 				'Id' => $gid 
-		) )->setInc ( $filed ));
+			) )->setInc ( $filed ));
+		}else{
+			return ($this->where ( array (
+				'Status' => 10,
+				'Id' => $gid 
+			) )->setDec ( $filed ));			
+		}
+
 	}
 	
 	/**
