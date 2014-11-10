@@ -1079,7 +1079,7 @@ function send_activate_mail($usermail, $url) {
  *        	经验
  * @return Title 等级名称
  */
-function getgrade($EXP) {
+function getgrade($EXP,$type=1) {
 	$whereArr ['MinEXP'] = array (
 			'ELT',
 			$EXP 
@@ -1091,6 +1091,10 @@ function getgrade($EXP) {
 	$whereArr ['Status'] = 10;
 	$model = new user_gradeModel ();
 	$rst = $model->getgrade ( $EXP );
-	return $rst ['Title'];
+	if($type==1){
+		return $rst ['Title'];
+	}else{
+		return $rst ['Number'];
+	}	
 }
 ?>
