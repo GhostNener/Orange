@@ -1,4 +1,5 @@
 <?php
+use Usercenter\Model\user_gradeModel;
 use Vendor\PHPMailer;
 use Usercenter\Model\userModel;
 use Org\Util\String;
@@ -1064,5 +1065,22 @@ function sendEmail($subject, $content, $email) {
  */
 function send_activate_mail($usermail, $url) {
 	return sendEmail ( '帐号激活', $url, $usermail );
+}
+
+/**
+ * 计算等级
+ *
+ * @param EXP
+ *        	经验
+ * @return Title
+ *			等级名称
+ */			
+function getgrade($EXP){
+	$whereArr['MinEXP'] = array('ELT',$EXP);
+	$whereArr['MaxEXP'] = array('EGT',$EXP);
+	$whereArr['Status'] = 10; 
+	$model = new user_gradeModel();
+	$rst = $model->getgrade($EXP);
+	return $rst['Title']; 
 }
 ?>

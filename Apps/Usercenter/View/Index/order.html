@@ -9,10 +9,10 @@
 					<a href="#tab1" role="tab" data-toggle="tab">未完成</a>
 				</li>
 				<li role="presentation">
-					<a href="#tab2" role="tab" data-toggle="tab">已售商品</a>
+					<a href="#tab2" role="tab" data-toggle="tab">已买商品</a>
 				</li>
 				<li role="presentation">
-					<a href="#tab3" role="tab" data-toggle="tab">已买商品</a>
+					<a href="#tab3" role="tab" data-toggle="tab">已售商品</a>
 				</li>
 			</ul>
 
@@ -105,38 +105,10 @@
 						</table>
 					</div>
 
-					<nav class="pull-right">
-						<ul class="pagination">
-							<li class="disabled">
-								<a href="#">&laquo;</a>
-							</li>
-							<li class="active">
-								<a href="#">
-									1
-									<span class="sr-only">(current)</span>
-								</a>
-							</li>
-							<li>
-								<a href="#">2</a>
-							</li>
-							<li>
-								<a href="#">3</a>
-							</li>
-							<li>
-								<a href="#">4</a>
-							</li>
-							<li>
-								<a href="#">5</a>
-							</li>
-							<li>
-								<a href="#">&raquo;</a>
-							</li>
-						</ul>
-					</nav>
+					
 
 				</div>
 				<div role="tabpanel" class="tab-pane" id="tab2">
-
 					<div class="table-responsive">
 						<table class="table table-striped">
 							<thead>
@@ -145,7 +117,6 @@
 								<th width="100px">交易方式</th>
 								<th>买家</th>
 								<th width="80px">评分</th>
-								<th>删除</th>
 							</thead>
 							<tbody>
 								<foreach name="buy" item="v">
@@ -155,47 +126,15 @@
 									<td><if condition="$v['TradeWay'] eq 1"> 线上<else /> 线下</if></td>
 									<td><a href="#">{$v['buyNick']}</a></td>
 									<td class="text-orange">★★★★</td>
-									<td>
-										<button class="btn btn-danger btn-small">删除订单</button>
-									</td>
 								</tr>
 								</foreach>
 							</tbody>
 						</table>
 					</div>
-
-					<nav class="pull-right">
-						<ul class="pagination">
-							<li class="disabled">
-								<a href="#">&laquo;</a>
-							</li>
-							<li class="active">
-								<a href="#">
-									1
-									<span class="sr-only">(current)</span>
-								</a>
-							</li>
-							<li>
-								<a href="#">2</a>
-							</li>
-							<li>
-								<a href="#">3</a>
-							</li>
-							<li>
-								<a href="#">4</a>
-							</li>
-							<li>
-								<a href="#">5</a>
-							</li>
-							<li>
-								<a href="#">&raquo;</a>
-							</li>
-						</ul>
-					</nav>
-
+					<div class="page">{$pagebuy}</div>
 				</div>
+				
 				<div role="tabpanel" class="tab-pane" id="tab3">
-
 					<div class="table-responsive">
 						<table class="table table-striped">
 							<thead>
@@ -204,7 +143,6 @@
 								<th width="100px">交易方式</th>
 								<th>卖家</th>
 								<th width="80px">评分</th>
-								<th>删除</th>
 							</thead>
 							<tbody>
 								<foreach name="sell" item="v">
@@ -214,44 +152,12 @@
 									<td><if condition="$v['TradeWay'] eq 1"> 线上<else /> 线下</if></td>
 									<td><a href="#">{$v['Nick']}</a></td>
 									<td class="text-orange">★★★★</td>
-									<td>
-										<button class="btn btn-danger btn-small">删除订单</button>
-									</td>
 								</tr>
 								</foreach>
 							</tbody>
 						</table>
 					</div>
-
-					<nav class="pull-right">
-						<ul class="pagination">
-							<li class="disabled">
-								<a href="#">&laquo;</a>
-							</li>
-							<li class="active">
-								<a href="#">
-									1
-									<span class="sr-only">(current)</span>
-								</a>
-							</li>
-							<li>
-								<a href="#">2</a>
-							</li>
-							<li>
-								<a href="#">3</a>
-							</li>
-							<li>
-								<a href="#">4</a>
-							</li>
-							<li>
-								<a href="#">5</a>
-							</li>
-							<li>
-								<a href="#">&raquo;</a>
-							</li>
-						</ul>
-					</nav>
-
+					<div class="page">{$pagesell}</div>
 				</div>
 			</div>
 

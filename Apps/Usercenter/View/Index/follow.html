@@ -11,7 +11,7 @@
 							<img class="media-object" src="__ROOT__{$v['URL']}" alt="..."></a>
 						<div class="media-body">
 							<h5 class="media-heading">{$v['Nick']}</h5>
-							<p>{$v['EXP']}</p>
+							<p>{:getgrade($v['EXP'])}</p>
 							<a href=""><button type="button" class="btn btn-success">心愿单</button></a>
 							<button type="button" class="btn btn-danger">取消</button>
 						</div>
@@ -19,6 +19,7 @@
 				</div>
 			</volist>
 			</div>
+			<div class="page">{$page}</div>
 		</div>
 	</div>
 </div>

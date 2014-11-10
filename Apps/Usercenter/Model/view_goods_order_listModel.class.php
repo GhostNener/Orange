@@ -6,21 +6,40 @@ use Think\Model;
 
 /**
  * 订单模型
+ * @author LONGG
  *
  */
 
 class view_goods_order_listModel extends Model{
+//	/**
+//	 * 查询订单及商品
+//	 */
+//	public function getorder($wherearr){
+//		$rst = $this -> where( $wherearr )->select();
+//		if ($rst) {
+//			$msg ['status'] = 1;
+//			$msg ['msg'] = $rst;
+//		}else {
+//			$mag['status'] = 0;
+//		}
+//		return $msg;
+//	}
 	/**
 	 * 查询订单及商品
+	 *
+	 * @param array $wherearr , $limit   
+	 * @return array page 翻页组装,list 列表
+	 * @author LONGG
+	 *        
 	 */
-	public function getorder($wherearr){
-		$rst = $this -> where( $wherearr )->select();
-		if ($rst) {
-			$msg ['status'] = 1;
-			$msg ['msg'] = $rst;
-		}else {
-			$mag['status'] = 0;
-		}
-		return $msg;
+	public function getorder($wherearr = array('Status'=>10), $limit = 6) {
+		$allCount = $this->where ( $wherearr )->count ();
+		$Page = new \Think\Page ( $allCount, $limit );
+		$showPage = $Page->show ();
+		$list = $this->where ( $wherearr )->limit ( $Page->firstRow . ',' . $Page->listRows )->select ();
+		return array (
+				'page' => $showPage,
+				'list' => $list 
+		);
 	}
 }
