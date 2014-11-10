@@ -21,11 +21,7 @@ class BaseController extends Controller {
 	public function _initialize() {
 		$model = new userModel ();
 		$rst = $model->islogin ( null, false, false );
-		if (! $rst) {
-			redirect ( U ( 'Usercenter/User/index', array (
-					'isadmin' => false 
-			) ) );
-		} else {
+		if ($rst) {
 			$m = new view_user_info_avatarModel ();
 			$usermodel = $m->getinfo ();
 			if ($usermodel ['status'] == 1) {
@@ -33,8 +29,13 @@ class BaseController extends Controller {
 			} else {
 				$usermodel = null;
 			}
-			$this->assign ( 'usermodel', $usermodel );
+
 		}
+		$this->assign ( 'usermodel', $usermodel );
+				/* 商品图路径 */
+		$this->assign ( 'gmpath', C ( 'GOODS_IMG_PATH' ) );
+		/* 用户头像路径 */
+		$this->assign ( 'uapath', C ( 'USER_AVATAR_PATH' ) );
 	}
 }
 ?>

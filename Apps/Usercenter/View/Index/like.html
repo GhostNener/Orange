@@ -8,11 +8,11 @@
 				<volist name="likelist" id="v" empty="$empty">
 					<div class="col-sm-4 col-lg-4 col-md-4">
 						<div class="thumbnail">
-							<img src="__ROOT__{$v['ThumbURL']}" alt="">
+							<img src="__ROOT__{:checkfile_exists($uapath['G_320'].$user['URL'])? $uapath['G_320']:getdefaultimg(1)}" alt="">
 							<div class="caption">
 								<h4 class="pull-right message">{$v['TradeWayTxt']}</h4>
 								<p>
-									<img src="__ROOT__{$v['avatarURL']}" alt="头像" class="img-circle">
+									<img src="__ROOT__{:checkfile_exists($uapath['A_40'].$user['URL'])? $uapath['A_40']:getdefaultimg(4)}" alt="头像" class="img-circle">
 									<span>{$v['Nick']}</span>
 								</p>
 								<p>{$v['Title']}</p>
@@ -32,6 +32,7 @@
 						</div>
 						<div class="operation">
 							<button class="btn btn-success">购买</button>
+							<td><a onclick="javascript:return p_del()" href="{:U('Usercenter/Address/deladdress',array('Id' => $v['Id']))}" class="btn btn-danger btn-small">删除</a></td>
 							<button class="btn btn-danger">删除</button>
 						</div>
 					</div>

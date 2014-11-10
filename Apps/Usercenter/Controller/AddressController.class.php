@@ -5,7 +5,7 @@ namespace Usercenter\Controller;
 use Usercenter\Model\user_addressModel;
 use Usercenter\Model\userModel;
 use Usercenter\Model\view_user_info_avatarModel;
-class AddressController extends BaseController {
+class AddressController extends LoginController {
 	
 	/**
 	 * 添加地址

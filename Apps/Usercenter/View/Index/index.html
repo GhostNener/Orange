@@ -5,7 +5,7 @@
 		<div class="panel-body">
 			<div class="row">
 				<div class="col-md-3 text-center">
-					<img src="__APP__{$user['URL']}" alt="">
+					<img src="__ROOT__{:checkfile_exists($uapath['A_150'].$user['URL'])? $uapath['A_150']:getdefaultimg(5)}" alt="">
 					<div class="editavatar">
 						<btton class="btn btn-primary">编辑头像</btton>
 					</div>

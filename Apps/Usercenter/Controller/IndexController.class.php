@@ -19,7 +19,7 @@ use Usercenter\Model\user_homeModel;
 use Usercenter\Controller\BaseController;
 use Think\Controller;
 
-class IndexController extends BaseController {
+class IndexController extends LoginController {
 	public function _initialize() {
 		parent::_initialize ();
 	}
@@ -38,6 +38,14 @@ class IndexController extends BaseController {
 		$attn = $model -> getAttention($whereall);
 		/* 模块赋值 */
 		$this->assign('attn',$attn);
+		$this->getCommon();
+		$this->display();
+	}
+	
+	/**
+	 * 未读信息
+	 */
+	public function msg(){
 		$this->getCommon();
 		$this->display();
 	}
@@ -105,7 +113,7 @@ class IndexController extends BaseController {
 	 */
 	public function sell() {
 		$userid = cookie ( '_uid' );
-		$limit = 1;
+		$limit = 6;
 		/* 拼接where */
 		$whereall = array (
 				'UserId' => $userid,
@@ -115,8 +123,8 @@ class IndexController extends BaseController {
 		$model = new view_goods_listModel ();
 		$likelist = $model->getlist ( $whereall, $limit );
 		/* 模板赋值 */
-		$this->assign ( 'likelist', $likelist ['list'] );
-		$this->assign ( 'page', $arr ['page'] );
+		$this->assign ( 'likelist', $likelist['list'] );
+		$this->assign ( 'page', $likelist['page'] );
 		$this->assign ( 'empty', '<h3 class="text-center text-import">暂无商品</h3>' );
 		$this->getcommon ();
 		$this->display ();
@@ -139,7 +147,7 @@ class IndexController extends BaseController {
 		/* 模板赋值 */
 		$this->assign ( 'attention', $arr ['list'] );
 		$this->assign ( 'page', $arr ['page'] );
-		$this->assign ( 'empty', '<h3 class="text-center text-import">暂无商品</h3>' );
+		$this->assign ( 'empty', '<h3 class="text-center text-import">暂无关注</h3>' );
 		$this->getCommon ();
 		$this->display ();
 	}
@@ -180,7 +188,7 @@ class IndexController extends BaseController {
 		/* 模板赋值 */
 		$this->assign('likelist',$arr['list']);
 		$this->assign ( 'page', $arr['page'] );
-		$this->assign ( 'empty', '<h3 class="text-center text-import">暂无商品</h3>' );
+		$this->assign ( 'empty', '<h3 class="text-center text-import">暂无心愿单</h3>' );
 		$this->getCommon ();
 		$this->display ();
 	}

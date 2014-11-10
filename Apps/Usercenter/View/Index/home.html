@@ -5,7 +5,7 @@
 		<!-- ===== vCard Navigation ===== -->
 		<div class="row w">
 			<div class="col-md-4">
-				<div class="text-center"><img class="img-responsive profile-img" src="__ROOT__{$user['URL']}" alt=""></div>
+				<div class="text-center"><img class="img-responsive profile-img" src="__ROOT__{:checkfile_exists($uapath['A_150'].$user['URL'])? $uapath['A_150']:getdefaultimg(5)}" alt=""></div>
 				<ul class="nav nav-tabs nav-stacked" id="myTab">
 					<li class="active">
 						<a href="#about">关于我</a>
@@ -59,7 +59,7 @@
 							<!-- col-xs-6 -->
 							<volist name="selllist" id="v" empty="$empty">
 							<div class="col-xs-6 centered">
-								<img class="img-responsive" src="__ROOT__/{$v['URL']}" alt="">
+								<img class="img-responsive" src="__ROOT__{:checkfile_exists($uapath['G_320'].$user['URL'])? $uapath['G_320']:getdefaultimg(1)}" alt="">
 								<a href="#">
 									<h6>{$v['Title']}</h6>
 								</a>
@@ -76,7 +76,7 @@
 							<!-- col-xs-6 -->
 							<volist name="likelist" id="v" empty="$empty">
 							<div class="col-xs-6 centered">
-								<img class="img-responsive" src="__ROOT__{$v['URL']}" alt="">
+								<img class="img-responsive" src="__ROOT__{:checkfile_exists($uapath['G_320'].$user['URL'])? $uapath['G_320']:getdefaultimg(1)}" alt="">
 								<a href="#">
 									<h6>{$v['Title']}</h6>
 								</a>

@@ -5,7 +5,7 @@
 		<article>
 			<div class="profile" data-toggle="tooltip" data-placement="right" title="点击进入个人信息" data-container="body" data-delay="500">
 				<a href="{:U('Usercenter/Index/index')}">
-					<img src="__ROOT__{$user['URL']}" alt="..." class="img-circle">
+					<img src="__ROOT__{:checkfile_exists($uapath['A_150'].$user['URL'])? $uapath['A_150']:getdefaultimg(5)}" alt="..." class="img-circle">
 					<p>{$user['Nick']}</p>
 					<p>等级: {$grade['Title']}</p>
 				</a>

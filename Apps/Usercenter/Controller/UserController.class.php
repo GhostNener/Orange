@@ -13,7 +13,7 @@ import ( 'ORG.Util.Image' );
  * @author NENER
  *        
  */
-class UserController extends Controller {
+class UserController extends BaseController {
 	
 	/**
 	 * 自动验证
