@@ -23,8 +23,8 @@ function checkfile_exists($path, $type = 1) {
  * 获得默认图
  *
  * @param number $type
- *        	1：商品默认缩略图：320_160，
- *        	2:大图：800_300,
+ *        	1：320_160，
+ *        	2:800_300,
  *        	3:用户头像 20_20,
  *        	4:用户头像 40_40,
  *        	5:用户头像 150_150
@@ -35,22 +35,22 @@ function getdefaultimg($type = 1) {
 	switch ($type) {
 		case 1 :
 			$r = C ( 'DEFAULT_GOODS_IMG' );
-			return $r [1];
+			return $r ['G_320'];
 		case 2 :
 			$r = C ( 'DEFAULT_GOODS_IMG' );
-			return $r [0];
+			return $r ['G_830'];
 		case 3 :
 			$r = C ( 'DEFAULT_USER_AVATAR' );
-			return $r [2];
+			return $r ['A_20'];
 		case 4 :
 			$r = C ( 'DEFAULT_USER_AVATAR' );
-			return $r [1];
+			return $r ['A_40'];
 		case 5 :
 			$r = C ( 'DEFAULT_USER_AVATAR' );
-			return $r [0];
+			return $r ['A_150'];
 		case 6 :
 			$r = C ( 'DEFAULT_USER_AVATAR' );
-			return $r [3];
+			return $r ['A_80'];
 	}
 }
 /**
@@ -786,23 +786,22 @@ function getallthumb($url, $imgname) {
 	$ext = substr ( strrchr ( $imgname, '.' ), 1 );
 	/* 替换后缀 */
 	$imgname = str_replace ( '.' . $ext, '.jpg', $imgname );
-	$rooturl = C ( 'GOODS_IMG_ROOT' );
+	$parr = C ( 'GOODS_IMG_PATH' );
+	$rooturl = '.';
 	/* 小图路径320*160 */
-	$url_1 = $rooturl . C ( 'GOODS_IMG_320' ) . $imgname;
+	$url_1 = $rooturl . $parr ['G_320'] . $imgname;
 	/* 大图路径 800*800 */
-	$url_8 = $rooturl . C ( 'GOODS_IMG_880' ) . $imgname;
+	$url_8 = $rooturl . $parr ['G_880'] . $imgname;
 	/* 800*300 */
-	$url_3 = $rooturl . C ( 'GOODS_IMG_830' ) . $imgname;
-	/*
-	 * $imagedal = new \Think\Image (); $imagedal->open ( $url );
-	 */
-	// $size = $imagedal->size ();
+	$url_3 = $rooturl . $parr ['G_830'] . $imgname;
+	$sizearr = C ( 'GOODS_IMG_SIZE' );
 	/* 获取小图配置 */
-	$arr_1 = C ( 'GOODS_IMG_XS' );
+	$arr_1 = $sizearr ['G_320'];
 	/* 获取大图配置 */
-	$arr_8 = C ( 'GOODS_IMG_MD_L' );
-	$arr_3 = C ( 'GOODS_IMG_MD_S' );
-	if (! cutimg ( $url, $url_8, $arr_8, 1 )) {
+	$arr_8 = $sizearr ['G_880'];
+	$arr_3 = $sizearr ['G_830'];
+	$imgobj = cutimg ( $url, $url_8, $arr_8, 1 );
+	if (! $imgobj) {
 		return false;
 	}
 	if (! cutimg ( $url_8, $url_3, $arr_3, 2 )) {
@@ -813,11 +812,9 @@ function getallthumb($url, $imgname) {
 	}
 	/* 删除源图 */
 	unlink ( $url );
-	return array (
-			$url_8,
-			$url_3,
-			$url_1 
-	);
+	$ex = substr ( strrchr ( $imgname, '.' ), 0 );
+	$filename = str_replace ( $ex, '.' . C ( 'IMG_SAVE_TYPE' ), $imgname );
+	return $filename;
 }
 
 /**
