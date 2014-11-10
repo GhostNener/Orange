@@ -40,6 +40,10 @@ a:hover,.navbar-default .navbar-nav .active a,a.list-group-item:hover,.navbar .n
     text-decoration: none;
 }
 
+.affix{
+	transform:none;
+}
+
 .navbar-inverse .navbar-nav>li>a, .navbar-inverse .navbar-header>a{
 	color: #fff;
 }

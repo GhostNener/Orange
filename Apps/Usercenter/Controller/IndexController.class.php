@@ -23,7 +23,7 @@ class IndexController extends BaseController {
 	public function _initialize() {
 		parent::_initialize ();
 	}
-	
+
 	/**
 	 * 个人中心首页 查询用户信息
 	 * Enter description here ...
@@ -64,12 +64,12 @@ class IndexController extends BaseController {
 	/**
 	 * 修改用户信息
 	 */
-	public function updateUser(){
+	public function updateUser() {
 		$arr = I ( 'post.' );
-		$arr['_uid'] = cookie('_uid');
-		$model = new userModel();
-		$rst = $model->updateUser($arr);
-		if (( int )$rst['status'] == 1) {
+		$arr ['_uid'] = cookie ( '_uid' );
+		$model = new userModel ();
+		$rst = $model->updateUser ( $arr );
+		if (( int ) $rst ['status'] == 1) {
 			$this->success ( $rst ['msg'] );
 		} else {
 			$this->error ( $rst ['msg'] );
@@ -83,23 +83,23 @@ class IndexController extends BaseController {
 		$userid = cookie('_uid');
 		$limit = 8;
 		/* 拼接where */
-		$wherebuy = array(
+		$wherebuy = array (
 				'BuyerId' => $userid,
-		 		'Status' => 10 
+				'Status' => 10 
 		);
-		$wheresell = array(
+		$wheresell = array (
 				'SellerId' => $userid,
-		 		'Status' => 10 
+				'Status' => 10 
 		);
-		$model = new view_goods_order_listModel();
+		$model = new view_goods_order_listModel ();
 		/* 获得最新 */
 		$arrBuy = $model->getorder ( $wherebuy, $limit );
 		$arrSell = $model->getorder ( $wheresell, $limit );
 		/* 模板赋值 */
-		$this->assign ( 'buy', $arrBuy ['list']);
-		$this->assign ( 'sell', $arrSell ['list']);
-		$this->assign ( 'pagebuy', $arrBuy['page'] );
-		$this->assign ( 'pagesell', $arrSell['page'] );
+		$this->assign ( 'buy', $arrBuy ['list'] );
+		$this->assign ( 'sell', $arrSell ['list'] );
+		$this->assign ( 'pagebuy', $arrBuy ['page'] );
+		$this->assign ( 'pagesell', $arrSell ['page'] );
 		$this->getcommon ();
 		$this->display ();
 	}
@@ -107,20 +107,20 @@ class IndexController extends BaseController {
 	/**
 	 * 在售商品
 	 */
-	public function sell(){
-		$userid = cookie('_uid');
+	public function sell() {
+		$userid = cookie ( '_uid' );
 		$limit = 1;
 		/* 拼接where */
 		$whereall = array (
 				'UserId' => $userid,
-				'Status' => 10
+				'Status' => 10 
 		);
 		/* 获得最新 */
-		$model = new view_goods_listModel();
+		$model = new view_goods_listModel ();
 		$likelist = $model->getlist ( $whereall, $limit );
 		/* 模板赋值 */
-		$this->assign ( 'likelist', $likelist ['list']);
-		$this->assign ( 'page', $arr['page'] );
+		$this->assign ( 'likelist', $likelist ['list'] );
+		$this->assign ( 'page', $arr ['page'] );
 		$this->assign ( 'empty', '<h3 class="text-center text-import">暂无商品</h3>' );
 		$this->getcommon ();
 		$this->display ();
@@ -129,35 +129,35 @@ class IndexController extends BaseController {
 	/**
 	 * 已关注
 	 */
-	public function follow(){
-		$userid = cookie('_uid');
-		/*拼接查询条件*/
+	public function follow() {
+		$userid = cookie ( '_uid' );
+		/* 拼接查询条件 */
 		$limit = 6;
-		$whereall = array(
+		$whereall = array (
 				'UserId' => $userid,
-				'Status' => 10
+				'Status' => 10 
 		);
 		/* 获得关注 */
-		$model = new view_user_attention_listModel();
-		$arr = $model -> getattention( $whereall , $limit );
+		$model = new view_user_attention_listModel ();
+		$arr = $model->getattention ( $whereall, $limit );
 		/* 模板赋值 */
-		$this->assign('attention',$arr['list']);
-		$this->assign ( 'page', $arr['page'] );
+		$this->assign ( 'attention', $arr ['list'] );
+		$this->assign ( 'page', $arr ['page'] );
 		$this->assign ( 'empty', '<h3 class="text-center text-import">暂无商品</h3>' );
-		$this->getCommon();
-		$this->display();
+		$this->getCommon ();
+		$this->display ();
 	}
 	
 	/**
 	 * 心愿单
 	 */
-	public function like(){
-		$userid = cookie('_uid');
-		/*拼接查询条件*/
+	public function like() {
+		$userid = cookie ( '_uid' );
+		/* 拼接查询条件 */
 		$limit = 6;
-		$whereall = array(
+		$whereall = array (
 				'UserId' => $userid,
-				'Status' => 10
+				'Status' => 10 
 		);
 		/* 获得心愿单 */
 		$model = new view_favorite_listModel();
@@ -165,9 +165,13 @@ class IndexController extends BaseController {
 		/* 模板赋值 */
 		$this->assign('likelist',$arr['list']);
 		$this->assign ( 'page', $arr['page'] );
+		$model = new view_favorite_listModel ();
+		$arr = $model->getlist ( $wherearr, $limit );
+		$this->assign ( 'likelist', $arr ['list'] );
+		$this->assign ( 'page', $arr ['page'] );
 		$this->assign ( 'empty', '<h3 class="text-center text-import">暂无商品</h3>' );
-		$this->getCommon();
-		$this->display();
+		$this->getCommon ();
+		$this->display ();
 	}
 	
 	/**
@@ -192,14 +196,17 @@ class IndexController extends BaseController {
 	/**
 	 * 添加心愿单
 	 */
-	public function addfavorite(){
-		$userid= cookie('_uid');
-		$model = new favoriteModel();
-		$rst = $model->addfavorite($Id, $userid);
-		if ((int)$rst['status']==1){
-			$this->success($rst['msg']);
-		}else {
-			$this->error($rst['msg']);
+	public function addlike() {
+		if (! IS_POST || ! I ( 'GoodsId' )) {
+			$this->error ( '页面不存在' );
+			die ();
+		}
+		$m = new favoriteModel ();
+		$arr = $m->addfavorite ( I ( 'GoodsId' ), cookie ( '_uid' ) );
+		if ($arr ['status'] == 0) {
+			$this->error ( $arr ['msg'] );
+		} else {
+			$this->success ( '添加成功' );
 		}
 	}
 }

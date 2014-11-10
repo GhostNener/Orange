@@ -17,22 +17,28 @@
 			<div class="col-md-3 visible-xs-block">
 				<div class="panel panel-default">
 					<div class="panel-body detail-panel">
-						<h4>{$goods.Title}</h4>
+						<h4>{$goods['Title']}</h4>
 						<h2 class="importinfo">
-							{$goods.Price}.00
-							<span class="oldprice">{$goods.CostPrice}.00</span>
+							{$goods['Price']}.00
+							<span class="oldprice">{$goods['CostPrice']}.00</span>
 						</h2>
-
 						<hr/>	
 						<div class="row">
 							<div class="col-md-5">交易方式</div>
-							<div class="col-md-7">{$goods.TradeWayTxt}</div>
+							<div class="col-md-7">{$goods['TradeWayTxt']}</div>
 						</div>
 						<hr/>	
-						<button class="btn btn-danger">
-							<span class="glyphicon glyphicon-heart"></span>
-							&nbsp心愿单
-						</button>
+						<if condition="(($usermodel eq null) or ($usermodel['Id'] eq  null))">
+							<a href="{:U('Usercenter/User/index')}" class="btn btn-danger">
+								<span class="glyphicon glyphicon-heart"></span>
+								&nbsp心愿单
+							</a>
+							<else/>	
+							<button class="btn btn-danger favoritebtn" data-loading-text="提交中..." autocomplete="off">
+								<span class="glyphicon glyphicon-heart"></span>
+								&nbsp心愿单
+							</button>
+						</if>
 						<if condition="(($usermodel eq null) or ($usermodel['Id'] eq  null))">
 							<a href="{:U('Usercenter/User/index')}"  class="btn btn-primary " >
 								<span class="glyphicon glyphicon-comment"></span>
@@ -143,7 +149,6 @@
 				<div class="panel panel-default">
 					<div class="panel-body">
 						<div class="row">
-
 							<div class="timeline-centered">
 								<volist name='commentlist' id="v" empty="$empty">
 									<article class="timeline-entry">
@@ -176,7 +181,6 @@
 									</article>
 								</volist>
 							</div>
-
 						</div>
 					</div>
 				</div>
@@ -217,22 +221,29 @@
 			<div class="col-md-3 hidden-xs">
 				<div class="panel panel-default" data-spy="affix">
 					<div class="panel-body detail-panel">
-						<h4>{$goods.Title}</h4>
+						<h4>{$goods['Title']}</h4>
 						<h2 class="importinfo">
-							{$goods.Price}.00
-							<span class="oldprice">{$goods.CostPrice}.00</span>
+							{$goods['Price']}.00
+							<span class="oldprice">{$goods['CostPrice']}.00</span>
 						</h2>
 
 						<hr/>	
 						<div class="row">
 							<div class="col-md-5">交易方式</div>
-							<div class="col-md-7">{$goods.TradeWayTxt}</div>
+							<div class="col-md-7">{$goods['TradeWayTxt']}</div>
 						</div>
 						<hr/>	
-						<button class="btn btn-danger">
-							<span class="glyphicon glyphicon-heart"></span>
-							&nbsp心愿单
-						</button>
+						<if condition="(($usermodel eq null) or ($usermodel['Id'] eq  null))">
+							<a href="{:U('Usercenter/User/index')}" class="btn btn-danger">
+								<span class="glyphicon glyphicon-heart"></span>
+								&nbsp心愿单
+							</a>
+							<else/>	
+							<button class="btn btn-danger favoritebtn" data-loading-text="提交中..." autocomplete="off">
+								<span class="glyphicon glyphicon-heart"></span>
+								&nbsp心愿单
+							</button>
+						</if>
 						<if condition="(($usermodel eq null) or ($usermodel['Id'] eq  null))">
 							<a href="{:U('Usercenter/User/index')}" class="btn btn-primary " >
 								<span class="glyphicon glyphicon-comment"></span>
@@ -248,6 +259,9 @@
 				</div>
 			</div>
 		</div>
+		<!-- 心愿单 -->	
+		<form  id="favoriteform" action="{:U('Usercenter/Index/addlike')}" style="display:none" method="post" onsubmit="return ajaxsubmitfavorite()">
+			<input type="hidden" name="GoodsId" value="{$goods['Id']}"></form>
 	</block>
 
 	<block name="js">
@@ -295,7 +309,38 @@ function ajaxsubmit() {
     });
     return false;
 }
+
+function ajaxsubmitfavorite(){
+	var $btn = $('.favoritebtn').button('loading');
+	$btn.button('reset');
+	$.ajax({
+        type: 'post',
+        cache: false,
+        url: $('#favoriteform').attr('action'),
+        data: $('#favoriteform').serialize(),
+        error:  
+        function(request)  {
+            showerrormsg('网络错误', 100, 1000);
+            $btn.button('reset');  
+            return false;              
+        },
+         success:  
+        function(data)  {
+            if (data.status == 0) {
+                showerrormsg(data.info, 100, 1000);
+            } else {
+                showsuccessmsg(data.info, 100, 1000);
+            }     
+            $btn.button('reset');
+            return false;           
+        }
+    });
+	return false;
+}
 $(document).ready(function() {
+	$('.favoritebtn').click(function(){
+		return ajaxsubmitfavorite();
+	});
     $('.replay').click(function() {
         if ($(this).attr('uid') == $('#UserId').val()) {
         	$('#refModalLabel').html('留言');
