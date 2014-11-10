@@ -7,7 +7,7 @@ site : http://www.cnblogs.com/lvdabao
 */
 (function($){
 $.fn.Huploadify = function(opts){
-	var itemTemp = '<div id="${fileID}" class="uploadify-queue-item"><div class="uploadify-progress"><div class="uploadify-progress-bar"></div></div><span class="up_filename">${fileName}</span><span class="uploadbtn">上传</span><span class="glyphicon glyphicon-remove" style="width: 20px;height: 20px;line-height: 20px;background-color: #fff;border-radius: 100%;float:right"></span></div>';
+	var itemTemp = '<div id="${fileID}" class="uploadify-queue-item"><div class="uploadify-progress"><div class="uploadify-progress-bar"></div></div><span class="up_filename">${fileName}</span><span class="uploadbtn">上传</span><span class="delfilebtn glyphicon glyphicon-remove" style="width: 20px;height: 20px;line-height: 20px;background-color: #fff;border-radius: 100%;float:right"></span></div>';
 	var defaults = {
 		fileTypeExts:'*.*',//允许上传的文件类型，格式'*.jpg;*.doc'
 		uploader:'',//文件提交的地址
