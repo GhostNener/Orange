@@ -120,7 +120,11 @@
 							<div class="col-md-12">
 								<h4 class="pull-right message">{:date('Y-m-d H:i:s',$goods['CreateTime'])}</h4>
 								<a href="#">
-									<img src="__ROOT__{$goods['avatarURL']}" alt="头像" class="img-circle">	
+									<if condition="checkfile_exists($goods['avatarThumb_MD']) eq 1">
+										<img class="img-circle" src="__ROOT__{$goods['avatarThumb_MD']}" alt="头像">	
+										<else/>	
+										<img class="img-circle" src="__ROOT__{:getdefaultimg(4)}" alt="头像"></if>
+
 									<span>{$goods['Nick']}</span>
 								</a>
 								<span>Lv</span>
@@ -145,8 +149,11 @@
 									<article class="timeline-entry">
 										<div class="timeline-entry-inner">
 											<div class="timeline-icon">
-												<img src="__ROOT__{$v['CriticsURL']}" alt="头像" class="img-circle"></div>
-
+												<if condition="checkfile_exists($v['CriticsThumb_MD']) eq 1">
+													<img class="img-circle" src="__ROOT__{$v['CriticsThumb_MD']}" alt="头像">	
+													<else/>	
+													<img class="img-circle" src="__ROOT__{:getdefaultimg(4)}" alt="头像"></if>
+											</div>
 											<div class="timeline-label">
 												<span class="pull-right time">{$v['CreateTime']}</span>
 												<h2>

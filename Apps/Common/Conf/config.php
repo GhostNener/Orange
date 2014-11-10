@@ -19,7 +19,7 @@ return array (
 		),
 				/* 多级过滤  */
     	'DEFAULT_FILTER' => 'strip_tags,htmlspecialchars',
-    			'SESSION_AUTO_START' => true,
+		'SESSION_AUTO_START' => true,
 				/*url重写*/
 		'URL_MODEL' => 2,
 				/*url分隔符*/
@@ -104,18 +104,26 @@ return array (
 		'SEARCH_DIC' => 'dict/search_dic_full.dic' ,
 		/*用户默认昵称前缀  */
 		'RAND_NICK_PREFIX' => '',
-		/*用户默认头像地址  */
-		'DEFAULT_USER_AVATAR' => '/Public/Img/aurl.jpg',
-		'DEFAULT_GOODS_IMG_320' => '/Public/Img/320_160_IMG_NOT_FOUND.jpg',
-		/*商品800_300图  */
-		'DEFAULT_GOODS_IMG_830' => '/Public/Img/800_300_IMG_NOT_FOUND.jpg',
-		/*商品评论最大返回数量  */
+		/*用户默认头像  */
+		'DEFAULT_USER_AVATAR' => array (
+				'/Public/Img/150_150_USER.png',/*150*150  */
+				'/Public/Img/40_40_USER.png',/*40*40  */
+				'/Public/Img/20_20_USER.png' /*20*20  */
+		), 
+		/*商品默认图  */
+		'DEFAULT_GOODS_IMG' => array (
+				'/Public/Img/800_300_IMG_NOT_FOUND.jpg',/*800*300  */
+				'/Public/Img/320_160_IMG_NOT_FOUND.jpg'/* 320*160 */
+
+		) ,
+
+	/* 商品评论最大返回数量 */
 		'COMMENTS_LIST_COUNT' => 50,
 		/*商品置顶服务Id  主要用于显示置顶商品  */
 		'TOP_SERVICE_ID' => 2,
 		/*商品订单session 缓存值  */
 		'GOODS_ORDER_SESSION_VALUE' => 1024 * 1024 * 9,
-		'SEARCH_CATEGORY_NAME'=>'搜索关键字',
+		'SEARCH_CATEGORY_NAME' => '搜索关键字',
 		/*定制成功以及错误模板  */
 		'TMPL_ACTION_ERROR' => './Tpl/jump.html',
 		'TMPL_ACTION_SUCCESS' => './Tpl/jump.html' 

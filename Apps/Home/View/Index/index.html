@@ -64,7 +64,10 @@
 						<div class="caption">
 							<h4 class="pull-right message">{$v['TradeWayTxt']}</h4>
 							<p>
-								<img src="__ROOT__{$v['avatarURL']}" alt="头像" class="img-circle">
+								<if condition="checkfile_exists($v['avatarThumb_MD']) eq 1">
+									<img class="img-circle" src="__ROOT__{$v['avatarThumb_MD']}" alt="头像">
+									<else/>
+									<img class="img-circle" src="__ROOT__{:getdefaultimg(4)}" alt="头像"></if>
 								<span>{$v['Nick']}</span>
 							</p>
 							<p>{$v['Title']}</p>
@@ -107,7 +110,10 @@
 						<div class="caption">
 							<h4 class="pull-right message">{$v['TradeWayTxt']}</h4>
 							<p>
-								<img src="__ROOT__{$v['avatarURL']}" alt="头像" class="img-circle">
+								<if condition="checkfile_exists($v['avatarThumb_MD']) eq 1">
+									<img class="img-circle" src="__ROOT__{$v['avatarThumb_MD']}" alt="头像">
+									<else/>
+									<img class="img-circle" src="__ROOT__{:getdefaultimg(4)}" alt="头像"></if>
 								<span>{$v['Nick']}</span>
 							</p>
 							<p>{$v['Title']}</p>
@@ -150,7 +156,10 @@
 						<div class="caption">
 							<h4 class="pull-right message">{$v['TradeWayTxt']}</h4>
 							<p>
-								<img src="__ROOT__{$v['avatarURL']}" alt="头像" class="img-circle">
+								<if condition="checkfile_exists($v['avatarThumb_MD']) eq 1">
+									<img class="img-circle" src="__ROOT__{$v['avatarThumb_MD']}" alt="头像">
+									<else/>
+									<img class="img-circle" src="__ROOT__{:getdefaultimg(4)}" alt="头像"></if>
 								<span>{$v['Nick']}</span>
 							</p>
 							<p>{$v['Title']}</p>

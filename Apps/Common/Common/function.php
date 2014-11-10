@@ -22,15 +22,30 @@ function checkfile_exists($path, $type = 1) {
  * 获得默认图
  *
  * @param number $type
- *        	1：商品默认缩略图：320_160，2:大图：800_300
+ *        	1：商品默认缩略图：320_160，
+ *        	2:大图：800_300,
+ *        	3:用户头像 20_20,
+ *        	4:用户头像 40_40,
+ *        	5:用户头像 150_150
  * @return string
  */
 function getdefaultimg($type = 1) {
 	switch ($type) {
 		case 1 :
-			return C ( 'DEFAULT_GOODS_IMG_320' );
+			$r = C ( 'DEFAULT_GOODS_IMG' );
+			return $r [1];
 		case 2 :
-			return C ( 'DEFAULT_GOODS_IMG_830' );
+			$r = C ( 'DEFAULT_GOODS_IMG' );
+			return $r [0];
+		case 3 :
+			$r = C ( 'DEFAULT_USER_AVATAR' );
+			return $r [2];
+		case 4 :
+			$r = C ( 'DEFAULT_USER_AVATAR' );
+			return $r [1];
+		case 5 :
+			$r = C ( 'DEFAULT_USER_AVATAR' );
+			return $r [0];
 	}
 }
 /**

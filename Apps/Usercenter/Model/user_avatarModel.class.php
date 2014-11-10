@@ -17,16 +17,26 @@ class user_avatarModel extends Model {
 	 *
 	 * @var unknown
 	 */
-	protected $_auto = array ()
+	protected $_auto = array ();
 
-	;
+	
+	/**
+	 * 激活之后添加一默认头像
+	 * 
+	 * @param unknown $uid        	
+	 * @return Ambigous <\Think\mixed, boolean, string, unknown>
+	 */
 	public function adddefault($uid) {
+		$arr = C ( 'DEFAULT_USER_AVATAR' );
 		$data = array (
 				'UserId' => $uid,
-				'URL' => C ( 'DEFAULT_USER_AVATAR' ),
+				'IsSysDef' => 1,
+				'URL' => $arr [0],
+				'Thumb_MD' => $arr [1],
+				'Thumb_XS' => $arr [2],
 				'Status' => 10 
 		);
-		return $this->add($data);
+		return $this->add ( $data );
 	}
 	/**
 	 * 删除单个商品图片:原图，缩略图，正常用图

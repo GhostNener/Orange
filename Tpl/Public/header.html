@@ -85,7 +85,12 @@
 								<a class="dropdown-toggle" data-toggle="dropdown" href="#">
 
 									<span class="nickname">
-										<img class="img-circle" src="http://hhhhold.com/20x20">&nbsp;{$usermodel['Nick']}&nbsp;</span>
+										<if condition="checkfile_exists($usermodel['Thumb_XS']) eq 1">
+											<img class="img-circle" src="__ROOT__{$usermodel['Thumb_XS']}">
+											<else/>
+											<img class="img-circle" src="__ROOT__{:getdefaultimg(3)}"></if>
+										&nbsp;{$usermodel['Nick']}&nbsp;
+									</span>
 									&nbsp
 									<span class="caret"></span>
 									&nbsp

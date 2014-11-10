@@ -15,7 +15,9 @@ html,body{
 #main{
     overflow:auto;
 }
-
+.img-circle {
+border-radius: 100%;
+}
 /*基本样式*/
 h1,h2,h3,h4,h5,h6,p,label,div,label {
     color: #555;
