@@ -32,9 +32,7 @@
                     }
                     else{
 						showsuccessmsg(data.info,100,1000);
-						setTimeout(function(){
-							window.location.href=window.location.href;
-						},500);                  	
+						window.location.href=window.location.href;
                     }
                 },
                 complete:function () {
@@ -88,8 +86,8 @@
 
 		       				if ($('textarea[name="'+p+'"]').length>0) {
 									editorContent.html(result.data[p]);
-								};
-							}
+							};
+						}
 
 						$('input[name="modif"]').val(result.method);
 						$('#addModal').modal('show');
@@ -127,9 +125,7 @@
 				},
 				success: function(data) {
 					showsuccessmsg(data.info,100,1000);
-						setTimeout(function(){
-							window.location.href=window.location.href;
-						},1000);                  	
+					window.location.href=window.location.href;
 				},
 				complete: function() {
 					$("#load").remove();

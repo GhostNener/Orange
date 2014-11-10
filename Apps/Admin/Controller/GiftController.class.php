@@ -74,8 +74,7 @@ class GiftController extends BaseController {
 		$data = array (
 				'Name' => I ( 'Name' ),
 				'Amount' => I ( 'Amount' ),
-				'Price' => I ( 'Price' ),
-				'Description' => I ( 'Description' )
+				'Price' => I ( 'Price' )
 		);
 
 		$config = C('IMG_UPLOAD_CONFIG');
