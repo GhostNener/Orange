@@ -25,20 +25,20 @@
 						<div class="form-group">
 							<label for="NickName" class="col-sm-2 control-label">昵称</label>
 							<div class="col-sm-4">
-								<input type="text" class="form-control" name="Nick" id="Nick" value="{$model['Nick']}"></div>
+								<input type="text" class="form-control" name="Nick" id="Nick" value="{$user['Nick']}"></div>
 						</div>
 						<div class="form-group">
 							<label for="RealName" class="col-sm-2 control-label">真实姓名</label>
 							<div class="col-sm-4">
-								<input type="text" class="form-control" name="RealName" id="RealName" value="{$model['RealName']}"></div>
+								<input type="text" class="form-control" name="RealName" id="RealName" value="{$user['RealName']}"></div>
 						</div>
 						<div class="form-group">
 							<label for="Sex" class="col-sm-2 control-label">性别</label>
 							<div class="col-sm-4">
 								<label class="radio-inline">
-								<input type="radio" name="Sex" value="男" <if condition="$model['Sex'] eq '男'">checked="checked"</if> >男</label>
+								<input type="radio" name="Sex" value="男" <if condition="$user['Sex'] eq '男'">checked="checked"</if> >男</label>
 								<label class="radio-inline">
-								<input type="radio" name="Sex" value="女" <if condition="$model['Sex'] eq '女'">checked="checked"</if> >女</label>
+								<input type="radio" name="Sex" value="女" <if condition="$user['Sex'] eq '女'">checked="checked"</if> >女</label>
 							</div>
 						</div>
 						<div class="form-group">
@@ -55,13 +55,13 @@
 						<div class="form-group">
 							<label for="QQ" class="col-sm-2 control-label">QQ</label>
 							<div class="col-sm-4">
-								<input type="text" class="form-control" name="QQ" id="QQ" value="{$model['TP_QQ']}"></div>
+								<input type="text" class="form-control" name="QQ" id="QQ" value="{$user['TP_QQ']}"></div>
 						</div>
 
 						<div class="form-group">
-							<label for="Tel" class="col-sm-2 control-label">手机</label>
+							<label for="Tele" class="col-sm-2 control-label">手机</label>
 							<div class="col-sm-4">
-								<input type="tel" class="form-control" name="Tel" id="Tel"></div>
+								<input type="tel" class="form-control" name="Tele" id="Tele" value="{$user['Tel']}"></div>
 							<div class="col-sm-2">
 								<button class="btn btn-primary">验证</button>
 							</div>
@@ -70,7 +70,7 @@
 						<div class="form-group">
 							<label for="Email" class="col-sm-2 control-label">邮箱</label>
 							<div class="col-sm-4">
-								<input type="email" class="form-control" name="Email" id="Email" disabled="disabled"></div>
+								<input type="email" class="form-control" name="Email" id="Email" value="{$user['E-Mail']}" disabled="disabled"></div>
 
 							<div class="col-sm-2">
 								<button class="btn btn-primary" disabled="disabled">已验证</button>
@@ -103,7 +103,7 @@
 									<td style="width:200px">{$v['Address']}</td>
 									<td>{$v['Tel']}</td>
 									<td>{$v['QQ']}</td>
-									<td><a href="{:U('Usercenter/Address/deladdress',array('Id' => $v['Id']))}" class="btn btn-danger btn-small">删除</a></td>
+									<td><a onclick="javascript:return p_del()" href="{:U('Usercenter/Address/deladdress',array('Id' => $v['Id']))}" class="btn btn-danger btn-small">删除</a></td>
 									<td><a href="{:U('Usercenter/Address/modifaddress',array('Id' => $v['Id']))}" class="btn btn-primary btn-small">编辑</a></td>
 								</tr>
 								</foreach>
@@ -188,6 +188,70 @@
 	</div>
 </div>
 </block>
+
 <block name="js">
-	<script src="__PUBLIC__/js/calendar.js"></script>
+<script src="__PUBLIC__/js/calendar.js"></script>
+<script type="text/javascript">
+/* 确认删除*/
+function p_del() {   
+	var msg = "您真的要删除吗？";   
+	if (confirm(msg)==true){   
+		return true;   
+	}else{   
+		return false;   
+	}   
+}
+          
+/*保存地址*/
+function ajaxaddresssubmit(){
+	var $btn = $('#submitaddress').button('loading');
+	if(!$.trim($('#Contacts').val())){
+		showerrormsg('联系人为空',100,1000);
+		$('#Contacts').focus();
+		$btn.button('reset');
+		return false;
+	}
+	var isMobile=/^(?:13\d|14\d|15\d|18\d)\d{5}(\d{3}|\*{3})$/; 
+	if(!$.trim($('#Tel').val())||!isMobile.test($('#Tel').val())){
+		showerrormsg('联系电话不合法',100,1000);
+		$('#Tel').focus();
+		$btn.button('reset');
+		return false;
+	}
+	if(!$.trim($('#Address').val())){
+		showerrormsg('联系地址为空',100,1000);
+		$('#Address').focus();
+		$btn.button('reset');
+		return false;
+	}
+	$.ajax({
+        type: 'post',
+        cache: false,
+        url: $('#addressform').attr('action'),
+        data: $('#addressform').serialize(),
+        error:  
+        function(request)  {
+            showerrormsg('网络错误', 100, 1000);
+            $btn.button('reset');  
+            return false;              
+        },
+         success:  
+        function(data)  {
+            if (data.status == 0) {
+                showerrormsg(data.info, 100, 1000);
+                $btn.button('reset');
+                return false;
+            } else {
+                showsuccessmsg("提交成功", 100, 1000);
+                $('#addressform')[0].reset();
+                $('#addressModal').modal('hide');
+                $btn.button('reset');
+                refaddress(false);
+                return false;
+            }                
+        }
+    });
+    return false;
+}
+</script>
 </block>

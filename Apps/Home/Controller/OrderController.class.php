@@ -13,7 +13,7 @@ use Home\Model\goods_orderModel;
  * @author NENER
  *        
  */
-class OrderController extends BaseController {
+class OrderController extends LoginController {
 	
 	/**
 	 * 渲染一个商品订单

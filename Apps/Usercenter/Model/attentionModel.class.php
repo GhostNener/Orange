@@ -28,4 +28,9 @@ class attentionModel extends Model{
 		$fans = $this -> where($whereArr) -> select();
 		return count($fans);
 	}
+	
+	public function delattention($whereall){
+		$model = $this -> where($whereall) -> delete();
+		return $model;
+	}
 }

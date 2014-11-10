@@ -42,10 +42,11 @@ class goods_imgModel extends Model {
 		} else {
 			$delmodel = $idormodel;
 		}
+		$patharr = C ( 'GOODS_IMG_PATH' );
 		if ($delmodel) {
-			unlink ( '.' . $delmodel ['URL'] );
-			unlink ( '.' . $delmodel ['ThumbURL'] );
-			unlink ( '.' . $delmodel ['MD_URL'] );
+			foreach ( $patharr as $k => $v ) {
+				unlink ( '.' . $v . $delmodel ['URL'] );
+			}
 		}
 	}
 	
@@ -100,22 +101,21 @@ class goods_imgModel extends Model {
 		$imgname = $images ['Filedata'] ['savename'];
 		// 图片保存相对路径
 		$imgurl = $config ['rootPath'] . $config ['savePath'] . $imgname;
-		$urlarr = getallthumb ( $imgurl, $imgname );
+		$savename = getallthumb ( $imgurl, $imgname );
 		$data = array (
 				'GoodsId' => 0,
-				'URL' => substr ( $urlarr [0], 1 ),
-				'MD_URL' => substr ( $urlarr [1], 1 ),
-				'ThumbURL' => substr ( $urlarr [2], 1 ),
+				'URL' => $savename,
 				'Title' => '',
 				'Status' => 0 
 		);
 		$imgid = $this->create ( $data );
 		$imgid = $this->add ( $imgid );
+		$gpath = C ( 'GOODS_IMG_PATH' );
 		if ($imgid) {
 			return array (
 					'status' => 1,
 					'imgid' => $imgid,
-					'msg' => substr ( $urlarr [2], 1 ) 
+					'msg' => $gpath ['G_320'] . $savename 
 			);
 		} else {
 			return array (

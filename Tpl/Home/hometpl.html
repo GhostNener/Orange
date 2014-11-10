@@ -141,12 +141,13 @@
 				</div>
 			</div>
 		</div>
-
 	</div>
 </div>
 <include file="./Tpl/Public/footer.html"/>
 <block name="js">
-	<script>
+</block>
+<block name="other">
+		<script>
 function ajaxclockin() {
     var $btn = $('#clockinbtn').button('loading');
     $.ajax({

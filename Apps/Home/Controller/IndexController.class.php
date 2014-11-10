@@ -3,13 +3,10 @@
 namespace Home\Controller;
 
 use Home\Model\goods_commentModel;
-use Think\Controller;
 use Home\Model\view_goods_listModel;
 use Home\Model\view_search_listModel;
 use Home\Model\view_goods_in_serviceModel;
 use Usercenter\Model\userModel;
-use Usercenter\Model\view_user_info_avatarModel;
-use Home\Model\goods_categoryModel;
 use Home\Model\activityModel;
 use Home\Model\goodsModel;
 
@@ -19,31 +16,7 @@ use Home\Model\goodsModel;
  * @author NENER
  *        
  */
-class IndexController extends Controller {
-	/**
-	 * 自动验证
-	 */
-	public function _initialize() {
-		$user = new userModel ();
-		$usermodel = null;
-		if ($user->islogin ( null, false, false )) {
-			$m = new view_user_info_avatarModel ();
-			$usermodel = $m->getinfo ();
-			if ($usermodel ['status'] == 1) {
-				$usermodel = $usermodel ['msg'];
-			} else {
-				$usermodel = null;
-			}
-		}
-		$isclockin = checkclockin ();
-		if ($isclockin) {
-			$isclockin = 1;
-		} else {
-			$isclockin = 0;
-		}
-		$this->assign ( 'isclockin', $isclockin );
-		$this->assign ( 'usermodel', $usermodel );
-	}
+class IndexController extends BaseController {
 	/**
 	 * 首页
 	 */
@@ -90,7 +63,6 @@ class IndexController extends Controller {
 		$this->assign ( 'newlist', $newlist );
 		$this->assign ( 'likelist', $likelist );
 		$this->assign ( 'empty', '<h3 class="text-center text-import">暂无商品</h3>' );
-		$this->getheomecommon ();
 		$this->display ( 'Index/index' );
 	}
 	
@@ -108,7 +80,6 @@ class IndexController extends Controller {
 		$model = new view_search_listModel ();
 		$arr = $model->getsearchlist ( $test, 12 );
 		/* 获得分类 */
-		$this->getheomecommon ();
 		$this->assign ( 'test', $test );
 		$this->assign ( 'goodlist', $arr ['list'] );
 		$this->assign ( 'page', $arr ['page'] );
@@ -133,7 +104,6 @@ class IndexController extends Controller {
 				'Status' => 10,
 				'CategoryId' => $id 
 		), 12 );
-		$this->getheomecommon ();
 		$this->assign ( 'goodlist', $arr ['list'] );
 		$this->assign ( 'page', $arr ['page'] );
 		$this->assign ( 'cmodel', $cmodel );
@@ -141,23 +111,6 @@ class IndexController extends Controller {
 		$this->display ( 'Index/commongoods' );
 	}
 	
-	/**
-	 * 获取相同的模板变量并对模板进行赋值
-	 */
-	private function getheomecommon() {
-		/* 分类复制 */
-		$model = new goods_categoryModel ();
-		$clist = $model->getall ();
-		$this->assign ( 'clist', $clist );
-		/* 获取活动图片 */
-		$model = new activityModel ();
-		$hotactivitylist = $model->getlist ( array (
-				'Status' => 10,
-				'IsHot' => 1 
-		), 3 );
-		$this->assign ( 'hotactivity', $hotactivitylist );
-		$this->assign ( 'emptyact', '<hr><h5 class="text-center text-import">暂无活动</h5>' );
-	}
 	/**
 	 * 展示商品 详情 及评论
 	 */

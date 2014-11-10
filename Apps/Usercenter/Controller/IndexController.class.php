@@ -26,7 +26,6 @@ class IndexController extends BaseController {
 
 	/**
 	 * 个人中心首页 查询用户信息
-	 * Enter description here ...
 	 */
 	public function index(){
 		$userid = cookie('_uid');
@@ -48,9 +47,6 @@ class IndexController extends BaseController {
 	 */
 	public function edit(){
 		$userid = cookie('_uid');
-		/* 查询用户信息 */
-		$model = new view_user_info_avatarModel();
-		$arr = $model->getinfo();
 		/*查询所有地址*/
 		$adder = new  user_addressModel();
 		$rst = $adder-> getall($userid);
@@ -113,9 +109,9 @@ class IndexController extends BaseController {
 		/* 拼接where */
 		$whereall = array (
 				'UserId' => $userid,
-				'Status' => 10 
+				'Status' => 10
 		);
-		/* 获得最新 */
+		/* 获得在售商品 */
 		$model = new view_goods_listModel ();
 		$likelist = $model->getlist ( $whereall, $limit );
 		/* 模板赋值 */
@@ -149,6 +145,25 @@ class IndexController extends BaseController {
 	}
 	
 	/**
+	 * 取消关注
+	 *
+	 */
+	public function delattention($AttentionId) {
+		$userid = cookie('_uid');
+		
+		$model = new attentionModel();
+		$rst = $model->delattention(array(
+				'AttentionId' =>$AttentionId,
+				'UserId' => $userid
+		));
+		if (( int ) $rst ['status'] == 1) {
+			$this->success ( $rst ['msg'] );
+		} else {
+			$this->error ( $rst ['msg'] );
+		}
+	}
+	
+	/**
 	 * 心愿单
 	 */
 	public function like() {
@@ -165,13 +180,34 @@ class IndexController extends BaseController {
 		/* 模板赋值 */
 		$this->assign('likelist',$arr['list']);
 		$this->assign ( 'page', $arr['page'] );
-		$model = new view_favorite_listModel ();
-		$arr = $model->getlist ( $wherearr, $limit );
-		$this->assign ( 'likelist', $arr ['list'] );
-		$this->assign ( 'page', $arr ['page'] );
 		$this->assign ( 'empty', '<h3 class="text-center text-import">暂无商品</h3>' );
 		$this->getCommon ();
 		$this->display ();
+	}
+	
+	/**
+	 * 个人页面
+	 */
+	public function home(){
+		$userid = cookie ( '_uid' );
+		$limit = 100;
+		/* 拼接where */
+		$whereall = array (
+				'UserId' => $userid,
+				'Status' => 10
+		);
+		/* 获得在售商品 */
+		$model = new view_goods_listModel ();
+		$selllist = $model->getlist ( $whereall );
+		/* 获得心愿单 */
+		$model = new view_favorite_listModel();
+		$arr = $model -> getlist($wherearr, $limit );
+		/* 模板赋值 */
+		$this->assign( 'selllist', $selllist['list'] );
+		$this->assign( 'likelist', $arr['list']);
+		$this->assign( 'empty' , '<h3 class="text-center text-import">暂无商品</h3>' );
+		$this->getCommon();
+		$this->display();
 	}
 	
 	/**
