@@ -3,7 +3,7 @@
 namespace Admin\Controller;
 
 /**
- * 资讯管理
+ * 礼品管理
  *
  * @author Cinwell
  *        
