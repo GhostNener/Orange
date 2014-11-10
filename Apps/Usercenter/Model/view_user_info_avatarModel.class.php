@@ -10,7 +10,8 @@ use Think\Model;
 class view_user_info_avatarModel extends Model {
 	/**
 	 * 获取个人信息
-	 * @return array:status,msg  */
+	 * @return array:status,msg
+	 */
 	public function getinfo() {
 		$id = cookie ( '_uid' );
 		if (! $id) {

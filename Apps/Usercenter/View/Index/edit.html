@@ -36,9 +36,9 @@
 							<label for="Sex" class="col-sm-2 control-label">性别</label>
 							<div class="col-sm-4">
 								<label class="radio-inline">
-								<input type="radio" name="Sex" value="男" <if condition="$model['Sex'] eq '男'">checked="checked"</if>>男</label>
+								<input type="radio" name="Sex" value="男" <if condition="$model['Sex'] eq '男'">checked="checked"</if> >男</label>
 								<label class="radio-inline">
-								<input type="radio" name="Sex" value="女" <if condition="$model['Sex'] eq '女'">checked="checked"</if>>女</label>
+								<input type="radio" name="Sex" value="女" <if condition="$model['Sex'] eq '女'">checked="checked"</if> >女</label>
 							</div>
 						</div>
 						<div class="form-group">
@@ -86,7 +86,7 @@
 				</div>
 				
 				<div role="tabpanel" class="tab-pane" id="tab2">
-					<button class="btn btn-success">新建</button>
+					<button class="btn btn-success"  data-toggle="modal" data-backdrop="static" data-target="#addressModal">新建</button>
 					<div class="table-responsive">
 						<table class="table table-striped">
 							<thead>
@@ -94,7 +94,7 @@
 								<th>联系地址</th>
 								<th>手机号</th>
 								<th>QQ</th>
-								<th colspan="3">操作</th>
+								<th colspan="2">操作</th>
 							</thead>
 							<tbody>
 								<foreach name='address' item='v'>
@@ -104,8 +104,7 @@
 									<td>{$v['Tel']}</td>
 									<td>{$v['QQ']}</td>
 									<td><a href="{:U('Usercenter/Address/deladdress',array('Id' => $v['Id']))}" class="btn btn-danger btn-small">删除</a></td>
-									<td><a href="{:U('Usercenter/Address/modifaddress',array('Id' => $v['Id']))}" class="btn btn-danger btn-small">编辑</a></td>
-									<td><a href="{:U('Usercenter/Address/setdefault',array('Id' => $v['Id']))}" class="btn btn-primary btn-small">设为默认地址</a></td>
+									<td><a href="{:U('Usercenter/Address/modifaddress',array('Id' => $v['Id']))}" class="btn btn-primary btn-small">编辑</a></td>
 								</tr>
 								</foreach>
 							</tbody>
@@ -140,6 +139,51 @@
 					</form>
 				</div>
 			</div>
+		</div>
+	</div>
+</div>
+<div class="modal fade" id="addressModal" tabindex="-1" role="dialog" aria-labelledby="addressModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+					<span class="sr-only">Close</span>
+				</button>
+				<h4 class="modal-title hightlight" id="addressModalLabel">添加地址</h4>
+			</div>
+			<form id="addressform" class="form-horizontal" action="{:U('Usercenter/Address/saveaddress')}" method="post" onsubmit="return ajaxaddresssubmit()">
+				<div class="modal-body">
+					<input type="hidden" name="modif" value="add">
+					<div class="form-group">
+						<label for="Contacts" class="col-sm-2 control-label">联系人</label>
+						<div class="col-sm-10">
+							<input type="tel" name="Contacts" id="Contacts" class="form-control" placeholder="联系人"></div>
+					</div>
+					<div class="form-group">
+						<label for="Tel" class="col-sm-2 control-label">联系电话</label>
+						<div class="col-sm-10">
+							<input type="tel" name="Tel" id="Tel" class="form-control" placeholder="联系电话"></div>
+					</div>
+					<div class="form-group">
+						<label for="Address" class="col-sm-2 control-label">联系地址</label>
+						<div class="col-sm-10">
+							<input type="tel" name="Address" id="Address" class="form-control" placeholder="联系地址"></div>
+					</div>
+					<div class="form-group">
+						<div class="col-sm-offset-2 col-sm-10">
+							<div class="checkbox">
+								<label>
+									<input id="IsDefault" name="IsDefault" value="1" type="checkbox">&nbsp;作为默认地址</label>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-danger" data-dismiss="modal">关闭</button>
+					<button id="submitaddress" type="submit" class="btn btn-primary" data-loading-text="提交中..." autocomplete="off" >提交</button>
+				</div>
+			</form>
 		</div>
 	</div>
 </div>

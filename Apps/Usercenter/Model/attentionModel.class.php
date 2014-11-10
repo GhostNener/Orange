@@ -10,20 +10,14 @@ use Think\Model;
  */
 class attentionModel extends Model{
 	/**
-	 * 查询关注
+	 * 查询关注数
+	 * @param array $wherearr  
+	 * @return $allCount 关注数
+	 * @author LONGG
 	 */
-	public function getAttention($userid){
-		$whereArr = array('UserId' => $userid);
-		$attention = $this ->table('attention a,user u')-> where(array($whereArr,'a.AttentionId=u.Id'))->field('a.*,u.Nick as AttentionNick') -> select();
-		if ($attention){
-			$msgarr['attention'] = $attention;
-			$msgarr['attnumber'] = count($attention);
-			$msgarr['status'] = 1;
-		}else {
-			$msgarr['status'] = 0;
-			$msgarr['msg'] = "查询失败";
-		}
-		return $msgarr;
+	public function getAttention($wherearr){
+		$allCount = $this->where ( $wherearr )->count ();
+		return $allCount;
 	}
 	
 	/**
