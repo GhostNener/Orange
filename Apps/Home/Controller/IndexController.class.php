@@ -27,7 +27,7 @@ class IndexController extends BaseController {
 		$model = new view_goods_in_serviceModel ();
 		/* 获得置顶 */
 		$toplist = $model->getlist ( array (
-				'ServiceId' => C ( 'TOP_SERVICE_ID' ),
+				'Type' => C ( 'TOP_SERVICE_TYPE' ),
 				'Status' => 10 
 		), $limit );
 		$toplist = $toplist ['list'];

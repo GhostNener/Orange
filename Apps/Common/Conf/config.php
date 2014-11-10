@@ -125,8 +125,8 @@ return array (
 		),
 		/* 商品评论最大返回数量 */
 		'COMMENTS_LIST_COUNT' => 50,
-		/*商品置顶服务Id  主要用于显示置顶商品  */
-		'TOP_SERVICE_ID' => 2,
+		/*商品置顶服务类型 */
+		'TOP_SERVICE_TYPE' => 888,
 		/*商品订单session 缓存值  */
 		'GOODS_ORDER_SESSION_VALUE' => 1024 * 1024 * 9,
 		'SEARCH_CATEGORY_NAME' => '搜索关键字',
