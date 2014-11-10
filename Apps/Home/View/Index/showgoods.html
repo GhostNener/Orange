@@ -34,13 +34,10 @@
 								&nbsp心愿单
 							</a>
 							<else/>	
-							<form action="{:U('Usercenter/Index/addfavorite')}" method="post" onsubmit="return ajaxsubmitfavorite()">
-								<input type="hidden" name="GoodsId" value="{$goods['Id']}">	
-								<button class="btn btn-danger">
-									<span class="glyphicon glyphicon-heart"></span>
-									&nbsp心愿单
-								</button>
-							</form>
+							<button class="btn btn-danger favoritebtn" data-loading-text="提交中..." autocomplete="off">
+								<span class="glyphicon glyphicon-heart"></span>
+								&nbsp心愿单
+							</button>
 						</if>
 						<if condition="(($usermodel eq null) or ($usermodel['Id'] eq  null))">
 							<a href="{:U('Usercenter/User/index')}"  class="btn btn-primary " >
@@ -242,13 +239,10 @@
 								&nbsp心愿单
 							</a>
 							<else/>	
-							<form action="{:U('Usercenter/Index/addfavorite')}" method="post" onsubmit="return ajaxsubmitfavorite()">
-								<input type="hidden" name="GoodsId" value="{$goods['Id']}">	
-								<button class="btn btn-danger">
-									<span class="glyphicon glyphicon-heart"></span>
-									&nbsp心愿单
-								</button>
-							</form>
+							<button class="btn btn-danger favoritebtn" data-loading-text="提交中..." autocomplete="off">
+								<span class="glyphicon glyphicon-heart"></span>
+								&nbsp心愿单
+							</button>
 						</if>
 						<if condition="(($usermodel eq null) or ($usermodel['Id'] eq  null))">
 							<a href="{:U('Usercenter/User/index')}" class="btn btn-primary " >
@@ -265,6 +259,9 @@
 				</div>
 			</div>
 		</div>
+		<!-- 心愿单 -->	
+		<form  id="favoriteform" action="{:U('Usercenter/Index/addlike')}" style="display:none" method="post" onsubmit="return ajaxsubmitfavorite()">
+			<input type="hidden" name="GoodsId" value="{$goods['Id']}"></form>
 	</block>
 
 	<block name="js">
@@ -312,7 +309,38 @@ function ajaxsubmit() {
     });
     return false;
 }
+
+function ajaxsubmitfavorite(){
+	var $btn = $('.favoritebtn').button('loading');
+	$btn.button('reset');
+	$.ajax({
+        type: 'post',
+        cache: false,
+        url: $('#favoriteform').attr('action'),
+        data: $('#favoriteform').serialize(),
+        error:  
+        function(request)  {
+            showerrormsg('网络错误', 100, 1000);
+            $btn.button('reset');  
+            return false;              
+        },
+         success:  
+        function(data)  {
+            if (data.status == 0) {
+                showerrormsg(data.info, 100, 1000);
+            } else {
+                showsuccessmsg(data.info, 100, 1000);
+            }     
+            $btn.button('reset');
+            return false;           
+        }
+    });
+	return false;
+}
 $(document).ready(function() {
+	$('.favoritebtn').click(function(){
+		return ajaxsubmitfavorite();
+	});
     $('.replay').click(function() {
         if ($(this).attr('uid') == $('#UserId').val()) {
         	$('#refModalLabel').html('留言');
