@@ -80,9 +80,8 @@ $(document).ready(function() {
 	initPagination();
 
 	//自动显示下拉列表
-	$('.dropdown-toggle').mouseover(function () {
-		stop();
-		$('.dropdown-menu').slideDown(100);
+	$('.dropdown-toggle').mouseenter(function () {
+		$('.dropdown-menu').stop().slideDown(100);
 	});
 
 	$('.dropdown').mouseleave(function () {
