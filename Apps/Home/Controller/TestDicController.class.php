@@ -1,9 +1,6 @@
 <?php
 
 namespace Home\Controller;
-
-use Think\Controller;
-
 require_once './ORG/phpAnalysis/SearchDic.class.php';
 /**
  * 词典测试
@@ -11,7 +8,7 @@ require_once './ORG/phpAnalysis/SearchDic.class.php';
  * @author NENER
  *        
  */
-class TestDicController extends Controller {
+class TestDicController extends BaseController {
 	public function index() {
 		$this->assign ( "time", microtime ( true ) )->display ( 'Index/testdic' );
 	}

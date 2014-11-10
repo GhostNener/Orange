@@ -35,6 +35,9 @@ $(document).ready(function() {
 	/*导航栏切换*/
 	$(".navbar-nav").find("a").each(function(){
 		if (window.location.href.toLocaleLowerCase().indexOf($(this).attr("href").replace(".html","").toLocaleLowerCase(),1)>0) {
+			//忽略掉用户下拉列表的响应
+			if($(this).parent().parent().attr('class')=='dropdown-menu')return;
+			
 			$(".navbar-nav").children().removeClass("active");
 			$(this).parent().addClass("active");
 			return false;
@@ -75,6 +78,17 @@ $(document).ready(function() {
 		    });  
 		}  
 	initPagination();
+
+	//自动显示下拉列表
+	$('.dropdown-toggle').mouseover(function () {
+		stop();
+		$('.dropdown-menu').slideDown(100);
+	});
+
+	$('.dropdown').mouseleave(function () {
+		
+		$('.dropdown-menu').stop().slideUp(200);
+	});
 
 });
 

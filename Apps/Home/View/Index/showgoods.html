@@ -56,7 +56,6 @@
 			<div class="col-md-9">
 				<div class="panel panel-default">
 					<div class="panel-body">
-
 						<!-- Slider -->	
 						<div class="row">
 							<div class="col-xs-12" id="slider">
@@ -68,22 +67,14 @@
 											<for start="0" end="$imgcount">
 												<if condition="$i eq 0">
 													<div class="active item" data-slide-number="{$i}">
-														<a class="fancybox-thumbs" data-fancybox-group="thumb" href="__ROOT__{$goodsimg[$i]['URL']}">
-															<if condition="checkfile_exists($goodsimg[$i]['MD_URL']) eq 1">
-																<img src="__ROOT__{$goodsimg[$i]['MD_URL']}" alt="{$goodsimg[$i]['Title']}" />	
-																<else/>	
-																<img src="__ROOT__{:getdefaultimg(2)}" alt="{$goodsimg[$i]['Title']}" />	
-															</if>
+														<a class="fancybox-thumbs" data-fancybox-group="thumb" href="__ROOT__{$gmpath['G_880']}{$goodsimg[$i]['URL']}">
+															<img src="__ROOT__{:checkfile_exists($gmpath['G_830'].$goodsimg[$i]['URL'])?$gmpath['G_830'].$goodsimg[$i]['URL']:getdefaultimg(2)}" alt="{$goodsimg[$i]['Title']}" />	
 														</a>
 													</div>
 													<else/>	
 													<div class=" item" data-slide-number="{$i}">
-														<a class="fancybox-thumbs" data-fancybox-group="thumb" href="__ROOT__{$goodsimg[$i]['URL']}">
-															<if condition="checkfile_exists($goodsimg[$i]['MD_URL']) eq 1">
-																<img src="__ROOT__{$goodsimg[$i]['MD_URL']}" alt="{$goodsimg[$i]['Title']}" />	
-																<else/>	
-																<img src="__ROOT__{:getdefaultimg(2)}" alt="{$goodsimg[$i]['Title']}" />	
-															</if>
+														<a class="fancybox-thumbs" data-fancybox-group="thumb" href="__ROOT__{$gmpath['G_880'].$goodsimg[$i]['URL']}">
+															<img src="__ROOT__{:checkfile_exists($gmpath['G_830'].$goodsimg[$i]['URL'])?$gmpath['G_830'].$goodsimg[$i]['URL']:getdefaultimg(2)}" alt="{$goodsimg[$i]['Title']}" />	
 														</a>
 													</div>
 												</if>
@@ -107,36 +98,24 @@
 								<for start="0" end="$imgcount">
 									<li class="col-sm-2">
 										<a href="#" class="thumbnail" id="carousel-selector-{$i}">
-											<if condition="checkfile_exists($goodsimg[$i]['ThumbURL']) eq 1">
-												<img src="__ROOT__{$goodsimg[$i]['ThumbURL']}">	
-												<else/>	
-												<img src="__ROOT__{:getdefaultimg(1)}"  />	
-											</if>
+											<img src="__ROOT__{:checkfile_exists($gmpath['G_320'].$goodsimg[$i]['URL'])?$gmpath['G_320'].$goodsimg[$i]['URL']:getdefaultimg(1)}"  />	
 										</a>
 									</li>
 								</for>
 							</ul>
 						</div>
-
 						<hr/>	
-
 						<!-- 描述 -->	
 						<div class="row">
-
 							<div class="col-md-12">
 								<h4 class="pull-right message">{:date('Y-m-d H:i:s',$goods['CreateTime'])}</h4>
 								<a href="#">
-									<if condition="checkfile_exists($goods['avatarThumb_MD']) eq 1">
-										<img class="img-circle" src="__ROOT__{$goods['avatarThumb_MD']}" alt="头像">	
-										<else/>	
-										<img class="img-circle" src="__ROOT__{:getdefaultimg(4)}" alt="头像"></if>
-
+									<img class="img-circle" src="__ROOT__{:checkfile_exists($uapath['A_40'].$goods['avatarURL'])?$uapath['A_40'].$goods['avatarURL']:getdefaultimg(4)}" alt="头像">	
 									<span>{$goods['Nick']}</span>
 								</a>
 								<span>Lv</span>
 								<span class="importinfo">{$goods['Grade']}</span>
 							</div>
-
 							<div class="col-md-12">
 								<p class="detail-p">{$goods['Presentation']}</p>
 							</div>
@@ -154,11 +133,7 @@
 									<article class="timeline-entry">
 										<div class="timeline-entry-inner">
 											<div class="timeline-icon">
-												<if condition="checkfile_exists($v['CriticsThumb_MD']) eq 1">
-													<img class="img-circle" src="__ROOT__{$v['CriticsThumb_MD']}" alt="头像">	
-													<else/>	
-													<img class="img-circle" src="__ROOT__{:getdefaultimg(4)}" alt="头像"></if>
-											</div>
+												<img class="img-circle" src="__ROOT__{:checkfile_exists($uapth['A_40'].$v['CriticsURL'])?$uapth['A_40'].$v['CriticsURL']:getdefaultimg(4)}" alt="头像"></div>
 											<div class="timeline-label">
 												<span class="pull-right time">{$v['CreateTime']}</span>
 												<h2>
@@ -166,7 +141,6 @@
 													<if condition="(($v['UserId'] eq $v['AssesseeId']) or ($v['AssesseeId'] eq null)) or ($v['AssesseeId'] eq 0)">
 														<else/>	
 														<span>回复</span>
-
 														<a href="#">{$v['Reply']}</a>
 													</if>
 												</h2>
@@ -184,7 +158,7 @@
 						</div>
 					</div>
 				</div>
-
+				<!-- 留言模态框 -->	
 				<div class="modal fade" id="refModal" tabindex="-1" role="dialog" aria-labelledby="refModalLabel" aria-hidden="true">
 					<div class="modal-dialog">
 						<div class="modal-content">
@@ -226,7 +200,6 @@
 							{$goods['Price']}.00
 							<span class="oldprice">{$goods['CostPrice']}.00</span>
 						</h2>
-
 						<hr/>	
 						<div class="row">
 							<div class="col-md-5">交易方式</div>
@@ -263,9 +236,7 @@
 		<form  id="favoriteform" action="{:U('Usercenter/Index/addlike')}" style="display:none" method="post" onsubmit="return ajaxsubmitfavorite()">
 			<input type="hidden" name="GoodsId" value="{$goods['Id']}"></form>
 	</block>
-
 	<block name="js">
-
 		<script src="__PUBLIC__/js/jquery.fancybox.pack.js"></script>
 		<script src="__PUBLIC__/js/jquery.fancybox-thumbs.js"></script>
 		<script>
@@ -295,21 +266,19 @@ function ajaxsubmit() {
                 $btn.button('reset');
                 return false;
             } else {
+				$('#refModal').modal('hide');
                 showsuccessmsg("提交成功", 100, 2000);
                 $btn.button('reset');
-                $('#refModalLabel').modal('hide');
                 setTimeout(function() {
-                    $btn.button('reset');
                     location.reload();
                 },
-                300);
+                200);
                 return false;
             }                
         }
     });
     return false;
 }
-
 function ajaxsubmitfavorite(){
 	var $btn = $('.favoritebtn').button('loading');
 	$btn.button('reset');

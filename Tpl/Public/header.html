@@ -50,7 +50,7 @@
 							<a href="#">发现</a>
 						</li>
 						<li>
-							<a href="{:U('Home/Gift')}">
+							<a href="{:U('/Home/Gift')}">
 								礼品
 								<span class="navbar-new"></span>
 							</a>
@@ -82,14 +82,14 @@
 						<!-- 登录状态 -->
 						<ul class="nav navbar-nav navbar-right nickul">
 							<li class="dropdown">
-								<a class="dropdown-toggle" data-toggle="dropdown" href="#">
+								<a class="dropdown-toggle" href="javascript:void(0)">
 
 									<span class="nickname">
-										<img class="img-circle" src="__ROOT__{:checkfile_exists($usermodel['Thumb_XS'])?$usermodel['Thumb_XS']:getdefaultimg(3)}">
+										<img class="img-circle" src="__ROOT__{:checkfile_exists($uapath['A_20'].$usermodel['URL'])?$uapath['A_20'].$usermodel['URL']:getdefaultimg(3)}">
 										&nbsp;{$usermodel['Nick']}&nbsp;</span>
-									&nbsp
+									&nbsp;
 									<span class="caret"></span>
-									&nbsp
+									&nbsp;
 									<span class="badge">3</span>
 								</a>
 								<ul class="dropdown-menu">

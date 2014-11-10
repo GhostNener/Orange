@@ -17,7 +17,7 @@ use Home\Model\goods_orderModel;
  * @author DongZ
  *        
  */
-class GoodsController extends BaseController {
+class GoodsController extends LoginController {
 	
 	/**
 	 * 个人商品列表

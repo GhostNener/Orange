@@ -31,7 +31,7 @@ class ActivityController extends BaseController {
 		
 		$showPage = $Page->show ();
 		// 分页查询
-		$list = $model->where ( $wherrArr )->limit ( $Page->firstRow . ',' . $Page->listRows )->select ();
+		$list = $model->where ( $wherrArr )->order('CreateTime desc')->limit ( $Page->firstRow . ',' . $Page->listRows )->select ();
 
 		$this->assign ( 'list', $list );
 		$this->assign ( 'page', $showPage );
