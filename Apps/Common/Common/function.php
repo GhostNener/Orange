@@ -110,11 +110,14 @@ function searchpart($title, $iscoding = true, $removerepeat = false) {
 	return cutsingle ( $okresult [0], $iscoding, $removerepeat );
 }
 /**
- * 移除重复词以及 单个词
- *
- * @param array $arr        	
- * @param bool $iscoding
- *        	是否进行编码
+ * 编码 去重
+ * 
+ * @param array $arr
+ *        	数据源（以为数组）
+ * @param string $iscoding
+ *        	是否编码
+ * @param string $removerepeat
+ *        	是否去重
  * @return array
  */
 function cutsingle($arr, $iscoding = true, $removerepeat = false) {
