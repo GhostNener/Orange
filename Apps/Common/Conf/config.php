@@ -108,7 +108,8 @@ return array (
 		'DEFAULT_USER_AVATAR' => array (
 				'/Public/Img/150_150_USER.png',/*150*150  */
 				'/Public/Img/40_40_USER.png',/*40*40  */
-				'/Public/Img/20_20_USER.png' /*20*20  */
+				'/Public/Img/20_20_USER.png', /*20*20  */
+				'/Public/Img/80_80_USER.png' /*80*80  */
 		), 
 		/*商品默认图  */
 		'DEFAULT_GOODS_IMG' => array (

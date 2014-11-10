@@ -34,6 +34,7 @@ class user_avatarModel extends Model {
 				'URL' => $arr [0],
 				'Thumb_MD' => $arr [1],
 				'Thumb_XS' => $arr [2],
+				'Thumb_LG' => $arr [3],
 				'Status' => 10 
 		);
 		return $this->add ( $data );

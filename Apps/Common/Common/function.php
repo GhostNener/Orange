@@ -28,6 +28,7 @@ function checkfile_exists($path, $type = 1) {
  *        	3:用户头像 20_20,
  *        	4:用户头像 40_40,
  *        	5:用户头像 150_150
+ *        	6:用户通宵 80_80
  * @return string
  */
 function getdefaultimg($type = 1) {
@@ -47,6 +48,9 @@ function getdefaultimg($type = 1) {
 		case 5 :
 			$r = C ( 'DEFAULT_USER_AVATAR' );
 			return $r [0];
+		case 6 :
+			$r = C ( 'DEFAULT_USER_AVATAR' );
+			return $r [3];
 	}
 }
 /**
@@ -1070,17 +1074,23 @@ function send_activate_mail($usermail, $url) {
 /**
  * 计算等级
  *
- * @param EXP
+ * @param
+ *        	EXP
  *        	经验
- * @return Title
- *			等级名称
- */			
-function getgrade($EXP){
-	$whereArr['MinEXP'] = array('ELT',$EXP);
-	$whereArr['MaxEXP'] = array('EGT',$EXP);
-	$whereArr['Status'] = 10; 
-	$model = new user_gradeModel();
-	$rst = $model->getgrade($EXP);
-	return $rst['Title']; 
+ * @return Title 等级名称
+ */
+function getgrade($EXP) {
+	$whereArr ['MinEXP'] = array (
+			'ELT',
+			$EXP 
+	);
+	$whereArr ['MaxEXP'] = array (
+			'EGT',
+			$EXP 
+	);
+	$whereArr ['Status'] = 10;
+	$model = new user_gradeModel ();
+	$rst = $model->getgrade ( $EXP );
+	return $rst ['Title'];
 }
 ?>
