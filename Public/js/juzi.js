@@ -119,3 +119,8 @@ $(document).ready(function() {
 		$("body").append('<div id="errormsg" class="text-center alertmsg"  role="alert"> <span class="alert alert-danger msgbox">msg</span> </div>');
 	}
 
+
+	//加载中的动画
+	function loading() { 
+					$("body").append('<div  id="load" style="z-index:99999; position:fixed; left:45%; top:30%"><img src="../Public/Img/loading.gif" /></div>'); 
+				}
