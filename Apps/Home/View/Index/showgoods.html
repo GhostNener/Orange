@@ -17,22 +17,31 @@
 			<div class="col-md-3 visible-xs-block">
 				<div class="panel panel-default">
 					<div class="panel-body detail-panel">
-						<h4>{$goods.Title}</h4>
+						<h4>{$goods['Title']}</h4>
 						<h2 class="importinfo">
-							{$goods.Price}.00
-							<span class="oldprice">{$goods.CostPrice}.00</span>
+							{$goods['Price']}.00
+							<span class="oldprice">{$goods['CostPrice']}.00</span>
 						</h2>
-
 						<hr/>	
 						<div class="row">
 							<div class="col-md-5">交易方式</div>
-							<div class="col-md-7">{$goods.TradeWayTxt}</div>
+							<div class="col-md-7">{$goods['TradeWayTxt']}</div>
 						</div>
 						<hr/>	
-						<button class="btn btn-danger">
-							<span class="glyphicon glyphicon-heart"></span>
-							&nbsp心愿单
-						</button>
+						<if condition="(($usermodel eq null) or ($usermodel['Id'] eq  null))">
+							<a href="{:U('Usercenter/User/index')}" class="btn btn-danger">
+								<span class="glyphicon glyphicon-heart"></span>
+								&nbsp心愿单
+							</a>
+							<else/>	
+							<form action="{:U('Usercenter/Index/addfavorite')}" method="post" onsubmit="return ajaxsubmitfavorite()">
+								<input type="hidden" name="GoodsId" value="{$goods['Id']}">	
+								<button class="btn btn-danger">
+									<span class="glyphicon glyphicon-heart"></span>
+									&nbsp心愿单
+								</button>
+							</form>
+						</if>
 						<if condition="(($usermodel eq null) or ($usermodel['Id'] eq  null))">
 							<a href="{:U('Usercenter/User/index')}"  class="btn btn-primary " >
 								<span class="glyphicon glyphicon-comment"></span>
@@ -143,7 +152,6 @@
 				<div class="panel panel-default">
 					<div class="panel-body">
 						<div class="row">
-
 							<div class="timeline-centered">
 								<volist name='commentlist' id="v" empty="$empty">
 									<article class="timeline-entry">
@@ -176,7 +184,6 @@
 									</article>
 								</volist>
 							</div>
-
 						</div>
 					</div>
 				</div>
@@ -217,22 +224,32 @@
 			<div class="col-md-3 hidden-xs">
 				<div class="panel panel-default" data-spy="affix">
 					<div class="panel-body detail-panel">
-						<h4>{$goods.Title}</h4>
+						<h4>{$goods['Title']}</h4>
 						<h2 class="importinfo">
-							{$goods.Price}.00
-							<span class="oldprice">{$goods.CostPrice}.00</span>
+							{$goods['Price']}.00
+							<span class="oldprice">{$goods['CostPrice']}.00</span>
 						</h2>
 
 						<hr/>	
 						<div class="row">
 							<div class="col-md-5">交易方式</div>
-							<div class="col-md-7">{$goods.TradeWayTxt}</div>
+							<div class="col-md-7">{$goods['TradeWayTxt']}</div>
 						</div>
 						<hr/>	
-						<button class="btn btn-danger">
-							<span class="glyphicon glyphicon-heart"></span>
-							&nbsp心愿单
-						</button>
+						<if condition="(($usermodel eq null) or ($usermodel['Id'] eq  null))">
+							<a href="{:U('Usercenter/User/index')}" class="btn btn-danger">
+								<span class="glyphicon glyphicon-heart"></span>
+								&nbsp心愿单
+							</a>
+							<else/>	
+							<form action="{:U('Usercenter/Index/addfavorite')}" method="post" onsubmit="return ajaxsubmitfavorite()">
+								<input type="hidden" name="GoodsId" value="{$goods['Id']}">	
+								<button class="btn btn-danger">
+									<span class="glyphicon glyphicon-heart"></span>
+									&nbsp心愿单
+								</button>
+							</form>
+						</if>
 						<if condition="(($usermodel eq null) or ($usermodel['Id'] eq  null))">
 							<a href="{:U('Usercenter/User/index')}" class="btn btn-primary " >
 								<span class="glyphicon glyphicon-comment"></span>
