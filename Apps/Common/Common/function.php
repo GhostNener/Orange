@@ -1093,20 +1093,20 @@ function send_activate_mail($usermail, $url) {
  */
 function getgrade($EXP,$type=1) {
 	$whereArr ['MinEXP'] = array (
-			'ELT',
+			'elt',
 			$EXP 
 	);
 	$whereArr ['MaxEXP'] = array (
-			'EGT',
+			'egt',
 			$EXP 
 	);
 	$whereArr ['Status'] = 10;
 	$model = new user_gradeModel ();
-	$rst = $model->getgrade ( $EXP );
+	$rst = $model->getgrade ( (int)$EXP );
 	if($type==1){
-		return $rst ['Title'];
+		return $rst['Title'] ;
 	}else{
-		return $rst ['Number'];
+		return $rst['Number'] ;
 	}	
 }
 ?>

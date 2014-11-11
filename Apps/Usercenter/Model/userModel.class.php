@@ -492,7 +492,7 @@ class userModel extends Model {
 		/*
 		 * if (( int ) $rst ['Status'] == 101) { $msgarr ['msg'] = '帐号未激活'; return $msgarr; }
 		 */
-		if (( int ) $rst ['Status'] <= 10) {
+		if (( int ) $rst ['Status'] < 10) {
 			$msgarr ['msg'] = '帐号禁用';
 			return $msgarr;
 		}
