@@ -78,17 +78,20 @@ class GiftController extends BaseController {
 				'Status' => 10
 		);
 
-		$config = C('IMG_UPLOAD_CONFIG');
-		$config['saveName'] = 'gift'.time();
-		$config ['savePath'] = 'Activity/' . C ( 'GOODS_IMG_SOURCE' );
+		//判断文件是否为空
+		if ($_FILES['ImgURL']['size']) {
+			$config = C('IMG_UPLOAD_CONFIG');
+			$config['saveName'] = 'gift'.time();
+			$config ['savePath'] = 'Activity/' . C ( 'GOODS_IMG_SOURCE' );
 
-		$rstarr = uploadfile ( $config , null);
-		$srcpath = $config['rootPath'].$rstarr['msg']['ImgURL']['savepath'].$rstarr['msg']['ImgURL']['savename'];
- 		$savepath = $config['rootPath'].'Activity/320_160/'.time().'.jpg';
- 		cutimg($srcpath,$savepath,array(320,160),2);
-	 	
-	 	unlink ( $srcpath );
-		$data['ImgURL'] = substr($savepath, 1);
+			$rstarr = uploadfile ( $config , null);
+			$srcpath = $config['rootPath'].$rstarr['msg']['ImgURL']['savepath'].$rstarr['msg']['ImgURL']['savename'];
+	 		$savepath = $config['rootPath'].'Activity/320_160/'.time().'.jpg';
+	 		cutimg($srcpath,$savepath,array(320,160),2);
+		 	
+		 	unlink ( $srcpath );
+			$data['ImgURL'] = substr($savepath, 1);
+		}
 
 		if ($modif == "add") {
 
