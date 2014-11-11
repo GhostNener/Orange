@@ -14,7 +14,13 @@ use Home\Model\goods_orderModel;
  *        
  */
 class OrderController extends LoginController {
-	
+	public function _initialize() {
+		parent::_initialize ();
+		if (! isactivated ()) {
+			redirect ( U ( 'Usercenter/Index/activated' ) );
+			die ();
+		}
+	}
 	/**
 	 * 渲染一个商品订单
 	 */
@@ -73,14 +79,13 @@ class OrderController extends LoginController {
 		$arr = I ( 'post.' );
 		$m = new goods_orderModel ();
 		$rst = $m->createone ( $arr );
-
+		
 		if ($rst ['status'] == 0) {
 			$this->error ( $rst ['msg'], U ( 'Home/Index/index' ) );
 			die ();
 		} else {
 			$this->assign ( 'omodel', $rst );
 			$this->display ();
-
 		}
 	}
 	

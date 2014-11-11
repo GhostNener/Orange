@@ -1,0 +1,57 @@
+<include file="./Tpl/Public/header.html"/>
+<block name="content">
+	<!-- 内容 -->
+	<div id="main" class="container">
+		<div class=" col-sm-offset-3 col-sm-6 ">
+			<div class="panel panel-default">
+				<div class="panel-body text-center">
+					<h2 >帐号未激活</h2>
+					<hr/>
+					<div class="row ">
+						<div class="col-sm-12 ">
+							<a href="{$activatedurl}" target="_blank" class="btn btn-success">登录邮箱</a>
+							<button url="{:U('Usercenter/Index/sendactivatemail')}"  class="btn btn-orange activatedbtn " data-loading-text="发送中..." autocomplete="off" >发送激活邮件</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</block>
+<include file="./Tpl/Public/footer.html"/>
+<block name="js">
+	
+	<script>
+
+function ajaxsubmit () {
+	var $btn = $('.activatedbtn').button('loading');
+    $.ajax({
+        type: 'post',
+        cache: false,
+        url: $('.activatedbtn').attr('url'),
+        error:  
+        function(request)  {
+            showerrormsg('网络错误', 100, 1000);
+            $btn.button('reset');   
+            return false;             
+        },
+                        success:  
+        function(data)  {
+            if (data.status == 0) {
+                showerrormsg(data.info, 100, 1000);
+                $btn.button('reset');
+                return false;
+            } else {
+                showsuccessmsg(data.info, 100, 1000);
+                $btn.button('reset');
+            }                
+        }
+    });	
+}
+$(function(){
+	$('.activatedbtn').click(function(){
+		ajaxsubmit ();
+	});
+});
+	</script>
+</block>

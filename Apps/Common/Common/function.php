@@ -5,6 +5,14 @@ use Usercenter\Model\userModel;
 use Org\Util\String;
 
 /**
+ * 检测用户是否激活
+ * @return boolean  */
+function  isactivated(){
+	$m=new userModel();
+	return $m->isactivated();
+}
+
+/**
  * 检查文件是否存在
  *
  * @param string $path
@@ -14,6 +22,10 @@ use Org\Util\String;
  * @return boolean
  */
 function checkfile_exists($path, $type = 1) {
+	$ex = substr ( strrchr ( $path, '.' ), 1 );
+	if (! $path || ! $ex) {
+		return false;
+	}
 	if ($type == 1) {
 		$path = '.' . $path;
 	}
@@ -111,7 +123,7 @@ function searchpart($title, $iscoding = true, $removerepeat = false) {
 }
 /**
  * 编码 去重
- * 
+ *
  * @param array $arr
  *        	数据源（以为数组）
  * @param string $iscoding

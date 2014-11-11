@@ -144,6 +144,10 @@ class IndexController extends BaseController {
 			$this->error ( '你还没有登录' );
 			die ();
 		}
+		if (! isactivated ()) {
+			$this->error ( '帐号未激活，不允许留言' );
+			die ();
+		}
 		$model = new goods_commentModel ();
 		$rst = $model->addComment ( $postarr );
 		if (( int ) $rst ['status'] == 0) {

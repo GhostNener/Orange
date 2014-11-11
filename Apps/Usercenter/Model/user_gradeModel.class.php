@@ -14,8 +14,8 @@ class user_gradeModel extends Model{
 	 * @return $rst ：符合的等级
 	 */
 	public function getgrade($EXP){
-		$whereArr['MinEXP'] = array('elt',0);
-		$whereArr['MaxEXP'] = array('egt',0);
+		$whereArr['MinEXP'] = array('elt',$EXP);
+		$whereArr['MaxEXP'] = array('egt',$EXP);
 		$whereArr['Status'] = 10; 
 		$rst = $this->where($whereArr)->find();
 		//显示需要升级的经验

@@ -131,6 +131,27 @@ class userModel extends Model {
 		return $this->encrypt ( $Password, NOW_TIME );
 	}
 	/**
+	 * 检测用户是否激活
+	 *
+	 * @param string $uid        	
+	 * @return boolean
+	 */
+	public function isactivated($uid = NULL) {
+		if (! $uid) {
+			$uid = cookie ( '_uid' );
+		}
+		$rs = $this->where ( array (
+				'Id' => $uid,
+				'Status' => 101 
+		) )->find ();
+		if (! $rs) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	/**
 	 * 扣除费用
 	 *
 	 * @param unknown $uid        	
@@ -235,14 +256,13 @@ class userModel extends Model {
 			$dal->rollback ();
 			return false;
 		}
-		$add = new user_addressModel ();
-		$add->adddefefault ( $uid );
-		$avatar = new user_avatarModel ();
-		$rst2 = $avatar->adddefault ( $uid );
-		if (! $rst2) {
+		/*
+		 * $add = new user_addressModel (); $add->adddefefault ( $uid ); $avatar = new user_avatarModel (); $rst2 = $avatar->adddefault ( $uid );
+		 */
+/* 		if (! $rst2) {
 			$dal->rollback ();
 			return false;
-		} else {
+		} else  */{
 			$dal->commit ();
 			return true;
 		}
@@ -307,7 +327,7 @@ class userModel extends Model {
 			return $msg;
 		}
 		if ($send ['E-Mail'] && ! $send ['Name']) {
-			if (! $this->senactive ( $rst )) {
+			if (! $this->sendactive ( $rst )) {
 				$msg ['msg'] = '注册失败!无法发送激活邮件！';
 				$dal->rollback ();
 				return $msg;
@@ -327,6 +347,16 @@ class userModel extends Model {
 			$msg ['msg'] = $rst;
 			$msg ['status'] = 1;
 			$msg ['_uid'] = $rst;
+			$um = $this->where ( array (
+					'Id' => $rst,
+					'Status' => 101 
+			) )->find ();
+			$avatar = new user_avatarModel ();
+			$rst2 = $avatar->adddefault ( $um ['Id'] );
+			$add = new user_addressModel ();
+			$add->adddefefault ( $um ['Id'] );
+			cookie ( '_uid', $um ['Id'] );
+			cookie ( '_key', $um ['UserKey'] );
 			$dal->commit ();
 		}
 		return $msg;
@@ -339,7 +369,7 @@ class userModel extends Model {
 	 *        	_uid
 	 * @return boolean
 	 */
-	public function senactive($uid) {
+	public function sendactive($uid) {
 		$send = $this->where ( array (
 				'Id' => $uid,
 				'Status' => 101 
@@ -368,6 +398,7 @@ class userModel extends Model {
 		} else {
 			return false;
 		}
+		cookie('_key',$key);
 		return true;
 	}
 	/**
@@ -393,11 +424,10 @@ class userModel extends Model {
 		if (! $rst) {
 			return $msg;
 		}
-		$avatar = new user_avatarModel ();
+		
 		$dal = M ();
-		$rst2 = $avatar->adddefault ( $rst ['Id'] );
 		$newkey = $this->getnewkey ( $rst ['Id'] );
-		if (! $rst2 || ! $this->where ( array (
+		if (! $this->where ( array (
 				'Id' => $rst ['Id'] 
 		) )->save ( array (
 				'UserKey' => $newkey,
@@ -409,9 +439,10 @@ class userModel extends Model {
 		} else {
 			$msg ['msg'] = '激活成功';
 			$msg ['status'] = 1;
-			$add = new user_addressModel ();
-			$add->adddefefault ( $rst ['Id'] );
 			$dal->commit ();
+			if (isloin ()) {
+				cookie ( '_key', $newkey );
+			}
 			return $msg;
 		}
 		return $msg;
@@ -458,11 +489,10 @@ class userModel extends Model {
 			}
 			return $msgarr;
 		}
-		if (( int ) $rst ['Status'] == 101) {
-			$msgarr ['msg'] = '帐号未激活';
-			return $msgarr;
-		}
-		if (( int ) $rst ['Status'] != 10) {
+		/*
+		 * if (( int ) $rst ['Status'] == 101) { $msgarr ['msg'] = '帐号未激活'; return $msgarr; }
+		 */
+		if (( int ) $rst ['Status'] <= 10) {
 			$msgarr ['msg'] = '帐号禁用';
 			return $msgarr;
 		}
@@ -566,7 +596,14 @@ class userModel extends Model {
 			$wherearr = array (
 					'Id' => ( int ) $_id,
 					'UserKey' => $_key,
-					'Status' => 10 
+					'Status' => array (
+							'gt',
+							9 
+					),
+					'Status' => array (
+							'lt',
+							102 
+					) 
 			);
 			if ($isadmin) {
 				$roleid = $this->getadminroleid ();
@@ -677,7 +714,7 @@ class userModel extends Model {
 		}
 		$user = $this->where ( array (
 				'Id' => $uid,
-				'Status' => 10 
+				'Status' =>array('gt',9)
 		) )->find ();
 		if (! $user) {
 			return $msg;
@@ -710,30 +747,25 @@ class userModel extends Model {
 		$msg = '签到失败，请重试';
 		$dal = M ();
 		$dal->startTrans ();
+		$wa = array (
+				'Id' => $uid,
+				'Status' => array (
+						'gt',
+						9 
+				) 
+		);
 		switch ($type) {
 			/* 续签操作 */
 			case 1 :
-				$r1 = $this->where ( array (
-						'Id' => $uid,
-						'Status' => 10 
-				) )->setInc ( 'ClockinCount' );
-				$r2 = $this->where ( array (
-						'Id' => $uid,
-						'Status' => 10 
-				) )->save ( array (
+				$r1 = $this->where ($wa)->setInc ( 'ClockinCount' );
+				$r2 = $this->where ($wa )->save ( array (
 						'LastClockinTime' => time () 
 				) );
-				$c = $this->where ( array (
-						'Id' => $uid,
-						'Status' => 10 
-				) )->field ( 'ClockinCount' )->find ();
+				$c = $this->where ($wa)->field ( 'ClockinCount' )->find ();
 				$c = $c ['ClockinCount'];
 				break;
 			case 2 :
-				$r1 = $this->where ( array (
-						'Id' => $uid,
-						'Status' => 10 
-				) )->save ( array (
+				$r1 = $this->where ( $wa )->save ( array (
 						'LastClockinTime' => time (),
 						'ClockinCount' => 1 
 				) );
@@ -763,7 +795,10 @@ class userModel extends Model {
 		}
 		$user = $this->where ( array (
 				'Id' => $uid,
-				'Status' => 10 
+				'Status' => array (
+						'gt',
+						9 
+				) 
 		) )->find ();
 		if (! $user) {
 			return true;
@@ -787,7 +822,10 @@ class userModel extends Model {
 		}
 		$user = $this->field ( 'ClockinCount' )->where ( array (
 				'Id' => $uid,
-				'Status' => 10 
+				'Status' => array (
+						'gt',
+						9 
+				) 
 		) )->find ();
 		if (! $user) {
 			return 0;

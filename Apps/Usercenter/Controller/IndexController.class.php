@@ -3,10 +3,8 @@
 namespace Usercenter\Controller;
 
 use Home\Model\goodsModel;
-
 use Usercenter\Model\view_favorite_listModel;
 use Usercenter\Model\view_user_attention_listModel;
-use Usercenter\Model\view_user_arrention_listModel;
 use Home\Model\view_goods_listModel;
 use Usercenter\Model\favoriteModel;
 use Usercenter\Model\view_user_info_avatarModel;
@@ -14,57 +12,82 @@ use Usercenter\Model\view_goods_order_listModel;
 use Usercenter\Model\user_addressModel;
 use Usercenter\Model\attentionModel;
 use Usercenter\Model\userModel;
-use Home\Model\goods_listModel;
 use Usercenter\Model\user_gradeModel;
-use Home\Model\user_avatarModel;
-use Usercenter\Model\user_homeModel;
-use Usercenter\Controller\BaseController;
-use Think\Controller;
 
 class IndexController extends LoginController {
-	public function _initialize() {
-		parent::_initialize ();
+	
+	/**
+	 * 用户激活页面
+	 */
+	public function activated() {
+		$u = D ( 'user' )->where ( array (
+				'Id' => cookie ( '_uid' ),
+				'Status' => 101 
+		) )->find ();
+		if (! $u || ! checkmail ( $u ['E-Mail'] )) {
+			redirect ( U ( 'Home/Index/index' ) );
+		} else {
+			$ex = substr ( strrchr ( $u ['E-Mail'], '@' ), 1 );
+			$mailurl = 'http://mail.' . $ex;
+			$this->assign ( 'activatedurl', $mailurl );
+			$this->display ();
+		}
 	}
-
+	/**
+	 * 发送激活邮件
+	 */
+	public function sendactivatemail() {
+		if (! IS_POST) {
+			$this->error ( '页面不存在', U ( 'Home/Index/index' ) );
+		}
+		$u = new userModel ();
+		$r = $u->sendactive ( cookie ( '_uid' ) );
+		if (! $r) {
+			$this->error ( '发送失败' );
+		} else {
+			$this->success ( '发送成功' );
+		}
+	}
+	
 	/**
 	 * 个人中心首页 查询用户信息
 	 */
-	public function index(){
-		$userid = cookie('_uid');
+	public function index() {
+		$userid = cookie ( '_uid' );
 		/* 拼接查询条件 */
-		$whereall = array(
-			'UserId' => $userid
+		$whereall = array (
+				'UserId' => $userid 
 		);
 		/* 查询关注数 */
-		$model = new attentionModel();
-		$attn = $model -> getAttention($whereall);
+		$model = new attentionModel ();
+		$attn = $model->getAttention ( $whereall );
 		/* 模块赋值 */
-		$this->assign('attn',$attn);
-		$this->getCommon();
-		$this->display();
+		$this->assign ( 'attn', $attn );
+		$this->getCommon ();
+		$this->display ();
 	}
 	
 	/**
 	 * 未读信息
 	 */
-	public function msg(){
-		$this->getCommon();
-		$this->display();
+	public function msg() {
+		$this->getCommon ();
+		$this->display ();
 	}
 	
 	/**
 	 * 查询用户信息
 	 */
-	public function edit(){
-		$userid = cookie('_uid');
-		/*查询所有地址*/
-		$adder = new  user_addressModel();
-		$rst = $adder-> getall($userid);
+	public function edit() {
+		$userid = cookie ( '_uid' );
+		/* 查询所有地址 */
+		$adder = new user_addressModel ();
+		$rst = $adder->getall ( $userid );
 		/* 模块赋值 */
-		$this->assign ( 'model', $arr['msg'] );
-		$this->assign('address',$rst);
-		$this->getCommon();
-		$this->display();
+		$this->assign ( 'model', $arr ['msg'] );
+		$this->assign ( 'address', $rst );
+		$this->getCommon ();
+		$this->display ();
 	}
 	
 	/**
@@ -85,8 +108,8 @@ class IndexController extends LoginController {
 	/**
 	 * 订单管理
 	 */
-	public function order(){
-		$userid = cookie('_uid');
+	public function order() {
+		$userid = cookie ( '_uid' );
 		$limit = 8;
 		/* 拼接where */
 		$wherebuy = array (
@@ -119,14 +142,14 @@ class IndexController extends LoginController {
 		/* 拼接where */
 		$whereall = array (
 				'UserId' => $userid,
-				'Status' => 10
+				'Status' => 10 
 		);
 		/* 获得在售商品 */
 		$model = new view_goods_listModel ();
 		$likelist = $model->getlist ( $whereall, $limit );
 		/* 模板赋值 */
-		$this->assign ( 'likelist', $likelist['list'] );
-		$this->assign ( 'page', $likelist['page'] );
+		$this->assign ( 'likelist', $likelist ['list'] );
+		$this->assign ( 'page', $likelist ['page'] );
 		$this->assign ( 'empty', '<h3 class="text-center text-import">暂无商品</h3>' );
 		$this->getcommon ();
 		$this->display ();
@@ -156,27 +179,26 @@ class IndexController extends LoginController {
 	
 	/**
 	 * 取消关注
-	 *
 	 */
 	public function delattention($AttentionId) {
-		$userid = cookie('_uid');
-		$dal = M();
-		//开始事务
-		$dal = startTrans();
-		$model = new attentionModel();
-		$rst = $model->delattention(array(
-				'AttentionId' =>$AttentionId,
-				'UserId' => $userid
-		));
-		$model2 = new goodsModel();
-		$c = $model2->VCChhandle($gid,2,false);
-		if (!$rst||!$c) {
-			//失败 回滚
-			$dal->rollback();
-			$this->error("操作失败！");
-		}else {
-			//操作成功 提交事务
-			$dal->commit();
+		$userid = cookie ( '_uid' );
+		$dal = M ();
+		// 开始事务
+		$dal = startTrans ();
+		$model = new attentionModel ();
+		$rst = $model->delattention ( array (
+				'AttentionId' => $AttentionId,
+				'UserId' => $userid 
+		) );
+		$model2 = new goodsModel ();
+		$c = $model2->VCChhandle ( $gid, 2, false );
+		if (! $rst || ! $c) {
+			// 失败 回滚
+			$dal->rollback ();
+			$this->error ( "操作失败！" );
+		} else {
+			// 操作成功 提交事务
+			$dal->commit ();
 		}
 	}
 	
@@ -192,11 +214,11 @@ class IndexController extends LoginController {
 				'Status' => 10 
 		);
 		/* 获得心愿单 */
-		$model = new view_favorite_listModel();
-		$arr = $model -> getlist($whereall, $limit );
+		$model = new view_favorite_listModel ();
+		$arr = $model->getlist ( $whereall, $limit );
 		/* 模板赋值 */
-		$this->assign('likelist',$arr['list']);
-		$this->assign ( 'page', $arr['page'] );
+		$this->assign ( 'likelist', $arr ['list'] );
+		$this->assign ( 'page', $arr ['page'] );
 		$this->assign ( 'empty', '<h3 class="text-center text-import">暂无心愿单</h3>' );
 		$this->getCommon ();
 		$this->display ();
@@ -205,44 +227,44 @@ class IndexController extends LoginController {
 	/**
 	 * 个人页面
 	 */
-	public function home(){
+	public function home() {
 		$userid = cookie ( '_uid' );
 		$limit = 100;
 		/* 拼接where */
 		$whereall = array (
 				'UserId' => $userid,
-				'Status' => 10
+				'Status' => 10 
 		);
 		/* 获得在售商品 */
 		$model = new view_goods_listModel ();
 		$selllist = $model->getlist ( $whereall );
 		/* 获得心愿单 */
-		$model = new view_favorite_listModel();
-		$arr = $model -> getlist($wherearr, $limit );
+		$model = new view_favorite_listModel ();
+		$arr = $model->getlist ( $wherearr, $limit );
 		/* 模板赋值 */
-		$this->assign( 'selllist', $selllist['list'] );
-		$this->assign( 'likelist', $arr['list']);
-		$this->assign( 'empty' , '<h3 class="text-center text-import">暂无商品</h3>' );
-		$this->getCommon();
-		$this->display();
+		$this->assign ( 'selllist', $selllist ['list'] );
+		$this->assign ( 'likelist', $arr ['list'] );
+		$this->assign ( 'empty', '<h3 class="text-center text-import">暂无商品</h3>' );
+		$this->getCommon ();
+		$this->display ();
 	}
 	
 	/**
 	 * 获取相同的模板变量并对模板进行赋值
 	 */
 	private function getCommon() {
-		$userid = cookie('_uid');
+		$userid = cookie ( '_uid' );
 		/* 查询用户信息 */
-		$model = new view_user_info_avatarModel();
-		$arr = $model->getinfo();
+		$model = new view_user_info_avatarModel ();
+		$arr = $model->getinfo ();
 		if ($arr ['status'] == 1) {
-			//获取经验 计算等级
-			$EXP = $arr['msg']['EXP'];
-			$model2 = new user_gradeModel();
-			$rst = $model2 ->getgrade($EXP);
-			/*模版赋值*/
-			$this->assign ( 'user', $arr['msg'] );
-			$this->assign('grade',$rst);
+			// 获取经验 计算等级
+			$EXP = $arr ['msg'] ['EXP'];
+			$model2 = new user_gradeModel ();
+			$rst = $model2->getgrade ( $EXP );
+			/* 模版赋值 */
+			$this->assign ( 'user', $arr ['msg'] );
+			$this->assign ( 'grade', $rst );
 		}
 	}
 	

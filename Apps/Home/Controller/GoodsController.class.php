@@ -14,10 +14,17 @@ use Home\Model\goods_orderModel;
 /**
  * 前台商品管理
  *
- * @author DongZ
+ * @author NENER
  *        
  */
 class GoodsController extends LoginController {
+	public function _initialize() {
+		parent::_initialize ();
+		if (! isactivated ()) {
+			redirect ( U ( 'Usercenter/Index/activated' ) );
+			die ();
+		}
+	}
 	
 	/**
 	 * 个人商品列表
@@ -85,9 +92,9 @@ class GoodsController extends LoginController {
 		// 以上代码解决FF302
 		$this->assign ( 'slist', $slist );
 		$this->assign ( 'alist', $alist );
-
-		//服务为空的时候
-		$this->assign( 'empty', '<h3 class="text-center text-import">暂不提供服务</h3>');
+		
+		// 服务为空的时候
+		$this->assign ( 'empty', '<h3 class="text-center text-import">暂不提供服务</h3>' );
 		
 		$this->assign ( 'clist', $clist )->display ( 'Goods/add' );
 	}

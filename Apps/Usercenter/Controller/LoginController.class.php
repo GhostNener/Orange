@@ -1,10 +1,7 @@
 <?php
 
 namespace Usercenter\Controller;
-
-use Think\Controller;
 use Usercenter\Model\userModel;
-use Usercenter\Model\view_user_info_avatarModel;
 
 /**
  * 登陆检测控制器
