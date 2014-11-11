@@ -133,6 +133,7 @@ return array (
 		/*发布时最多收取发布费用！不算服务费  */
 		'MAX_PUBLISH_COST'=>10,
 		/*定制成功以及错误模板  */
+		'ACTIVE_MAIL_TPL_PATH'=>'./Tpl/Mail/activemail.txt',
 		'TMPL_ACTION_ERROR' => './Tpl/jump.html',
 		'TMPL_ACTION_SUCCESS' => './Tpl/jump.html' 
 );

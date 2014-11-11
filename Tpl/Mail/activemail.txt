@@ -4,10 +4,10 @@
 	<meta charset="UTF-8">
 </head>
 <body>
-	<p>亲爱的{某某某}:</p>
+	<p>亲爱的  [$_USERNAME_$]:</p>
 	<p>欢迎加入大橘子！</p>
 	<p>请点击下面的链接完成注册：</p>
-	<p><a href="http://www.baidu.com" target="_blank">http://www.baidu.com</a></p>
+	<p><a href="[$_URL_$]" target="_blank">[$_URL_$]</a></p>
 	<p>如果以上的链接无法点击，请将上面的地址复制到你的浏览器(如IE)的地址进入大橘子。</p>
 	<br/>
 	<p>--橘子团队</p>

@@ -377,13 +377,16 @@ class userModel extends Model {
 		if (! $send) {
 			return false;
 		}
-		if ($send ['E-Mail'] && ! $send ['Name']) {
+		if ($send ['E-Mail']) {
 			$key = $this->getnewkey ( $send ['E-Mail'] );
+			
 			$url = U ( 'Usercenter/User/active', array (
 					'key' => $key,
 					'uid' => time () 
 			), true, true );
-			$url = '<a href=' . $url . '>点击激活帐号</a>';
+			$mailcontent = file_get_contents ( C ( 'ACTIVE_MAIL_TPL_PATH' ) );
+			$mailcontent = str_replace ( '[$_USERNAME_$]', $send ['E-Mail'], $mailcontent );
+			$mailcontent = str_replace ( '[$_URL_$]', $url, $mailcontent );
 			if (! $this->where ( array (
 					'Id' => $uid 
 			) )->save ( array (
@@ -392,13 +395,13 @@ class userModel extends Model {
 			) )) {
 				return false;
 			}
-			if (! send_activate_mail ( $send ['E-Mail'], $url )) {
+			if (! send_activate_mail ( $send ['E-Mail'], $mailcontent )) {
 				return false;
 			}
 		} else {
 			return false;
 		}
-		cookie('_key',$key);
+		cookie ( '_key', $key );
 		return true;
 	}
 	/**
@@ -417,6 +420,7 @@ class userModel extends Model {
 		if (! $arr ['key']) {
 			return $msg;
 		}
+		$isl=isloin ();
 		$rst = $this->where ( array (
 				'UserKey' => $arr ['key'],
 				'Status' => 101 
@@ -440,7 +444,7 @@ class userModel extends Model {
 			$msg ['msg'] = '激活成功';
 			$msg ['status'] = 1;
 			$dal->commit ();
-			if (isloin ()) {
+			if ($isl) {
 				cookie ( '_key', $newkey );
 			}
 			return $msg;
@@ -597,12 +601,14 @@ class userModel extends Model {
 					'Id' => ( int ) $_id,
 					'UserKey' => $_key,
 					'Status' => array (
-							'gt',
-							9 
-					),
-					'Status' => array (
-							'lt',
-							102 
+							array (
+									'gt',
+									9 
+							),
+							array (
+									'lt',
+									102 
+							) 
 					) 
 			);
 			if ($isadmin) {
@@ -714,7 +720,16 @@ class userModel extends Model {
 		}
 		$user = $this->where ( array (
 				'Id' => $uid,
-				'Status' =>array('gt',9)
+				'Status' => array (
+						array (
+								'gt',
+								9 
+						),
+						array (
+								'lt',
+								102 
+						) 
+				) 
 		) )->find ();
 		if (! $user) {
 			return $msg;
@@ -750,18 +765,24 @@ class userModel extends Model {
 		$wa = array (
 				'Id' => $uid,
 				'Status' => array (
-						'gt',
-						9 
+						array (
+								'gt',
+								9 
+						),
+						array (
+								'lt',
+								102 
+						) 
 				) 
 		);
 		switch ($type) {
 			/* 续签操作 */
 			case 1 :
-				$r1 = $this->where ($wa)->setInc ( 'ClockinCount' );
-				$r2 = $this->where ($wa )->save ( array (
+				$r1 = $this->where ( $wa )->setInc ( 'ClockinCount' );
+				$r2 = $this->where ( $wa )->save ( array (
 						'LastClockinTime' => time () 
 				) );
-				$c = $this->where ($wa)->field ( 'ClockinCount' )->find ();
+				$c = $this->where ( $wa )->field ( 'ClockinCount' )->find ();
 				$c = $c ['ClockinCount'];
 				break;
 			case 2 :
@@ -796,8 +817,14 @@ class userModel extends Model {
 		$user = $this->where ( array (
 				'Id' => $uid,
 				'Status' => array (
-						'gt',
-						9 
+						array (
+								'gt',
+								9 
+						),
+						array (
+								'lt',
+								102 
+						) 
 				) 
 		) )->find ();
 		if (! $user) {
@@ -823,8 +850,14 @@ class userModel extends Model {
 		$user = $this->field ( 'ClockinCount' )->where ( array (
 				'Id' => $uid,
 				'Status' => array (
-						'gt',
-						9 
+						array (
+								'gt',
+								9 
+						),
+						array (
+								'lt',
+								102 
+						) 
 				) 
 		) )->find ();
 		if (! $user) {
