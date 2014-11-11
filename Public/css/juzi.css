@@ -168,8 +168,9 @@ a.thumbnail:hover, a.thumbnail:focus, a.thumbnail.active{
 
 .ratings h3 {
     white-space: nowrap;
-    font-size: 12px;
-    margin-top: 14px;
+    font-size: 20px;
+    margin-top: 2px;
+    color: orange;
 }
 
 .ratings h3 span{
