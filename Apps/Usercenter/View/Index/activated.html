@@ -2,25 +2,19 @@
 <block name="content">
 	<!-- 内容 -->
 	<div id="main" class="container">
-		<div class=" col-sm-offset-3 col-sm-6 ">
-			<div class="panel panel-default">
-				<div class="panel-body text-center">
-					<h2 >帐号未激活</h2>
-					<hr/>
-					<div class="row ">
-						<div class="col-sm-12 ">
-							<a href="{$activatedurl}" target="_blank" class="btn btn-success">登录邮箱</a>
-							<button url="{:U('Usercenter/Index/sendactivatemail')}"  class="btn btn-orange activatedbtn " data-loading-text="发送中..." autocomplete="off" >发送激活邮件</button>
-						</div>
-					</div>
-				</div>
-			</div>
+		<div class="col-md-12 text-center">
+			<h1 class="hightlight board-register">账号尚未激活，请登录邮箱查收激活邮件</h1>
+			<a href="{$activatedurl}" target="_blank" class="btn btn-success text-p btn-lg hightlight">登录邮箱</a>
+
+			<p><a class="text-p activatedbtn" url="{:U('Usercenter/Index/sendactivatemail')}" href="javascript:void(0);" data-loading-text="发送中..." autocomplete="off" >重新发送激活邮件</a></p>
 		</div>
+
 	</div>
+	
 </block>
 <include file="./Tpl/Public/footer.html"/>
 <block name="js">
-	
+
 	<script>
 
 function ajaxsubmit () {
