@@ -26,7 +26,6 @@
 							</form>
 						</if>
 					</if>
-
 					<!-- 商品分类 -->
 					<div class="sideitemnav">
 						<h4>商品分类</h4>
@@ -42,7 +41,6 @@
 						</ul>
 					</div>
 					<!--/.sideitemnav-->
-
 					<!-- 热门活动 -->
 					<div class="sideitemnav">
 						<h4>热门活动</h4>
@@ -50,7 +48,7 @@
 							<hr>
 							<div class="media">
 								<a class="pull-left" href="#">
-									<img class="media-object" src="__ROOT__{$v['ThumURL']}" alt="{$v['Title']}"></a>
+									<img class="media-object" src="__ROOT__{:checkfile_exists($v['ThumURL'])?$v['ThumURL']:getdefaultimg(6)}" alt="{$v['Title']}"></a>
 								<div class="media-body">
 									<h5 class="media-heading">{$v['Title']}</h5>
 									<p>{$v['Presentation']}</p>

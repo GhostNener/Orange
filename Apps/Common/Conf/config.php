@@ -130,6 +130,8 @@ return array (
 		/*商品订单session 缓存值  */
 		'GOODS_ORDER_SESSION_VALUE' => 1024 * 1024 * 9,
 		'SEARCH_CATEGORY_NAME' => '搜索关键字',
+		/*发布时最多收取发布费用！不算服务费  */
+		'MAX_PUBLISH_COST'=>10,
 		/*定制成功以及错误模板  */
 		'TMPL_ACTION_ERROR' => './Tpl/jump.html',
 		'TMPL_ACTION_SUCCESS' => './Tpl/jump.html' 

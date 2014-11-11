@@ -9,20 +9,20 @@
 						<ul class="nav nav-tabs" id="myTab">
 							<div class="liner"></div>
 							<li class="active">
-								<a href="#step1" data-toggle="tab" title="基本信息" >
+								<a id="tabstep1" href="#step1" data-toggle="tab" title="基本信息" >
 									<span class="round-tabs four"> <i class="glyphicon glyphicon-camera"></i>
 									</span>
 								</a>
 							</li>
 
 							<li>
-								<a href="#step2" data-toggle="tab" title="选填内容">
+								<a id="tabstep2" href="#step2" data-toggle="tab" title="选填内容">
 									<span class="round-tabs two"> <i class="glyphicon glyphicon-pencil"></i>
 									</span>
 								</a>
 							</li>
 							<li>
-								<a href="#step3" data-toggle="tab" title="增值服务">
+								<a id="tabstep3" href="#step3" data-toggle="tab" title="增值服务">
 									<span class="round-tabs three">
 										<i class="glyphicon glyphicon-gift"></i>
 									</span>
@@ -51,13 +51,13 @@
 								<div class="form-group">
 									<label for="Title" class="col-sm-3 control-label">标题</label>
 									<div class="col-sm-8">
-										<input type="text" id="Title" name="Title" class="form-control" placeholder="输入商品名字、成色"></div>
+										<input type="text" id="Title" name="Title" class="form-control" placeholder="输入商品名字、成色" required></div>
 								</div>
 								<div class="form-group">
-									<label for="CostPrice" class="col-sm-3 control-label">原价</label>
+									<label for="CostPrice" class="col-sm-3 control-label" >原价</label>
 									<div class="col-sm-3">
 										<div class="input-group">
-											<input type="text" id="CostPrice" name="CostPrice" class="form-control" placeholder="商品原价">
+											<input type="number" id="CostPrice" name="CostPrice" class="form-control" placeholder="商品原价" required>
 											<span class="input-group-addon">.00</span>
 										</div>
 									</div>
@@ -66,7 +66,7 @@
 									<label for="Price" class="col-sm-3 control-label">转卖价</label>
 									<div class="col-sm-3">
 										<div class="input-group">
-											<input type="text" id="Price" name="Price" class="form-control" placeholder="你要卖的价格">
+											<input type="number" id="Price" name="Price" class="form-control" placeholder="你要卖的价格" required> 
 											<span class="input-group-addon">.00</span>
 										</div>
 									</div>
@@ -89,7 +89,7 @@
 									<label for="AddressId" class="col-sm-3 control-label">发货联系人</label>
 									<div class="col-sm-8">
 										<div class="input-group">
-											<select class="form-control" id="AddressId" name="AddressId">
+											<select class="form-control" id="AddressId" name="AddressId" required>
 												<foreach name="alist" item="v">
 													<option value="{$v['Id']}" address="{$v['Address']}" contacts="{$v['Contacts']}">
 														{$v['Contacts']}&nbsp;&nbsp;{$v['Tel']}&nbsp;&nbsp;{$v['Address']}
@@ -117,7 +117,7 @@
 									</div>
 								</div>
 
-								<a href="#step2" class="btn btn-danger btn-outline-rounded green active-step pull-right">
+								<a id="btnstep2" href="#step2" class="btn btn-danger btn-outline-rounded green active-step pull-right">
 									选填内容&nbsp
 									<span class="glyphicon glyphicon-chevron-right"></span>
 								</a>
@@ -145,11 +145,11 @@
 									</div>
 								</div>
 
-								<a href="#step1" class="btn btn-primary btn-outline-rounded green active-step">
+								<a id="btnstep1" href="#step1" class="btn btn-primary btn-outline-rounded green active-step">
 									<span class="glyphicon glyphicon-chevron-left"></span>
 									&nbsp基本信息
 								</a>
-								<a href="#step3" class="btn btn-orange btn-outline-rounded green active-step pull-right">
+								<a  href="#step3" class="btn btn-orange btn-outline-rounded green active-step pull-right">
 									增值服务&nbsp
 									<span class="glyphicon glyphicon-chevron-right"></span>
 								</a>
@@ -186,7 +186,7 @@
 
 								<a href="#step2" class="btn btn-danger btn-outline-rounded green active-step">
 									<span class="glyphicon glyphicon-chevron-left"></span>
-									&nbsp增值服务
+									&nbsp选填内容
 								</a>
 								<a href="#step4" id="getcostandb" class="btn btn-success btn-outline-rounded green active-step pull-right">
 									支付佣金&nbsp
@@ -212,6 +212,10 @@
 									</a>
 								</p>
 
+								<a id="btnstep3" href="#step3" class="btn btn-danger btn-outline-rounded green active-step">
+									<span class="glyphicon glyphicon-chevron-left"></span>
+									&nbsp增值服务
+								</a>
 								<button type="submit" id="submitsave" class="btn btn-success btn-outline-rounded green active-step pull-right" data-loading-text="发布中..."  autocomplete="off" >
 									付款并发布&nbsp
 									<span class="glyphicon glyphicon-send"></span>
@@ -301,28 +305,28 @@ function del(div_id, imgId) {
 }
 
 /*保存地址*/
-function ajaxaddresssubmit(){
-	var $btn = $('#submitaddress').button('loading');
-	if(!$.trim($('#Contacts').val())){
-		showerrormsg('联系人为空',100,1000);
-		$('#Contacts').focus();
-		$btn.button('reset');
-		return false;
-	}
-	var isMobile=/^(?:13\d|14\d|15\d|18\d)\d{5}(\d{3}|\*{3})$/; 
-	if(!$.trim($('#Tel').val())||!isMobile.test($('#Tel').val())){
-		showerrormsg('联系电话不合法',100,1000);
-		$('#Tel').focus();
-		$btn.button('reset');
-		return false;
-	}
-	if(!$.trim($('#Address').val())){
-		showerrormsg('联系地址为空',100,1000);
-		$('#Address').focus();
-		$btn.button('reset');
-		return false;
-	}
-	$.ajax({
+function ajaxaddresssubmit() {
+    var $btn = $('#submitaddress').button('loading');
+    if (!$.trim($('#Contacts').val())) {
+        showerrormsg('联系人为空', 100, 1000);
+        $('#Contacts').focus();
+        $btn.button('reset');
+        return false;
+    }
+    var isMobile = /^(?:13\d|14\d|15\d|18\d)\d{5}(\d{3}|\*{3})$/;
+    if (!$.trim($('#Tel').val()) || !isMobile.test($('#Tel').val())) {
+        showerrormsg('联系电话不合法', 100, 1000);
+        $('#Tel').focus();
+        $btn.button('reset');
+        return false;
+    }
+    if (!$.trim($('#Address').val())) {
+        showerrormsg('联系地址为空', 100, 1000);
+        $('#Address').focus();
+        $btn.button('reset');
+        return false;
+    }
+    $.ajax({
         type: 'post',
         cache: false,
         url: $('#addressform').attr('action'),
@@ -351,6 +355,7 @@ function ajaxaddresssubmit(){
     });
     return false;
 }
+
 /*保存商品*/
 function ajaxsubmit() {
 
@@ -455,11 +460,16 @@ function computecost() {
         $('#needpay').html("");
         $('#step4').children().addClass('disabled');
         /*$('#step4').children().children().attr('disabled',true);*/
-        $('#step4').children().stop().fadeTo(500, 0.22);
+        $('#step4').children().stop().fadeTo(10, 0.22);
 
         $('.rechargebnt').hide();
+        $('#btnstep3').show();
+        $('#btnstep3').removeClass('disabled');
+        $('#btnstep3').attr('disabled', false);
+        $('#btnstep3').fadeTo(10, 1);
         return false;
     }
+
     var _se = new Array();
     $('.servercheckbox').each(function() {
         var _ch = $(this).children("input").attr('checked');
@@ -488,12 +498,16 @@ function computecost() {
                 var _rs = JSON.parse(data.info);
                 if (!_rs) {
                     showerrormsg('网络错误', 100, 1000);
+                    $('#btnstep3').show();
+                    $('#btnstep3').removeClass('disabled');
+                    $('#btnstep3').attr('disabled', false);
+                    $('#btnstep3').fadeTo(10, 1);
                     return false;
                 }
                 $('#balance').html(_rs['balance'] + '.00');
-                 $('#needpay').html(_rs['cost'] + '.00');
-                  $('#step4').children().stop().fadeTo(1000, 1);
-                  if (parseInt(_rs['cost']) > parseInt(_rs['balance'])) {
+                $('#needpay').html(_rs['cost'] + '.00');
+                $('#step4').children().stop().fadeTo(1000, 1);
+                if (parseInt(_rs['cost']) > parseInt(_rs['balance'])) {
                     $('#step4').children().attr('disabled', true);
                     $('#step4').children().children().attr('disabled', false);
                     $('#step4').children().addClass('disabled');
@@ -502,10 +516,14 @@ function computecost() {
                     $('#step4').children().attr('disabled', false);
                     $('#step4').children().removeClass('disabled');
                     $('.rechargebnt').hide();
-                }       
+                }
             }                
         } 
     });
+    $('#btnstep3').show();
+    $('#btnstep3').removeClass('disabled');
+    $('#btnstep3').attr('disabled', false);
+    $('#btnstep3').fadeTo(10, 1);
     return;
 }
 
@@ -556,6 +574,68 @@ function refaddress(isshowmsg) {
 }
 
 $(document).ready(function() {
+    $('#Title').focus();
+    $('#Title').focus(function() {
+        $(this).parent().removeClass('has-success');
+        $(this).parent().removeClass('has-error');
+    });
+    $('#Price').focus(function() {
+        $(this).parent().removeClass('has-success');
+        $(this).parent().removeClass('has-error');
+    });
+    $('#CostPrice').focus(function() {
+        $(this).parent().removeClass('has-success');
+        $(this).parent().removeClass('has-error');
+    });
+    $('#Title').blur(function() {
+        var _Title = $.trim($('#Title').val());
+        $(this).parent().removeClass('has-success');
+        if (!_Title) {
+            showerrormsg('标题不能为空', 100, 500);
+            $(this).parent().addClass('has-error');
+            return false;
+        } else {
+            $(this).parent().removeClass('has-error');
+            $(this).parent().addClass('has-success');
+        }
+    });
+    $('#Price').blur(function() {
+        var _CostPrice = $.trim($('#CostPrice').val());
+        var _Price = $.trim($('#Price').val());
+        $(this).parent().removeClass('has-success');
+        if (!$.isNumeric(_Price) || parseInt(_Price) <= 0 || parseInt(_Price) > 999999) {
+            showerrormsg('转卖价不合法！1-999999', 100, 500);
+            $(this).parent().addClass('has-error');
+            return false;
+        }
+        if (parseInt(_CostPrice) >= 1 && parseInt(_CostPrice) < parseInt(_Price)) {
+            showerrormsg('转卖价高于出原价', 100, 500);
+            $(this).parent().addClass('has-error');
+            return false;
+        } else {
+            $(this).parent().removeClass('has-error');
+            $(this).parent().addClass('has-success');
+        }
+
+    });
+    $('#CostPrice').blur(function() {
+        var _Price = $.trim($('#Price').val());
+        var _CostPrice = $.trim($('#CostPrice').val());
+        $(this).parent().removeClass('has-success');
+        if (!$.isNumeric(_CostPrice) || parseInt(_CostPrice) <= 0 || parseInt(_CostPrice) >= 999999) {
+            showerrormsg('原价不合法！1-999999', 100, 500);
+            $(this).parent().addClass('has-error');
+            return false;
+        }
+        if (parseInt(_Price) >= 1 && parseInt(_CostPrice) < parseInt(_Price)) {
+            showerrormsg('转卖价高于出原价', 100, 500);
+            $(this).parent().addClass('has-error');
+            return false;
+        } else {
+            $(this).parent().removeClass('has-error');
+            $(this).parent().addClass('has-success');
+        }
+    });
     $('.servercheckbox').click(function(e) {
         var _ch = $(this).children("input").attr('checked');
         if (!_ch) {
@@ -577,7 +657,7 @@ $(document).ready(function() {
     });
 
     $('#refreshadd').click(function(e) {
-    	refaddress(true);
+        refaddress(true);
     });
     /*标题焦点离开事件  获取分类*/
     $('#Title').blur(function(e) {
@@ -625,10 +705,12 @@ $(document).ready(function() {
         },
         'json');
     });
-   var upconfig= $('#file_upload').uploadAdapter({
-    	auto:true,
-    	method:'post',//发送请求的方式，get或post
-		multi:false,//是否允许选择多个文件
+    var upconfig = $('#file_upload').uploadAdapter({
+        auto: true,
+        method: 'post',
+        //发送请求的方式，get或post
+        multi: false,
+        //是否允许选择多个文件
         fileTypeDesc: 'Image Files',
         formData: {
             'sname': '{$sname}',
@@ -647,9 +729,12 @@ $(document).ready(function() {
         height: 40,
         width: 40,
         /*防止缓存*/
-        fileObjName : 'Filedata',
+        fileObjName: 'Filedata',
         removeTimeout: 0,
-        onFallback: function() {alert('请安装flash player插件');location.href = $('#url').attr('homeurl'); },
+        onFallback: function() {
+            alert('请安装flash player插件');
+            location.href = $('#url').attr('homeurl');
+        },
         onUploadSuccess: function(file, data, response) {
             if (!data) {
                 showerrormsg('上传失败！', 100, 1000);
@@ -687,8 +772,6 @@ $(document).ready(function() {
         }
     });
 });
-window.onload=function(){   
-}
 	</script>
 </block>
 

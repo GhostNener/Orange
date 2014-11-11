@@ -163,7 +163,10 @@ class goodsModel extends Model {
 		/* 计算服务费 */
 		$scost = $se->computecost ( $arr ['Server'] );
 		/* 计算发布费 */
-		$temp = ceil ( $arr ['Price'] * 0.03 );
+		$temp = ceil ( $arr ['Price'] * 0.04 );
+		if($temp>C('MAX_PUBLISH_COST')){
+			$temp=C('MAX_PUBLISH_COST');
+		}
 		if ($type == 2) {
 			return ($scost + $temp);
 		}
