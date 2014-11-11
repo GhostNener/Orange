@@ -74,7 +74,8 @@ class GiftController extends BaseController {
 		$data = array (
 				'Name' => I ( 'Name' ),
 				'Amount' => I ( 'Amount' ),
-				'Price' => I ( 'Price' )
+				'Price' => I ( 'Price' ),
+				'Status' => 10
 		);
 
 		$config = C('IMG_UPLOAD_CONFIG');
@@ -91,7 +92,6 @@ class GiftController extends BaseController {
 
 		if ($modif == "add") {
 
-			$data ['Status'] = 10;
 			$data ['CreateTime'] = time();
 			$dal = M ();
 			$dal->startTrans ();

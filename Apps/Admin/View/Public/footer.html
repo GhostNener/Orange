@@ -73,7 +73,7 @@
 
 						//填充数据
 						for(var p in result.data){    
-		       				$('input[type!="file"][name="'+p+'"]').val(result.data[p]);
+		       				$('input[type!="file"][type!="checkbox"][name="'+p+'"]').val(result.data[p]);
 
 		       				if ($('select[name="'+p+'"]').length>0) {
 				       				$('select[name="'+p+'"]').children().each(function () {
@@ -87,6 +87,14 @@
 		       				if ($('textarea[name="'+p+'"]').length>0) {
 									editorContent.html(result.data[p]);
 							};
+
+							if($('input[type="checkbox"][name="'+p+'"]').length>0){
+								if(result.data[p]>0){
+									$('input[type="checkbox"][name="'+p+'"]').attr('checked',true);
+								}
+
+							}
+
 						}
 
 						$('input[name="modif"]').val(result.method);
@@ -134,4 +142,8 @@
 				});
 		});
 
+	//加载中的动画
+	function loading() { 
+		$("body").append('<div  id="load" style="z-index:99999; position:fixed; left:45%; top:30%"><img src="__PUBLIC__/Img/loading.gif" /></div>'); 
+	}
 	</script>

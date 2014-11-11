@@ -4,8 +4,8 @@
 		<label>活动分类</label>
 		<ul class="list-group">
 			<a class="list-group-item" href="{:U('index')}">全部</a>
-			<a class="list-group-item" href="{:U('index',array(type=>'top'))}">置顶轮播</a>
-			<a class="list-group-item" href="{:U('index',array(type=>'hot'))}">热门活动</a>
+			<a class="list-group-item" href="{:U('index',array(type=>'IsTop'))}">置顶轮播</a>
+			<a class="list-group-item" href="{:U('index',array(type=>'IsHot'))}">热门活动</a>
 		</ul>
 		<ul class="list-group">
 			<a class="list-group-item" href="{:U('recycle')}">回收站</a>
@@ -13,10 +13,127 @@
 	</div>
 
 	<block name="content"></block>
+	<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog  modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">
+						<span aria-hidden="true">&times;</span>
+						<span class="sr-only">Close</span>
+					</button>
+					<h4 class="modal-title hightlight" id="myModalLabel">添加资讯</h4>
+				</div>
+
+				<form class="form-horizontal" action="{:U('save')}" onsubmit="syncsubmit()" method="post" enctype="multipart/form-data">
+					<div class="modal-body">
+
+						<input type="hidden" class="form-control " name="modif" value="add">
+						<input type="hidden" class="form-control " name="Id" value="{$model.Id}">
+						<input type="hidden" class="form-control " name="Status" value="{$model.Status}">
+
+						<div class="form-group">
+							<label class="col-sm-2 control-label">显示大图</label>
+							<div class="col-sm-10">
+								<input type="file" id="ImgURL" name="ImgURL" remove-attr="required" required>
+								<p class="help-block">800x300 置顶轮播需要</p>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-sm-2 control-label">活动小图</label>
+							<div class="col-sm-10">
+								<input type="file" id="ThumURL" name="ThumURL" data-required="IsHot">
+								<p class="help-block">80x80 热门活动需要</p>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-sm-2 control-label">类型</label>
+							<div class="col-sm-10">
+								<label class="checkbox-inline">
+									<input type="checkbox" id="IsHot" name="IsHot" value="1">热门活动</label>
+								<label class="checkbox-inline">
+									<input type="checkbox" id="IsTop" name="IsTop" value="1">置顶轮播</label>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-sm-2 control-label">链接</label>
+							<div class="col-sm-10">
+								<div class="input-group">
+									<input type="url" class="form-control" id="Href" name="Href" placeholder="需要额外跳转其他页面才填">
+									<span class="input-group-btn">
+										<button class="btn btn-default btn-expend" type="button" onclick="javascript:window.open(document.getElementById('Href').value)">浏览</button>
+									</span>
+								</div>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-sm-2 control-label">标题</label>
+							<div class="col-sm-10">
+								<input type="text" class="form-control" id="Title" name="Title" placeholder="活动名称" required></div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-sm-2 control-label">简介</label>
+							<div class="col-sm-10">
+								<input type="text" class="form-control" id="Presentation" name="Presentation" placeholder="如果是热门活动就要填简介，24字以内"></div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-sm-2 control-label">内容</label>
+							<div class="col-sm-10">
+								<textarea class="form-control" id="Contents" name="Contents" placeholder="具体内容"></textarea>
+							</div>
+						</div>
+
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-danger" data-dismiss="modal">关闭</button>
+						<button type="reset" class="btn btn-warning">清空</button>
+						<button type="submit" class="btn btn-primary loading">保存</button>
+					</div>
+				</form>
+
+			</div>
+		</div>
+	</div>
 </div>
 
 <include file="Public/footer"/>
-<block name='js'></block>
+<script src="__PUBLIC__/kindeditor/kindeditor-min.js"></script>
+	<script type="text/javascript">
+    var editorContent = null;
+	$(function () {
+        KindEditor.ready(function (k) {
+
+            editorContent = k.create('textarea[name="Contents"]', {
+                allowImageUpload: true,
+                uploadJson: '/Upload/UploadFile'
+                , items: [
+                     'source', 'preview','|', 'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold', 'italic', 'underline','removeformat', '|', 'justifyleft', 'justifycenter', 'justifyright', 'insertorderedlist',
+                    'insertunorderedlist', '|', 'image', 'insertfile','link','quickformat', 'wordpaste','|', 'fullscreen']
+            });
+        });
+        $('textarea[name="Contents"]').css('width','100%');
+
+    })
+
+    $(document).ready(function () {
+    	var url =window.location.href;
+    	if (url.indexOf('type')>0) {
+    		if (url.indexOf('.html')>0) {
+    			param = url.substring(url.indexOf('type')+'type'.length+1, url.indexOf('.html'));
+    		}else{
+    			param = url.substring(url.indexOf('type')+'type'.length+1);
+    		}
+
+    		$('input[type="checkbox"][name="'+param+'"]').attr('checked',true);
+    		$('input[data-required="'+param+'"]').attr('required','required');
+    	};
+    })
+</script>
 </body>
 
 </html>

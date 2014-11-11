@@ -18,9 +18,9 @@ class ActivityController extends BaseController {
 		);
 		
 		$type = I('type');
-		if ($type=='hot') {
+		if ($type=='IsHot') {
 			$wherrArr['IsHot'] = 1;
-		} else if($type=='top'){
+		} else if($type=='IsTop'){
 			$wherrArr['IsTop'] = 1;
 		}
 		
@@ -86,7 +86,8 @@ class ActivityController extends BaseController {
 				'Presentation' => I ( 'Presentation' ),
 				'Contents' => I ( 'Contents' ),
 				'IsHot' => I ( 'IsHot' ),
-				'IsTop' => I ( 'IsTop' )
+				'IsTop' => I ( 'IsTop' ),
+				'Status' => 10
 		);
 
 		C('DEFAULT_FILTER','htmlspecialchars,strip_tags');
@@ -121,7 +122,6 @@ class ActivityController extends BaseController {
 
 		if ($modif == "add") {
 
-			$data ['Status'] = 10;
 			$data ['CreateTime'] = time();
 			$dal = M ();
 			$dal->startTrans ();

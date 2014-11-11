@@ -270,7 +270,7 @@ function ajaxsubmit() {
                 showsuccessmsg("提交成功", 100, 2000);
                 $btn.button('reset');
                 setTimeout(function() {
-                    location.reload();
+					window.location.href=window.location.href;
                 },
                 200);
                 return false;
@@ -310,9 +310,9 @@ $(document).ready(function() {
 
 	 $(document).keypress(function(e){ 
             if(e.ctrlKey && e.which == 13 || e.which == 10) { 
-                    $("#submitref").click(); 
+                    ajaxsubmit(); 
             } else if (e.shiftKey && e.which==13 || e.which == 10) { 
-                    $("#submitref").click(); 
+                    ajaxsubmit(); 
             } 
      })
 
