@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+	<meta name="description" content="贵州财经大学-二手交易-以物换物-服务平台-c2c">
+	<meta name="author" content="橘子团队">
+	<title>大橘子-贵财二手交易平台</title>
+	<!-- Bootstrap Core CSS -->
+	<link href="css/bootstrap.min.css" rel="stylesheet">
+	<link href="css/normalize.css" rel="stylesheet">
+	<!-- Custom CSS -->
+	<link href="css/juzi.css" rel="stylesheet">
+
+	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+	<!--[if lt IE 9]>
+	<script src="http://cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+	<script src="http://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+	<![endif]-->
+
+</head>
+
+<body>
+	<!-- 页身 -->
+	<div id="wrap">
+
+		<!-- 内容 -->
+		<div id="main" class="container">
+
+			<div class="col-md-8 col-md-offset-2">
+				<div class="panel panel-default">
+					<div class="panel-body">
+
+						<button class="btn btn-success" data-toggle="modal" data-backdrop="static" modaltitle="添加资讯" data-target="#addModal">评分</button>
+
+						<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-hidden="true">
+							<div class="modal-dialog modal-sm">
+								<div class="modal-content">
+									<div class="modal-header">
+										<button type="button" class="close" data-dismiss="modal">
+											<span aria-hidden="true">&times;</span>
+											<span class="sr-only">Close</span>
+										</button>
+										<h4 class="modal-title hightlight" id="myModalLabel">请为本次交易评分</h4>
+									</div>
+
+									<form class="form-horizontal" action="{:U('save')}" onsubmit="syncsubmit()" method="post" enctype="multipart/form-data">
+										<div class="modal-body">
+
+											<h1 class="row text-center">
+												<div id="stars" class="starrr text-orange"></div>
+												
+												<small id="count">0</small>
+												<small>星</small>
+											</h1>
+
+										</div>
+										<div class="modal-footer">
+											<button type="submit" class="btn btn-success">确定</button>
+										</div>
+									</form>
+
+								</div>
+							</div>
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script src="js/jquery-1.11.0.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script src="js/juzi.js"></script>
+
+	<script src="../js/star.js"></script>
+
+</body>
+
+</html>
