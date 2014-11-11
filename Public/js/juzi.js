@@ -123,3 +123,5 @@ $(document).ready(function() {
 	function loading() { 
 		$("body").append('<div  id="load" style="z-index:99999; position:fixed; left:45%; top:30%"><img src="../Public/Img/loading.gif" /></div>'); 
 	}
+
+	

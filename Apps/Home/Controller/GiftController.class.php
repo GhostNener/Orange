@@ -35,10 +35,13 @@ class GiftController extends BaseController {
 		$this->assign ( 'empty', '<h1 class="text-center text-import">暂无礼品</h1>' );
 		$this->display ();
 	}
+
 	public function exchange() {
 		$giftid = I ( 'giftid' );
-		$this->success ( '兑换成功,请到消息中心查看详情' );
+		$this->success ( '兑换成功,请到消息中心查看详情', U('Home/Index') );
 	}
+
+	//得到用户地址
 	public function getinfo() {
 		$m = new user_addressModel ();
 		$alist = $m->getall ( cookie ( '_uid' ) );

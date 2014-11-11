@@ -91,23 +91,23 @@
 					</button>
 					<h4 class="modal-title hightlight" id="addressModalLabel">添加地址</h4>
 				</div>
-				<form id="addressform" class="form-horizontal" onsubmit="return ajaxsubmit()" action="{:U('Usercenter/Address/saveaddress')}" method="post">
+				<form class="form-horizontal address" onsubmit="return ajaxsubmit()" action="{:U('Usercenter/Address/saveaddress')}" method="post">
 					<div class="modal-body">
 						<input type="hidden" name="modif" value="add">
 						<div class="form-group">
 							<label for="Contacts" class="col-sm-2 control-label">联系人</label>
 							<div class="col-sm-10">
-								<input type="tel" name="Contacts" id="Contacts" class="form-control" placeholder="联系人"></div>
+								<input type="text" name="Contacts" id="Contacts" class="form-control"></div>
 						</div>
 						<div class="form-group">
 							<label for="Tel" class="col-sm-2 control-label">联系电话</label>
 							<div class="col-sm-10">
-								<input type="tel" name="Tel" id="Tel" class="form-control" placeholder="联系电话"></div>
+								<input type="tel" name="Tel" id="Tel" class="form-control" required></div>
 						</div>
 						<div class="form-group">
 							<label for="Address" class="col-sm-2 control-label">联系地址</label>
 							<div class="col-sm-10">
-								<input type="tel" name="Address" id="Address" class="form-control" placeholder="联系地址"></div>
+								<input type="text" name="Address" id="Address" class="form-control"></div>
 						</div>
 						<div class="form-group">
 							<div class="col-sm-offset-2 col-sm-10">
@@ -120,6 +120,7 @@
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-danger" data-dismiss="modal">关闭</button>
+						<button type="reset" class="btn btn-warning">清空</button>
 						<button type="submit" class="btn btn-primary">提交</button>
 					</div>
 				</form>
@@ -168,5 +169,38 @@
 			$('#addModal').modal('show');
 			$('a[refreshAddress]').click();
 		})
+
+		//异步提交表单
+		function ajaxsubmit(){
+			var form = $('.address');
+			$('button[type="submit"]').attr('disabled' ,'disabled');
+			$('button[type="submit"]').text('等啊等...');
+			$.ajax({
+                type: form.attr("method"),
+                url: form.attr("action"),
+                data: form.serialize(),
+                beforeSend: function(){
+					loading();
+				},
+                error: function(request) {
+					showerrormsg('网络连接失败',100,1000);
+                },
+                success: function(data) {
+                    if (data.status != 1) {
+						showerrormsg(data.info,100,1000);
+                    }
+                    else{
+						showsuccessmsg(data.info,100,1000);
+						$('#addressModal').modal('hide');
+                    }
+                },
+                complete:function () {
+					$("#load").remove();
+                	$('button[type="submit"]').removeAttr('disabled');
+					$('button[type="submit"]').text('保存');
+                }
+            });
+            return false;
+		}
 	</script>
 </block>
