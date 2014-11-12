@@ -91,7 +91,7 @@
 										<div class="input-group">
 											<select class="form-control" id="AddressId" name="AddressId" required>
 												<foreach name="alist" item="v">
-													<option value="{$v['Id']}" address="{$v['Address']}" contacts="{$v['Contacts']}">
+													<option value="{$v['Id']}" address="{$v['Address']}" tel="{$v['Tel']}" contacts="{$v['Contacts']}">
 														{$v['Contacts']}&nbsp;&nbsp;{$v['Tel']}&nbsp;&nbsp;{$v['Address']}
 													</option>
 												</foreach>
@@ -562,7 +562,7 @@ function refaddress(isshowmsg) {
                 }
                 $('#AddressId').children('option').remove();
                 $(_arr).each(function(i, v) {
-                    $('#AddressId').append("<option value=" + v['Id'] + " address=" + v['address'] + "contacts=" + v['Contacts'] + " >" + v['Contacts'] + "&nbsp;&nbsp;" + v['Tel'] + "&nbsp;&nbsp;" + v['Address'] + "</option>");
+                    $('#AddressId').append("<option value=" + v['Id'] + " address=" + v['address'] +"tel="+v['Tel']+ "contacts=" + v['Contacts'] + " >" + v['Contacts'] + "&nbsp;&nbsp;" + v['Tel'] + "&nbsp;&nbsp;" + v['Address'] + "</option>");
                 });
                 if (isshowmsg) {
                     showsuccessmsg("刷新成功", 100, 500);

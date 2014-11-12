@@ -184,7 +184,7 @@ class user_addressModel extends Model {
 	 * @param unknown $uid
 	 * @return boolean  */
 	public function adddefefault($uid){
-		$user=M('user')->where(array('Id'=>$uid))->find();
+/* 		$user=M('user')->where(array('Id'=>$uid))->find();
 		if(!$user){
 			return false;
 		}		
@@ -192,7 +192,7 @@ class user_addressModel extends Model {
 		$rst=$this->add($data);
 		if(!$rst){
 			return false;
-		}
+		} */
 		return true;
 	}
 	
