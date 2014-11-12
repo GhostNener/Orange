@@ -5,6 +5,7 @@ namespace Usercenter\Controller;
 use Think\Controller;
 use Usercenter\Model\userModel;
 use Usercenter\Model\view_user_info_avatarModel;
+use Home\Model\noticeModel;
 
 /**
  * 基础控制器
@@ -29,7 +30,9 @@ class BaseController extends Controller {
 			} else {
 				$usermodel = null;
 			}
-
+			$nm=new noticeModel();
+			$un=$nm->getunread(null,2);
+			$this->assign ( 'urnotice', $un );
 		}
 		$this->assign ( 'usermodel', $usermodel );
 				/* 商品图路径 */

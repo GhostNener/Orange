@@ -184,7 +184,7 @@ class IndexController extends LoginController {
 		$userid = cookie ( '_uid' );
 		$dal = M ();
 		// 开始事务
-		$dal = startTrans ();
+		$dal = startTrans();
 		$model = new attentionModel ();
 		$rst = $model->delattention ( array (
 				'AttentionId' => $AttentionId,

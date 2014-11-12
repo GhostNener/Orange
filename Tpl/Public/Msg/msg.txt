@@ -1,0 +1,9 @@
+<a href="[$_GURL_$]" class="text-orange">[$_Title_$]</a>
+&nbsp;已被&nbsp;
+<a href="[$_UserURL_$]" class="text-orange">@[$_Nick_$]</a>
+&nbsp;评论
+<blockquote>
+	<p>[$_Nick_$]</p>
+	<p>[$_Content_$]</p>
+</blockquote>
+<button class="btn btn-primary replaybtn" cid="[$_CId_$]" >回复评论</button>

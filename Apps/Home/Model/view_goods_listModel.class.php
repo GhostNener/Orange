@@ -60,11 +60,15 @@ class view_goods_listModel extends Model {
 	 *
 	 * @param
 	 *        	int Id
+	 * @param  int $type 1:返回所有信息，2：返回基础信息
 	 * @return goods 商品信息,commentlist 评论列表,goodsimg商品图片
 	 *        
 	 *        
 	 */
-	public function getgoodsdetails($Id) {
+	public function getgoodsdetails($Id, $type = 1) {
+		if ($type == 2) {
+			return $this->findone ( $Id );
+		}
 		$whereArr = array (
 				'Id' => $Id,
 				'Status' => 10 
@@ -84,5 +88,17 @@ class view_goods_listModel extends Model {
 				'commentlist' => $commentlist,
 				'goodsimg' => $goodsimg 
 		);
+	}
+	/**
+	 * 获得单个商品信息（不包含评论）
+	 * 
+	 * @param number $id        	
+	 * @return obj
+	 */
+	private function findone($id) {
+		$r = $this->where ( array (
+				'Id' => ( int ) $id 
+		) )->find ();
+		return $r;
 	}
 }

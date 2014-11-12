@@ -114,7 +114,8 @@ class IndexController extends BaseController {
 	/**
 	 * 展示商品 详情 及评论
 	 */
-	public function showgoods($Id) {
+	public function showgoods() {
+		$Id=(int)I('Id');
 		$model = new view_goods_listModel ();
 		$arr = $model->getgoodsdetails ( $Id );
 		if (! $arr || ! $arr ['goods']) {

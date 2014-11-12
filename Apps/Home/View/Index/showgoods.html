@@ -135,7 +135,7 @@
 											<div class="timeline-icon">
 												<img class="img-circle" src="__ROOT__{:checkfile_exists($uapth['A_40'].$v['CriticsURL'])?$uapth['A_40'].$v['CriticsURL']:getdefaultimg(4)}" alt="头像"></div>
 											<div class="timeline-label">
-												<span class="pull-right time">{$v['CreateTime']}</span>
+												<span class="pull-right time">{:date('Y-m-d H:i:s',$v['CreateTime'])}</span>
 												<h2>
 													<a href="#">{$v['Critics']}</a>
 													<if condition="(($v['UserId'] eq $v['AssesseeId']) or ($v['AssesseeId'] eq null)) or ($v['AssesseeId'] eq 0)">
@@ -148,7 +148,7 @@
 												<if condition="(($usermodel eq null) or ($usermodel['Id'] eq  null))">
 													<a href="{:U('Usercenter/User/index')}"  class="replay " >回复</a>
 													<else/>	
-													<a href="javascript:void(0)" uid="{$v['UserId']}" nick="{$v['Critics']}" class="replay" data-toggle="modal" data-target="#refModal">回复</a>
+													<a href="javascript:void(0)" uid="{$v['UserId']}" nick="{$v['Critics']}" class="replay" data-toggle="modal" data-target="#refModal" replyid="{$v['Id']}">回复</a>
 												</if>
 											</div>
 										</div>
@@ -174,6 +174,7 @@
 									<input type="hidden" name="GoodsId" value="{$goods['Id']}" />	
 									<input type="hidden" name="AssesseeId" id="AssesseeId" value="0" />	
 									<input type="hidden" name="UserId" id="UserId" value="{$usermodel['Id']}" />	
+									<input type="hidden" name="ReplyId" id="ReplyId" value="0">
 									<div class="form-group">
 										<label for="Content" class="col-sm-2 control-label">内容</label>
 										<div class="col-sm-10">
@@ -323,8 +324,10 @@ $(document).ready(function() {
         if ($(this).attr('uid') == $('#UserId').val()) {
         	$('#refModalLabel').html('留言');
             $('#AssesseeId').val('0');
+            $('#ReplyId').val('0');
         } else {
             $('#AssesseeId').val($(this).attr('uid'));
+            $('#ReplyId').val($(this).attr('replyid'));
             $('#refModalLabel').html('回复&nbsp;<a>' + $(this).attr('nick') + '</a>');
         }
 
@@ -333,6 +336,7 @@ $(document).ready(function() {
     $('.pubcomments').click(function() {
         $('#refModalLabel').html('留言');
         $('#AssesseeId').val('0');
+         $('#ReplyId').val('0');
     });
 
     $('.fancybox').fancybox();

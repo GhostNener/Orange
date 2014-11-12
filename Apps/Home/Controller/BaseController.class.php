@@ -7,6 +7,7 @@ use Usercenter\Model\userModel;
 use Usercenter\Model\view_user_info_avatarModel;
 use Home\Model\goods_categoryModel;
 use Home\Model\activityModel;
+use Home\Model\noticeModel;
 
 /**
  * 基础控制器
@@ -36,7 +37,9 @@ class BaseController extends Controller {
 		} else {
 			$isclockin = 0;
 		}
-		
+		$nm=new noticeModel();
+		$un=$nm->getunread(null,2);
+		$this->assign ( 'urnotice', $un );
 		/* 分类复制 */
 		$model = new goods_categoryModel ();
 		$clist = $model->getall ();

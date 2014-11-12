@@ -85,17 +85,20 @@
 								<a class="dropdown-toggle" href="javascript:void(0)">
 
 									<span class="nickname">
-										<img class="img-circle" src="__ROOT__{:checkfile_exists($uapath['A_20'].$usermodel['URL'])?$uapath['A_20'].$usermodel['URL']:getdefaultimg(3)}">
-										&nbsp;{$usermodel['Nick']}&nbsp;</span>
+										<img class="img-circle" src="__ROOT__{:checkfile_exists($uapath['A_20'].$usermodel['URL'])?$uapath['A_20'].$usermodel['URL']:getdefaultimg(3)}">&nbsp;{$usermodel['Nick']}&nbsp;</span>
 									&nbsp;
 									<span class="caret"></span>
 									&nbsp;
-									<!-- <span class="badge">3</span> -->
+									<if condition="$urnotice gt 0">
+										<span class="badge">{$urnotice }</span>
+									</if>
 								</a>
 								<ul class="dropdown-menu">
 									<li>
 										<a href="#">
-										<!-- 	<span class="badge pull-right">3</span> -->
+											<if condition="$urnotice gt 0">
+												<span class="badge pull-right">{$urnotice }</span>
+											</if>
 											未读消息
 										</a>
 									</li>

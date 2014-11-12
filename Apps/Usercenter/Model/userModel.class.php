@@ -420,7 +420,7 @@ class userModel extends Model {
 		if (! $arr ['key']) {
 			return $msg;
 		}
-		$isl=isloin ();
+		$isl = isloin ();
 		$rst = $this->where ( array (
 				'UserKey' => $arr ['key'],
 				'Status' => 101 
@@ -663,9 +663,13 @@ class userModel extends Model {
 	/**
 	 * 查询用户信息
 	 */
-	public function finduser($userid) {
+	public function finduser($userid, $type = 1) {
 		$whereArr = array (
-				'Id' => $userid 
+				'Id' => (int)$userid,
+				'Status' => array (
+						'gt',
+						9 
+				) 
 		);
 		$rst = $this->where ( $whereArr )->find ();
 		if ($rst) {
@@ -675,7 +679,11 @@ class userModel extends Model {
 			$msgarr ['msg'] = "查询失败";
 			$msgarr ['status'] = 0;
 		}
-		return $msgarr;
+		if ($type == 2) {
+			return $rst;
+		} else {
+			return $msgarr;
+		}
 	}
 	
 	/**
