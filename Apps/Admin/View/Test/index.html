@@ -1,0 +1,18 @@
+<extend name="Public/home"/>
+<block name="content">
+	<div id="main" class="container">
+
+		
+
+		<div class="panel panel-default">
+			<div class="panel-body">
+				<form action="http://upload.qiniu.com" method="post" enctype="multipart/form-data">
+					<input name="file" type="file" />
+					<input name="token" type="hidden" value="{$token}">
+					<button type="submit">提交</button>
+				</form>
+			</div>
+		</div>
+
+	</div>
+</block>

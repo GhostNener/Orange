@@ -135,6 +135,20 @@ return array (
 		/*定制成功以及错误模板  */
 		'ACTIVE_MAIL_TPL_PATH'=>'./Tpl/Mail/activemail.txt',
 		'TMPL_ACTION_ERROR' => './Tpl/jump.html',
-		'TMPL_ACTION_SUCCESS' => './Tpl/jump.html' 
+		'TMPL_ACTION_SUCCESS' => './Tpl/jump.html',
+
+		'UPLOAD_SITEIMG_QINIU' => array ( 
+                'maxSize' => 5 * 1024 * 1024,//文件大小
+                'rootPath' => './',
+                'saveName' => array ('uniqid', ''),
+                'driver' => 'Qiniu',
+                'driverConfig' => array (
+                        'secrectKey' => '-LdkxeAxW_or_1UssZbSdATJmlVZm5G-M4oWRDcD', 
+                        'accessKey' => 'fJOIxQXMh6cn0j0FNSsx4uSEwG9sFCkel0BhwdOw',
+                        'domain' => 'bigoranger.qiniudn.com',
+                        'bucket' => 'bigoranger',
+                        'CallbackUrl' =>'',
+                        'CallbackBody' => 'key=$(key)'
+                        ))
 );
 
