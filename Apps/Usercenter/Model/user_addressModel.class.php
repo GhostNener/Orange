@@ -189,12 +189,6 @@ class user_addressModel extends Model {
 			return false;
 		}		
 		$data=array('UserId'=>$uid,'Contacts'=>$user['Nick'],'IsDefault'=>1,'Status'=>10);
-		if(checktel($user['Name'])){
-			$data['Tel']=$user['Name'];
-		}else if(checkmail($user['E-Mail'])){
-			$data['Tel']=$user['E-Mail'];
-		}
-		$data['Address']=$data['tel'];
 		$rst=$this->add($data);
 		if(!$rst){
 			return false;
