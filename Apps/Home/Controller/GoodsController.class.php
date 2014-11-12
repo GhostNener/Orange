@@ -92,6 +92,9 @@ class GoodsController extends LoginController {
 		// 以上代码解决FF302
 		$this->assign ( 'slist', $slist );
 		$this->assign ( 'alist', $alist );
+
+		//获得七牛token
+		$this ->assign( 'token', GetToken(U("Qiniu/uploadify")));
 		
 		// 服务为空的时候
 		$this->assign ( 'empty', '<h3 class="text-center text-import">暂不提供服务</h3>' );
@@ -155,6 +158,7 @@ class GoodsController extends LoginController {
 			) );
 		}
 	}
+
 	/**
 	 * 删除图片
 	 */

@@ -713,12 +713,14 @@ $(document).ready(function() {
             'sname': '{$sname}',
             'sid': '{$sid}',
             'cid': '{$cid}',
-            'ckey': '{$ckey}'
+            'ckey': '{$ckey}',
+            'token': '{$token}'
         },
         fileTypeDesc: '图像文件',
         fileTypeExts: '*.gif; *.jpg; *.png',
         fileSizeLimit: 4096,
-        uploader: $('#url').attr('appurl') + '/uploadify',
+        /*uploader: $('#url').attr('appurl') + '/uploadify',*/
+        uploader: 'http://up.qiniu.com',
         //上传路径
         buttonText: '+',
         uploadLimit: 20,
