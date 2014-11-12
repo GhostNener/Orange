@@ -706,21 +706,31 @@ $(document).ready(function() {
         auto: true,
         method: 'post',
         //发送请求的方式，get或post
-        multi: false,
+        multi: true,
         //是否允许选择多个文件
         fileTypeDesc: 'Image Files',
         formData: {
             'sname': '{$sname}',
-            'sid': '{$sid}',
+            
+            /*'sid': '{$sid}',
             'cid': '{$cid}',
-            'ckey': '{$ckey}',
+            'ckey': '{$ckey}',*/
+
+            /*七牛*/
+            'x:sid': '{$sid}',
+            'x:cid': '{$cid}',
+            'x:ckey': '{$ckey}',
+
             'token': '{$token}'
         },
         fileTypeDesc: '图像文件',
         fileTypeExts: '*.gif; *.jpg; *.png',
         fileSizeLimit: 4096,
         /*uploader: $('#url').attr('appurl') + '/uploadify',*/
+       
+        /*七牛*/
         uploader: 'http://up.qiniu.com',
+       
         //上传路径
         buttonText: '+',
         uploadLimit: 20,
@@ -728,7 +738,11 @@ $(document).ready(function() {
         height: 40,
         width: 40,
         /*防止缓存*/
-        fileObjName: 'Filedata',
+        /*fileObjName: 'Filedata',*/
+      
+        /*七牛*/
+        fileObjName: 'file',
+       
         removeTimeout: 0,
         onFallback: function() {
             alert('请安装flash player插件');

@@ -1,6 +1,11 @@
 <?php
 
 namespace Home\Controller;
+use Think\Upload\Driver\Qiniu\QiniuStorage;
+require_once './ORG/qiniu/qiniu.class.php';
+
+use Think\Controller;
+
 /**
  * 七牛上传
  *
@@ -9,35 +14,14 @@ namespace Home\Controller;
  */
 class QiniuController extends Controller {
 
-	public function uploadimg(){
+	public function uploadify() {
 
-		$model = M("goods_img");
-		$data = array (
-				'GoodsId' => 0,
-				'URL' => I('post.key'),
-				'Title' => '',
-				'Status' => 0 
-		);
-		$imgid = $model->create ( $data );
-		$imgid = $model->add ( $imgid );
-		if ($imgid) {
-			return array (
-					'status' => 1,
-					'imgid' => $imgid,
-					'msg' => C('UPLOAD_SITEIMG_QINIU')['domain'] . I('post.key') . '-320x160'
-			);
-		} else {
-			return array (
-					'status' => 0,
-					'imgid' => 0,
-					'msg' => '上传失败' 
-			);
+		if(!I('post.key')) {
+			$this->error("(╬▔皿▔)凸<br>不要乱搞");
 		}
-	}
 
-	public function uploadify()
-	{
-		$rst = $this->uploadimg ();
+		$qiniu = new \qiniu();
+		$rst = $qiniu->upload (I('post.key'));
 
 		if (( int ) $rst ['status'] == 0) {
 			echo json_encode ( array (

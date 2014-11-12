@@ -2,10 +2,10 @@
 return array (
 		// '配置项'=>'配置值'
 		'DB_TYPE' => 'mysql',
-		'DB_HOST' => '10.200.10.90',
-		'DB_NAME' => 'juzidb',
-		'DB_USER' => 'rootZ',
-		'DB_PWD' => '8520', 
+		'DB_HOST' => 'juzimysql.mysql.rds.aliyuncs.com',
+		'DB_NAME' => 'juzi',
+		'DB_USER' => 'juzi',
+		'DB_PWD' => 'Kixonudwk2014', 
 		/* 模块相关配置 */
 		'DEFAULT_MODULE' => 'Home',
 		'MODULE_DENY_LIST' => array (
@@ -21,7 +21,7 @@ return array (
     	'DEFAULT_FILTER' => 'strip_tags,htmlspecialchars',
 		'SESSION_AUTO_START' => true,
 		/*url重写*/
-		'URL_MODEL' => 2,
+		'URL_MODEL' => 3,
 		/*url分隔符*/
 		'URL_PATHINFO_DEPR' => '/',
 		/*图片上传配置*/
@@ -70,11 +70,10 @@ return array (
 		'SESSION_PREFIX' => 'BIGORANGER_S',
 		/*管理员所在组 name*/
 		'ADMIN_ROLE_NAME' => 'Administrator',
-		/* 普通用户用户组Id */
-		'USER_ROLEID' => 2,
 		/*记住我 cookie保存时间*/
 		'COOKIE_REMEMBER_TIME' => 30 * 24 * 60 * 60 ,
-
+		/* 普通用户用户组Id */
+		'USER_ROLEID' => 2,
 		/* 激活邮件配置 */
 		'ORANGER_MAIL' => array (
 				'SMTP_HOST' => 'smtp.ym.163.com', // SMTP服务器
@@ -124,39 +123,6 @@ return array (
 				'G_830' => '/Uploads/GoodsImg/800_300/',
 				'G_320' => '/Uploads/GoodsImg/320_160/' 
 		),
-		/*通知类型组  */
-		'MSG_TYPE_GROUP' => array (
-				'SYS' => '<span class="label label-danger">系统</span>',
-				'ORDER' => '<span class="label label-success">订单</span>',
-				'MSG' => '<span class="label label-info">留言</span>',
-				'REPLY' => '<span class="label label-warning">回复</span>' 
-		),
-		/*通知标题  */
-		'MSG_TYPE_TITLE_GROUP' => array (
-				'MSG' => '你有一条新留言',
-				'ORDER' => '商品已出售',
-				'REPLY' => '你一有条回复信息',
-				'SYS' => array (
-						'GIFT' => '礼物兑换',
-						'ACTIVITY' => '活动消息' 
-				) 
-		),
-		/*通知模板  */
-		'MSG_TYPE_CONTENT_PATH' => array (
-				'MSG' => './Tpl/Public/Msg/msg.txt',
-				'REPLY' => './Tpl/Public/Msg/reply.txt',
-				'ORDER'=>'./Tpl/Public/Msg/order.txt'
-		),
-		/*通知模板渲染占位符  */
-		'MSG_TPL_PLACEHOLDER' => array (
-				'Title' => '[$_Title_$]',
-				'GURL' => '[$_GURL_$]',
-				'UURL' => '[$_UserURL_$]',
-				'Nick' => '[$_Nick_$]',
-				'Content' => '[$_Content_$]',
-				'CId' => '[$_CId_$]',
-				'Tel' => '[$_Tel_$]' 
-		),
 		/* 商品评论最大返回数量 */
 		'COMMENTS_LIST_COUNT' => 50,
 		/*商品置顶服务类型 */
@@ -165,12 +131,11 @@ return array (
 		'GOODS_ORDER_SESSION_VALUE' => 1024 * 1024 * 9,
 		'SEARCH_CATEGORY_NAME' => '搜索关键字',
 		/*发布时最多收取发布费用！不算服务费  */
-		'MAX_PUBLISH_COST' => 10,
-		/*激活邮件模板路径  */
-		'ACTIVE_MAIL_TPL_PATH' => './Tpl/Public/Mail/activemail.txt',
+		'MAX_PUBLISH_COST'=>10,
 		/*定制成功以及错误模板  */
+		'ACTIVE_MAIL_TPL_PATH'=>'./Tpl/Mail/activemail.txt',
 		'TMPL_ACTION_ERROR' => './Tpl/jump.html',
-		'TMPL_ACTION_SUCCESS' => './Tpl/jump.html',
+		'TMPL_ACTION_SUCCESS' => './Tpl/jump.html' ,
 
 		/*七牛OSS*/
 		'UPLOAD_SITEIMG_QINIU' => array ( 
