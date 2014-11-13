@@ -16,7 +16,7 @@ class favoriteModel extends Model {
 	/**
 	 * 添加心愿单
 	 */
-	public function addfavorite($goodsId, $userid) {
+	public function add($goodsId, $userid) {
 		$data = array (
 				'UserId' => $userid,
 				'GoodsId' => $goodsId,
@@ -59,11 +59,8 @@ class favoriteModel extends Model {
 	/**
 	 * 删除
 	 */
-	public function del($Id) {
-		$whereArr = array (
-				'Id' => $Id 
-		);
-		$rst = $this->where ( $whereArr )->delete ();
+	public function del($whereall) {
+		$rst = $this->where ( $whereall )->delete ();
 		if ($rst) {
 			return array (
 					'status' => 1,

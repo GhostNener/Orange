@@ -874,5 +874,28 @@ class userModel extends Model {
 			return ( int ) $user ['ClockinCount'];
 		}
 	}
+	
+	/**
+	 * 该用户是否存在
+	 * @param userid 用户Id
+	 * @return false or true
+	 */
+	public function checkuserid($userid){
+		if (! trim ( $userid )) {
+			return false;
+		}
+		$wherearr = array(
+			'Id' => $userid,
+			'Status' => 10
+		);
+		$rst = $this->where ( $wherearr )->find ();
+		if (! $rst) {
+			//不存在
+			return false;
+		} else {
+			//存在
+			return true;
+		}
+	}
 }
 ?>

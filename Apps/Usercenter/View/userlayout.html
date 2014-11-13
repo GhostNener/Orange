@@ -12,7 +12,8 @@
 			</div>
 			<ul class="list-group">
 				<a class="list-group-item" href="{:U('Usercenter/Index/msg')}">
-					<span class="badge">4</span>
+				<if condition="$urnotice gt 0"><span class="badge">{$urnotice}</span>
+				</if>
 					未读消息
 				</a>
 				<a class="list-group-item" href="{:U('Usercenter/Index/sell')}">在售商品</a>
@@ -20,7 +21,7 @@
 				<a class="list-group-item" href="{:U('Usercenter/Index/follow')}">已关注</a>
 				<a class="list-group-item" href="{:U('Usercenter/Index/like')}">心愿单</a>
 				<a class="list-group-item" href="{:U('Usercenter/Index/edit')}">编辑资料</a>
-				<a class="list-group-item" href="{:U('Usercenter/Index/home')}">个人页面</a>
+				<a class="list-group-item" href="{:U('Usercenter/User/home',array('attenid' => $user['Id']))}">个人页面</a>
 			</ul>
 		</article>
 	</div>

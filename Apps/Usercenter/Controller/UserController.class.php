@@ -1,6 +1,14 @@
 <?php
 
 namespace Usercenter\Controller;
+use Usercenter\Model\attentionModel;
+
+use Usercenter\Model\user_gradeModel;
+
+use Usercenter\Model\view_favorite_listModel;
+
+use Home\Model\view_goods_listModel;
+
 use Usercenter\Model\userModel;
 use Usercenter\Model\view_user_info_avatarModel;
 
@@ -172,6 +180,64 @@ class UserController extends BaseController {
 		$verify->reset = true;
 		$rst = $verify->check ( $code, $id );
 		return $rst;
+	}
+	
+	/**
+	 * 个人页面
+	 */
+	public function home($attenid) {
+		/* 验证客户是否存在 */
+		$userid = $attenid;
+		$user = new userModel();
+		$bool = $user->checkuserid($userid);
+		if (! $bool) {
+			$this->redirect('home/Index/index', array(), 0, '页面跳转中...');
+		}
+		
+		
+		$limit = 100;
+		/* 拼接where */
+		$wherearr = array (
+				'UserId' => $userid,
+				'Status' => 10 
+		);
+		/* 获得在售商品 */
+		$model = new view_goods_listModel();
+		$selllist = $model->getlist ( $wherearr );
+		
+		/* 获得心愿单 */
+		$favomodel = new view_favorite_listModel();
+		$favorite = $favomodel->getlist ( $wherearr, $limit );
+		/* 查询用户信息 */
+		
+		$model = new view_user_info_avatarModel ();
+		$arr = $model->getinfo ($userid);
+		if ($arr ['status'] == 1) {
+			// 获取经验 计算等级
+			$EXP = $arr ['msg'] ['EXP'];
+			$model2 = new user_gradeModel();
+			$rst = $model2->getgrade ( $EXP );
+			/* 模版赋值 */
+			$this->assign ( 'user', $arr ['msg'] );
+			$this->assign ( 'grade', $rst );
+		}
+		
+		/* 验证用户是否已关注 */
+		$uid = cookie('_uid');
+		/* 拼接where */
+		$where = array (
+				'UserId' => $uid,
+				'AttentionId' => $userid
+		);
+		$atten = new attentionModel();
+		$msg = $atten -> checkIsAtten($where);
+		/* 模板赋值 */
+		$this->assign ( 'selllist', $selllist ['list'] );
+		$this->assign ( 'selllist', $selllist ['list'] );
+		$this->assign ( 'likelist', $favorite ['list'] );
+		$this->assign ( 'md', $msg['status'] );
+		$this->assign ( 'empty', '<h3 class="text-center text-import">暂无商品</h3>' );
+		$this->display ();
 	}
 }
 ?>

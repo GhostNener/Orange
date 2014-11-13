@@ -3,104 +3,22 @@
 <div class="col-md-9">
 	<div class="panel panel-default profilemain">
 		<div class="panel-body">
-
+		<volist id='v' name='urnl' empty='$empty' >
 			<!-- 系统消息 -->
 			<div class="media">
 				<button type="button" class="close">&times;</button>
 				<a class="pull-left">
-					<span class="label label-danger">系统</span>
+					{:html_entity_decode($v['Theme'])}
 				</a>
 				<div class="media-body">
 					<!--消息头-->
-					<h5 class="media-heading">每周抽奖日</h5>
+					<h5 class="media-heading">{$v['Title']}</h5>
 					<!--消息内容-->
-					<p>恭喜你中奖啦</p>
+					<p>{:html_entity_decode($v['Content'])}</p>
 				</div>
 			</div>
 			<hr/>
-
-			<!-- 订单消息 -->
-			<div class="media">
-				<button type="button" class="close">&times;</button>
-				<a class="pull-left">
-					<span class="label label-success">订单</span>
-				</a>
-				<div class="media-body">
-					<!-- 消息头 -->
-					<h5 class="media-heading">商品已售出</h5>
-
-					<!-- 消息内容 -->
-					<p>
-						<a href="#" class="text-orange">MX4Pro无锁国行</a>
-						&nbsp
-						已被
-						&nbsp
-						<a href="#" class="text-orange">@cinwell</a>
-						&nbsp
-						购买，请与买家联系。联系方式: 李清伟 15519541782
-						<a class="btn btn-success visible-xs-inline-block" href="tel:15519541782">
-							<span class="glyphicon glyphicon-earphone"></span>
-							&nbsp拨打电话
-						</a>
-
-					</p>
-				</div>
-			</div>
-			<hr/>
-
-			<!-- 留言 -->
-			<div class="media">
-				<button type="button" class="close">&times;</button>
-				<a class="pull-left">
-					<span class="label label-info">留言</span>
-				</a>
-				<!-- 消息头 -->
-				<div class="media-body">
-
-					<h5 class="media-heading">你有一条留言</h5>
-					<!-- 消息内容 -->
-					<p>
-						<a href="#" class="text-orange">MX4Pro无锁国行</a>
-						&nbsp已被&nbsp
-						<a href="#" class="text-orange">@cinwell</a>
-						&nbsp评论
-						<blockquote>
-							<p>cinwell</p>
-							<p>怎么卖啊怎么卖怎么卖啊怎么卖怎么卖啊怎么卖</p>
-						</blockquote>
-						<button class="btn btn-primary">回复评论</button>
-					</p>
-					<!-- 消息内容结束 由后台生成渲染到前台 -->
-				</div>
-			</div>
-			<hr/>
-
-			<!-- 回复 -->
-			<div class="media">
-				<button type="button" class="close">&times;</button>
-				<a class="pull-left">
-					<span class="label label-warning">回复</span>
-				</a>
-				<!-- 消息头 -->
-				<div class="media-body">
-					<h5 class="media-heading">你一有条回复信息</h5>
-					<!-- 消息内容 -->
-					<p>
-						在&nbsp
-						<a href="#" class="text-orange">MX4Pro无锁国行</a>
-						&nbsp中被&nbsp
-						<a href="#" class="text-orange">@cinwell</a>
-						&nbsp回复
-						<blockquote>
-							<p>cinwell</p>
-							<p>怎么卖啊怎么卖怎么卖啊怎么卖怎么卖啊怎么卖</p>
-						</blockquote>
-						<button class="btn btn-primary">回复评论</button>
-					</p>
-					<!-- 消息内容结束 由后台生成渲染到前台 -->
-				</div>
-			</div>
-			<hr/>
+		</volist>
 			<h4 class="text-import text-center">没有更多未读消息</h4>
 		</div>
 		<!--panel-body-->

@@ -2,6 +2,8 @@
 
 namespace Usercenter\Controller;
 
+use Home\Model\noticeModel;
+
 use Home\Model\goodsModel;
 use Usercenter\Model\view_favorite_listModel;
 use Usercenter\Model\view_user_attention_listModel;
@@ -71,6 +73,10 @@ class IndexController extends LoginController {
 	 * 未读信息
 	 */
 	public function msg() {
+		$model = new noticeModel();
+		$all = $model->getunread();
+		$this->assign('urnl', $all);
+		$this->assign('empty','');
 		$this->getCommon ();
 		$this->display ();
 	}
@@ -178,27 +184,47 @@ class IndexController extends LoginController {
 	}
 	
 	/**
+	 * 关注
+	 */
+	public function attention($AttentionId) {
+		$userid = cookie ( '_uid' );
+		/* 验证被关注的用户是否存在 */
+		$userModel = new userModel();
+		$bool = $userModel -> checkuserid($AttentionId); 
+		if (! $bool) {
+			$this->redirect('home/Index/index', array(), 0, '页面跳转中...');
+		}
+		/* 拼接查询条件 */
+		$whereall = array( 
+				'CreateTime' => time(),
+				'AttentionId' => $AttentionId,
+				'UserId' => $userid 
+		); 
+		/* 添加关注 */
+		$model = new attentionModel ();
+		$arr = $model->add ($whereall);
+		if ($arr ['status'] == 0) {
+			$this->error ( $arr ['msg'] );
+		} else {
+			$this->redirect('Usercenter/User/home', array('attenid' => $AttentionId));
+		}
+	}
+	
+	/**
 	 * 取消关注
 	 */
 	public function delattention($AttentionId) {
 		$userid = cookie ( '_uid' );
-		$dal = M ();
-		// 开始事务
-		$dal = startTrans();
-		$model = new attentionModel ();
-		$rst = $model->delattention ( array (
+		$whereall = array( 
 				'AttentionId' => $AttentionId,
 				'UserId' => $userid 
-		) );
-		$model2 = new goodsModel ();
-		$c = $model2->VCChhandle ( $gid, 2, false );
-		if (! $rst || ! $c) {
-			// 失败 回滚
-			$dal->rollback ();
-			$this->error ( "操作失败！" );
+		); 
+		$model = new attentionModel ();
+		$arr = $model -> del($whereall);
+		if ($arr ['status'] == 0) {
+			$this->error ( $arr ['msg'] );
 		} else {
-			// 操作成功 提交事务
-			$dal->commit ();
+			$this->redirect('Usercenter/User/home', array('attenid' => $AttentionId));
 		}
 	}
 	
@@ -225,28 +251,29 @@ class IndexController extends LoginController {
 	}
 	
 	/**
-	 * 个人页面
+	 * 删除心愿单
 	 */
-	public function home() {
-		$userid = cookie ( '_uid' );
-		$limit = 100;
-		/* 拼接where */
-		$whereall = array (
-				'UserId' => $userid,
-				'Status' => 10 
-		);
-		/* 获得在售商品 */
-		$model = new view_goods_listModel ();
-		$selllist = $model->getlist ( $whereall );
-		/* 获得心愿单 */
-		$model = new view_favorite_listModel ();
-		$arr = $model->getlist ( $wherearr, $limit );
-		/* 模板赋值 */
-		$this->assign ( 'selllist', $selllist ['list'] );
-		$this->assign ( 'likelist', $arr ['list'] );
-		$this->assign ( 'empty', '<h3 class="text-center text-import">暂无商品</h3>' );
-		$this->getCommon ();
-		$this->display ();
+	public function dellike($GoodsId) {
+		$userid = cookie('_uid');
+		$dal = M ();
+		// 开始事务
+		$dal -> startTrans ();
+		$model = new favoriteModel();
+		$rst = $model -> del( array (
+				'GoodsId' => $GoodsId,
+				'UserId' => $userid
+		) );
+		$goods = new goodsModel ();
+		$c = $goods -> VCChhandle ( $GoodsId, 2, false );
+		if (! $rst || ! $c) {
+			// 失败 回滚
+			$dal->rollback ();
+			$this->error ( "操作失败！" );
+		} else {
+			// 操作成功 提交事务
+			$dal->commit ();
+			$this->redirect('Index/like', array(), 0, '页面跳转中...');
+		}
 	}
 	
 	/**
@@ -256,7 +283,7 @@ class IndexController extends LoginController {
 		$userid = cookie ( '_uid' );
 		/* 查询用户信息 */
 		$model = new view_user_info_avatarModel ();
-		$arr = $model->getinfo ();
+		$arr = $model->getinfo ($userid);
 		if ($arr ['status'] == 1) {
 			// 获取经验 计算等级
 			$EXP = $arr ['msg'] ['EXP'];
@@ -277,7 +304,7 @@ class IndexController extends LoginController {
 			die ();
 		}
 		$m = new favoriteModel ();
-		$arr = $m->addfavorite ( I ( 'GoodsId' ), cookie ( '_uid' ) );
+		$arr = $m->add ( I ( 'GoodsId' ), cookie ( '_uid' ) );
 		if ($arr ['status'] == 0) {
 			$this->error ( $arr ['msg'] );
 		} else {

@@ -29,8 +29,67 @@ class attentionModel extends Model{
 		return count($fans);
 	}
 	
-	public function delattention($whereall){
-		$model = $this -> where($whereall) -> delete();
-		return $model;
+	/**
+	 * 删除关注
+	 * @param array $wherearr  
+	 * @return  1 or 0
+	 * @author LONGG
+	 */
+	public function del($whereall){
+		$rst = $this -> where($whereall) -> delete();
+		if ($rst) {
+			return array (
+					'status' => 1,
+					'msg' => "删除成功" 
+			);
+		} else {
+			return array (
+					'status' => 0,
+					'msg' => "删除失败" 
+			);
+		}
+	}
+	
+	/**
+	 * 关注
+	 * @param array $wherearr  
+	 * @return  1 or 0
+	 * @author LONGG
+	 */
+	public function add($whereall){
+		$atten = M('attention');
+		$rst = $atten ->data($whereall)-> add();
+		if ($rst) {
+			return array (
+					'status' => 1,
+					'msg' => "关注成功" 
+			);
+		} else {
+			return array (
+					'status' => 0,
+					'msg' => "关注失败" 
+			);
+		}
+	}
+	
+	/**
+	 * 此人是否已关注
+	 * @param array $where
+	 * @return  是否关注
+	 * @author LONGG
+	 */
+	public function checkIsAtten($where){
+		$rst = $this -> where($where) -> find();
+		if ($rst) {
+			return array (
+					'status' => 1,
+					'msg' => "已关注" 
+			);
+		} else {
+			return array (
+					'status' => 0,
+					'msg' => "未关注" 
+			);
+		}
 	}
 }
