@@ -185,9 +185,9 @@ class UserController extends BaseController {
 	/**
 	 * 个人页面
 	 */
-	public function home($attenid) {
+	public function home($Id) {
 		/* 验证客户是否存在 */
-		$userid = $attenid;
+		$userid = $Id;
 		$user = new userModel();
 		$bool = $user->checkuserid($userid);
 		if (! $bool) {

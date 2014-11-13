@@ -665,7 +665,7 @@ class userModel extends Model {
 	 */
 	public function finduser($userid, $type = 1) {
 		$whereArr = array (
-				'Id' => (int)$userid,
+				'Id' => ( int ) $userid,
 				'Status' => array (
 						'gt',
 						9 
@@ -877,24 +877,84 @@ class userModel extends Model {
 	
 	/**
 	 * 该用户是否存在
-	 * @param userid 用户Id
+	 *
+	 * @param
+	 *        	userid 用户Id
 	 * @return false or true
 	 */
-	public function checkuserid($userid){
+	public function checkuserid($userid) {
 		if (! trim ( $userid )) {
 			return false;
 		}
-		$wherearr = array(
-			'Id' => $userid,
-			'Status' => 10
+		$wherearr = array (
+				'Id' => $userid,
+				'Status' => 10 
 		);
 		$rst = $this->where ( $wherearr )->find ();
 		if (! $rst) {
-			//不存在
+			// 不存在
 			return false;
 		} else {
-			//存在
+			// 存在
 			return true;
+		}
+	}
+	/**
+	 * 修改密码
+	 * @param array $data
+	 * @param string $uid
+	 * @return multitype:number string  */
+	public function changepwd($data, $uid = NULL) {
+		if (! $uid) {
+			$uid = cookie ( '_uid' );
+		}
+		$data = array (
+				'Password' => $data ['NewPassword'],
+				'OldPassword' => $data ['OldPassword'],
+				'ConfirmPassword' => $data ['ConfirmPwd'] 
+		);
+		$u = $this->where ( array (
+				'Id' => $uid,
+				'Status' => 10 
+		) )->find ();
+		if (! $u) {
+			return array (
+					'status' => 0,
+					'msg' => '用户不存在' 
+			);
+		}
+		$rs = $this->create ( $data );
+		if (! $rs) {
+			return array (
+					'status' => 0,
+					'msg' => $this->getError () 
+			);
+		}
+		$npwd = $this->encrypt ( $data ['OldPassword'], $u ['RegistTime'] );
+		if ($npwd != $u ['Password']) {
+			return array (
+					'status' => 0,
+					'msg' => '原密码错误' 
+			);
+		}
+		$npwd=$this->encrypt ( $data ['Password'], $u ['RegistTime'] );
+		$rs = $this->where ( array (
+				'Id' => $uid,
+				'Status' => 10 
+		) )->save ( array (
+				'Password' => $npwd,
+				'LastKeyTime' => 0 
+		) );
+		if (! $rs) {
+			return array (
+					'status' => 0,
+					'msg' => '修改失败' 
+			);
+		} else {
+			return array (
+					'status' => 1,
+					'msg' => '修改成功,请重新登录' 
+			);
 		}
 	}
 }
