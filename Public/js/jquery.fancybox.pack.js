@@ -323,7 +323,7 @@
             p.trigger(a)
         },
         isImage: function(a) {
-            return r(a) && a.match(/(^data:image\/.*,)|(\.(jp(e|g|eg)|gif|png|bmp|webp|svg)((\?|#).*)?$)/i)
+            return r(a) && true;//a.match(/(^data:image\/.*,)|(\.(jp(e|g|eg)|gif|png|bmp|webp|svg)((\?|#).*)?$)/i)
         },
         isSWF: function(a) {
             return r(a) && a.match(/\.(swf)((\?|#).*)?$/i)
