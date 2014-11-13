@@ -4,7 +4,7 @@ use Vendor\PHPMailer;
 use Usercenter\Model\userModel;
 use Org\Util\String;
 use Think\Upload\Driver\Qiniu\QiniuStorage;
-
+require_once './ORG/qiniu/qiniu.class.php';
 /**
  * 检测用户是否激活
  * @return boolean  */
@@ -1112,18 +1112,16 @@ function getgrade($EXP,$type=1) {
 
 }
 
-/**
- * 获得七牛token
- *
- * @param 回调地址
- * @return token
- */
-function GetToken($callback="") {
-		$callback = $callback ? $callback : U('callback');
-		$config=C('UPLOAD_SITEIMG_QINIU');
-		$config['CallbackUrl'] = 'http://' . $_SERVER['HTTP_HOST'] . U('callback');
-		$qiniu = new QiniuStorage($config);
-		$token = $qiniu->UploadToken($config['secrectKey'],$config['accessKey'],$config);
-		return $token;
-	}	
+function qiniuDelFile($key){
+
+	$qiniu = new \qiniu();
+	return $qiniu->del($key);
+}
+
+function qiniuGetToken($action){
+
+	$qiniu = new \qiniu();
+	return $qiniu->GetToken($action);
+}
+
 ?>
