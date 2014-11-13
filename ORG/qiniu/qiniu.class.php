@@ -62,27 +62,31 @@ class qiniu{
 		}
 	}
 
-	function del($key){
-		$config = C('UPLOAD_SITEIMG_QINIU');
-		$config = $config['driverConfig'];
-
-		$qiniu = new QiniuStorage($config);
-		$result = $qiniu -> del($key);
-		//删除成功不返回结果
+	function del($id, $key){
+		$model = M('goods_img');
+		$result = $model -> where ( array('Id'=> $id )) ->delete();
 		if(!$result){
-			//删除成功就删除数据库数据
-			$model = M('goods_img');
-			$result = $model -> where ( array('URL'=> $key )) ->delete();
-			if(!$result){
-				$status = 0;
-				$msg = '数据库删除失败';
-			} else {
-				$status = 1;
-				$msg = '数据库删除成功';
-			}
-		} else {
 			$status = 0;
-			$msg = '服务器删除失败';
+			$msg = '数据库删除失败';
+		} else {
+			$status = 1;
+			$msg = '数据库删除成功';
+
+			$count = $model -> where ( array('URL'=> $key )) ->count();
+			if ($count <= 1) {
+
+				//删除服务器数据
+				$config = C('UPLOAD_SITEIMG_QINIU');
+				$config = $config['driverConfig'];
+				$qiniu = new QiniuStorage($config);
+				$result = $qiniu -> del($key);
+				//不成功处理
+				if($result){
+					$status = 0;
+					$msg = '服务器删除失败';
+				}
+			}
+
 		}
 
 		return array(

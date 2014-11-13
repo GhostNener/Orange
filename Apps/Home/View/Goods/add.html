@@ -721,7 +721,6 @@ $(document).ready(function() {
             'x:sid': '{$sid}',
             'x:cid': '{$cid}',
             'x:ckey': '{$ckey}',
-            'key' : new Date().getTime() + '_' + randomString(5),
             'token': '{$token}'
         },
         fileTypeDesc: '图像文件',
@@ -734,8 +733,8 @@ $(document).ready(function() {
        
         //上传路径
         buttonText: '+',
-        uploadLimit: 20,
-        queueSizeLimi: 20,
+        uploadLimit: 10,
+        queueSizeLimi: 10,
         height: 40,
         width: 40,
         /*防止缓存*/

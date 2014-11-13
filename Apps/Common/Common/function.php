@@ -1121,10 +1121,10 @@ function getgrade($EXP,$type=1) {
 
 }
 
-function qiniuDelFile($key){
+function qiniuDelFile($id, $key){
 
 	$qiniu = new \qiniu();
-	return $qiniu->del($key);
+	return $qiniu->del($id, $key);
 }
 
 function qiniuGetToken($action){
