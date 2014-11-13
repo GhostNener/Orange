@@ -6,7 +6,7 @@
 
 				<div class="col-sm-4 col-lg-4 col-md-4">
 					<div class="thumbnail">
-						<img src="__ROOT__{:checkfile_exists($v[ImgURL])?$v[ImgURL]:getdefaultimg(1)}">
+						<img src="{:getFileUrl($v[ImgURL]),'320x160'}">
 						<div class="caption">
 							<p class="text-orange">金橘: {$v[Price]}</p>
 							<p>{$v[Name]}</p>
