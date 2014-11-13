@@ -62,8 +62,7 @@ img.verifycode{
 <block name="js">
 	<script>
 function reloadcode() {
-    var _src = $('#url').attr('getcode') ;
-/*    $('.verifycode').attr('src', '');*/
+    var _src = $('#url').attr('getcode') + '?id=' + new Date().valueOf();
     $('.verifycode').attr('src', _src);
     $('#verifycode').parent().removeClass('has-error');
     $('#verifycode').parent().removeClass('has-success');
