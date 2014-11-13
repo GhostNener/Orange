@@ -344,6 +344,16 @@ class IndexController extends LoginController {
 		if (! IS_POST ) {
 			$this->error ( '页面不存在' );
 			return;
+		}		$setting=C('UPLOAD_SITEIMG_QINIU');
+		$setting['savePath']='Avatar/';
+		$Upload = new \Think\Upload($setting);
+		$info = $Upload->upload( $_FILES );
+		$filename=str_replace('/', '_', $info['AURL']['savepath']) . $info['AURL']['savename'];
+		if(!$filename){
+			echo 0 ;
+		}else{
+			
+			echo 1;
 		}
 	}
 }

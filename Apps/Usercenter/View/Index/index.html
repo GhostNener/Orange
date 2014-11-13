@@ -76,7 +76,7 @@
 					</button>
 					<h4 class="modal-title" id="myModalLabel">上传头像</h4>
 				</div>
-				<form id="avatarform" class="form-horizontal" action="{:U('Usercenter/Index/upload')}" method="post" enctype="multipart/form-data" onsubmit="return ajaxsubmit('avatarform')" >
+				<form id="avatarform" class="form-horizontal" action="{:U('Usercenter/Index/upload')}" method="post" enctype="multipart/form-data"  >
 					<div class="modal-body">
 						<input type="hidden" name="modif" value="add">
 						<div class="form-group">
@@ -96,37 +96,36 @@
 	<!--col-md-9-->
 </block>
 <block name="js">
+<script src="__PUBLIC__/js/jquery.form.js"></script>
 	<script>
-function ajaxsubmit (_id) {
-	_id='#'+_id;
-	var $btn=$(_id).find('.sbunmitbtn').button('loading');
-    $.ajax({
-        type: 'post',
-        cache: false,
-        url: $(_id).attr('action'),
-        data: $(_id).serialize(),
-        error:  
-        function(request)  {
-            showerrormsg('网络错误', 100, 1000);
-            $btn.button('reset');   
-            return false;             
-        },
-         success:  
-        function(data)  {
-            if (data.status == 0) {
-                showerrormsg(data.info, 100, 1000);
-                $btn.button('reset');
-                return false;
-            } else {
-            	showsuccessmsg(data.info, 100, 1000);
-            	reloadhtml();
-            	$btn.button('reset');
-            	return false;       
-            }                
-        }
-    });
-    return false;
-}
+	$(function(){
+		var options = {
+			type:'post',
+			error:function (data) {
+				alert('上传失败');
+			},
+			beforeSubmit: function () {
+			$('#avatarform').find('.sbunmitbtn').button('loading');
+			},
+			success:function (data) {
+				if(data==0){
+					showerrormsg('上传失败',100,1000);
+				}else{
+					showsuccessmsg('上传成功',100,1000);
+					setTimeout(function(){
+						location.href=location.href;
+					},1000);
+				}
+			}
+		}
+		$('#avatarform').submit(function () {
+			$(this).ajaxSubmit(options);
+			$('#avatarform').find('.sbunmitbtn').button('reset');
+			return false;
+		})
+
+	});
+
 function reloadhtml(){
 	setTimeout(function(){
         location.href = location.href;
