@@ -16,7 +16,7 @@ class favoriteModel extends Model {
 	/**
 	 * 添加心愿单
 	 */
-	public function add($goodsId, $userid) {
+	public function addone($goodsId, $userid) {
 		$data = array (
 				'UserId' => $userid,
 				'GoodsId' => $goodsId,

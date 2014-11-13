@@ -306,12 +306,13 @@ class IndexController extends LoginController {
 	 * 添加心愿单
 	 */
 	public function addlike() {
+
 		if (! IS_POST || ! I ( 'GoodsId' )) {
 			$this->error ( '页面不存在' );
 			die ();
 		}
 		$m = new favoriteModel ();
-		$arr = $m->add ( I ( 'GoodsId' ), cookie ( '_uid' ) );
+		$arr = $m->addone ( I ( 'GoodsId' ), cookie ( '_uid' ) );
 		if ($arr ['status'] == 0) {
 			$this->error ( $arr ['msg'] );
 		} else {

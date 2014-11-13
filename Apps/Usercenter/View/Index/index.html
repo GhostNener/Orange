@@ -108,20 +108,20 @@
 			$('#avatarform').find('.sbunmitbtn').button('loading');
 			},
 			success:function (data) {
-				if(data==0){
+				if(data.status==0){
 					showerrormsg('上传失败',100,1000);
 				}else{
 					$('#avatarModal').modal('hide');
 					showsuccessmsg('上传成功',100,1000);
-					setTimeout(function(){
+					$('#avatarform').find('.sbunmitbtn').button('reset')
+					/*setTimeout(function(){
 						location.href=location.href;
-					},300);
+					},300);*/
 				}
 			}
 		}
 		$('#avatarform').submit(function () {
 			$(this).ajaxSubmit(options);
-			$('#avatarform').find('.sbunmitbtn').button('reset');
 			return false;
 		})
 
