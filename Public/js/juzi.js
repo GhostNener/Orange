@@ -81,7 +81,7 @@ $(document).ready(function() {
 
 	//自动显示下拉列表
 	$('.dropdown-toggle').mouseenter(function () {
-		$('.dropdown-menu').stop().slideDown(100);
+		$('.dropdown-menu').slideDown(200);
 	});
 
 	$('.dropdown').mouseleave(function () {

@@ -113,27 +113,27 @@
 				</div>
 				<div role="tabpanel" class="tab-pane" id="tab3">
 
-					<form class="form-horizontal" role="form">
+					<form class="form-horizontal" id="changepwdform" action="{:U('Usercenter/Index/changepwd')}" method="post" onsubmit="return submitsave('this')" role="form">
 						<div class="form-group">
 							<label for="OldPassword" class="col-sm-2 control-label">原密码</label>
 							<div class="col-sm-4">
-								<input type="password" class="form-control" name="OldPassword" id="OldPassword"></div>
+								<input type="password" class="form-control" name="OldPassword" id="OldPassword" required></div>
 						</div>
 						<div class="form-group">
 							<label for="NewPassword" class="col-sm-2 control-label">新密码</label>
 							<div class="col-sm-4">
-								<input type="password" class="form-control" name="NewPassword" id="NewPassword"></div>
+								<input type="password" class="form-control" name="NewPassword" id="NewPassword" required></div>
 						</div>
 
 						<div class="form-group">
 							<label for="ConfirmPwd" class="col-sm-2 control-label">确认密码</label>
 							<div class="col-sm-4">
-								<input type="password" class="form-control" name="ConfirmPwd" id="ConfirmPwd"></div>
+								<input type="password" class="form-control" name="ConfirmPwd" id="ConfirmPwd" required></div>
 						</div>
 
 						<div class="form-group">
 							<div class="col-sm-offset-2 col-sm-10">
-								<button type="submit" class="btn btn-success">提交</button>
+								<button type="submit" class="btn btn-success" data-loading-text="提交中..." autocomplete="off">提交</button>
 							</div>
 						</div>
 					</form>
@@ -142,6 +142,7 @@
 		</div>
 	</div>
 </div>
+<!-- 地址modal -->
 <div class="modal fade" id="addressModal" tabindex="-1" role="dialog" aria-labelledby="addressModalLabel" aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content">
@@ -158,17 +159,17 @@
 					<div class="form-group">
 						<label for="Contacts" class="col-sm-2 control-label">联系人</label>
 						<div class="col-sm-10">
-							<input type="tel" name="Contacts" id="Contacts" class="form-control" placeholder="联系人"></div>
+							<input type="tel" name="Contacts" id="Contacts" class="form-control" placeholder="联系人" required></div>
 					</div>
 					<div class="form-group">
 						<label for="Tel" class="col-sm-2 control-label">联系电话</label>
 						<div class="col-sm-10">
-							<input type="tel" name="Tel" id="Tel" class="form-control" placeholder="联系电话"></div>
+							<input type="tel" name="Tel" id="Tel" class="form-control" placeholder="联系电话" required></div>
 					</div>
 					<div class="form-group">
 						<label for="Address" class="col-sm-2 control-label">联系地址</label>
 						<div class="col-sm-10">
-							<input type="tel" name="Address" id="Address" class="form-control" placeholder="联系地址"></div>
+							<input type="tel" name="Address" id="Address" class="form-control" placeholder="联系地址" required></div>
 					</div>
 					<div class="form-group">
 						<div class="col-sm-offset-2 col-sm-10">
@@ -201,7 +202,11 @@ function p_del() {
 		return false;   
 	}   
 }
-          
+function submitsave(_id){
+	alert($(_id).html());
+	return false;
+}
+
 /*保存地址*/
 function ajaxaddresssubmit(){
 	var $btn = $('#submitaddress').button('loading');

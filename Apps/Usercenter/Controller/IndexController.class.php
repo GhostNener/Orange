@@ -3,7 +3,6 @@
 namespace Usercenter\Controller;
 
 use Home\Model\noticeModel;
-
 use Home\Model\goodsModel;
 use Usercenter\Model\view_favorite_listModel;
 use Usercenter\Model\view_user_attention_listModel;
@@ -73,10 +72,10 @@ class IndexController extends LoginController {
 	 * 未读信息
 	 */
 	public function msg() {
-		$model = new noticeModel();
-		$all = $model->getunread();
-		$this->assign('urnl', $all);
-		$this->assign('empty','');
+		$model = new noticeModel ();
+		$all = $model->getunread ();
+		$this->assign ( 'urnl', $all );
+		$this->assign ( 'empty', '' );
 		$this->getCommon ();
 		$this->display ();
 	}
@@ -189,24 +188,26 @@ class IndexController extends LoginController {
 	public function attention($AttentionId) {
 		$userid = cookie ( '_uid' );
 		/* 验证被关注的用户是否存在 */
-		$userModel = new userModel();
-		$bool = $userModel -> checkuserid($AttentionId); 
+		$userModel = new userModel ();
+		$bool = $userModel->checkuserid ( $AttentionId );
 		if (! $bool) {
-			$this->redirect('home/Index/index', array(), 0, '页面跳转中...');
+			$this->redirect ( 'home/Index/index', array (), 0, '页面跳转中...' );
 		}
 		/* 拼接查询条件 */
-		$whereall = array( 
-				'CreateTime' => time(),
+		$whereall = array (
+				'CreateTime' => time (),
 				'AttentionId' => $AttentionId,
 				'UserId' => $userid 
-		); 
+		);
 		/* 添加关注 */
 		$model = new attentionModel ();
-		$arr = $model->add ($whereall);
+		$arr = $model->add ( $whereall );
 		if ($arr ['status'] == 0) {
 			$this->error ( $arr ['msg'] );
 		} else {
-			$this->redirect('Usercenter/User/home', array('attenid' => $AttentionId));
+			$this->redirect ( 'Usercenter/User/home', array (
+					'attenid' => $AttentionId 
+			) );
 		}
 	}
 	
@@ -215,16 +216,18 @@ class IndexController extends LoginController {
 	 */
 	public function delattention($AttentionId) {
 		$userid = cookie ( '_uid' );
-		$whereall = array( 
+		$whereall = array (
 				'AttentionId' => $AttentionId,
 				'UserId' => $userid 
-		); 
+		);
 		$model = new attentionModel ();
-		$arr = $model -> del($whereall);
+		$arr = $model->del ( $whereall );
 		if ($arr ['status'] == 0) {
 			$this->error ( $arr ['msg'] );
 		} else {
-			$this->redirect('Usercenter/User/home', array('attenid' => $AttentionId));
+			$this->redirect ( 'Usercenter/User/home', array (
+					'attenid' => $AttentionId 
+			) );
 		}
 	}
 	
@@ -254,17 +257,17 @@ class IndexController extends LoginController {
 	 * 删除心愿单
 	 */
 	public function dellike($GoodsId) {
-		$userid = cookie('_uid');
+		$userid = cookie ( '_uid' );
 		$dal = M ();
 		// 开始事务
-		$dal -> startTrans ();
-		$model = new favoriteModel();
-		$rst = $model -> del( array (
+		$dal->startTrans ();
+		$model = new favoriteModel ();
+		$rst = $model->del ( array (
 				'GoodsId' => $GoodsId,
-				'UserId' => $userid
+				'UserId' => $userid 
 		) );
 		$goods = new goodsModel ();
-		$c = $goods -> VCChhandle ( $GoodsId, 2, false );
+		$c = $goods->VCChhandle ( $GoodsId, 2, false );
 		if (! $rst || ! $c) {
 			// 失败 回滚
 			$dal->rollback ();
@@ -272,7 +275,7 @@ class IndexController extends LoginController {
 		} else {
 			// 操作成功 提交事务
 			$dal->commit ();
-			$this->redirect('Index/like', array(), 0, '页面跳转中...');
+			$this->redirect ( 'Index/like', array (), 0, '页面跳转中...' );
 		}
 	}
 	
@@ -283,7 +286,7 @@ class IndexController extends LoginController {
 		$userid = cookie ( '_uid' );
 		/* 查询用户信息 */
 		$model = new view_user_info_avatarModel ();
-		$arr = $model->getinfo ($userid);
+		$arr = $model->getinfo ( $userid );
 		if ($arr ['status'] == 1) {
 			// 获取经验 计算等级
 			$EXP = $arr ['msg'] ['EXP'];
@@ -309,6 +312,27 @@ class IndexController extends LoginController {
 			$this->error ( $arr ['msg'] );
 		} else {
 			$this->success ( '添加成功' );
+		}
+	}
+	
+	/**
+	 * 修改密码
+	 */
+	public function changepwd() {
+		$data = I ( 'post.' );
+		if (! IS_POST || ! $data) {
+			$this->error ( '页面不存在' );
+			return;
+		}
+		$m = new userModel ();
+		$rs = $m->changepwd ( $data );
+		if (( int ) $rs ['status'] == 0) {
+			$this->error ( $rs ['msg'] );
+		} else {
+			session ( cookie ( '_uid' ), null );
+			cookie ( '_uid', null );
+			cookie ( '_key', null );
+			$this->success ( $rs ['msg'] );
 		}
 	}
 }
