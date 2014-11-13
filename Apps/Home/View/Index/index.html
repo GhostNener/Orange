@@ -18,12 +18,12 @@
 							<if condition="$i eq 0">
 								<div class="item active">
 									<a href="{$topimg[$i]['Href']}" title="{$topimg[$i]['Title']}" target="_blank">
-										<img class="slide-image" src="__ROOT__{:checkfile_exists($topimg[$i]['ImgURL'])?$topimg[$i]['ImgURL']:getdefaultimg(2)}" height="300" width="800" alt="{$topimg[$i]['Title']}"></a>
+										<img class="slide-image" src="{:getFileUrl($topimg[$i]['ImgURL'],'800x300')}" height="300" width="800" alt="{$topimg[$i]['Title']}"></a>
 								</div>
 								<else/>
 								<div class="item">
 									<a href="{$topimg[$i]['Href']}" title="{$topimg[$i]['Title']}" target="_blank">
-										<img class="slide-image" src="__ROOT__{:checkfile_exists($topimg[$i]['ImgURL'])?$topimg[$i]['ImgURL']:getdefaultimg(2)}" height="300" width="800" alt="{$topimg[$i]['Title']}"></a>
+										<img class="slide-image" src="{:getFileUrl($topimg[$i]['ImgURL'],'800x300')}" height="300" width="800" alt="{$topimg[$i]['Title']}"></a>
 								</div>
 							</if>
 						</for>
@@ -49,11 +49,11 @@
 				<div class="col-sm-4">
 					<a href="{:U('Home/Index/showgoods',array('Id'=>
 						$v['Id']))}" target="_blank" class="thumbnail ">
-						<img src="__ROOT__{:checkfile_exists($gmpath['G_320'].$v['URL'])?$gmpath['G_320'].$v['URL']:getdefaultimg(1)}" alt="{$v['Title']}">
+						<img src="{:getFileUrl($v['URL'],'320x160')}" alt="{$v['Title']}">
 						<div class="caption">
 							<h4 class="pull-right message">{$v['TradeWayTxt']}</h4>
 							<p>
-								<img class="img-circle" src="__ROOT__{:checkfile_exists($gmpath['G_320'].$v['avatarURL'])?$gmpath['G_320'].$v['avatarURL']:getdefaultimg(4)}" alt="头像">
+								<img class="img-circle" src="{:getFileUrl($v['avatarURL'],'40x40')}" alt="头像">
 								<span>{$v['Nick']}</span>
 							</p>
 							<p>{$v['Title']}</p>
@@ -89,11 +89,11 @@
 				<div class="col-sm-4">
 					<a href="{:U('Home/Index/showgoods',array('Id'=>
 						$v['Id']))}" target="_blank" class="thumbnail ">
-						<img src="__ROOT__{:checkfile_exists($gmpath['G_320'].$v['URL'])?$gmpath['G_320'].$v['URL']:getdefaultimg(1)}" alt="{$v['Title']}">
+						<img src="{:getFileUrl($v['URL'],'320x160')}" alt="{$v['Title']}">
 						<div class="caption">
 							<h4 class="pull-right message">{$v['TradeWayTxt']}</h4>
 							<p>
-								<img class="img-circle" src="__ROOT__{:checkfile_exists($gmpath['G_320'].$v['avatarURL'])?$gmpath['G_320'].$v['avatarURL']:getdefaultimg(4)}" alt="头像">
+								<img class="img-circle" src="{:getFileUrl($v['avatarURL'],'40x40')}" alt="头像">
 								<span>{$v['Nick']}</span>
 							</p>
 							<p>{$v['Title']}</p>
@@ -129,11 +129,11 @@
 				<div class="col-sm-4">
 					<a href="{:U('Home/Index/showgoods',array('Id'=>
 						$v['Id']))}" target="_blank" class="thumbnail ">
-						<img src="__ROOT__{:checkfile_exists($gmpath['G_320'].$v['URL'])?$gmpath['G_320'].$v['URL']:getdefaultimg(1)}" alt="{$v['Title']}">
+						<img src="{:getFileUrl($v['URL'],'320x160')}" alt="{$v['Title']}">
 						<div class="caption">
 							<h4 class="pull-right message">{$v['TradeWayTxt']}</h4>
 							<p>
-								<img class="img-circle" src="__ROOT__{:checkfile_exists($gmpath['G_320'].$v['avatarURL'])?$gmpath['G_320'].$v['avatarURL']:getdefaultimg(4)}" alt="头像">
+								<img class="img-circle" src="{:getFileUrl($v['avatarURL'],'40x40')}" alt="头像">
 								<span>{$v['Nick']}</span>
 							</p>
 							<p>{$v['Title']}</p>

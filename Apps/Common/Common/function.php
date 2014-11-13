@@ -3,7 +3,6 @@ use Usercenter\Model\user_gradeModel;
 use Vendor\PHPMailer;
 use Usercenter\Model\userModel;
 use Org\Util\String;
-use Think\Upload\Driver\Qiniu\QiniuStorage;
 require_once './ORG/qiniu/qiniu.class.php';
 /**
  * 检测用户是否激活
@@ -11,6 +10,16 @@ require_once './ORG/qiniu/qiniu.class.php';
 function  isactivated(){
 	$m=new userModel();
 	return $m->isactivated();
+}
+
+/**
+ * 获得文件路径（qiniu）
+ * @param string $fileName 文件名
+ * @param string $type 20x20,40x40 ...
+ * @return Ambigous <token, string>  */
+function getFileUrl($fileName,$type){
+	$m=new \qiniu();
+	return $m->GetFileUrl($fileName, $type);
 }
 
 /**
