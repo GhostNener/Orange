@@ -17,6 +17,13 @@ class LoginController extends BaseController {
 	 */
 	public function _initialize() {
 		parent::_initialize();
+		$sid = I ( 'sid' );
+		if ($sid) {
+			session_id ( $sid );
+			session_start ();
+			$arr ['_uid'] = I ( 'cid' );
+			$arr ['_key'] = I ( 'ckey' );
+		}
 		$model = new userModel ();
 		$rst = $model->islogin ( null, false, false );
 		if (! $rst) {
