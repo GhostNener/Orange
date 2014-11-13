@@ -91,7 +91,9 @@ class goods_commentModel extends Model {
 		) ); // UserURL
 		$cdata ['Nick'] = $u ['Nick']; // Nick
 		$cdata ['CId'] = $arr ['Id']; // CId
-		$cdata ['Content'] = $arr ['Content']; // CId
+		$cdata ['Content'] = $arr ['Content']; // Content
+		$cdata ['AId'] = $arr ['AssesseeId'];
+		$cdata ['GId'] = $arr ['GoodsId'];
 		/* 消息体结束 */
 		$m = new noticeModel ();
 		if (! $rid || $rid <= 0) {
