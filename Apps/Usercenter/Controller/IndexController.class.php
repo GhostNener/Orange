@@ -320,6 +320,7 @@ class IndexController extends LoginController {
 	
 	/**
 	 * 修改密码
+	 * @author NENER
 	 */
 	public function changepwd() {
 		$data = I ( 'post.' );
@@ -336,6 +337,13 @@ class IndexController extends LoginController {
 			cookie ( '_uid', null );
 			cookie ( '_key', null );
 			$this->success ( $rs ['msg'] );
+		}
+	}
+	
+	public function upload(){
+		if (! IS_POST ) {
+			$this->error ( '页面不存在' );
+			return;
 		}
 	}
 }

@@ -5,7 +5,7 @@
 		<article>
 			<div class="profile" data-toggle="tooltip" data-placement="right" title="点击进入个人信息" data-container="body" data-delay="500">
 				<a href="{:U('Usercenter/Index/index')}">
-					<img src="__ROOT__{:checkfile_exists($uapath['A_150'].$user['URL'])? $uapath['A_150']:getdefaultimg(5)}" alt="..." class="img-circle">
+					<img src="{:getFileUrl($user['URL'],'150x150')}" alt="{$user['Nick']}" class="img-circle">
 					<p>{$user['Nick']}</p>
 					<p>等级: {$grade['Title']}</p>
 				</a>
@@ -21,7 +21,7 @@
 				<a class="list-group-item" href="{:U('Usercenter/Index/follow')}">已关注</a>
 				<a class="list-group-item" href="{:U('Usercenter/Index/like')}">心愿单</a>
 				<a class="list-group-item" href="{:U('Usercenter/Index/edit')}">编辑资料</a>
-				<a class="list-group-item" href="{:U('Usercenter/User/home',array('attenid' => $user['Id']))}">个人页面</a>
+				<a class="list-group-item" href="{:U('Usercenter/User/home',array('Id' => $user['Id']))}">个人页面</a>
 			</ul>
 		</article>
 	</div>
