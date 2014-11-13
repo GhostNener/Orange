@@ -14,6 +14,7 @@ use Usercenter\Model\user_addressModel;
 use Usercenter\Model\attentionModel;
 use Usercenter\Model\userModel;
 use Usercenter\Model\user_gradeModel;
+use Usercenter\Model\user_avatarModel;
 
 class IndexController extends LoginController {
 	
@@ -186,7 +187,7 @@ class IndexController extends LoginController {
 	 * 关注
 	 */
 	public function attention($Id) {
-		$AttentionId=$Id;
+		$AttentionId = $Id;
 		$userid = cookie ( '_uid' );
 		/* 验证被关注的用户是否存在 */
 		$userModel = new userModel ();
@@ -216,7 +217,7 @@ class IndexController extends LoginController {
 	 * 取消关注
 	 */
 	public function delattention($Id) {
-		$AttentionId=$Id;
+		$AttentionId = $Id;
 		$userid = cookie ( '_uid' );
 		$whereall = array (
 				'AttentionId' => $AttentionId,
@@ -259,7 +260,7 @@ class IndexController extends LoginController {
 	 * 删除心愿单
 	 */
 	public function dellike($Id) {
-		$GoodsId=$Id;
+		$GoodsId = $Id;
 		$userid = cookie ( '_uid' );
 		$dal = M ();
 		// 开始事务
@@ -320,6 +321,7 @@ class IndexController extends LoginController {
 	
 	/**
 	 * 修改密码
+	 *
 	 * @author NENER
 	 */
 	public function changepwd() {
@@ -339,11 +341,29 @@ class IndexController extends LoginController {
 			$this->success ( $rs ['msg'] );
 		}
 	}
-	
-	public function upload(){
-		if (! IS_POST ) {
+	/**
+	 * 上传头像
+	 * @author NENER
+	 */
+	public function upload() {
+		if (! IS_POST) {
 			$this->error ( '页面不存在' );
 			return;
+		}
+		$setting = C ( 'UPLOAD_SITEIMG_QINIU' );
+		$setting ['savePath'] = 'Avatar/';
+		$Upload = new \Think\Upload ( $setting );
+		$info = $Upload->upload ( $_FILES );
+		$filename = str_replace ( '/', '_', $info ['AURL'] ['savepath'] ) . $info ['AURL'] ['savename'];
+		if (! $filename) {
+			echo 0;
+			die ();
+		}
+		$m = new user_avatarModel ();
+		if (! $m->addone ( $filename )) {
+			echo 0;
+		} else {
+			echo 1;
 		}
 	}
 }
