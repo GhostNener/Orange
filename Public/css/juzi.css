@@ -35,6 +35,10 @@ blockquote{
 	padding: 0px 15px;
 }
 
+.navbar-brand img{
+	height: 50px;
+}
+
 a,a.list-group-item,.navbar .navbar-nav li a,.navbar .navbar-brand{
     color: #555;
 }
