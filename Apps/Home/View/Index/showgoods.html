@@ -67,14 +67,14 @@
 											<for start="0" end="$imgcount">
 												<if condition="$i eq 0">
 													<div class="active item" data-slide-number="{$i}">
-														<a class="fancybox-thumbs" data-fancybox-group="thumb" href="__ROOT__{$gmpath['G_880']}{$goodsimg[$i]['URL']}">
-															<img src="__ROOT__{:checkfile_exists($gmpath['G_830'].$goodsimg[$i]['URL'])?$gmpath['G_830'].$goodsimg[$i]['URL']:getdefaultimg(2)}" alt="{$goodsimg[$i]['Title']}" />	
+														<a class="fancybox-thumbs" data-fancybox-group="thumb" href="{:getFileUrl($goodsimg[$i]['URL'],'800x800')}">
+															<img src="{:getFileUrl($goodsimg[$i]['URL'],'800x300')}" alt="{$goodsimg[$i]['Title']}" />	
 														</a>
 													</div>
 													<else/>	
 													<div class=" item" data-slide-number="{$i}">
-														<a class="fancybox-thumbs" data-fancybox-group="thumb" href="__ROOT__{$gmpath['G_880']}{$goodsimg[$i]['URL']}">
-															<img src="__ROOT__{:checkfile_exists($gmpath['G_830'].$goodsimg[$i]['URL'])?$gmpath['G_830'].$goodsimg[$i]['URL']:getdefaultimg(2)}" alt="{$goodsimg[$i]['Title']}" />	
+													<a class="fancybox-thumbs" data-fancybox-group="thumb" href="{:getFileUrl($goodsimg[$i]['URL'],'800x800')}">
+															<img src="{:getFileUrl($goodsimg[$i]['URL'],'800x300')}" alt="{$goodsimg[$i]['Title']}" />	
 														</a>
 													</div>
 												</if>
@@ -98,7 +98,7 @@
 								<for start="0" end="$imgcount">
 									<li class="col-sm-2">
 										<a href="#" class="thumbnail" id="carousel-selector-{$i}">
-											<img src="__ROOT__{:checkfile_exists($gmpath['G_320'].$goodsimg[$i]['URL'])?$gmpath['G_320'].$goodsimg[$i]['URL']:getdefaultimg(1)}"  />	
+											<img src="{:getFileUrl($goodsimg[$i]['URL']),'100x50'}"  />	
 										</a>
 									</li>
 								</for>
@@ -109,8 +109,10 @@
 						<div class="row">
 							<div class="col-md-12">
 								<h4 class="pull-right message">{:date('Y-m-d H:i:s',$goods['CreateTime'])}</h4>
-								<a href="{:U('Usercenter/User/home',array('attenid' => $goods['UserId']))}">
-									<img class="img-circle" src="__ROOT__{:checkfile_exists($uapath['A_40'].$goods['avatarURL'])?$uapath['A_40'].$goods['avatarURL']:getdefaultimg(4)}" alt="头像">	
+
+														<a href="{:U('Usercenter/User/home',array('attenid' => $goods['UserId']))}">
+									<img class="img-circle" src="{:getFileUrl($goods['avatarURL'],'40x40')}" alt="头像">	
+
 									<span>{$goods['Nick']}</span>
 								</a>
 								<span>Lv</span>
@@ -133,7 +135,7 @@
 									<article class="timeline-entry">
 										<div class="timeline-entry-inner">
 											<div class="timeline-icon">
-												<img class="img-circle" src="__ROOT__{:checkfile_exists($uapth['A_40'].$v['CriticsURL'])?$uapth['A_40'].$v['CriticsURL']:getdefaultimg(4)}" alt="头像"></div>
+												<img class="img-circle" src="{:getFileUrl($v['CriticsURL'],'40x40')}" alt="头像"></div>
 											<div class="timeline-label">
 												<span class="pull-right time">{:date('Y-m-d H:i:s',$v['CreateTime'])}</span>
 												<h2>

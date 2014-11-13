@@ -94,7 +94,7 @@ class GoodsController extends LoginController {
 		$this->assign ( 'alist', $alist );
 
 		//获得七牛token
-		$this ->assign( 'token', GetToken(U("Qiniu/uploadify")));
+		$this ->assign( 'token', qiniuGetToken(U("/Home/Qiniu/uploadify")));
 		
 		// 服务为空的时候
 		$this->assign ( 'empty', '<h3 class="text-center text-import">暂不提供服务</h3>' );
@@ -170,8 +170,12 @@ class GoodsController extends LoginController {
 			// 没有获得要删除的图片
 			$this->error ( "没有获得要删除的图片" );
 		}
-		$model = new goods_imgModel ();
-		$rst = $model->delimg ( ( int ) I ( 'Id' ) );
+		/*$model = new goods_imgModel ();
+		$rst = $model->delimg ( ( int ) I ( 'Id' ) );*/
+
+		/*七牛*/
+		$rst = qiniuDelFile(I('key'));
+		
 		if (( int ) $rst ['status'] == 0) {
 			$this->error ( $rst ['msg'] );
 		} else {

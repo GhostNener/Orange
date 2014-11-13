@@ -145,7 +145,7 @@ return array (
 		'MSG_TYPE_CONTENT_PATH' => array (
 				'MSG' => './Tpl/Public/Msg/msg.txt',
 				'REPLY' => './Tpl/Public/Msg/reply.txt',
-				'ORDER'=>'./Tpl/Public/Msg/order.txt'
+				'ORDER' => './Tpl/Public/Msg/order.txt' 
 		),
 		/*通知模板渲染占位符  */
 		'MSG_TPL_PLACEHOLDER' => array (
@@ -155,7 +155,8 @@ return array (
 				'Nick' => '[$_Nick_$]',
 				'Content' => '[$_Content_$]',
 				'CId' => '[$_CId_$]',
-				'Tel' => '[$_Tel_$]' 
+				'AId' => '[$_AId_$]',
+				'GId' => '[$_GId_$]'
 		),
 		/* 商品评论最大返回数量 */
 		'COMMENTS_LIST_COUNT' => 50,
@@ -171,15 +172,16 @@ return array (
 		/*定制成功以及错误模板  */
 		'TMPL_ACTION_ERROR' => './Tpl/jump.html',
 		'TMPL_ACTION_SUCCESS' => './Tpl/jump.html',
-
+		/*七牛OSS*/
 		'UPLOAD_SITEIMG_QINIU' => array ( 
                         'secrectKey' => '-LdkxeAxW_or_1UssZbSdATJmlVZm5G-M4oWRDcD', 
                         'accessKey' => 'fJOIxQXMh6cn0j0FNSsx4uSEwG9sFCkel0BhwdOw',
                         'domain' => 'bigoranger.qiniudn.com',
                         'bucket' => 'bigoranger',
                         'CallbackUrl' =>'',
-                        'CallbackBody' => 'key=$(key)',
+                        'CallbackBody' => 'key=$(key)&cid=$(x:cid)&sid=$(x:sid)&ckey=$(x:ckey)',
                         'Expires' => 36000
                         )
+
 );
 

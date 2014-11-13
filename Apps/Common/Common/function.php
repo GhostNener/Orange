@@ -3,14 +3,23 @@ use Usercenter\Model\user_gradeModel;
 use Vendor\PHPMailer;
 use Usercenter\Model\userModel;
 use Org\Util\String;
-use Think\Upload\Driver\Qiniu\QiniuStorage;
-
+require_once './ORG/qiniu/qiniu.class.php';
 /**
  * 检测用户是否激活
  * @return boolean  */
 function  isactivated(){
 	$m=new userModel();
 	return $m->isactivated();
+}
+
+/**
+ * 获得文件路径（qiniu）
+ * @param string $fileName 文件名
+ * @param string $type 20x20,40x40 ...
+ * @return Ambigous <token, string>  */
+function getFileUrl($fileName,$type){
+	$m=new \qiniu();
+	return $m->GetFileUrl($fileName, $type);
 }
 
 /**
@@ -1112,18 +1121,16 @@ function getgrade($EXP,$type=1) {
 
 }
 
-/**
- * 获得七牛token
- *
- * @param 回调地址
- * @return token
- */
-function GetToken($callback="") {
-		$callback = $callback ? $callback : U('callback');
-		$config=C('UPLOAD_SITEIMG_QINIU');
-		$config['CallbackUrl'] = 'http://' . $_SERVER['HTTP_HOST'] . U('callback');
-		$qiniu = new QiniuStorage($config);
-		$token = $qiniu->UploadToken($config['secrectKey'],$config['accessKey'],$config);
-		return $token;
-	}	
+function qiniuDelFile($key){
+
+	$qiniu = new \qiniu();
+	return $qiniu->del($key);
+}
+
+function qiniuGetToken($action){
+
+	$qiniu = new \qiniu();
+	return $qiniu->GetToken($action);
+}
+
 ?>

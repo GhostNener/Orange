@@ -48,7 +48,7 @@
 							<hr>
 							<div class="media">
 								<a class="pull-left" href="#">
-									<img class="media-object" src="__ROOT__{:checkfile_exists($v['ThumURL'])?$v['ThumURL']:getdefaultimg(6)}" alt="{$v['Title']}"></a>
+									<img class="media-object" src="{:getFileUrl($v['ThumURL'],'80x80')}" alt="{$v['Title']}"></a>
 								<div class="media-body">
 									<h5 class="media-heading">{$v['Title']}</h5>
 									<p>{$v['Presentation']}</p>

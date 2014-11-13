@@ -280,11 +280,12 @@
 	<script src="__PUBLIC__/js/jquery.loadscript.js"></script>
 	<script src="__PUBLIC__/js/jquery.uploadAdapter.js"></script>
 	<script type="text/javascript">/*删除图片  第一个参数为图片父控件的Id  第二个参数为图片相对路径*/
-function del(div_id, imgId) {
+function del(div_id, imgId, key) {
     var _pdivid = '#' + div_id;
     var _url = $('#url').attr('appurl') + '/delimg';
     $.post(_url, {
-        'Id': parseInt(imgId)
+        'Id': parseInt(imgId),
+        'key': key
     },
     function(data) {
         if (data.info == 1) {
@@ -706,21 +707,31 @@ $(document).ready(function() {
         auto: true,
         method: 'post',
         //发送请求的方式，get或post
-        multi: false,
+        multi: true,
         //是否允许选择多个文件
         fileTypeDesc: 'Image Files',
         formData: {
             'sname': '{$sname}',
-            'sid': '{$sid}',
+            
+            /*'sid': '{$sid}',
             'cid': '{$cid}',
-            'ckey': '{$ckey}',
+            'ckey': '{$ckey}',*/
+
+            /*七牛*/
+            'x:sid': '{$sid}',
+            'x:cid': '{$cid}',
+            'x:ckey': '{$ckey}',
+            'key' : new Date().getTime() + '_' + randomString(5),
             'token': '{$token}'
         },
         fileTypeDesc: '图像文件',
         fileTypeExts: '*.gif; *.jpg; *.png',
         fileSizeLimit: 4096,
         /*uploader: $('#url').attr('appurl') + '/uploadify',*/
+       
+        /*七牛*/
         uploader: 'http://up.qiniu.com',
+       
         //上传路径
         buttonText: '+',
         uploadLimit: 20,
@@ -728,7 +739,11 @@ $(document).ready(function() {
         height: 40,
         width: 40,
         /*防止缓存*/
-        fileObjName: 'Filedata',
+        /*fileObjName: 'Filedata',*/
+      
+        /*七牛*/
+        fileObjName: 'file',
+       
         removeTimeout: 0,
         onFallback: function() {
             alert('请安装flash player插件');
@@ -759,7 +774,7 @@ $(document).ready(function() {
                     var _imgId = '_' + (parseInt(Math.random() * 100) + (new Date()).valueOf());
                     var _tempPath = $('#url').attr('rooturl');
                     /*插入到image标签内，显示图片的缩略图 */
-                    $('#image').append('<div id="' + _imgId + '" class="photo" style="float: left; margin-right: 3px;margin-left: 3px" ><img class="image" src="' + _tempPath + data[1] + '"   /><div class="del" style="text-align: center;"><a title="删除" class="a_imgdel" href="javascript:void(0)"onclick=del("' + _imgId + '","' + data[0] + '");return false; imgurl="' + data[1] + '"><span class="glyphicon glyphicon-remove"></span></a></div></div>');
+                    $('#image').append('<div id="' + _imgId + '" class="photo" style="float: left; margin-right: 3px;margin-left: 3px" ><img class="image" src="' + _tempPath + data[1] + '"   /><div class="del" style="text-align: center;"><a title="删除" class="a_imgdel" href="javascript:void(0)"onclick=del("' + _imgId + '","' + data[0] + '","'+data[2]+'");return false; imgurl="' + data[1] + '"><span class="glyphicon glyphicon-remove"></span></a></div></div>');
                     var _imgcount = parseInt($('#imgcount').val());
                     $('#imgcount').val((_imgcount + 1));
                     return;

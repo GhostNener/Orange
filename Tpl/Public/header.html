@@ -37,7 +37,7 @@
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
 					</button>
-					<a class="navbar-brand" href="{:U('Home/Index/index')}">logo 大橘子</a>
+					<a class="navbar-brand" href="{:U('Home/Index/index')}"> <img alt="Brand" src="http://www.baidu.com/img/baidu_jgylogo3.gif?v=15783023.gif"></a>
 				</div>
 
 				<!-- Collect the nav links, forms, and other content for toggling -->
@@ -85,7 +85,7 @@
 								<a class="dropdown-toggle" href="javascript:void(0)">
 
 									<span class="nickname">
-										<img class="img-circle" src="__ROOT__{:checkfile_exists($uapath['A_20'].$usermodel['URL'])?$uapath['A_20'].$usermodel['URL']:getdefaultimg(3)}">&nbsp;{$usermodel['Nick']}&nbsp;</span>
+										<img class="img-circle" src="{:getFileUrl($usermodel['URL']),'20x20'}">&nbsp;{$usermodel['Nick']}&nbsp;</span>
 									&nbsp;
 									<span class="caret"></span>
 									&nbsp;
