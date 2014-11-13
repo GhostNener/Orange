@@ -44,6 +44,55 @@ class GoodsController extends LoginBaseController {
 				'address' => $alist 
 		) );
 	}
+
+	public function token()
+	{
+		$token = qiniuGetToken(U('callback'));
+		echo json_encode(array('token' => $token));
+	}
+
+	public function callback()
+	{
+		$rstmsg = array (
+				'status' => 0,
+				'msg' => '非法访问',
+				'goodsid' => 0,
+				'imgid' => 0 
+		);
+		if (! IS_POST) {
+			echo json_encode ( $rstmsg );
+			return;
+		}
+		if (empty($_FILES)) {
+			$rstmsg ['msg'] = '空文件';
+			echo json_encode ( $rstmsg );
+			return;
+		}
+		$postarr = I ( 'param.' );
+		$uid=I('_uid');
+		$userid = $uid; // 用户id
+		/* 商品Id */
+		$postarr ['_gid'] = $postarr ['goodsid'];
+		
+		$qiniu = new \qiniu();
+		$rst = $qiniu->upload (I('post.key'));
+
+		$postarr ['_imgid'] = $rst ['imgid'];
+		$rst = $model->saveimg ( $postarr, $userid );
+		if (( int ) $rst ['status'] == 0) {
+			echo json_encode ( $rst );
+			return;
+		} else {
+			echo json_encode ( array (
+					'status' => 1,
+					'msg' => '上传成功',
+					'goodsid' => ( int ) $rst ['goodsid'],
+					'imgid' => ( int ) $postarr ['_imgid'] 
+			) );
+			return;
+		}
+	}
+
 	/**
 	 * 根据标题获得分类
 	 *
