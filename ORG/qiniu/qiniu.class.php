@@ -10,8 +10,8 @@ class qiniu{
 	 * @return token
 	 */
 	function GetToken($callback="") {
+			$config = C('UPLOAD_SITEIMG_QINIU');
 			$callback = $callback != "" ? $callback : U('callback');
-			$config=C('UPLOAD_SITEIMG_QINIU');
 			$config['CallbackUrl'] = 'http://' . $_SERVER['HTTP_HOST'] . $callback;
 			$qiniu = new QiniuStorage($config);
 			$token = $qiniu->UploadToken($config['secrectKey'],$config['accessKey'],$config);
@@ -26,7 +26,7 @@ class qiniu{
 	 * @return token
 	 */
 	function GetFileUrl($file,$type){
-			$config=C('UPLOAD_SITEIMG_QINIU');
+			$config = C('UPLOAD_SITEIMG_QINIU');
 			$fileUrl = 'http://' . $config['domain'] . '/' . $file . '-' . $type;
 			return $fileUrl;
 	}	
@@ -46,8 +46,9 @@ class qiniu{
 		if ($imgid) {
 			return array (
 					'status' => 1,
-					'imgid' => $key,
-					'msg' => $this -> GetFileUrl($key,'120x60')
+					'imgid' => $imgid,
+					'msg' => $this -> GetFileUrl($key,'120x60'),
+					'key' => $key
 			);
 		} else {
 			return array (
@@ -59,14 +60,14 @@ class qiniu{
 	}
 
 	function del($key){
-
+		$config = C('UPLOAD_SITEIMG_QINIU');
 		$qiniu = new QiniuStorage($config);
 		$result = $qiniu -> del($key);
 		//删除成功不返回结果
-		if($result){
+		if(!$result){
 			//删除成功就删除数据库数据
 			$model = M('goods_img');
-			$result = $model -> where ( 'URL=%s',array($key)) ->delete();
+			$result = $model -> where ( array('URL'=> $key )) ->delete();
 			if(!$result){
 				$status = 0;
 				$msg = '数据库删除失败';

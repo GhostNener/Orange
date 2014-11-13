@@ -31,7 +31,9 @@ class QiniuController extends Controller {
 		} else {
 			echo json_encode ( array (
 					$rst ['imgid'],
-					$rst ['msg'] 
+					$rst ['msg'],
+					$rst ['key']
+
 			) );
 		}
 	}

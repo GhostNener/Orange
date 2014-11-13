@@ -174,7 +174,7 @@ class GoodsController extends LoginController {
 		$rst = $model->delimg ( ( int ) I ( 'Id' ) );*/
 
 		/*七牛*/
-		$rst = $qiniuDelFile($key);
+		$rst = qiniuDelFile(I('key'));
 		
 		if (( int ) $rst ['status'] == 0) {
 			$this->error ( $rst ['msg'] );
