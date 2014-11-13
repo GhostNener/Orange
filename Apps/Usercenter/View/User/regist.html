@@ -140,7 +140,7 @@ function ajaxsubmit() {
         return false;
     }
     if (!_pwd || !checkpwd(_pwd)) {
-        showerrormsg('密码不合法！6-18位！', 100, 1000);
+        showerrormsg('密码强度不够！6-18位！', 100, 1000);
         $('#Password').focus();
         $btn.button('reset');
         return false;

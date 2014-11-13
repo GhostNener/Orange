@@ -937,6 +937,7 @@ class userModel extends Model {
 					'msg' => '原密码错误' 
 			);
 		}
+		$npwd=$this->encrypt ( $data ['Password'], $u ['RegistTime'] );
 		$rs = $this->where ( array (
 				'Id' => $uid,
 				'Status' => 10 
@@ -947,12 +948,12 @@ class userModel extends Model {
 		if (! $rs) {
 			return array (
 					'status' => 0,
-					'msg' => '保存失败' 
+					'msg' => '修改失败' 
 			);
 		} else {
 			return array (
 					'status' => 1,
-					'msg' => '保存成功,请重新登录' 
+					'msg' => '修改成功,请重新登录' 
 			);
 		}
 	}

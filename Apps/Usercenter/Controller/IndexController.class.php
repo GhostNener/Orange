@@ -185,7 +185,8 @@ class IndexController extends LoginController {
 	/**
 	 * 关注
 	 */
-	public function attention($AttentionId) {
+	public function attention($Id) {
+		$AttentionId=$Id;
 		$userid = cookie ( '_uid' );
 		/* 验证被关注的用户是否存在 */
 		$userModel = new userModel ();
@@ -214,7 +215,8 @@ class IndexController extends LoginController {
 	/**
 	 * 取消关注
 	 */
-	public function delattention($AttentionId) {
+	public function delattention($Id) {
+		$AttentionId=$Id;
 		$userid = cookie ( '_uid' );
 		$whereall = array (
 				'AttentionId' => $AttentionId,
@@ -256,7 +258,8 @@ class IndexController extends LoginController {
 	/**
 	 * 删除心愿单
 	 */
-	public function dellike($GoodsId) {
+	public function dellike($Id) {
+		$GoodsId=$Id;
 		$userid = cookie ( '_uid' );
 		$dal = M ();
 		// 开始事务
