@@ -32,11 +32,15 @@ blockquote{
 }
 
 .navbar-brand{
-	padding: 0px 15px;
+	padding: 0;
 }
 
 .navbar-brand img{
 	height: 50px;
+}
+
+.navbar-brand-expend{
+	padding: 15px;
 }
 
 a,a.list-group-item,.navbar .navbar-nav li a,.navbar .navbar-brand{
@@ -830,7 +834,7 @@ form{
     }
 
     .nickname{
-		width:90px; 
+		width:80px; 
 		white-space:nowrap; 
 		overflow:hidden; 
 		text-overflow:ellipsis; 
@@ -855,7 +859,7 @@ form{
     }
 
     .nickname{
-		width:110px; 
+		width:100px; 
     }
 
     .nickul{
@@ -888,7 +892,7 @@ form{
     }
 
     .nickname{
-		width:200px; 
+		width:190px; 
     }
 
     .nickul{

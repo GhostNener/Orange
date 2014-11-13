@@ -9,6 +9,10 @@ namespace Admin\Controller;
  *        
  */
 class GiftController extends BaseController {
+	public function token()
+	{
+		echo qiniuGetToken();
+	}
 	public function index() {
 
 		$model = M ( 'Gift' );
@@ -80,17 +84,14 @@ class GiftController extends BaseController {
 
 		//判断文件是否为空
 		if ($_FILES['ImgURL']['size']) {
-			$config = C('IMG_UPLOAD_CONFIG');
-			$config['saveName'] = 'gift'.time();
-			$config ['savePath'] = 'Activity/' . C ( 'GOODS_IMG_SOURCE' );
+			$setting=C('UPLOAD_SITEIMG_QINIU');
+			$Upload = new \Think\Upload($setting);
+			var_dump($_FILES);
+			return;
+			$info = $Upload->upload($_FILES);
+			
+			$data['ImgURL'] = str_replace('/', '_', $info['ImgURL']['savepath']) . $info['ImgURL']['savename'];
 
-			$rstarr = uploadfile ( $config , null);
-			$srcpath = $config['rootPath'].$rstarr['msg']['ImgURL']['savepath'].$rstarr['msg']['ImgURL']['savename'];
-	 		$savepath = $config['rootPath'].'Activity/320_160/'.time().'.jpg';
-	 		cutimg($srcpath,$savepath,array(320,160),2);
-		 	
-		 	unlink ( $srcpath );
-			$data['ImgURL'] = substr($savepath, 1);
 		}
 
 		if ($modif == "add") {
@@ -113,7 +114,8 @@ class GiftController extends BaseController {
 			//如果更新了图片，先删除以前的旧图
 			$oldmodel = $model->where ( $whereArr )->find();
 			if ($data['ImgURL']) {
-				unlink('.' . $oldmodel['ImgURL']);
+				$info = qiniuDelFile($oldmodel['ImgURL']);
+
 			}
 
 			$model->where ( $whereArr )->save ( $data );
@@ -196,7 +198,7 @@ class GiftController extends BaseController {
 		
 		$list = $model->where ( $whereArr )->select();
 		foreach ($list as $key => $value) {
-			unlink("." . $value['ImgURL']);
+			$info = qiniuDelFile($value['ImgURL']);
 		}
 		if ($model->where ( $whereArr )->delete ()) {
 

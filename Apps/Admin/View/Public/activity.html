@@ -30,6 +30,7 @@
 						<input type="hidden" class="form-control " name="modif" value="add">
 						<input type="hidden" class="form-control " name="Id" value="{$model.Id}">
 						<input type="hidden" class="form-control " name="Status" value="{$model.Status}">
+						<input type="hidden" name="token">
 
 						<div class="form-group">
 							<label class="col-sm-2 control-label">显示大图</label>
@@ -133,6 +134,26 @@
     		$('input[data-required="'+param+'"]').attr('required','required');
     	};
     })
+
+   /* $('#addModal').on('show.bs.modal', function (e) {
+	  $.ajax({
+	  	type:'get',
+		url: "token",
+		success: function (data) {
+			$('input[name="token"]').val(data);
+		}
+	  })
+	})
+
+	$('input[type="file"]').live('change',function () {
+		if ($(this).val()) {
+			$.ajax({
+				type: 'post',
+				url: 'http://up.qiniu.com',
+
+			})
+		}
+	})*/
 </script>
 </body>
 

@@ -11,6 +11,7 @@ class qiniu{
 	 */
 	function GetToken($callback="") {
 			$config = C('UPLOAD_SITEIMG_QINIU');
+			$config = $config['driverConfig'];
 			$callback = $callback != "" ? $callback : U('callback');
 			$config['CallbackUrl'] = 'http://' . $_SERVER['HTTP_HOST'] . $callback;
 			$qiniu = new QiniuStorage($config);
@@ -27,6 +28,8 @@ class qiniu{
 	 */
 	function GetFileUrl($file,$type){
 			$config = C('UPLOAD_SITEIMG_QINIU');
+			$config = $config['driverConfig'];
+
 			$fileUrl = 'http://' . $config['domain'] . '/' . $file . '-' . $type;
 			return $fileUrl;
 	}	
@@ -42,7 +45,7 @@ class qiniu{
 		);
 		$imgid = $model->create ( $data );
 		$imgid = $model->add ( $imgid );
-		$setting = C('UPLOAD_SITEIMG_QINIU');
+		
 		if ($imgid) {
 			return array (
 					'status' => 1,
@@ -61,6 +64,8 @@ class qiniu{
 
 	function del($key){
 		$config = C('UPLOAD_SITEIMG_QINIU');
+		$config = $config['driverConfig'];
+
 		$qiniu = new QiniuStorage($config);
 		$result = $qiniu -> del($key);
 		//删除成功不返回结果

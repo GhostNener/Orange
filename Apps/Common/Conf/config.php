@@ -174,14 +174,21 @@ return array (
 		'TMPL_ACTION_SUCCESS' => './Tpl/jump.html',
 		/*七牛OSS*/
 		'UPLOAD_SITEIMG_QINIU' => array ( 
+                'maxSize' => 5 * 1024 * 1024,//文件大小
+                'rootPath' => './',
+                'savePath' => 'Activity/',
+				'autoSub' => false,
+				'saveName' => str_replace ( '.', '', microtime ( true ) ),
+                'driver' => 'Qiniu',
+                'driverConfig' => array (
                         'secrectKey' => '-LdkxeAxW_or_1UssZbSdATJmlVZm5G-M4oWRDcD', 
                         'accessKey' => 'fJOIxQXMh6cn0j0FNSsx4uSEwG9sFCkel0BhwdOw',
                         'domain' => 'bigoranger.qiniudn.com',
                         'bucket' => 'bigoranger',
                         'CallbackUrl' =>'',
                         'CallbackBody' => 'key=$(key)&cid=$(x:cid)&sid=$(x:sid)&ckey=$(x:ckey)',
-                        'Expires' => 36000
-                        )
+                        'Expires' => 36000 
+            ))
 
 );
 

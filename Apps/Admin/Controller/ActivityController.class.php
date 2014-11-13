@@ -9,6 +9,10 @@ namespace Admin\Controller;
  *        
  */
 class ActivityController extends BaseController {
+	public function token()
+	{
+		echo qiniuGetToken();
+	}
 	public function index() {
 
 		$model = M ( 'activity' );
@@ -92,32 +96,18 @@ class ActivityController extends BaseController {
 
 		C('DEFAULT_FILTER','htmlspecialchars,strip_tags');
 
+		$setting=C('UPLOAD_SITEIMG_QINIU');
+		$Upload = new \Think\Upload($setting);
+
 		//处理图片
 		foreach ($_FILES as $key => $value) {
-
-			//判断文件是否为空
 			if ($value['size']<=0) {
 				continue;
 			}
+			$Upload -> saveName = str_replace ( '.', '', microtime ( true ) );
+			$info = $Upload->upload( array($key => $value) );
+			$data[$key] = str_replace('/', '_', $info[$key]['savepath']) . $info[$key]['savename'];
 
-			$config = C('IMG_UPLOAD_CONFIG');
-			$config['saveName'] = $key.time();
-			$config ['savePath'] = 'Activity/' . C ( 'GOODS_IMG_SOURCE' );
-
-			$rstarr = uploadfile ( $config , null);
-
-			$srcpath = $config['rootPath'].$rstarr['msg'][$key]['savepath'].$rstarr['msg'][$key]['savename'];
-
-		 	if ($key=='ImgURL') {
-		 		$savepath = $config['rootPath'].'Activity/800_300/'.time().'.jpg';
-		 		cutimg($srcpath,$savepath,array(800,300),2);
-		 	}
-		 	else{
-		 		$savepath = $config['rootPath'].'Activity/80_80/'.time().'.jpg';
-		 		cutimg($srcpath,$savepath,array(80,80),2);
-		 	}
-		 	unlink ( $srcpath );
-			$data[$key] = substr($savepath, 1);
 		}
 
 		if ($modif == "add") {
@@ -140,10 +130,11 @@ class ActivityController extends BaseController {
 			//如果更新了图片，先删除以前的旧图
 			$oldmodel = $model->where ( $whereArr )->find();
 			if ($data['ImgURL']) {
-				unlink('.' . $oldmodel['ImgURL']);
+				qiniuDelFile($oldmodel['ImgURL']);
+
 			}
 			 if($data['ThumURL']) {
-				unlink('.' . $oldmodel['ThumURL']);
+				qiniuDelFile($oldmodel['ThumURL']);
 			}
 
 			$model->where ( $whereArr )->save ( $data );
@@ -227,8 +218,10 @@ class ActivityController extends BaseController {
 		
 		$list = $model->where ( $whereArr )->select();
 		foreach ($list as $key => $value) {
-			unlink("." . $value['ImgURL']);
-			unlink("." . $value['ThumURL']);
+			
+			qiniuDelFile($value['ImgURL']);
+			qiniuDelFile($value['ThumURL']);
+
 		}
 		if ($model->where ( $whereArr )->delete ()) {
 
