@@ -109,8 +109,7 @@
 						<div class="row">
 							<div class="col-md-12">
 								<h4 class="pull-right message">{:date('Y-m-d H:i:s',$goods['CreateTime'])}</h4>
-
-														<a href="{:U('Usercenter/User/home',array('attenid' => $goods['UserId']))}">
+									<a href="{:U('Usercenter/User/home',array('attenid' => $goods['UserId']))}">
 									<img class="img-circle" src="{:getFileUrl($goods['avatarURL'],'40x40')}" alt="头像">	
 
 									<span>{$goods['Nick']}</span>
