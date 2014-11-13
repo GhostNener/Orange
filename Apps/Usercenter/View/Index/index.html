@@ -5,7 +5,7 @@
 			<div class="panel-body">
 				<div class="row">
 					<div class="col-md-3 text-center">
-						<img src="__ROOT__{:checkfile_exists($uapath['A_150'].$user['URL'])? $uapath['A_150']:getdefaultimg(5)}" alt="">
+						<img src="{:getFileUrl($user['URL'],'150x150')}" alt="">
 						<div class="editavatar">
 							<btton class="btn btn-primary" data-toggle="modal" data-target="#avatarModal">编辑头像</btton>
 						</div>
@@ -111,10 +111,11 @@
 				if(data==0){
 					showerrormsg('上传失败',100,1000);
 				}else{
+					$('#avatarModal').modal('hide');
 					showsuccessmsg('上传成功',100,1000);
 					setTimeout(function(){
 						location.href=location.href;
-					},1000);
+					},300);
 				}
 			}
 		}

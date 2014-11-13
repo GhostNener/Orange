@@ -6,20 +6,26 @@ use Org\Util\String;
 require_once './ORG/qiniu/qiniu.class.php';
 /**
  * 检测用户是否激活
- * @return boolean  */
-function  isactivated(){
-	$m=new userModel();
-	return $m->isactivated();
+ * 
+ * @return boolean
+ */
+function isactivated() {
+	$m = new userModel ();
+	return $m->isactivated ();
 }
 
 /**
  * 获得文件路径（qiniu）
- * @param string $fileName 文件名
- * @param string $type 20x20,40x40 ...
- * @return Ambigous <token, string>  */
-function getFileUrl($fileName,$type){
-	$m=new \qiniu();
-	return $m->GetFileUrl($fileName, $type);
+ * 
+ * @param string $fileName
+ *        	文件名
+ * @param string $type
+ *        	20x20,40x40 ...
+ * @return Ambigous <token, string>
+ */
+function getFileUrl($fileName, $type) {
+	$m = new \qiniu ();
+	return $m->GetFileUrl ( $fileName, $type );
 }
 
 /**
@@ -116,7 +122,7 @@ function uploadfile($config, $file = null) {
 }
 
 /**
- * 标题拆分数组
+ * 标题分词
  *
  * @param string $title
  *        	标题
@@ -1101,7 +1107,7 @@ function send_activate_mail($usermail, $url) {
  *        	经验
  * @return Title 等级名称
  */
-function getgrade($EXP,$type=1) {
+function getgrade($EXP, $type = 1) {
 	$whereArr ['MinEXP'] = array (
 			'elt',
 			$EXP 
@@ -1112,23 +1118,31 @@ function getgrade($EXP,$type=1) {
 	);
 	$whereArr ['Status'] = 10;
 	$model = new user_gradeModel ();
-	$rst = $model->getgrade ( (int)$EXP );
-	if($type==1){
-		return $rst['Title'] ;
-	}else{
-		return $rst['Number'] ;
-	}	
-
+	$rst = $model->getgrade ( ( int ) $EXP );
+	if ($type == 1) {
+		return $rst ['Title'];
+	} else {
+		return $rst ['Number'];
+	}
 }
 
-function qiniuDelFile($key){
-
-	$qiniu = new \qiniu();
-	return $qiniu->del($key);
+/**
+ * 删除文件（七牛）
+ * 
+ * @param unknown $key        	
+ * @return multitype:number string
+ */
+function qiniuDelFile($key) {
+	$qiniu = new \qiniu ();
+	return $qiniu->del ( $key );
 }
-
+/**
+ * 获得token
+ * 
+ * @param unknown $action        	
+ * @return Ambigous <token, string>
+ */
 function qiniuGetToken($action){
-
 	$qiniu = new \qiniu();
 	return $qiniu->GetToken($action);
 }

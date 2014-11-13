@@ -40,23 +40,6 @@ return array (
 				'hash' => false 
 		)
 		 ,
-		/*原图*/
-		'GOODS_IMG_SOURCE' => 'Source/',
-		/*商品图片  分辨率 w*H */
-		'GOODS_IMG_SIZE' => array (
-				'G_880' => array (
-						800,
-						800 
-				),
-				'G_830' => array (
-						800,
-						300 
-				),
-				'G_320' => array (
-						320,
-						160 
-				) 
-		),
 		/*关闭自动模板布局*/
 		'LAYOUT_ON' => false ,
 		
@@ -97,33 +80,6 @@ return array (
 		'SEARCH_DIC' => 'dict/search_dic_full.dic' ,
 		/*用户默认昵称前缀  */
 		'RAND_NICK_PREFIX' => '',
-		/*用户默认头像  */
-		'DEFAULT_USER_AVATAR' => array (
-				'A_150' => '/Public/Img/150_150_USER.png',
-				'A_40' => '/Public/Img/40_40_USER.png',
-				'A_20' => '/Public/Img/20_20_USER.png',
-				'A_80' => '/Public/Img/80_80_USER.png' 
-		), 
-		
-		/*商品默认图  */
-		'DEFAULT_GOODS_IMG' => array (
-				'G_830' => '/Public/Img/800_300_IMG_NOT_FOUND.jpg',
-				'G_320' => '/Public/Img/320_160_IMG_NOT_FOUND.jpg' 
-		)
-		,
-		/*用户头像存放路径  */
-		'USER_AVATAR_PATH' => array (
-				'A_150' => '/Uploads/Avatar/150_150/',
-				'A_80' => '/Uploads/Avatar/80_80/',
-				'A_40' => '/Uploads/Avatar/40_40/',
-				'A_20' => '/Uploads/Avatar/20_20/' 
-		),
-		/*商品图片存放路径  */
-		'GOODS_IMG_PATH' => array (
-				'G_880' => '/Uploads/GoodsImg/800_800/',
-				'G_830' => '/Uploads/GoodsImg/800_300/',
-				'G_320' => '/Uploads/GoodsImg/320_160/' 
-		),
 		/*通知类型组  */
 		'MSG_TYPE_GROUP' => array (
 				'SYS' => '<span class="label label-danger">系统</span>',
@@ -156,7 +112,7 @@ return array (
 				'Content' => '[$_Content_$]',
 				'CId' => '[$_CId_$]',
 				'AId' => '[$_AId_$]',
-				'GId' => '[$_GId_$]'
+				'GId' => '[$_GId_$]' 
 		),
 		/* 商品评论最大返回数量 */
 		'COMMENTS_LIST_COUNT' => 50,
@@ -173,22 +129,30 @@ return array (
 		'TMPL_ACTION_ERROR' => './Tpl/jump.html',
 		'TMPL_ACTION_SUCCESS' => './Tpl/jump.html',
 		/*七牛OSS*/
-		'UPLOAD_SITEIMG_QINIU' => array ( 
-                'maxSize' => 5 * 1024 * 1024,//文件大小
-                'rootPath' => './',
-                'savePath' => 'Activity/',
+		'FILE_SIZE_SEPARATOR'=>'-',//分隔符
+		'UPLOAD_SITEIMG_QINIU' => array (
+				'maxSize' => 5 * 1024 * 1024, // 文件大小
+				'rootPath' => './',
+				'savePath' => 'Activity/',
 				'autoSub' => false,
 				'saveName' => str_replace ( '.', '', microtime ( true ) ),
-                'driver' => 'Qiniu',
-                'driverConfig' => array (
-                        'secrectKey' => '-LdkxeAxW_or_1UssZbSdATJmlVZm5G-M4oWRDcD', 
-                        'accessKey' => 'fJOIxQXMh6cn0j0FNSsx4uSEwG9sFCkel0BhwdOw',
-                        'domain' => 'bigoranger.qiniudn.com',
-                        'bucket' => 'bigoranger',
-                        'CallbackUrl' =>'',
-                        'CallbackBody' => 'key=$(key)&cid=$(x:cid)&sid=$(x:sid)&ckey=$(x:ckey)',
-                        'Expires' => 36000 
-            ))
-
-);
+				'driver' => 'Qiniu',
+				'exts' => array (
+						'jpg',
+						'gif',
+						'png',
+						'jpeg' 
+				),
+				'driverConfig' => array (
+						'secrectKey' => 'ApFyYUL4aaaPbGAYQRJT1-4qGUJfjziQ7KQ_SJni',//'-LdkxeAxW_or_1UssZbSdATJmlVZm5G-M4oWRDcD',
+						'accessKey' => 'dU131Y7XxO1dZtrPNWFg2RCW1PbemyoVPecdldP_',//'fJOIxQXMh6cn0j0FNSsx4uSEwG9sFCkel0BhwdOw',
+						'domain' => 'ghostdatabase.qiniudn.com',
+						'bucket' => 'ghostdatabase',//'bigoranger',
+						'CallbackUrl' => '',
+						'CallbackBody' => 'key=$(key)&cid=$(x:cid)&sid=$(x:sid)&ckey=$(x:ckey)',
+						'Expires' => 36000 
+				) 
+		) 
+)
+;
 

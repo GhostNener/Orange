@@ -34,5 +34,44 @@ class user_avatarModel extends Model {
 		);
 		return $this->add ( $data );
 	}
+	/**
+	 * 添加头像
+	 *
+	 * @param string $filename
+	 *        	文件名
+	 * @param string $uid        	
+	 * @return boolean
+	 */
+	public function addone($filename, $uid = null) {
+		if (! $uid) {
+			$uid = cookie ( '_uid' );
+		}
+		$dal = M ();
+		$dal->startTrans ();
+		$am = $this->where ( array (
+				'UserId' => $uid 
+		) )->find ();
+		$r1 = $this->where ( array (
+				'UserId' => $uid 
+		) )->delete ();
+		if(!$am){
+			$r1=1;
+		}else{
+			
+		}
+		$r2 = $this->add ( array (
+				'UserId' => $uid,
+				'IsSysDef' => 0,
+				'URL' => $filename,
+				'Status' => 10 
+		) );
+		if (! $r1 || ! $r2) {
+			$dal->rollback ();
+			return false;
+		} else {
+			$dal->commit ();
+			return true;
+		}
+	}
 }
 ?>
