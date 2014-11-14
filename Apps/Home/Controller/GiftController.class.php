@@ -40,27 +40,42 @@ class GiftController extends BaseController {
 
 		$model = M('gift');
 		$result = $model->where(array('Id'=>$giftid))->find();
+		
+		//判断数量够不够
 		if($result['Amount'] - $amount >= 0){
+			
 			$result['Amount'] = $result['Amount'] - $amount;
-
 			$model->where(array('Id'=>$giftid))->save($result);
-
-			//生成订单保存
-			$model = M('gift_order');
-			$data['Amount'] = (int) $amount;
-			$data['giftId'] = (int) $giftid;
-			$data['UserId'] = (int) cookie('_uid');
-			$data['AddressId'] = (int) I('AddressId');
-			$data['CreateTime'] = time();
-			$data['Status'] = 10;
-			$result = $model->data($data)->add();
-			if (!$result) {
-				$this->error('操作失败，请重试');
-			}
 
 		}else{
 			$this->error('抱歉，商品已被兑换完了');
 		}
+
+		//判断钱够不够
+		$price = $result['Price'];
+		$price = $price * $amount;
+		$model = M('user');
+		$result = $model->where(array('Id'=>cookie('_uid')))->find();
+		if ($result['E-Money'] < $price) {
+			$this->error('金橘余额不足，请充值后再购买');
+		}else{
+			$result['E-Money'] = $result['E-Money'] - $price;
+			$model -> where(array('Id'=>cookie('_uid')))->save($result);
+		}
+
+		//生成订单保存
+		$model = M('gift_order');
+		$data['Amount'] = (int) $amount;
+		$data['giftId'] = (int) $giftid;
+		$data['UserId'] = (int) cookie('_uid');
+		$data['AddressId'] = (int) I('AddressId');
+		$data['CreateTime'] = time();
+		$data['Status'] = 10;
+		$result = $model->data($data)->add();
+		if (!$result) {
+			$this->error('操作失败，请重试');
+		}
+
 		$this->success ( '兑换成功,请到消息中心查看详情');
 	}
 

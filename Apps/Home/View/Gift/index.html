@@ -12,7 +12,7 @@
 							<p>{$v[Name]}</p>
 						</div>
 						<div class="ratings">
-							<button class="btn btn-success ajaxpost" data-toggle="modal" data-price='{$v[Price]}' data-giftid='{$v[Id]}'>兑换</button>
+							<button class="btn btn-success ajaxpost" data-toggle="modal" data-amount='{$v[Amount]}' data-price='{$v[Price]}' data-giftid='{$v[Id]}'>兑换</button>
 							<h5 class="pull-right">剩余: {$v[Amount]}</h5>
 						</div>
 					</div>
@@ -76,7 +76,7 @@
 						</span>
 						&nbsp;
 						<button type="button" class="btn btn-danger" data-dismiss="modal">关闭</button>
-						<button type="submit" class="btn btn-success">付款</button>
+						<button type="submit" class="btn btn-success" btn-submit>付款</button>
 					</div>
 				</form>
 
@@ -134,7 +134,21 @@
 </block>
 <block name="js">
 	<script type="text/javascript">
+		function btnsubmit (c1, c2) {
+			var btn = $('button[btn-submit]');
+			if (c1 < c2) {
+						btn.text('余额不足, 请充值');
+						btn.addClass('btn-warning');
+						btn.attr('disabled','disabled');
+					}else{
+						btn.text('付款');
+						btn.removeClass('btn-warning');
+						btn.removeAttr('disabled');
+					}
+
+		}
 		$('button[refreshBalance]').click(function(){
+
 			$.ajax({
 				type:'post',
 				url:'Order/getbalance',
@@ -143,9 +157,7 @@
 				},
 				success:function (data) {
 					$('#userbalance').text(data.info);
-					if (data.info>价格) {
-						$('button[type="submit"]').text('余额不足');
-					}
+					btnsubmit(data.info, $('a[refreshAddress]').attr('data-price'));
 				},
 				error:function () {
 					showerrormsg('网络错误，请稍后再试',100,1000);
@@ -154,10 +166,31 @@
 			})
 		});
 
+		$("#Amount").on('input',function(e){  
+			var value = $(this).val();
+			var amount = $(this).attr('data-amount');
+
+			if ( parseInt(value) > parseInt(amount)) {
+				$(this).val(amount);
+				return;
+			} 
+			else if ( parseInt(value) < 0) {
+				$(this).val(0);
+				return;
+			} 
+
+			var price = $(this).attr('data-price') * value;
+			$('#giftprice').html('金橘: '+ price);
+			btnsubmit($('#userbalance').html() , price);
+			
+		}); 
+
 		$('.ajaxpost').click(function () {
 			var a = $(this);
 			$('a[refreshAddress]').attr('data-price',a.attr('data-price'));
 			$('a[refreshAddress]').attr('data-giftid',a.attr('data-giftid'));
+			$('#Amount').attr('data-price',a.attr('data-price'));
+			$('#Amount').attr('data-amount',a.attr('data-amount'));
 
 			$.ajax({
                 type: 'post',
