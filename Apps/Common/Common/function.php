@@ -1134,7 +1134,7 @@ function getgrade($EXP, $type = 1) {
  */
 function qiniuDelFile($key) {
 	$qiniu = new \qiniu ();
-	return $qiniu->del ( $key );
+	return $qiniu->delFile( $key );
 }
 /**
  * 获得token

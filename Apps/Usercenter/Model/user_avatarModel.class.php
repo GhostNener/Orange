@@ -51,14 +51,20 @@ class user_avatarModel extends Model {
 		$am = $this->where ( array (
 				'UserId' => $uid 
 		) )->find ();
+		
+		if (! $am) {
+			$r1 = 1;
+		} else {
+			$c = $this->where ( array (
+					'URL' => $am ['URL'] 
+			) )->count ();
+			if ($c <= 1) {
+				qiniuDelFile ( $am ['URL'] );
+			}
+		}
 		$r1 = $this->where ( array (
 				'UserId' => $uid 
 		) )->delete ();
-		if(!$am){
-			$r1=1;
-		}else{
-			
-		}
 		$r2 = $this->add ( array (
 				'UserId' => $uid,
 				'IsSysDef' => 0,

@@ -62,38 +62,51 @@ class qiniu {
 			);
 		}
 	}
-
-	function del($id, $key){
-		$model = M('goods_img');
-		$result = $model -> where ( array('Id'=> $id )) ->delete();
-		if(!$result){
-
+	function del($id, $key) {
+		$model = M ( 'goods_img' );
+		$result = $model->where ( array (
+				'Id' => $id 
+		) )->delete ();
+		if (! $result) {
+			
 			$status = 0;
 			$msg = '数据库删除失败';
 		} else {
 			$status = 1;
 			$msg = '数据库删除成功';
-
-			$count = $model -> where ( array('URL'=> $key )) ->count();
-			if ($count <= 1) {
-
-				//删除服务器数据
-				$config = C('UPLOAD_SITEIMG_QINIU');
-				$config = $config['driverConfig'];
-				$qiniu = new QiniuStorage($config);
-				$result = $qiniu -> del($key);
-				//不成功处理
-				if($result){
+			
+			$count = $model->where ( array (
+					'URL' => $key 
+			) )->count ();
+			if ($count <1) {
+				
+				// 删除服务器数据
+				$config = C ( 'UPLOAD_SITEIMG_QINIU' );
+				$config = $config ['driverConfig'];
+				$qiniu = new QiniuStorage ( $config );
+				$result = $qiniu->del ( $key );
+				// 不成功处理
+				if ($result) {
 					$status = 0;
 					$msg = '服务器删除失败';
 				}
 			}
-
 		}
 		
 		return array (
 				'status' => $status,
 				'msg' => $msg 
 		);
+	}
+	/**
+	 * 删除文件
+	 * 
+	 * @param string $key 文件key        	
+	 */
+	function delFile($key) {
+		$config = C ( 'UPLOAD_SITEIMG_QINIU' );
+		$config = $config ['driverConfig'];
+		$qiniu = new QiniuStorage ( $config );
+		$result = $qiniu->del ( $key );
 	}
 }
