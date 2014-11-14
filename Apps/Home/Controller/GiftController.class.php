@@ -78,7 +78,7 @@ class GiftController extends BaseController {
 		}
 
 		//发送通知
-		CSYSN(cookie('_uid'),'礼品兑换成功','你兑换的 ' . $giftName . ' 礼品已成功，工作人员会在一个工作日内与你联系，请保持电话畅通。');
+		CSYSN(cookie('_uid'),'礼品兑换成功','你兑换的 ' . $giftName . ' 礼品已确认成功，工作人员会在一个工作日内与你联系，请保持电话畅通。');
 		$this->success ( '兑换成功,请到消息中心查看详情');
 	}
 
