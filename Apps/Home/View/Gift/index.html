@@ -169,6 +169,9 @@
 		$("#Amount").on('input',function(e){  
 			var value = $(this).val();
 			var amount = $(this).attr('data-amount');
+			var price = $(this).attr('data-price') * value;
+			$('#giftprice').html('金橘: '+ price);
+			btnsubmit($('#userbalance').html() , price);
 
 			if ( parseInt(value) > parseInt(amount)) {
 				$(this).val(amount);
@@ -178,10 +181,6 @@
 				$(this).val(0);
 				return;
 			} 
-
-			var price = $(this).attr('data-price') * value;
-			$('#giftprice').html('金橘: '+ price);
-			btnsubmit($('#userbalance').html() , price);
 			
 		}); 
 
@@ -191,7 +190,7 @@
 			$('a[refreshAddress]').attr('data-giftid',a.attr('data-giftid'));
 			$('#Amount').attr('data-price',a.attr('data-price'));
 			$('#Amount').attr('data-amount',a.attr('data-amount'));
-
+			$('#Amount').val(1);
 			$.ajax({
                 type: 'post',
                 url: 'Gift/getinfo',
