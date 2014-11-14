@@ -1,11 +1,12 @@
+你已购买 &nbsp;
 <a href="[$_GURL_$]" class="text-orange">[$_Title_$]</a>
-&nbsp
-已被
-&nbsp
+,&nbsp;
+请与卖家
+&nbsp;
 <a href="[$_UserURL_$]" class="text-orange">@[$_Nick_$]</a>
-&nbsp
-购买，请与买家联系。联系方式: [$_Content_$] [$_Tel_$]
+&nbsp;
+联系。联系方式: [$_Content_$]&nbsp;[$_Tel_$]
 <a class="btn btn-success visible-xs-inline-block" href="[$_Tel_$]">
 	<span class="glyphicon glyphicon-earphone"></span>
-	&nbsp拨打电话
+	&nbsp;拨打电话
 </a>

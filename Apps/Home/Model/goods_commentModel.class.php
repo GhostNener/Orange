@@ -100,29 +100,13 @@ class goods_commentModel extends Model {
 			/* 商品留言通知 */
 			$data ['Title'] = $tarr ['MSG'];
 			$data ['RecipientId'] = ( int ) $g ['UserId']; /* 收件人 */
-			$data ['Content'] = $this->CNC ( $cdata, $tpl ['MSG'] );
+			$data ['Content'] = CNC ( $cdata, $tpl ['MSG'] );
 			return $m->addone ( $data, 3 ); // 创建留言通知
 		} else {
 			$data ['Title'] = $tarr ['REPLY'];
 			$data ['RecipientId'] = ( int ) $arr ['AssesseeId']; /* 收件人 */
-			$data ['Content'] = $this->CNC ( $cdata, $tpl ['REPLY'] );
+			$data ['Content'] = CNC ( $cdata, $tpl ['REPLY'] );
 			return $m->addone ( $data, 4 ); // 创建留言通知
 		}
-	}
-	/**
-	 * 创建通知内容（CreateNoticeContent）
-	 *
-	 * @param array $data
-	 *        	：Title，GURL，UURL，Nick，Content，CId
-	 * @param string $tplpath        	
-	 * @return string
-	 */
-	private function CNC($data, $tplpath) {
-		$karr = C('MSG_TPL_PLACEHOLDER');
-		$c = file_get_contents ( $tplpath );
-		foreach ( $karr as $k => $v ) {
-			$c = str_replace ( $v, $data [$k], $c );
-		}
-		return htmlspecialchars ( $c );
 	}
 }

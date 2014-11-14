@@ -78,9 +78,8 @@ class OrderController extends LoginController {
 		}
 		$arr = I ( 'post.' );
 		$m = new goods_orderModel ();
-		$rst = $m->createone ( $arr );
-		
-		if ($rst ['status'] == 0) {
+		$rst = $m->createone ( $arr );	
+		if ((int)$rst ['status'] == 0) {
 			$this->error ( $rst ['msg'], U ( 'Home/Index/index' ) );
 			die ();
 		} else {

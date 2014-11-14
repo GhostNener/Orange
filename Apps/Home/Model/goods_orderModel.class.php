@@ -48,6 +48,63 @@ class goods_orderModel extends Model {
 		}
 	}
 	/**
+	 * 创建通知
+	 * Title，Content，SendId，RecipientId
+	 * 
+	 * @param unknown $data        	
+	 */
+	private function createnotice($data) {
+		$tpl = C ( 'MSG_TYPE_CONTENT_PATH' );
+		$tpl = $tpl ['ORDER'];
+		$nt = C ( 'MSG_TYPE_TITLE_GROUP' );
+		$nt = $nt ['ORDER'];
+		$m = new view_goods_listModel ();
+		$m = $m->getgoodsdetails ( ( int ) $data ['GoodsId'], 2 );
+		$cdata ['Title'] = $m ['Title'];
+		$cdata ['GURL'] = U ( 'Home/Index/g_show', array (
+				'Id' => ( int ) $data ['GoodsId'] 
+		) );
+		/* 卖家信息 */
+		$selldata = $this->CBSN ( $data ['SellerAddId'] );
+		/* 买家信息 */
+		$buydata = $this->CBSN ( $data ['BuyerAddId'] );
+		$m = new noticeModel ();
+		/* 卖家通知 */
+		$snd = array_merge ( $cdata, $buydata );
+		$sc ['Content'] = CNC ( $snd, $tpl ['SELL'] );
+		$sc ['Title'] = $nt ['SELL'];
+		$sc ['SendId'] = 0;
+		$sc ['RecipientId'] = (int)$data ['SellerId'];
+		/* 买家通知 */
+		$bnd = array_merge ( $cdata, $selldata );
+		$bc ['Content']= CNC ( $bnd, $tpl ['BUY'] );
+		$bc ['Title'] = $nt ['BUY'];
+		$bc ['SendId'] = 0;
+		$bc ['RecipientId'] = (int)$data ['BuyerId'];
+		/* 创建通知 */
+		$rst=($m->addone ( $bc, 2 ))&&($m->addone ( $sc, 2 ));
+		
+		/* return (() ()); */
+	}
+	/**
+	 * 创建买家卖家通知
+	 *
+	 * @param unknown $data        	
+	 */
+	private function CBSN($uaid) {
+		$m = M ( 'view_user_info_address' );
+		$m = $m->where ( array (
+				'AddId' => ( int ) $uaid 
+		) )->find ();
+		$cdata ['Nick'] = $m ['Nick'];
+		$cdata ['UURL'] = U ( 'Usercenter/User/u_show', array (
+				'Id' => $m['Id'] 
+		) );
+		$cdata ['Tel'] = $m ['Tel'];
+		$cdata ['Content'] = $m ['Contacts'] . '&nbsp;' . $m ['Address'];
+		return $cdata;
+	}
+	/**
 	 * 创建一个订单
 	 *
 	 * @param array $data
@@ -63,7 +120,7 @@ class goods_orderModel extends Model {
 		$m = new goodsModel ();
 		$model = $m->findone ( $data ['GoodsId'] );
 		if (! $model) {
-			$msg ['msg'] = '商品已下架或不存在';
+			$msg ['msg'] = '商品已下架或不存在！';
 			return $msg;
 		}
 		$waylist = createtradeway ( $model ['TradeWay'], 2 );
@@ -111,6 +168,7 @@ class goods_orderModel extends Model {
 			return $msg;
 		} else {
 			$dal->commit ();
+			$this->createnotice($order);
 			$am = new user_addressModel ();
 			$address = $am->getbyid ( $data ['SellerAddId'] );
 			return array (

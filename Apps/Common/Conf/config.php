@@ -90,7 +90,10 @@ return array (
 		/*通知标题  */
 		'MSG_TYPE_TITLE_GROUP' => array (
 				'MSG' => '你有一条新留言',
-				'ORDER' => '商品已出售',
+				'ORDER' => array (
+						'SELL' => '商品已出售',
+						'BUY' => '购买商品' 
+				),
 				'REPLY' => '你一有条回复信息',
 				'SYS' => array (
 						'GIFT' => '礼物兑换',
@@ -101,7 +104,10 @@ return array (
 		'MSG_TYPE_CONTENT_PATH' => array (
 				'MSG' => './Tpl/Public/Msg/msg.txt',
 				'REPLY' => './Tpl/Public/Msg/reply.txt',
-				'ORDER' => './Tpl/Public/Msg/order.txt' 
+				'ORDER' => array (
+						'BUY' => './Tpl/Public/Msg/order_buy.txt',
+						'SELL' => './Tpl/Public/Msg/order_sell.txt' 
+				) 
 		),
 		/*通知模板渲染占位符  */
 		'MSG_TPL_PLACEHOLDER' => array (
@@ -112,7 +118,8 @@ return array (
 				'Content' => '[$_Content_$]',
 				'CId' => '[$_CId_$]',
 				'AId' => '[$_AId_$]',
-				'GId' => '[$_GId_$]' 
+				'GId' => '[$_GId_$]',
+				'Tel' => '[$_Tel_$]' 
 		),
 		/* 商品评论最大返回数量 */
 		'COMMENTS_LIST_COUNT' => 50,
@@ -129,7 +136,7 @@ return array (
 		'TMPL_ACTION_ERROR' => './Tpl/jump.html',
 		'TMPL_ACTION_SUCCESS' => './Tpl/jump.html',
 		/*七牛OSS*/
-		'FILE_SIZE_SEPARATOR'=>'-',//分隔符
+		'FILE_SIZE_SEPARATOR' => '-', // 分隔符
 		'UPLOAD_SITEIMG_QINIU' => array (
 				'maxSize' => 5 * 1024 * 1024, // 文件大小
 				'rootPath' => './',
@@ -144,15 +151,14 @@ return array (
 						'jpeg' 
 				),
 				'driverConfig' => array (
-						'secrectKey' => 'ApFyYUL4aaaPbGAYQRJT1-4qGUJfjziQ7KQ_SJni',//'-LdkxeAxW_or_1UssZbSdATJmlVZm5G-M4oWRDcD',
-						'accessKey' => 'dU131Y7XxO1dZtrPNWFg2RCW1PbemyoVPecdldP_',//'fJOIxQXMh6cn0j0FNSsx4uSEwG9sFCkel0BhwdOw',
-						'domain' => 'ghostdatabase.qiniudn.com',//'bigoranger.qiniudn.com',
-						'bucket' => 'ghostdatabase',//'bigoranger',
+						'secrectKey' => 'ApFyYUL4aaaPbGAYQRJT1-4qGUJfjziQ7KQ_SJni', // '-LdkxeAxW_or_1UssZbSdATJmlVZm5G-M4oWRDcD',
+						'accessKey' => 'dU131Y7XxO1dZtrPNWFg2RCW1PbemyoVPecdldP_', // 'fJOIxQXMh6cn0j0FNSsx4uSEwG9sFCkel0BhwdOw',
+						'domain' => 'ghostdatabase.qiniudn.com', // 'bigoranger.qiniudn.com',
+						'bucket' => 'ghostdatabase', // 'bigoranger',
 						'CallbackUrl' => '',
 						'CallbackBody' => 'key=$(key)&cid=$(x:cid)&sid=$(x:sid)&ckey=$(x:ckey)',
 						'Expires' => 36000 
 				) 
 		) 
-)
-;
+);
 

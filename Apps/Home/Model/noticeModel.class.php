@@ -65,18 +65,49 @@ class noticeModel extends Model {
 	}
 	/**
 	 * 获得未读消息
-	 * @param string $uid
-	 * @param number $type 1：获得 列表，2：获得数量
-	 * @return array or number  */
-	public function getunread($uid=null,$type=1){
-		if(!$uid){
-			$uid=cookie('_uid');
+	 *
+	 * @param string $uid        	
+	 * @param number $type
+	 *        	1：获得 列表，2：获得数量
+	 * @return array or number
+	 */
+	public function getunread($uid = null, $type = 1) {
+		if (! $uid) {
+			$uid = cookie ( '_uid' );
 		}
-		$warr=array('RecipientId'=>(int)$uid,'Status'=>10);
-		if($type==2){
-			return ($this->where($warr)->count());
-		}else{
-			return ($this->where($warr)->select());
+		$warr = array (
+				'RecipientId' => ( int ) $uid,
+				'Status' => 10 
+		);
+		if ($type == 2) {
+			return ($this->where ( $warr )->count ());
+		} else {
+			return ($this->where ( $warr )->select ());
+		}
+	}
+	
+	/**
+	 * 创建系统通知
+	 *
+	 * @param array $arr
+	 *        	收件人
+	 * @param string $title
+	 *        	标题
+	 * @param string $content
+	 *        	内容
+	 */
+	public function CSYSN($arr, $title, $content) {
+		$data ['Title'] = $title;
+		$data ['Content'] = $content;
+		$data ['SendId'] = 0;
+		if (! is_array ( $arr )) {
+			$data ['RecipientId'] = ( int ) $arr;
+			$this->addone ( $data, 1 );
+			return;
+		}
+		foreach ( $arr as $k => $v ) {
+			$data ['RecipientId'] = ( int ) $v;
+			$this->addone ( $data, 1 );
 		}
 	}
 	

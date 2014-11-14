@@ -3,10 +3,11 @@ use Usercenter\Model\user_gradeModel;
 use Vendor\PHPMailer;
 use Usercenter\Model\userModel;
 use Org\Util\String;
+use Home\Model\noticeModel;
 require_once './ORG/qiniu/qiniu.class.php';
 /**
  * 检测用户是否激活
- * 
+ *
  * @return boolean
  */
 function isactivated() {
@@ -15,8 +16,41 @@ function isactivated() {
 }
 
 /**
- * 获得文件路径（qiniu）
+ * 创建系统通知（批量，单个）
  * 
+ * @param array $arruid
+ *        	收件人 可以是数组
+ * @param unknown $title
+ *        	通知标题
+ * @param unknown $content
+ *        	通知内容
+ *        	
+ */
+function CSYSN($arruid, $title, $content) {
+	$m = new noticeModel ();
+	$m->CSYSN ( $arruid, $title, $content );
+}
+
+/**
+ * 创建通知内容（CreateNoticeContent）
+ *
+ * @param array $data
+ *        	：Title，GURL，UURL，Nick，Content，CId
+ * @param string $tplpath
+ *        	通知模板路径
+ * @return string
+ */
+function CNC($data, $tplpath) {
+	$karr = C ( 'MSG_TPL_PLACEHOLDER' );
+	$c = file_get_contents ( $tplpath );
+	foreach ( $karr as $k => $v ) {
+		$c = str_replace ( $v, $data [$k], $c );
+	}
+	return htmlspecialchars ( $c );
+}
+/**
+ * 获得文件路径（qiniu）
+ *
  * @param string $fileName
  *        	文件名
  * @param string $type
@@ -1128,23 +1162,23 @@ function getgrade($EXP, $type = 1) {
 
 /**
  * 删除文件（七牛）
- * 
+ *
  * @param unknown $key        	
  * @return multitype:number string
  */
 function qiniuDelFile($key) {
 	$qiniu = new \qiniu ();
-	return $qiniu->delFile( $key );
+	return $qiniu->delFile ( $key );
 }
 /**
  * 获得token
- * 
+ *
  * @param unknown $action        	
  * @return Ambigous <token, string>
  */
-function qiniuGetToken($action){
-	$qiniu = new \qiniu();
-	return $qiniu->GetToken($action);
+function qiniuGetToken($action) {
+	$qiniu = new \qiniu ();
+	return $qiniu->GetToken ( $action );
 }
 
 ?>
