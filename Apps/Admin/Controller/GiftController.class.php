@@ -86,8 +86,7 @@ class GiftController extends BaseController {
 		if ($_FILES['ImgURL']['size']) {
 			$setting=C('UPLOAD_SITEIMG_QINIU');
 			$Upload = new \Think\Upload($setting);
-			var_dump($_FILES);
-			return;
+			
 			$info = $Upload->upload($_FILES);
 			
 			$data['ImgURL'] = str_replace('/', '_', $info['ImgURL']['savepath']) . $info['ImgURL']['savename'];
