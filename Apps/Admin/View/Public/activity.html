@@ -13,7 +13,7 @@
 	</div>
 
 	<block name="content"></block>
-	<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal fade" id="addModal" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 		<div class="modal-dialog  modal-lg">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -111,7 +111,7 @@
 
             editorContent = k.create('textarea[name="Contents"]', {
                 allowImageUpload: true,
-                uploadJson: '/Upload/UploadFile'
+                uploadJson: 'UploadFile'
                 , items: [
                      'source', 'preview','|', 'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold', 'italic', 'underline','removeformat', '|', 'justifyleft', 'justifycenter', 'justifyright', 'insertorderedlist',
                     'insertunorderedlist', '|', 'image', 'insertfile','link','quickformat', 'wordpaste','|', 'fullscreen']

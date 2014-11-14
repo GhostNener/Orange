@@ -27,7 +27,7 @@
 										<?php echo date("Y-m-d H:i:s ", $v[CreateTime]); ?></td>
 									<td>
 										<a class="btn btn-danger btn-small save" action="{:U(del,array('Id'=>$v['Id']))}">删除</a>
-										<a class="btn btn-info btn-small" href="{$v['Href']?$v['Href']:'#'}" target="_blank">查看</a>
+										<a class="btn btn-info btn-small" href="{$v['Href']?$v['Href']:U('Home/Activity/detail',array('id'=>$v[Id]))}" target="_blank">查看</a>
 										<a class="btn btn-primary btn-small edit" action="{:U(update,array('Id'=>$v['Id']))}"  modaltitle="编辑资讯">编辑</a>
 									</td>
 								</tr>

@@ -9,10 +9,7 @@ namespace Admin\Controller;
  *        
  */
 class GiftController extends BaseController {
-	public function token()
-	{
-		echo qiniuGetToken();
-	}
+	
 	public function index() {
 
 		$model = M ( 'Gift' );
@@ -58,8 +55,7 @@ class GiftController extends BaseController {
 		$this->display ();
 	}
 
-	public function save()
-	{
+	public function save() {
 		if (! IS_POST) {
 			$this->error ( "页面不存在" );
 		}
@@ -122,8 +118,7 @@ class GiftController extends BaseController {
 		$this->success ( '操作成功' );
 	}
 
-	public function update()
-	{
+	public function update() {
 		$id = ( int ) I ( 'get.Id' );
 		if (! $id) {
 			$status = 0;
@@ -153,8 +148,7 @@ class GiftController extends BaseController {
 	}
 
 	//软删除
-	public function del()
-	{
+	public function del() {
 		$id = ( int ) I ( 'get.Id' );
 		if (! $id) {
 			$this->error ( "页面不存在" );
@@ -179,8 +173,7 @@ class GiftController extends BaseController {
 	}
 
 	//硬删除
-	public function clear()
-	{
+	public function clear() {
 		$id = ( int ) I ( 'Id' );
 		
 		$whereArr = array (
@@ -207,8 +200,7 @@ class GiftController extends BaseController {
 		}
 	}
 
-	public function order()
-	{
+	public function order() {
 		$model = M('view_gift_order');
 		$wherrArr = array (
 				'Status' => 10 
@@ -228,8 +220,7 @@ class GiftController extends BaseController {
 		$this->display();
 	}
 
-	public function ordercomplete()
-	{
+	public function ordercomplete() {
 		$id = ( int ) I ( 'get.Id' );
 		if (! $id) {
 			$this->error ( "页面不存在" );
@@ -253,8 +244,7 @@ class GiftController extends BaseController {
 		}
 	}
 
-	public function complete($value='')
-	{
+	public function complete($value='') {
 		$model = M('view_gift_order');
 		$wherrArr = array (
 				'Status' => -1 

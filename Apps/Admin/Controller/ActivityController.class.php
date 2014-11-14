@@ -9,9 +9,28 @@ namespace Admin\Controller;
  *        
  */
 class ActivityController extends BaseController {
-	public function token()
+	public function UploadFile()
 	{
-		echo qiniuGetToken();
+
+		$setting=C('UPLOAD_SITEIMG_QINIU');
+		$setting ['savePath'] = 'Article/';
+
+		$Upload = new \Think\Upload($setting);
+		foreach ($_FILES as $key => $value) {
+			$info = $Upload->upload($_FILES);
+
+			if ($info) {
+				echo json_encode(array(
+					'error'=>0,
+					'url'=>$info[$key]['url']
+					));
+				return;
+			}
+		}
+		echo json_encode(array(
+						'error'=>1,
+						'message'=>'上传失败'
+						));
 	}
 	public function index() {
 
@@ -65,8 +84,7 @@ class ActivityController extends BaseController {
 		$this->display ();
 	}
 
-	public function save()
-	{
+	public function save() {
 		if (! IS_POST) {
 			$this->error ( "页面不存在" );
 		}
@@ -142,8 +160,7 @@ class ActivityController extends BaseController {
 		$this->success ( '操作成功' );
 	}
 
-	public function update()
-	{
+	public function update() {
 		$id = ( int ) I ( 'get.Id' );
 		if (! $id) {
 			$status = 0;
@@ -174,8 +191,7 @@ class ActivityController extends BaseController {
 	}
 
 	//软删除
-	public function del()
-	{
+	public function del() {
 		$id = ( int ) I ( 'get.Id' );
 		if (! $id) {
 			$this->error ( "页面不存在" );
@@ -200,8 +216,7 @@ class ActivityController extends BaseController {
 	}
 
 	//硬删除
-	public function clear()
-	{
+	public function clear() {
 		$id = ( int ) I ( 'Id' );
 		
 		$whereArr = array (
