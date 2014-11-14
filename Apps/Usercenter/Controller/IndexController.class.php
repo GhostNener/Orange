@@ -76,7 +76,7 @@ class IndexController extends LoginController {
 		$model = new noticeModel ();
 		$all = $model->getunread ();
 		$this->assign ( 'urnl', $all );
-		$this->assign ( 'empty', '' );
+		$this->assign ( 'empty', '<h3 class="text-import text-center">没有更多未读消息</h3>' );
 		$this->getCommon ();
 		$this->display ();
 	}

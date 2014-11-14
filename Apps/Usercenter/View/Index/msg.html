@@ -3,23 +3,23 @@
 <div class="col-md-9">
 	<div class="panel panel-default profilemain">
 		<div class="panel-body">
-		<volist id='v' name='urnl' empty='$empty' >
+		<volist  name='urnl' id='v' empty='$empty' >
 			<!-- 系统消息 -->
 			<div class="media">
 				<button type="button" class="close">&times;</button>
 				<a class="pull-left">
-					{:html_entity_decode($v['Theme'])}
+					{:htmlspecialchars_decode($v['Theme'])}
 				</a>
 				<div class="media-body">
 					<!--消息头-->
 					<h5 class="media-heading">{$v['Title']}</h5>
 					<!--消息内容-->
-					<p>{:html_entity_decode($v['Content'])}</p>
+					<p>{:htmlspecialchars_decode($v['Content'])} </p>
+
 				</div>
 			</div>
-			<hr/>
-		</volist>
-			<h3 class="text-import text-center">没有更多未读消息</h3>
+			<hr>
+		</volist>			
 		</div>
 		<!--panel-body-->
 	</div>
