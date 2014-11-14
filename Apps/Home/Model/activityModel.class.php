@@ -18,27 +18,33 @@ class activityModel extends Model {
 	 * @param array $wherearr        	
 	 * @author NENER     	
 	 */
-	public function getlist( $wherearr=array('Status'=>10),$limit = 5) {
+	public function getlist( $wherearr=array('Status'=>10),$limit = 5,$type=1) {
+		if($type==2){
+			
+		}
 		$arr=$this->where($wherearr)->limit($limit)->order('CreateTime desc')->select();
 		return $arr;
 	}
 
 	/**
-	 * 获取活动分页
+	 * 获取活动(分页)
 	 * 
 	 * @param number $limit   
 	 * @param array $wherearr        	
 	 * @author Cinwell     	
 	 */
-	public function getpage($wherearr=array('Status'=>10),$limit = 5) {
+	public function getpagelist($wherearr=array('Status'=>10),$limit = 5) {
 		// 总数
 		$allCount = $this->where ( $wherearr )->count ();
 		// 分页
 		$Page = new \Think\Page ( $allCount, $limit );
 		
 		$showPage = $Page->show ();
-
-		return $showPage;
+		$list = $this->where ( $wherearr )->limit ( $Page->firstRow . ',' . $Page->listRows )->order ( 'CreateTime DESC ' )->select ();
+		return array (
+				'page' => $showPage,
+				'list' => $list
+		);
 	}
 
 	public function getdetail($value)

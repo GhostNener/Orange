@@ -11,12 +11,10 @@ class ActivityController extends BaseController {
 	public function index()
 	{
 		$model = new activityModel ();
-		$list = $model -> getlist();
-		$page = $model -> getpage();
-
+		$arr = $model -> getpagelist();
 		$this->assign ( 'empty', '<h1 class="text-center text-import">暂无礼品</h1>' );
-		$this->assign ( 'list', $list );
-		$this->assign ( 'page', $page );
+		$this->assign ( 'list', $arr['list'] );
+		$this->assign ( 'page', $arr['page']  );
 		$this -> display();
 		
 	}
