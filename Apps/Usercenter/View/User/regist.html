@@ -140,13 +140,13 @@ function ajaxsubmit() {
         return false;
     }
     if (!_pwd || !checkpwd(_pwd)) {
-        showerrormsg('密码强度不够！6-18位！', 100, 1000);
+        showerrormsg('请确保密码在6~18位字符', 100, 1000);
         $('#Password').focus();
         $btn.button('reset');
         return false;
     }
     if (!_confirmpwd || !checkpwd(_confirmpwd) || _pwd != _confirmpwd) {
-        showerrormsg('确认密码不一致', 100, 1000);
+        showerrormsg('密码不一致', 100, 1000);
         $('#ConfirmPassword').focus();
         $btn.button('reset');
         return false;
@@ -169,7 +169,7 @@ function ajaxsubmit() {
                 $btn.button('reset');
                 return false;
             } else {
-                showsuccessmsg("注册成功！请激活！", 100, 2000);
+                showsuccessmsg("账号注册成功，请查收激活邮件。", 100, 2000);
                 setTimeout(function() {
                     location.href = $('#url').attr('home');
                     $btn.button('reset');
