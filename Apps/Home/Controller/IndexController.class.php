@@ -142,11 +142,11 @@ class IndexController extends BaseController {
 	public function addComment() {
 		$postarr = I ( 'post.' );
 		if (! isloin ()) {
-			$this->error ( '你还没有登录' );
+			$this->error ( '请先登录' );
 			die ();
 		}
 		if (! isactivated ()) {
-			$this->error ( '帐号未激活，不允许留言' );
+			$this->error ( '请激活账号后再进行此操作' );
 			die ();
 		}
 		$model = new goods_commentModel ();
@@ -170,7 +170,7 @@ class IndexController extends BaseController {
 			die ();
 		}
 		if (! isloin ()) {
-			$this->error ( '你还没有登录' );
+			$this->error ( '请先登录' );
 			die ();
 		}
 		$m = new userModel ();

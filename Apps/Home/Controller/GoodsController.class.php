@@ -49,7 +49,7 @@ class GoodsController extends LoginController {
 	 */
 	public function computecost() {
 		if (! IS_POST) {
-			$this->error ( '页面不存在！' );
+			$this->error ( '页面不存在' );
 		}
 		$arr = I ( 'post.' );
 		$model = new goodsModel ();
@@ -57,7 +57,7 @@ class GoodsController extends LoginController {
 		$r = $model->computecost ( $arr );
 		$r2 = $us->getbalance ( cookie ( '_uid' ) );
 		if ($r ['status'] == 0 || $r2 ['status'] == 0) {
-			$this->error ( '获取失败!' );
+			$this->error ( '获取失败' );
 		} else {
 			$this->success ( json_encode ( array (
 					'cost' => $r ['cost'],
