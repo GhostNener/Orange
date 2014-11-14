@@ -40,7 +40,8 @@ class GiftController extends BaseController {
 
 		$model = M('gift');
 		$result = $model->where(array('Id'=>$giftid))->find();
-		
+		$giftName = $result['Name'];
+
 		//判断数量够不够
 		if($result['Amount'] - $amount >= 0){
 			
@@ -76,6 +77,8 @@ class GiftController extends BaseController {
 			$this->error('操作失败，请重试');
 		}
 
+		//发送通知
+		CSYSN(cookie('_uid'),'礼品兑换成功','你兑换的 ' . $giftName . ' 礼品已成功，工作人员会在一个工作日内与你联系，请保持电话畅通。');
 		$this->success ( '兑换成功,请到消息中心查看详情');
 	}
 
