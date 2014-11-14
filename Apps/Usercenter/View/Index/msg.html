@@ -5,8 +5,8 @@
 		<div class="panel-body">
 		<volist  name='urnl' id='v' empty='$empty' >
 			<!-- 系统消息 -->
-			<div class="media">
-				<button type="button" class="close">&times;</button>
+			<div class="media nt_{$v['Id']}" >
+				<button type="button" nid="{$v['Id']}" class="close noticeclose">&times;</button>
 				<a class="pull-left">
 					{:htmlspecialchars_decode($v['Theme'])}
 				</a>
@@ -15,15 +15,60 @@
 					<h5 class="media-heading">{$v['Title']}</h5>
 					<!--消息内容-->
 					<p>{:htmlspecialchars_decode($v['Content'])} </p>
-
 				</div>
 			</div>
-			<hr>
+			<hr class="nt_{$v['Id']}">
 		</volist>			
 		</div>
 		<!--panel-body-->
+		<div class="page ">
+			{$page}
+		</div>
 	</div>
+	<input type="hidden" id="closeurl" value="{:U('Usercenter/Index/delnotice')}">
 	<!--panel panel-default profilemain-->
 </div>
 <!--col-md-9-->
+</block>
+<block name="js">
+	<script>
+$('.noticeclose').click(function(e) {
+    var _id = $(this).attr('nid');
+    $.ajax({
+        type: 'post',
+        cache: false,
+        url: $('#closeurl').val(),
+        data: {
+            Id: _id
+        },
+        error:  
+        function(request)  {
+            showerrormsg('网络错误', 100, 1000);
+            return false;               
+        },
+                        success:  
+        function(data)  {
+            if (data.status == 0) {
+                location.href = location.href;
+                return false;
+            } else {
+                $('.nt_' + _id).slideUp(300);
+                setTimeout(function() {
+                    location.href = location.href;
+                },
+                300);
+                return false;
+            }                
+        }
+    });
+    return false;
+});
+	</script>
+</block>
+<block name="css">
+	<style>
+	.page{
+		margin-left: 10px;
+	}
+	</style>
 </block>

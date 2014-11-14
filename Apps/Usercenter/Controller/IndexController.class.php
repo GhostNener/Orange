@@ -20,6 +20,7 @@ class IndexController extends LoginController {
 	
 	/**
 	 * 用户激活页面
+	 * @author NENER
 	 */
 	public function activated() {
 		$u = D ( 'user' )->where ( array (
@@ -37,6 +38,7 @@ class IndexController extends LoginController {
 	}
 	/**
 	 * 发送激活邮件
+	 * @author NENER
 	 */
 	public function sendactivatemail() {
 		if (! IS_POST) {
@@ -74,8 +76,9 @@ class IndexController extends LoginController {
 	 */
 	public function msg() {
 		$model = new noticeModel ();
-		$all = $model->getunread ();
-		$this->assign ( 'urnl', $all );
+		$all = $model->getunread (null,1,10);
+		$this->assign ( 'urnl', $all['list'] );
+		$this->assign ( 'page', $all['page'] );
 		$this->assign ( 'empty', '<h3 class="text-import text-center">没有更多未读消息</h3>' );
 		$this->getCommon ();
 		$this->display ();
@@ -306,7 +309,6 @@ class IndexController extends LoginController {
 	 * 添加心愿单
 	 */
 	public function addlike() {
-
 		if (! IS_POST || ! I ( 'GoodsId' )) {
 			$this->error ( '页面不存在' );
 			die ();
@@ -344,6 +346,7 @@ class IndexController extends LoginController {
 	}
 	/**
 	 * 上传头像
+	 *
 	 * @author NENER
 	 */
 	public function upload() {
@@ -365,6 +368,25 @@ class IndexController extends LoginController {
 			echo 0;
 		} else {
 			echo 1;
+		}
+	}
+	
+	/**
+	 * 删除通知
+	 * @author NENER
+	 */
+	public function delnotice() {
+		$Id = I ( 'Id' );
+		if (! IS_POST || ! $Id) {
+			$this->error ( '页面不存在' );
+			return;
+		}
+		$m = new noticeModel ();
+		$m = $m->delone ( $Id );
+		if (! $m) {
+			$this->error ( '删除失败' );
+		} else {
+			$this->success ( 1 );
 		}
 	}
 }
