@@ -36,16 +36,29 @@ class GiftController extends BaseController {
 
 	public function exchange() {
 		$giftid = I ( 'giftid' );
+		$amount = I('Amount');
+
 		$model = M('gift');
 		$result = $model->where(array('Id'=>$giftid))->find();
-		if($result['Amount'] > 0){
-			$result['Amount']--;
+		if($result['Amount'] - $amount >= 0){
+			$result['Amount'] = $result['Amount'] - $amount;
+
 			$model->where(array('Id'=>$giftid))->save($result);
 
-			
-			
+			//生成订单保存
+			$model = M('gift_order');
+			$data['Amount'] = (int) $amount;
+			$data['giftId'] = (int) $giftid;
+			$data['UserId'] = (int) cookie('_uid');
+			$data['AddressId'] = (int) I('AddressId');
+			$data['CreateTime'] = time();
+			$data['Status'] = 10;
+			$result = $model->data($data)->add();
+			if (!$result) {
+				$this->error('操作失败，请重试');
+			}
+
 		}else{
-			var_dump($result);
 			$this->error('抱歉，商品已被兑换完了');
 		}
 		$this->success ( '兑换成功,请到消息中心查看详情');

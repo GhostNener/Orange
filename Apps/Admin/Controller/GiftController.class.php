@@ -206,4 +206,71 @@ class GiftController extends BaseController {
 			$this->error ( "操作失败" );
 		}
 	}
+
+	public function order()
+	{
+		$model = M('view_gift_order');
+		$wherrArr = array (
+				'Status' => 10 
+		);
+		
+		// 总数
+		$allCount = $model->where ( $wherrArr )->count ();
+		// 分页
+		$Page = new \Think\Page ( $allCount, 10 );
+		
+		$showPage = $Page->show ();
+		// 分页查询
+		$list = $model->where ( $wherrArr )->order('CreateTime desc')->limit ( $Page->firstRow . ',' . $Page->listRows )->select ();
+
+		$this->assign ( 'list', $list );
+		$this->assign ( 'page', $showPage );
+		$this->display();
+	}
+
+	public function ordercomplete()
+	{
+		$id = ( int ) I ( 'get.Id' );
+		if (! $id) {
+			$this->error ( "页面不存在" );
+		}
+		$whereArr = array (
+				'Id' => $id 
+		);
+		$dal = M ();
+		$dal->startTrans (); // 开始事务
+		$model = M ( 'gift_order' );
+		$model->Status = - 1;
+		$r1 = $model->where ( $whereArr )->save (); // 操作1
+		
+		if ($r1) { // 成功
+			$dal->commit (); // 提交事务
+			$this->success ( "操作成功" );
+			
+		} else {
+			$dal->rollback (); // 否则回滚
+			$this->error ( "操作失败" );
+		}
+	}
+
+	public function complete($value='')
+	{
+		$model = M('view_gift_order');
+		$wherrArr = array (
+				'Status' => -1 
+		);
+		
+		// 总数
+		$allCount = $model->where ( $wherrArr )->count ();
+		// 分页
+		$Page = new \Think\Page ( $allCount, 10 );
+		
+		$showPage = $Page->show ();
+		// 分页查询
+		$list = $model->where ( $wherrArr )->order('CreateTime desc')->limit ( $Page->firstRow . ',' . $Page->listRows )->select ();
+
+		$this->assign ( 'list', $list );
+		$this->assign ( 'page', $showPage );
+		$this->display();
+	}
 }
