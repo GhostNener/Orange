@@ -25,4 +25,11 @@ class user_gradeModel extends Model{
 		$rst['division'] = (int)(($rst['EXPDiff2'] / $rst['EXPDiff1'])*100);
 		return $rst;
 	}
+	/**
+	 * 获得当前等级的下一级
+	 * @param unknown $grade  */
+	public function nextGrade($grade){
+		$grade=(int)$grade+1;
+		return $this->where(array('Number'=>$grade))->find();
+	}
 }

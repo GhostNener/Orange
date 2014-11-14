@@ -25,7 +25,7 @@
 								<div class="progress">
 									<div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: {$grade['division']}%;">{$grade['EXPDiff2']}/{$grade['EXPDiff1']}</div>
 								</div>
-								<span class="pull-right">{$grade['Title']}</span>
+								<span class="pull-right">{:getNextGrade($grade['Number'])}</span>
 							</dd>
 						</dl>
 						<dl class="dl-horizontal">

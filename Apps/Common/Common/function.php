@@ -4,6 +4,7 @@ use Vendor\PHPMailer;
 use Usercenter\Model\userModel;
 use Org\Util\String;
 use Home\Model\noticeModel;
+use Usercenter\Model\user_addressModel;
 require_once './ORG/qiniu/qiniu.class.php';
 /**
  * 检测用户是否激活
@@ -1131,6 +1132,15 @@ function sendEmail($subject, $content, $email) {
  */
 function send_activate_mail($usermail, $url) {
 	return sendEmail ( '帐号激活', $url, $usermail );
+}
+
+/**
+ * 获得下一个等级
+ * @param unknown $grade  */
+function getNextGrade($grade){
+	$m=new user_gradeModel();
+	$m=$m->nextGrade((int)$grade);
+	return $m['Title'];
 }
 
 /**
