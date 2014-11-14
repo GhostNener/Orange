@@ -18,7 +18,7 @@ class activityModel extends Model {
 	 * @param array $wherearr        	
 	 * @author NENER     	
 	 */
-	public function getlist($limit = 5, $wherearr=array('Status'=>10)) {
+	public function getlist( $wherearr=array('Status'=>10),$limit = 5) {
 		$arr=$this->where($wherearr)->limit($limit)->order('CreateTime desc')->select();
 		return $arr;
 	}
@@ -30,7 +30,7 @@ class activityModel extends Model {
 	 * @param array $wherearr        	
 	 * @author Cinwell     	
 	 */
-	public function getpage($limit = 5,$wherearr=array('Status'=>10)) {
+	public function getpage($wherearr=array('Status'=>10),$limit = 5) {
 		// 总数
 		$allCount = $this->where ( $wherearr )->count ();
 		// 分页
