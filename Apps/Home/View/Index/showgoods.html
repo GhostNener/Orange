@@ -269,10 +269,10 @@ function ajaxsubmit() {
                 return false;
             } else {
 				$('#refModal').modal('hide');
-                showsuccessmsg("提交成功", 100, 2000);
+                showsuccessmsg("提交成功", 100, 1000);
                 $btn.button('reset');
                 setTimeout(function() {
-					window.location.href=window.location.href;
+					location.href=location.href;
                 },
                 200);
                 return false;

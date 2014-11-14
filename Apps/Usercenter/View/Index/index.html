@@ -103,6 +103,7 @@
 			type:'post',
 			error:function (data) {
 				alert('上传失败');
+				$('#avatarform').find('.sbunmitbtn').button('reset')
 			},
 			beforeSubmit: function () {
 			$('#avatarform').find('.sbunmitbtn').button('loading');
@@ -114,9 +115,9 @@
 					$('#avatarModal').modal('hide');
 					showsuccessmsg('上传成功',100,1000);
 					$('#avatarform').find('.sbunmitbtn').button('reset')
-					/*setTimeout(function(){
+					setTimeout(function(){
 						location.href=location.href;
-					},300);*/
+					},300);
 				}
 			}
 		}

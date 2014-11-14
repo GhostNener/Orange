@@ -240,18 +240,16 @@ function submitsavepwd(_id){
                 return false;
             } else {
             	showsuccessmsg(data.info, 100, 1000);
-            	reloadhtml();
+            		setTimeout(function(){
+       				 location.href = location.href;
+    				},1000);
             	return false;       
             }                
         }
     });
     return false;
 }
-function reloadhtml(){
-	setTimeout(function(){
-        location.href = location.href;
-    },1200); 
-}
+
 function checkpwd(_pwd) {
     var ispwd = /^[a-z0-9_A-Z~!@#$%^&*]{6,18}$/;
     /*/^(?!\D+$)(?!\d+$)[a-zA-Z0-9_]\w{6,16}$/*/
