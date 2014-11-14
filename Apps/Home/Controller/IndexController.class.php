@@ -114,7 +114,7 @@ class IndexController extends BaseController {
 	/**
 	 * 展示商品 详情 及评论
 	 */
-	public function showgoods() {
+	public function g_show() {
 		$Id=(int)I('Id');
 		$model = new view_goods_listModel ();
 		$arr = $model->getgoodsdetails ( $Id );
@@ -133,7 +133,7 @@ class IndexController extends BaseController {
 		$this->assign ( 'goodsimg', $arr ['goodsimg'] );
 		$this->assign ( 'imgcount', count ( $arr ['goodsimg'] ) );
 		$this->assign ( 'empty', '<h3 class="text-center text-import">暂无评论</h3>' );
-		$this->display ( 'Index/showgoods' );
+		$this->display ( 'Index/g_show' );
 	}
 	
 	/**

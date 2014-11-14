@@ -1,7 +1,6 @@
 <?php
 
 namespace Home\Controller;
-use Think\Upload\Driver\Qiniu\QiniuStorage;
 require_once './ORG/qiniu/qiniu.class.php';
 
 use Think\Controller;

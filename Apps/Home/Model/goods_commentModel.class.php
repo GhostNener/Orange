@@ -83,10 +83,10 @@ class goods_commentModel extends Model {
 		$u = $m->finduser ( ( int ) $arr ['UserId'], 2 );
 		/* 消息体 */
 		$cdata ['Title'] = $g ['Title']; // Title
-		$cdata ['GURL'] = U ( 'Home/Index/showgoods', array (
+		$cdata ['GURL'] = U ( 'Home/Index/g_show', array (
 				'Id' => $arr ['GoodsId'] 
 		) ); // GURL
-		$cdata ['UURL'] = U ( 'Usercenter/User/showgoods', array (
+		$cdata ['UURL'] = U ( 'Usercenter/User/u_show', array (
 				'Id' => $u ['Id'] 
 		) ); // UserURL
 		$cdata ['Nick'] = $u ['Nick']; // Nick

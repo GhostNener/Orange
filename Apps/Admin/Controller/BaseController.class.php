@@ -20,7 +20,7 @@ class BaseController extends Controller {
 		$model=new userModel();
 		$rst=$model->islogin(null,true,false);
 		if(!$rst){
-			redirect(U('Usercenter/User/index',array('isadmin'=>true)));
+			redirect(U('Usercenter/User/u_login',array('isadmin'=>true)));
 		}
 		else{
 			$usermodel = null;

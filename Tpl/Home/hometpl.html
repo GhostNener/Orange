@@ -164,10 +164,7 @@ function ajaxclockin() {
                 return false;
             } else {
                 showsuccessmsg(data.info, 10, 1000);
-                setTimeout(function() {
-                    location.href=location.href;
-                },
-                100);
+                location.href=location.href;
                 return false;
             }                
         }

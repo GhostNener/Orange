@@ -9,8 +9,10 @@ class qiniu {
 	 *        	回调地址
 	 * @return token
 	 */
-	function GetToken($callback = "") {
-		$config = C ( 'UPLOAD_SITEIMG_QINIU' );
+	function GetToken($callback = "", $config = null) {
+		if (! $config) {
+			$config = C ( 'UPLOAD_SITEIMG_QINIU' );
+		}
 		$config = $config ['driverConfig'];
 		$callback = $callback != "" ? $callback : U ( 'callback' );
 		$config ['CallbackUrl'] = 'http://' . $_SERVER ['HTTP_HOST'] . $callback;
@@ -46,7 +48,6 @@ class qiniu {
 		);
 		$imgid = $model->create ( $data );
 		$imgid = $model->add ( $imgid );
-		
 		if ($imgid) {
 			return array (
 					'status' => 1,
@@ -62,8 +63,21 @@ class qiniu {
 			);
 		}
 	}
-	function del($id, $key) {
+	/**
+	 * 删除商品图片
+	 * 
+	 * @param unknown $id        	
+	 * @param string $key        	
+	 * @return multitype:number string
+	 */
+	function del($id, $key = null) {
 		$model = M ( 'goods_img' );
+		if (! $key) {
+			$key = $model->where ( array (
+					'Id' => $id 
+			) )->find ();
+			$key = $key ['URL'];
+		}
 		$result = $model->where ( array (
 				'Id' => $id 
 		) )->delete ();
@@ -78,7 +92,7 @@ class qiniu {
 			$count = $model->where ( array (
 					'URL' => $key 
 			) )->count ();
-			if ($count <1) {
+			if ($count < 1) {
 				
 				// 删除服务器数据
 				$config = C ( 'UPLOAD_SITEIMG_QINIU' );
@@ -91,8 +105,7 @@ class qiniu {
 					$msg = '服务器删除失败';
 				}
 			}
-		}
-		
+		}		
 		return array (
 				'status' => $status,
 				'msg' => $msg 
@@ -100,8 +113,9 @@ class qiniu {
 	}
 	/**
 	 * 删除文件
-	 * 
-	 * @param string $key 文件key        	
+	 *
+	 * @param string $key
+	 *        	文件key
 	 */
 	function delFile($key) {
 		$config = C ( 'UPLOAD_SITEIMG_QINIU' );

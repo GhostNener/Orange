@@ -44,15 +44,24 @@ class GoodsController extends LoginBaseController {
 				'address' => $alist 
 		) );
 	}
-
-	public function token()
-	{
-		$token = qiniuGetToken(U('callback'));
-		echo json_encode(array('token' => $token));
+	
+	/**
+	 * 获得tk
+	 */
+	public function token() {
+		$m = new \qiniu ();
+		$config = C ( 'UPLOAD_SITEIMG_QINIU' );
+		$config ['driverConfig'] ['CallbackBody'] = 'key=$(key)&APPKEY=$(x:APPKEY)&goodsid=$(x:goodsid)&_key=$(x:_key)&_uid=$(x:_uid)';
+		$tk = $m->GetToken ( U ( 'callback' ), $config );
+		echo json_encode ( array (
+				'token' => $tk 
+		) );
 	}
-
-	public function callback()
-	{
+	
+	/**
+	 * 商品上传 七牛 回调
+	 */
+	public function callback() {
 		$rstmsg = array (
 				'status' => 0,
 				'msg' => '非法访问',
@@ -63,21 +72,15 @@ class GoodsController extends LoginBaseController {
 			echo json_encode ( $rstmsg );
 			return;
 		}
-		if (empty($_FILES)) {
-			$rstmsg ['msg'] = '空文件';
-			echo json_encode ( $rstmsg );
-			return;
-		}
 		$postarr = I ( 'param.' );
-		$uid=I('_uid');
+		$uid = I ( '_uid' );
 		$userid = $uid; // 用户id
 		/* 商品Id */
 		$postarr ['_gid'] = $postarr ['goodsid'];
-		
-		$qiniu = new \qiniu();
-		$rst = $qiniu->upload (I('post.key'));
-
+		$qiniu = new \qiniu ();
+		$rst = $qiniu->upload ( I ( 'post.key' ) );
 		$postarr ['_imgid'] = $rst ['imgid'];
+		$model = new goods_imgModel ();
 		$rst = $model->saveimg ( $postarr, $userid );
 		if (( int ) $rst ['status'] == 0) {
 			echo json_encode ( $rst );
@@ -92,7 +95,7 @@ class GoodsController extends LoginBaseController {
 			return;
 		}
 	}
-
+	
 	/**
 	 * 根据标题获得分类
 	 *
@@ -139,8 +142,8 @@ class GoodsController extends LoginBaseController {
 		$postarr = file_get_contents ( 'php://input' );
 		$postarr = json_decode ( $postarr, true );
 		$model = new goodsModel ();
-		$uid=api_get_uid();
-		$rst = $model->savegoods ( $postarr,$uid );
+		$uid = api_get_uid ();
+		$rst = $model->savegoods ( $postarr, $uid );
 		echo json_encode ( $rst );
 		return;
 	}
@@ -160,13 +163,13 @@ class GoodsController extends LoginBaseController {
 			echo json_encode ( $rstmsg );
 			return;
 		}
-		if (empty($_FILES)) {
+		if (empty ( $_FILES )) {
 			$rstmsg ['msg'] = '空文件';
 			echo json_encode ( $rstmsg );
 			return;
 		}
 		$postarr = I ( 'param.' );
-		$uid=I('_uid');
+		$uid = I ( '_uid' );
 		$userid = $uid; // 用户id
 		/* 商品Id */
 		$postarr ['_gid'] = $postarr ['goodsid'];
@@ -214,8 +217,9 @@ class GoodsController extends LoginBaseController {
 			echo json_encode ( $msg );
 			return;
 		}
-		$model = new goods_imgModel();
-		$rst = $model->delimg ( ( int ) $arr ['imgid'] );
+		
+		$model = new \qiniu ();
+		$rst = $model->del ( ( int ) $arr ['imgid'] );
 		echo json_encode ( $rst );
 		return;
 	}

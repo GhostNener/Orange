@@ -155,9 +155,9 @@ class goods_imgModel extends Model {
 			);
 		}
 		/* 商品Id */
-		$goodsid = $postarr ['_gid'];
+		$goodsid = (int)$postarr ['_gid'];
 		/* 图像Id */
-		$imgid = $postarr ['_imgid'];
+		$imgid = (int)$postarr ['_imgid'];
 		$dal = M ();
 		$dal->startTrans (); // 事务
 		if (! $goodsid || $goodsid <= 0) {

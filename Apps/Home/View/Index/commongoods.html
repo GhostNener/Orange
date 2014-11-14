@@ -8,7 +8,7 @@
 			<!-- 商品列表 -->
 			<volist name="goodlist" id="v" empty="$empty">
 				<div class="col-sm-4">
-					<a href="{:U('Home/Index/showgoods',array('Id'=>
+					<a href="{:U('Home/Index/g_show',array('Id'=>
 						$v['Id']))}" target="_blank" class="thumbnail ">
 						<img src="{:getFileUrl($v['URL'],'320x160')}">
 						<div class="caption">

@@ -43,7 +43,7 @@ class UserController extends BaseController {
 	 *
 	 * @author NENER
 	 */
-	public function index($isadmin = false) {
+	public function u_login($isadmin = false) {
 		$model = new userModel ();
 		if ($model->islogin ( null, $isadmin, false )) {
 			if ($isadmin) {
@@ -185,7 +185,7 @@ class UserController extends BaseController {
 	/**
 	 * 个人页面
 	 */
-	public function home($Id) {
+	public function u_show($Id) {
 		/* 验证客户是否存在 */
 		$userid = $Id;
 		$user = new userModel();
