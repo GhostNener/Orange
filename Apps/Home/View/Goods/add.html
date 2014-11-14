@@ -505,7 +505,7 @@ function computecost() {
                     $('#btnstep3').fadeTo(10, 1);
                     return false;
                 }
-                $('#balance').html(_rs['balance'] + '.00');
+                $('#balance').html(_rs['balance']);
                 $('#needpay').html(_rs['cost'] + '.00');
                 $('#step4').children().stop().fadeTo(1000, 1);
                 if (parseInt(_rs['cost']) > parseInt(_rs['balance'])) {
