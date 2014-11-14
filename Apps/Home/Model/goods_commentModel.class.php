@@ -86,7 +86,7 @@ class goods_commentModel extends Model {
 		$cdata ['GURL'] = U ( 'Home/Index/showgoods', array (
 				'Id' => $arr ['GoodsId'] 
 		) ); // GURL
-		$cdata ['UURL'] = U ( 'Usercenter/User/show', array (
+		$cdata ['UURL'] = U ( 'Usercenter/User/showgoods', array (
 				'Id' => $u ['Id'] 
 		) ); // UserURL
 		$cdata ['Nick'] = $u ['Nick']; // Nick
