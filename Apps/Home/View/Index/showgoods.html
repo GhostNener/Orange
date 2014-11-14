@@ -270,11 +270,9 @@ function ajaxsubmit() {
             } else {
 				$('#refModal').modal('hide');
                 showsuccessmsg("提交成功", 100, 1000);
+                $('#refform')[0].reset() 
                 $btn.button('reset');
-                setTimeout(function() {
-					location.href=location.href;
-                },
-                200);
+				location.href=location.href;
                 return false;
             }                
         }
