@@ -61,7 +61,13 @@ a:hover,.navbar-default .navbar-nav .active a,a.list-group-item:hover,.navbar .n
 	background-color: #fa7d3c;
 	border-color: #fa7d3c;
 }
-.pagination>li>a, .pagination>li>span{
+
+.pagination>li>a,
+.pagination>li>span,
+.pagination>li>a:hover, 
+.pagination>li>span:hover, 
+.pagination>li>a:focus, 
+.pagination>li>span:focus{
 	color: #fa7d3c;
 }
 
