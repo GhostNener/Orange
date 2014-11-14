@@ -52,6 +52,19 @@ a:hover,.navbar-default .navbar-nav .active a,a.list-group-item:hover,.navbar .n
     text-decoration: none;
 }
 
+.pagination>.active>a, 
+.pagination>.active>span, 
+.pagination>.active>a:hover, 
+.pagination>.active>span:hover, 
+.pagination>.active>a:focus, 
+.pagination>.active>span:focus{
+	background-color: #fa7d3c;
+	border-color: #fa7d3c;
+}
+.pagination>li>a, .pagination>li>span{
+	color: #fa7d3c;
+}
+
 .affix{
 	transform:none;
 }
