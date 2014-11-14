@@ -17,12 +17,14 @@
 						<for start="0" end=":count($topimg)">
 							<if condition="$i eq 0">
 								<div class="item active">
-									<a href="{$topimg[$i]['Href']}" title="{$topimg[$i]['Title']}" target="_blank">
+									<a href="{$topimg[$i][Href]?$topimg[$i][Href]:U('Home/Activity/detail',array('id'=>
+										$topimg[$i][Id]))}" title="{$topimg[$i]['Title']}" target="_blank">
 										<img class="slide-image" src="{:getFileUrl($topimg[$i]['ImgURL'],'800x300')}" height="300" width="800" alt="{$topimg[$i]['Title']}"></a>
 								</div>
 								<else/>
 								<div class="item">
-									<a href="{$topimg[$i]['Href']}" title="{$topimg[$i]['Title']}" target="_blank">
+									<a href="{$topimg[$i][Href]?$topimg[$i][Href]:U('Home/Activity/detail',array('id'=>
+										$topimg[$i][Id]))}" title="{$topimg[$i]['Title']}" target="_blank">
 										<img class="slide-image" src="{:getFileUrl($topimg[$i]['ImgURL'],'800x300')}" height="300" width="800" alt="{$topimg[$i]['Title']}"></a>
 								</div>
 							</if>

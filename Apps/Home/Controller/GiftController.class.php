@@ -2,12 +2,10 @@
 
 namespace Home\Controller;
 
-use Home\Model\goods_categoryModel;
-use Home\Model\activityModel;
 use Usercenter\Model\user_addressModel;
 
 /**
- * 礼品页面初始化
+ * 礼品页面
  *
  * @author Cinwell
  *        

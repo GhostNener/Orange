@@ -1,0 +1,14 @@
+<extend name="./Tpl/Home/hometpl.html"/>
+<block name="content">
+	<div class="col-md-9">
+		<div class="row">
+			<volist name="list" id="v" empty="$empty">
+				<a class="col-md-12 thumbnail" href="{$v[Href]?$v[Href]:U('Home/Activity/detail',array('id'=>$v[Id]))}">
+					<img src="{:getFileUrl($v[ImgURL]),'800x300'}" alt="{$v[Title]}"></a>
+			</volist>
+
+		</div>
+		<div class="page text-center">{$page}</div>
+	</div>
+
+</block>

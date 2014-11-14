@@ -1,0 +1,19 @@
+<extend name="./Tpl/Home/hometpl.html"/>
+<block name="content">
+	<div class="col-md-9">
+		<div class="row">
+			<div class="panel panel-default profilemain">
+				<div class="panel-body">
+					<h3 class="hightlight text-center">{$data[Title]}</h3>
+					<h5 class="text-center">
+						<small>{$data[CreateTime]|date="Y-m-d H:i:s",###}</small>
+					</h5>
+					<hr/>
+					<p>{$data[Contents]|htmlspecialchars_decode}</p>
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+</block>

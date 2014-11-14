@@ -47,12 +47,12 @@
 						<volist name="hotactivity" id="v" empty="$emptyact">
 							<hr>
 							<div class="media">
-								<a class="pull-left" href="#">
+								<a class="pull-left" href="{$v[Href]?$v[Href]:U('Home/Activity/detail',array('id'=>$v[Id]))}" target="_blank">
 									<img class="media-object" src="{:getFileUrl($v['ThumURL'],'80x80')}" alt="{$v['Title']}"></a>
 								<div class="media-body">
 									<h5 class="media-heading">{$v['Title']}</h5>
 									<p>{$v['Presentation']}</p>
-									<a class="btn btn-success">参与活动</a>
+									<a class="btn btn-success" href="{$v[Href]?$v[Href]:U('Home/Activity/detail',array('id'=>$v[Id]))}" target="_blank">参与活动</a>
 
 								</div>
 							</div>
