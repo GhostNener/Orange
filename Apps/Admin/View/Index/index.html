@@ -115,7 +115,7 @@
 				<div class="panel-footer">
 					<div class="text-right">
 						共计
-						<span>{$logCount?$logCount[0]['pay']:0}</span>
+						<span>{$logCount[0]['pay']?$logCount[0]['pay']:0}</span>
 						元
 						<a href="{:U('Logs/index')}" class="btn btn-warning">更多</a>
 					</div>
