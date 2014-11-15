@@ -85,7 +85,6 @@ $(document).ready(function() {
 	});
 
 	$('.dropdown').mouseleave(function () {
-		
 		$('.dropdown-menu').stop().slideUp(200);
 	});
 
