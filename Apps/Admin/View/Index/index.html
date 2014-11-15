@@ -20,13 +20,13 @@
 					<div class="row">
 						<div class="col-md-6">
 							<dl class="dl-horizontal">
-								<dt>礼品订单</dt>
+								<dt><a href="{:U('Gift/order')}">礼品订单</a></dt>
 								<dd>{$giftCount?$giftCount:0}</dd>
 							</dl>
 						</div>
 						<div class="col-md-6">
 							<dl class="dl-horizontal">
-								<dt>商品投诉</dt>
+								<dt><a href="{:U('Goods/index',array('status'=>-1))}">商品投诉</a></dt>
 								<dd>{$complainCount?$complainCount:0}</dd>
 							</dl>
 						</div>
