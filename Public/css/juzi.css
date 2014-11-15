@@ -858,6 +858,9 @@ form{
 		-webkit-box-shadow: none;
 		box-shadow: none;
 	}
+	.navbar-fixed-top .navbar-collapse{
+		max-height: 500px;
+	}
 }
 
 /* 平板显示 */
