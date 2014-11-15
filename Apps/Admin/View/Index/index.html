@@ -1,10 +1,125 @@
 <extend name="Public/home"/>
+
 <block name="content">
 	<div id="main" class="container">
+		<style type="text/css">
+		td{
+			white-space:nowrap;
+			overflow:hidden; 
+			text-overflow:ellipsis;
+		}
+		table{
+			table-layout:fixed;
+		}
+		
+	</style>
+		<div class="col-md-12">
+			<div class="panel panel-danger">
+				<div class="panel-heading">待处理任务</div>
+				<div class="panel-body">
+					<div class="row">
+						<div class="col-md-6">
+							<dl class="dl-horizontal">
+								<dt>礼品订单</dt>
+								<dd>{$giftCount?$giftCount:0}</dd>
+							</dl>
+						</div>
+						<div class="col-md-6">
+							<dl class="dl-horizontal">
+								<dt>商品投诉</dt>
+								<dd>{$complainCount?$complainCount:0}</dd>
+							</dl>
+						</div>
+						
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-4">
+			<div class="panel panel-success">
+				<div class="panel-heading">今日新增用户</div>
 
-		<div class="panel panel-default">
-			<div class="panel-body">
-				<h1 class="text-center">欢迎逗比</h1>
+				<table class="table table-striped">
+					<thead>
+						<th>用户名</th>
+						<th width="80">注册时间</th>
+					</thead>
+					<tbody>
+						<volist name="userList" id="v">
+							<tr>
+								<td>{$v.Nick}</td>
+								<td>{$v.RegistTime|date="H:i:s",###}</td>
+							</tr>
+						</volist>
+					</tbody>
+				</table>
+				<div class="panel-footer">
+					<div class="text-right">
+						共计
+						<span>{$userCount?$userCount:0}</span>
+						人
+						<a href="{:U('User/index')}" class="btn btn-success">更多</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-4">
+			<div class="panel panel-info">
+				<div class="panel-heading">今日新增商品</div>
+
+				<table class="table table-striped">
+					<thead>
+						<th>商品名</th>
+						<th width="80">新增时间</th>
+					</thead>
+					<tbody>
+						<volist name="goodsList" id="v">
+							<tr>
+								<td title="{$v.Title}">{$v.Title}</td>
+								<td>{$v.CreateTime|date="H:i:s",###}</td>
+							</tr>
+						</volist>
+
+					</tbody>
+				</table>
+				<div class="panel-footer">
+					<div class="text-right">
+						共计
+						<span>{$goodsCount?$goodsCount:0}</span>
+						件
+						<a href="{:U('Goods/index')}" class="btn btn-info">更多</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-4">
+			<div class="panel panel-warning">
+				<div class="panel-heading">今日充值记录</div>
+
+				<table class="table table-striped">
+					<thead>
+						<th>用户</th>
+						<th>金额</th>
+						<th width="80">充值时间</th>
+					</thead>
+					<tbody>
+						<volist name="logList" id="v">
+							<tr>
+								<td>{$v.UserName}</td>
+								<td>{$v.Action} 元</td>
+								<td>{$v.Time|date="H:i:s",###}</td>
+							</tr>
+						</volist>
+					</tbody>
+				</table>
+				<div class="panel-footer">
+					<div class="text-right">
+						共计
+						<span>{$logCount?$logCount[0]['pay']:0}</span>
+						元
+						<a href="{:U('Logs/index')}" class="btn btn-warning">更多</a>
+					</div>
+				</div>
 			</div>
 		</div>
 

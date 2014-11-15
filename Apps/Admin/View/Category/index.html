@@ -2,40 +2,38 @@
 <block name="content">
 
 	<div class="col-md-9">
-		<div class="panel panel-default">
+		<div class="panel panel-success">
 			<div class="panel-heading">
 				<button class="btn btn-success" data-toggle="modal" data-backdrop="static" modaltitle='添加分类' data-target="#addModal">添加</button>
 			</div>
-			<div class="panel-body">
-				<div class="table-responsive">
-					<table class="table table-striped">
-						<thead>
-							<th>编号</th>
-							<th>名称</th>
-							<th>描述</th>
-							<th>标签</th>
-							<th>状态</th>
-							<th width="150">操作</th>
-						</thead>
-						<tbody>
-							<foreach name='list' item='v'>
-								<tr>
-									<td>{$v.Id}</td>
-									<td>{$v.Title}</td>
-									<td>{$v.Presentation}</td>
-									<td>{$v.Hot}</td>
-									<td>{$v.Status}</td>
-									<td>
-										<a class="btn btn-danger btn-small save" action="{:U(del,array('Id'=>$v['Id']))}">删除</a>
-										<a class="btn btn-primary btn-small edit" action="{:U(update,array('Id'=>$v['Id']))}"  modaltitle="编辑分类">编辑</a>
-									</td>
-								</tr>
-							</foreach>
-						</tbody>
-					</table>
-				</div>
-				<div class="page">{$page}</div>
+			<div class="table-responsive">
+				<table class="table table-striped">
+					<thead>
+						<th>编号</th>
+						<th>名称</th>
+						<th>描述</th>
+						<th>标签</th>
+						<th>状态</th>
+						<th width="150">操作</th>
+					</thead>
+					<tbody>
+						<foreach name='list' item='v'>
+							<tr>
+								<td>{$v.Id}</td>
+								<td>{$v.Title}</td>
+								<td>{$v.Presentation}</td>
+								<td>{$v.Hot}</td>
+								<td>{$v.Status}</td>
+								<td>
+									<a class="btn btn-danger btn-small save" action="{:U(del,array('Id'=>$v['Id']))}">删除</a>
+									<a class="btn btn-primary btn-small edit" action="{:U(update,array('Id'=>$v['Id']))}"  modaltitle="编辑分类">编辑</a>
+								</td>
+							</tr>
+						</foreach>
+					</tbody>
+				</table>
 			</div>
+			<div class="page pull-right">{$page}</div>
 		</div>
 	</div>
 	<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">

@@ -1,7 +1,7 @@
 <extend name="Public/user"/>
 <block name="content">
 	<div class="col-md-9">
-		<div class="panel panel-default">
+		<div class="panel panel-success">
 			<div class="panel-heading">
 				<form class="form-inline" role="form" action="{:U('index')}">
 					<div class="form-group">
@@ -11,33 +11,31 @@
 					</div>
 				</form>
 			</div>
-			<div class="panel-body">
-				<div class="table-responsive">
-					<table class="table table-striped">
-						<thead>
-							<th>编号</th>
-							<th>用户名</th>
-							<th>邮箱</th>
-							<th>最近登录</th>
-							<th>状态</th>
-						</thead>
-						<tbody>
-							<foreach name='list' item='v'>
-								<tr>
-									<td>{$v.Id}</td>
-									<td>{$v.Nick}</td>
-									<td>{$v.E-Mail}</td>
-									<td>
-										<?php echo date("Y-m-d H:i:s ", $v[LastLoginTime]); ?></td>
-									<td>{$v[Status]}</td>
+			<div class="table-responsive">
+				<table class="table table-striped">
+					<thead>
+						<th>编号</th>
+						<th>用户名</th>
+						<th>邮箱</th>
+						<th>最近登录</th>
+						<th>状态</th>
+					</thead>
+					<tbody>
+						<foreach name='list' item='v'>
+							<tr>
+								<td>{$v.Id}</td>
+								<td>{$v.Nick}</td>
+								<td>{$v.E-Mail}</td>
+								<td>
+									<?php echo date("Y-m-d H:i:s ", $v[LastLoginTime]); ?></td>
+								<td>{$v[Status]}</td>
 
-								</tr>
-							</foreach>
-						</tbody>
-					</table>
-				</div>
-				<div class="page pull-right">{$page}</div>
+							</tr>
+						</foreach>
+					</tbody>
+				</table>
 			</div>
+			<div class="page pull-right">{$page}</div>
 		</div>
 	</div>
 
