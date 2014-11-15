@@ -1180,6 +1180,10 @@ function qiniuDelFile($key) {
 	$qiniu = new \qiniu ();
 	return $qiniu->delFile ( $key );
 }
+function delgoodsimg($id, $key = null) {
+	$qiniu = new \qiniu ();
+	return $qiniu->del ( $id,$key );
+}
 /**
  * 获得token
  *

@@ -44,7 +44,8 @@ class qiniu {
 				'GoodsId' => 0,
 				'URL' => $key,
 				'Title' => '',
-				'Status' => 0 
+				'Status' => 0, 
+				'CreateTime'=>time()
 		);
 		$imgid = $model->create ( $data );
 		$imgid = $model->add ( $imgid );

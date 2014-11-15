@@ -19,7 +19,7 @@ class goods_imgModel extends Model {
 	 */
 	protected $_auto = array (
 			array (
-					'Createtime',
+					'CreateTime',
 					NOW_TIME,
 					self::MODEL_INSERT 
 			) 
