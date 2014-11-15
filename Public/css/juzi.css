@@ -643,6 +643,10 @@ footer {
     border: 1px solid #ff766c;
 }
 
+.profilemain .media{
+	margin: 0;
+}
+
 .profile img {
     display: block;
     border: 10px solid rgba(255, 255, 255, 0.3);

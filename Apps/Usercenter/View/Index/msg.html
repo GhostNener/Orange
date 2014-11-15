@@ -12,16 +12,16 @@
 				</a>
 				<div class="media-body">
 					<!--消息头-->
-					<h5 class="media-heading">{$v['Title']}</h5>
+					<h5 class="media-heading text-danger"><small>{$v['CreateTime']|date="y-m-d H:i:s",###}</small>&nbsp;&nbsp;{$v['Title']}</h5>
 					<!--消息内容-->
-					<p>{:htmlspecialchars_decode($v['Content'])} </p>
+					<p class="text-p">{:htmlspecialchars_decode($v['Content'])} </p>
 				</div>
 			</div>
 			<hr class="nt_{$v['Id']}">
 		</volist>			
 		</div>
 		<!--panel-body-->
-		<div class="page ">
+		<div class="page pull-right">
 			{$page}
 		</div>
 	</div>
@@ -56,7 +56,7 @@ $('.noticeclose').click(function(e) {
                 setTimeout(function() {
                     location.href = location.href;
                 },
-                300);
+                350);
                 return false;
             }                
         }
@@ -64,11 +64,4 @@ $('.noticeclose').click(function(e) {
     return false;
 });
 	</script>
-</block>
-<block name="css">
-	<style>
-	.page{
-		margin-left: 10px;
-	}
-	</style>
 </block>
