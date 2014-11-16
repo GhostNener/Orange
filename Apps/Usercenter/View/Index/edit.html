@@ -1,207 +1,240 @@
+<!-- 资料编辑 -->
 <extend name="./userlayout"/>
 <block name="content">
-<div class="col-md-9">
-	<div class="panel panel-default profilemain">
-		<div class="panel-body">
+	<div class="col-md-9">
+		<div class="panel panel-default profilemain">
+			<div class="panel-body">
 
-			<!-- Nav tabs -->
-			<ul class="nav nav-tabs" role="tablist">
-				<li role="presentation" class="active">
-					<a href="#tab1" role="tab" data-toggle="tab">基本信息</a>
-				</li>
-				<li role="presentation">
-					<a href="#tab2" role="tab" data-toggle="tab">联系地址</a>
-				</li>
-				<li role="presentation">
-					<a href="#tab3" role="tab" data-toggle="tab">修改密码</a>
-				</li>
-			</ul>
+				<!-- Nav tabs -->
+				<ul class="nav nav-tabs" role="tablist">
+					<li role="presentation" class="active">
+						<a href="#tab1" role="tab" data-toggle="tab">基本信息</a>
+					</li>
+					<li role="presentation">
+						<a href="#tab2" role="tab" data-toggle="tab">联系地址</a>
+					</li>
+					<li role="presentation">
+						<a href="#tab3" role="tab" data-toggle="tab">修改密码</a>
+					</li>
+				</ul>
 
-			<!-- Tab panes -->
-			<div class="tab-content">
-				<div role="tabpanel" class="tab-pane active" id="tab1">
+				<!-- Tab panes -->
+				<div class="tab-content">
+					<div role="tabpanel" class="tab-pane active" id="tab1">
 
-					<form class="form-horizontal" role="form">
-						<div class="form-group">
-							<label for="NickName" class="col-sm-2 control-label">昵称</label>
-							<div class="col-sm-4">
-								<input type="text" class="form-control" name="Nick" id="Nick" value="{$user['Nick']}"></div>
-						</div>
-						<div class="form-group">
-							<label for="RealName" class="col-sm-2 control-label">真实姓名</label>
-							<div class="col-sm-4">
-								<input type="text" class="form-control" name="RealName" id="RealName" value="{$user['RealName']}"></div>
-						</div>
-						<div class="form-group">
-							<label for="Sex" class="col-sm-2 control-label">性别</label>
-							<div class="col-sm-4">
+						<form class="form-horizontal" role="form">
+							<div class="form-group">
+								<label for="NickName" class="col-sm-2 control-label">昵称</label>
+								<div class="col-sm-4">
+									<input type="text" class="form-control" name="Nick" id="Nick" value="{$user['Nick']}"></div>
+							</div>
+							<div class="form-group">
+								<label for="RealName" class="col-sm-2 control-label">真实姓名</label>
+								<div class="col-sm-4">
+									<input type="text" class="form-control" name="RealName" id="RealName" value="{$user['RealName']}"></div>
+							</div>
+							<div class="form-group">
+								<label for="Sex" class="col-sm-2 control-label">性别</label>
+								<div class="col-sm-4">
+									<label class="radio-inline">
+										<input type="radio" name="Sex" value="男" <if condition="$user['Sex'] eq '男'">checked="checked"</if>
+									>男
+								</label>
 								<label class="radio-inline">
-								<input type="radio" name="Sex" value="男" <if condition="$user['Sex'] eq '男'">checked="checked"</if> >男</label>
-								<label class="radio-inline">
-								<input type="radio" name="Sex" value="女" <if condition="$user['Sex'] eq '女'">checked="checked"</if> >女</label>
+									<input type="radio" name="Sex" value="女" <if condition="$user['Sex'] eq '女'">checked="checked"</if>
+								>女
+							</label>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="Birthday" class="col-sm-2 control-label">生日</label>
+						<div class="col-sm-4">
+							<div class="input-group">
+								<input type="datetime" class="form-control" name="Birthday" id="Birthday" onclick="calendar.show(this);" value="{$model['Birthday']}" readonly="readonly" placeholder="点击选择日期">
+								<span class="input-group-addon">
+									<a class="glyphicon glyphicon-calendar" onclick="calendar.show(Birthday);"></a>
+								</span>
 							</div>
 						</div>
-						<div class="form-group">
-							<label for="Birthday" class="col-sm-2 control-label">生日</label>
-							<div class="col-sm-4">
-								<div class="input-group">
-									<input type="datetime" class="form-control" name="Birthday" id="Birthday" onclick="calendar.show(this);" value="{$model['Birthday']}" readonly="readonly" placeholder="点击选择日期">
-									<span class="input-group-addon">
-										<a class="glyphicon glyphicon-calendar" onclick="calendar.show(Birthday);"></a>
-									</span>
-								</div>
-							</div>
-						</div>
-						<div class="form-group">
-							<label for="QQ" class="col-sm-2 control-label">QQ</label>
-							<div class="col-sm-4">
-								<input type="text" class="form-control" name="QQ" id="QQ" value="{$user['TP_QQ']}"></div>
-						</div>
+					</div>
+					<div class="form-group">
+						<label for="QQ" class="col-sm-2 control-label">QQ</label>
+						<div class="col-sm-4">
+							<input type="text" class="form-control" name="QQ" id="QQ" value="{$user['TP_QQ']}"></div>
+					</div>
 
-						<div class="form-group">
-							<label for="Tele" class="col-sm-2 control-label">手机</label>
-							<div class="col-sm-4">
-								<input type="tel" class="form-control" name="Tele" id="Tele" value="{$user['Tel']}"></div>
-							<div class="col-sm-2">
-								<button class="btn btn-primary">验证</button>
-							</div>
+					<div class="form-group">
+						<label for="Name" class="col-sm-2 control-label">手机</label>
+						<div class="col-sm-4">
+							<input type="tel" class="form-control" name="Name" id="Name" value="{$user['Name']}"></div>
+						<div class="col-sm-2">
+							<button class="btn btn-primary">验证</button>
 						</div>
+					</div>
 
-						<div class="form-group">
-							<label for="Email" class="col-sm-2 control-label">邮箱</label>
-							<div class="col-sm-4">
-								<input type="email" class="form-control" name="Email" id="Email" value="{$user['E-Mail']}" disabled="disabled"></div>
+					<div class="form-group">
+						<label for="Email" class="col-sm-2 control-label">邮箱</label>
+						<div class="col-sm-4">
+							<input type="email" class="form-control" name="Email" id="Email" value="{$user['E-Mail']}" disabled="disabled"></div>
 
-							<div class="col-sm-2">
-								<button class="btn btn-primary" disabled="disabled">已验证</button>
-							</div>
+						<div class="col-sm-2">
+							<button class="btn btn-primary" disabled="disabled">已验证</button>
 						</div>
+					</div>
 
-						<div class="form-group">
-							<div class="col-sm-offset-2 col-sm-10">
-								<button type="submit" class="btn btn-success">保存</button>
-							</div>
+					<div class="form-group">
+						<div class="col-sm-offset-2 col-sm-10">
+							<button type="submit" class="btn btn-success">保存</button>
 						</div>
-					</form>
-				</div>
-				
-				<div role="tabpanel" class="tab-pane" id="tab2">
-					<button class="btn btn-success"  data-toggle="modal" data-backdrop="static" data-target="#addressModal">新建</button>
-					<div class="table-responsive">
-						<table class="table table-striped">
-							<thead>
-								<th>联系人</th>
-								<th>联系地址</th>
-								<th>手机号</th>
-								<th>QQ</th>
-								<th colspan="2">操作</th>
-							</thead>
-							<tbody>
-								<foreach name='address' item='v'>
+					</div>
+				</form>
+			</div>
+
+			<div role="tabpanel" class="tab-pane" id="tab2">
+				<button class="btn btn-success btnadd"  data-toggle="modal" data-backdrop="static" data-target="#addressModal">添加</button>
+				<div class="table-responsive">
+					<table class="table table-striped">
+						<thead>
+							<th>联系人</th>
+							<th>联系地址</th>
+							<th>手机号</th>
+							<th>QQ</th>
+							<th >操作</th>
+						</thead>
+						<tbody>
+							<foreach name='address' item='v'>
 								<tr>
 									<td>{$v['Contacts']}</td>
 									<td style="width:200px">{$v['Address']}</td>
 									<td>{$v['Tel']}</td>
 									<td>{$v['QQ']}</td>
-									<td><a onclick="javascript:return p_del()" href="{:U('Usercenter/Address/deladdress',array('Id' => $v['Id']))}" class="btn btn-danger btn-small">删除</a></td>
-									<td><a href="{:U('Usercenter/Address/modifaddress',array('Id' => $v['Id']))}" class="btn btn-primary btn-small">编辑</a></td>
+									<td>
+										<button act="{:U('Usercenter/Index/deladd',array('Id'=>$v['Id']))}" class="btn btn-danger btn-small btndel">删除</button>
+										<button act="{:U('Usercenter/Index/getadd',array('Id'=>$v['Id']))}"  class="btn btn-primary btn-small btnedit">编辑</button>
+									</td>
 								</tr>
-								</foreach>
-							</tbody>
-						</table>
+							</foreach>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<div role="tabpanel" class="tab-pane" id="tab3">
+				<form class="form-horizontal" id="changepwdform" action="{:U('Usercenter/Index/changepwd')}" method="post" onsubmit="return submitsavepwd('changepwdform')" role="form">
+					<div class="form-group">
+						<label for="OldPassword" class="col-sm-2 control-label">原密码</label>
+						<div class="col-sm-4">
+							<input type="password" class="form-control" name="OldPassword" id="OldPassword" required></div>
 					</div>
-				</div>
-				<div role="tabpanel" class="tab-pane" id="tab3">
+					<div class="form-group">
+						<label for="NewPassword" class="col-sm-2 control-label">新密码</label>
+						<div class="col-sm-4">
+							<input type="password" class="form-control" name="NewPassword" id="NewPassword" required></div>
+					</div>
 
-					<form class="form-horizontal" id="changepwdform" action="{:U('Usercenter/Index/changepwd')}" method="post" onsubmit="return submitsavepwd('changepwdform')" role="form">
-						<div class="form-group">
-							<label for="OldPassword" class="col-sm-2 control-label">原密码</label>
-							<div class="col-sm-4">
-								<input type="password" class="form-control" name="OldPassword" id="OldPassword" required></div>
-						</div>
-						<div class="form-group">
-							<label for="NewPassword" class="col-sm-2 control-label">新密码</label>
-							<div class="col-sm-4">
-								<input type="password" class="form-control" name="NewPassword" id="NewPassword" required></div>
-						</div>
+					<div class="form-group">
+						<label for="ConfirmPwd" class="col-sm-2 control-label">确认密码</label>
+						<div class="col-sm-4">
+							<input type="password" class="form-control" name="ConfirmPwd" id="ConfirmPwd" required></div>
+					</div>
 
-						<div class="form-group">
-							<label for="ConfirmPwd" class="col-sm-2 control-label">确认密码</label>
-							<div class="col-sm-4">
-								<input type="password" class="form-control" name="ConfirmPwd" id="ConfirmPwd" required></div>
+					<div class="form-group">
+						<div class="col-sm-offset-2 col-sm-10">
+							<button type="submit" class="btn btn-success submitbtn" data-loading-text="提交中..." autocomplete="off">提交</button>
 						</div>
-
-						<div class="form-group">
-							<div class="col-sm-offset-2 col-sm-10">
-								<button type="submit" class="btn btn-success submitbtn" data-loading-text="提交中..." autocomplete="off">提交</button>
-							</div>
-						</div>
-					</form>
-				</div>
+					</div>
+				</form>
 			</div>
 		</div>
 	</div>
 </div>
+</div>
 <!-- 地址modal -->
 <div class="modal fade" id="addressModal" tabindex="-1" role="dialog" aria-labelledby="addressModalLabel" aria-hidden="true">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal">
-					<span aria-hidden="true">&times;</span>
-					<span class="sr-only">Close</span>
-				</button>
-				<h4 class="modal-title hightlight" id="addressModalLabel">添加地址</h4>
-			</div>
-			<form id="addressform" class="form-horizontal" action="{:U('Usercenter/Address/saveaddress')}" method="post" onsubmit="return ajaxaddresssubmit()">
-				<div class="modal-body">
-					<input type="hidden" name="modif" value="add">
-					<div class="form-group">
-						<label for="Contacts" class="col-sm-2 control-label">联系人</label>
-						<div class="col-sm-10">
-							<input type="text" name="Contacts" id="Contacts" class="form-control" placeholder="联系人" required></div>
-					</div>
-					<div class="form-group">
-						<label for="Tel" class="col-sm-2 control-label">联系电话</label>
-						<div class="col-sm-10">
-							<input type="tel" name="Tel" id="Tel" class="form-control" placeholder="联系电话" required></div>
-					</div>
-					<div class="form-group">
-						<label for="Address" class="col-sm-2 control-label">联系地址</label>
-						<div class="col-sm-10">
-							<input type="text" name="Address" id="Address" class="form-control" placeholder="联系地址" required></div>
-					</div>
-					<div class="form-group">
-						<div class="col-sm-offset-2 col-sm-10">
-							<div class="checkbox">
-								<label>
-									<input id="IsDefault" name="IsDefault" value="1" type="checkbox">&nbsp;作为默认地址</label>
-							</div>
+<div class="modal-dialog">
+	<div class="modal-content">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal">
+				<span aria-hidden="true">&times;</span>
+				<span class="sr-only">Close</span>
+			</button>
+			<h4 class="modal-title hightlight" id="addressModalLabel">添加地址</h4>
+		</div>
+		<form id="addressform" class="form-horizontal" action="{:U('Usercenter/Address/saveaddress')}" method="post" onsubmit="return ajaxaddresssubmit()">
+			<div class="modal-body">
+				<input type="hidden" id="modif" name="modif" value="add">
+				<input type="hidden" id="addressid" name="Id" value="0">
+				<div class="form-group">
+					<label for="Contacts" class="col-sm-2 control-label">联系人</label>
+					<div class="col-sm-10">
+						<input type="text" name="Contacts" id="Contacts" class="form-control" placeholder="联系人" required></div>
+				</div>
+				<div class="form-group">
+					<label for="Tel" class="col-sm-2 control-label">联系电话</label>
+					<div class="col-sm-10">
+						<input type="tel" name="Tel" id="Tel" class="form-control" placeholder="联系电话" required></div>
+				</div>
+				<div class="form-group">
+					<label for="Address" class="col-sm-2 control-label">联系地址</label>
+					<div class="col-sm-10">
+						<input type="text" name="Address" id="Address" class="form-control" placeholder="联系地址" required></div>
+				</div>
+				<div class="form-group">
+					<div class="col-sm-offset-2 col-sm-10">
+						<div class="checkbox">
+							<label>
+								<input id="IsDefault" name="IsDefault" value="1" type="checkbox">&nbsp;作为默认地址</label>
 						</div>
 					</div>
 				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-danger" data-dismiss="modal">关闭</button>
-					<button id="submitaddress" type="submit" class="btn btn-primary" data-loading-text="提交中..." autocomplete="off" >提交</button>
-				</div>
-			</form>
-		</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-danger" data-dismiss="modal">关闭</button>
+				<button id="submitaddress" type="submit" class="btn btn-primary" data-loading-text="保存中..." autocomplete="off" >保存</button>
+			</div>
+		</form>
 	</div>
+</div>
 </div>
 </block>
 
 <block name="js">
 <script src="__PUBLIC__/js/calendar.js"></script>
 <script type="text/javascript">
-/* 确认删除*/
-function p_del() {   
-	var msg = "您真的要删除吗？";   
-	if (confirm(msg)==true){   
-		return true;   
-	}else{   
-		return false;   
-	}   
-}
+$(function(){
+	$('.btnadd').click(function(e){
+		$('#modif').val('add');
+	});
+	$('.btnedit').click(function(e){
+		var _id=$(this).attr('aid');
+		$('#modif').val('update');
+		$('#addressid').val(_id);
+		var a = $(this);
+		$.ajax({
+			type:'get',
+			url: a.attr('act'),
+			beforeSend: loading(),
+			error: function(request) {
+				showerrormsg('网络连接失败',100,1000);
+			},
+			success: function(data) {
+				alert(data.info);
+			},
+			complete: function() {
+				$("#load").remove();
+			}
+
+		});
+	});
+	/*删除*/
+	$('.btndel').click(function(e){
+		/*回来做*/
+	});
+});
+
+	function loading() { 
+		$("body").append('<div  id="load" style="z-index:99999; position:fixed; left:45%; top:30%"><img src="__PUBLIC__/Img/loading.gif" /></div>'); 
+	}
+
 /*修改密码*/
 function submitsavepwd(_id){
 	_id='#'+_id;
@@ -249,6 +282,7 @@ function submitsavepwd(_id){
     });
     return false;
 }
+
 
 function checkpwd(_pwd) {
     var ispwd = /^[a-z0-9_A-Z~!@#$%^&*]{6,18}$/;

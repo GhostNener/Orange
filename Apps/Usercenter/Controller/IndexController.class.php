@@ -16,10 +16,17 @@ use Usercenter\Model\userModel;
 use Usercenter\Model\user_gradeModel;
 use Usercenter\Model\user_avatarModel;
 
+/**
+ * 用户个人中心
+ *
+ * @author NENER
+ *        
+ */
 class IndexController extends LoginController {
 	
 	/**
 	 * 用户激活页面
+	 *
 	 * @author NENER
 	 */
 	public function activated() {
@@ -38,6 +45,7 @@ class IndexController extends LoginController {
 	}
 	/**
 	 * 发送激活邮件
+	 *
 	 * @author NENER
 	 */
 	public function sendactivatemail() {
@@ -76,16 +84,16 @@ class IndexController extends LoginController {
 	 */
 	public function msg() {
 		$model = new noticeModel ();
-		$all = $model->getunread (null,1,10);
-		$this->assign ( 'urnl', $all['list'] );
-		$this->assign ( 'page', $all['page'] );
+		$all = $model->getunread ( null, 1, 10 );
+		$this->assign ( 'urnl', $all ['list'] );
+		$this->assign ( 'page', $all ['page'] );
 		$this->assign ( 'empty', '<h3 class="text-import text-center">没有更多未读消息</h3>' );
 		$this->getCommon ();
 		$this->display ();
 	}
 	
 	/**
-	 * 查询用户信息
+	 * 编辑个人信息页面
 	 */
 	public function edit() {
 		$userid = cookie ( '_uid' );
@@ -93,14 +101,13 @@ class IndexController extends LoginController {
 		$adder = new user_addressModel ();
 		$rst = $adder->getall ( $userid );
 		/* 模块赋值 */
-		$this->assign ( 'model', $arr ['msg'] );
 		$this->assign ( 'address', $rst );
 		$this->getCommon ();
 		$this->display ();
 	}
 	
 	/**
-	 * 修改用户信息
+	 * 编辑用户信息
 	 */
 	public function updateUser() {
 		$arr = I ( 'post.' );
@@ -373,6 +380,7 @@ class IndexController extends LoginController {
 	
 	/**
 	 * 删除通知
+	 *
 	 * @author NENER
 	 */
 	public function delnotice() {
@@ -387,6 +395,44 @@ class IndexController extends LoginController {
 			$this->error ( '删除失败' );
 		} else {
 			$this->success ( 1 );
+		}
+	}
+	/**
+	 * 删除地址
+	 *
+	 * @author NENER
+	 */
+	public function deladd() {
+		$Id = I ( 'Id' );
+		if (! IS_POST || ! $Id) {
+			$this->error ( '页面不存在' );
+			return;
+		}
+		$m = new user_addressModel ();
+		$rst = $m->delbyid ( $Id );
+		if (! $rst ['status'] == 0) {
+			$this->error ( $rst ['msg'] );
+		} else {
+			$this->success ( 1 );
+		}
+	}
+	/**
+	 * ajax 获取地址（出去了，回来做）
+	 *
+	 * @author NENER
+	 */
+	public function getadd() {
+		$Id = I ( 'Id' );
+		if (! $Id) {
+			$this->error ( '页面不存在' );
+			return;
+		}
+		$m = new user_addressModel ();
+		$rst = $m->getbyid ( $Id );
+		if (! $rst) {
+			$this->error ( '加载失败' );
+		} else {
+			$this->success ( json_encode ( $rst ) );
 		}
 	}
 }
