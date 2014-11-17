@@ -6,7 +6,7 @@
 <a href="[$_UserURL_$]" class="text-orange">@[$_Nick_$]</a>
 &nbsp;
 联系。联系方式: [$_Content_$]&nbsp;[$_Tel_$]
-<a class="btn btn-success visible-xs-inline-block" href="[$_Tel_$]">
+<a class="btn btn-success visible-xs-inline-block" href="tel:[$_Tel_$]">
 	<span class="glyphicon glyphicon-earphone"></span>
 	&nbsp;拨打电话
 </a>
