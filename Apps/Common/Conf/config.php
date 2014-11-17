@@ -153,7 +153,7 @@ return array (
 				'driverConfig' => array (
 						'secrectKey' => '-LdkxeAxW_or_1UssZbSdATJmlVZm5G-M4oWRDcD', // 'ApFyYUL4aaaPbGAYQRJT1-4qGUJfjziQ7KQ_SJni',
 						'accessKey' => 'fJOIxQXMh6cn0j0FNSsx4uSEwG9sFCkel0BhwdOw', // 'dU131Y7XxO1dZtrPNWFg2RCW1PbemyoVPecdldP_',
-						'domain' => 'ghostdatabase.qiniudn.combigoranger.qiniudn.com', // 'ghostdatabase.qiniudn.com',
+						'domain' => 'bigoranger.qiniudn.com', // 'ghostdatabase.qiniudn.com',
 						'bucket' => 'bigoranger', // 'bigoranger',
 						'CallbackUrl' => '',
 						'CallbackBody' => 'key=$(key)&cid=$(x:cid)&sid=$(x:sid)&ckey=$(x:ckey)',
