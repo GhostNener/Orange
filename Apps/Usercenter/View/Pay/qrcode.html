@@ -47,3 +47,12 @@
 		</div>
 	</div>
 </block>
+<block name="js">
+	<script type="text/javascript">
+		$('.verifycode').click(function(e) {
+			var src = $(this).attr('src');
+	        var _src = src.substr(0, src.indexOf('?id')>0?src.indexOf('?id'):src.length) + '?id=' + new Date().valueOf();
+		    $('.verifycode').attr('src', _src);
+	    });
+    </script>
+</block>
