@@ -77,11 +77,12 @@
 							<div class="tab-pane fade in active" id="tab1">
 								<!-- 用户列表 -->
 								<volist name="signlist" id="v">
-									<div class="tabuser">
+									<div class="tabuser hidden-xs">
 										<dl class="dl-horizontal">
 											<dt>
-												<a href="{:U('/Usercenter/User/u_show',array('Id'=>$v['Id']))}" target="_blank">
-													<img src="{:getFileUrl($v['URL'],'40x40')}" alt="头像" class="img-circle">
+												<a href="{:U('/Usercenter/User/u_show',array('Id'=>
+													$v['Id']))}" target="_blank">
+													<img src="{:getFileUrl($v['URL'],'40x40')}" alt="{$v[Nick]}" class="img-circle">
 													<span>{$v[Nick]}</span>
 												</a>
 											</dt>
@@ -93,7 +94,19 @@
 												</div>
 											</dd>
 										</dl>
+									</div>
 
+									<div class="tabuser visible-xs">
+										<a href="{:U('/Usercenter/User/u_show',array('Id'=>
+											$v['Id']))}" target="_blank">
+											<img src="{:getFileUrl($v['URL'],'40x40')}" alt="{$v[Nick]}" class="img-circle">
+											<span>{$v[Nick]}</span>
+										</a>
+										<span class="info pull-right">
+											签到&nbsp;
+											<span class="importinfo">{$v[ClockinCount]}</span>
+											&nbsp;天
+										</span>
 									</div>
 								</volist>
 								<!--用户列表-->
@@ -103,19 +116,30 @@
 							<div class="tab-pane fade" id="tab2">
 								<!-- 用户列表 -->
 								<volist name="gradelist" id="v">
-									<div class="tabuser">
+									<div class="tabuser  hidden-xs">
 										<dl class="dl-horizontal">
 											<dt>
-												<a href="{:U('/Usercenter/User/u_show',array('Id'=>$v['Id']))}" target="_blank">
+												<a href="{:U('/Usercenter/User/u_show',array('Id'=>
+													$v['Id']))}" target="_blank">
 													<img src="{:getFileUrl($v['URL'],'40x40')}" alt="头像" class="img-circle">
 													<span>{$v[Nick]}</span>
 												</a>
 											</dt>
-											<dd class="">
+											<dd>
 												<div class="info">{$v[EXP]['Title']}</div>
 											</dd>
 										</dl>
+									</div>
 
+									<div class="tabuser visible-xs">
+										<a href="{:U('/Usercenter/User/u_show',array('Id'=>
+											$v['Id']))}" target="_blank">
+											<img src="{:getFileUrl($v['URL'],'40x40')}" alt="{$v[Nick]}" class="img-circle">
+											<span>{$v[Nick]}</span>
+										</a>
+										<span class="info pull-right">
+											<div class="info">{$v[EXP]['Title']}</div>
+										</span>
 									</div>
 								</volist>
 								<!--用户列表-->

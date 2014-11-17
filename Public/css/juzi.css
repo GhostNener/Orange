@@ -283,6 +283,9 @@ footer {
 .tab-pane .tabuser .info{
     margin-top: 8px;
 }
+.tabuser {
+	margin-top: 20px;
+}
 
 .importinfo{
     color: #fa7d3c;
