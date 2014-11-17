@@ -1,0 +1,49 @@
+<extend name="./Tpl/layout.html"/>
+<block name="content">
+	<div id="main" class="container">
+		<div class="panel panel-default">
+			<div class="panel-body">
+				<h1 class="hightlight">支付宝钱包转账-充值流程</h1>
+				<h5>1. 扫描二维码</h5>
+				<p class="text-center">
+					<img src="__PUBLIC__/Img/alipay_qr.jpg" alt="支付宝转账二维码"></p>
+				<p class="text-center">
+					<a href="https://qr.alipay.com/apjdf4klgx2fr5dt3c" class="btn btn-info visible-xs">手机用户直接点此处充值</a>
+				</p>
+				<h5>2. 输入金额完成转账</h5>
+				<h5>
+					3. 查看详细订单的
+					<mark>订单号</mark>
+					并输入后四位，确认无误后再提交
+				</h5>
+				<p class="text-center">
+					<form class="form-horizontal" role="form" action="tradeno" method="post">
+						<div class="form-group">
+							<div class="col-md-4 col-md-offset-4">
+								<input type="number" class="form-control" name="tradeno" placeholder="订单号后四位"></div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-md-2 col-md-offset-4 control-label" style="text-align:left;padding-top:0;">
+								<img class="verifycode" style="width: 160px; height: 35px;" src="{:U('Usercenter/Public/verifycode')}" alt="点击刷新" title="点击刷新"></label>
+							<div class="col-md-2">
+								<input type="number" class="form-control" placeholder="验证码"></div>
+						</div>
+
+						<div class="form-group">
+							<div class="col-md-offset-4 col-md-4 text-center">
+								<button type="submit" class="btn btn-success btn-lg hightlight">确定</button>
+							</div>
+						</div>
+					</form>
+				</p>
+
+				<p>备注:</p>
+				<p>
+					1. 转账成功并提交订单号后若未即时到账，请与管理员联系 Email:
+					<a href="mailto:feedback@bigoranger.com" class="text-orange">feedback@bigoranger.com</a>
+				</p>
+			</div>
+		</div>
+	</div>
+</block>
