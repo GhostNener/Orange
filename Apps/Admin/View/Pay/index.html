@@ -7,7 +7,7 @@
 				<table class="table table-striped">
 					<thead>
 						<th>交易号</th>
-						<th>用户名</th>
+						<th>用户</th>
 						<th>金额</th>
 						<th>备注</th>
 						<th>状态</th>
@@ -16,12 +16,12 @@
 					<tbody>
 						<foreach name='list' item='v'>
 							<tr>
-								<td>{$v.TradeNo}</td>
-								<td>{$v.Name}</td>
-								<td>{$v.Amount}</td>
-								<td>{$v.Remark}</td>
-								<td>{$v.Status}</td>
-								<td>{$v[CreateTime]}</td>
+								<td>{$v[TradeNo]}</td>
+								<td>{$v[Name]}</td>
+								<td>{$v[Amount]}</td>
+								<td>{$v[Remark]}</td>
+								<td>{$v[Status]}</td>
+								<td>{$v[CreateTime]|date="y-m-d H:i:s",###}</td>
 							</tr>
 						</foreach>
 					</tbody>

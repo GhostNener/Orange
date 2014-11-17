@@ -271,8 +271,13 @@ footer {
     margin-top: 20px;
 }
 
-.tab-pane .tabuser{
-    padding-bottom: 20px;
+.tabuser dt{
+	text-align: left;
+	font-weight: 400;
+}
+
+.tabuser dd{
+	margin-left: 160px;
 }
 
 .tab-pane .tabuser .info{

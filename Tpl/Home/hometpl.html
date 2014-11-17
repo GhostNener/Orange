@@ -47,7 +47,8 @@
 						<volist name="hotactivity" id="v" empty="$emptyact">
 							<hr>
 							<div class="media">
-								<a class="pull-left" href="{$v[Href]?$v[Href]:U('Home/Activity/detail',array('id'=>$v[Id]))}" target="_blank">
+								<a class="pull-left" href="{$v[Href]?$v[Href]:U('Home/Activity/detail',array('id'=>
+									$v[Id]))}" target="_blank">
 									<img class="media-object" src="{:getFileUrl($v['ThumURL'],'80x80')}" alt="{$v['Title']}"></a>
 								<div class="media-body">
 									<h5 class="media-heading">{$v['Title']}</h5>
@@ -69,65 +70,56 @@
 								<a href="#tab1" data-toggle="tab">签到狂人</a>
 							</li>
 							<li>
-								<a href="#tab2" data-toggle="tab">大富豪</a>
+								<a href="#tab2" data-toggle="tab">等级排名</a>
 							</li>
 						</ul>
 						<div id="myTabContent" class="tab-content">
 							<div class="tab-pane fade in active" id="tab1">
 								<!-- 用户列表 -->
-								<div class="tabuser">
-									<a href="#">
-										<img src="http://hhhhold.com/40x40" alt="头像" class="img-circle">
-										<span>乔布斯</span>
-									</a>
-									<span class="info pull-right">
-										签到&nbsp;
-										<span class="importinfo">50</span>
-										&nbsp;天
-									</span>
-								</div>
+								<volist name="signlist" id="v">
+									<div class="tabuser">
+										<dl class="dl-horizontal">
+											<dt>
+												<a href="#">
+													<img src="{:getFileUrl($v['URL'],'40x40')}" alt="头像" class="img-circle">
+													<span>{$v[Nick]}</span>
+												</a>
+											</dt>
+											<dd>
+												<div class="info">
+													签到&nbsp;
+													<span class="importinfo">{$v[ClockinCount]}</span>
+													&nbsp;天
+												</div>
+											</dd>
+										</dl>
+
+									</div>
+								</volist>
 								<!--用户列表-->
 
-								<div class="tabuser">
-									<a href="#">
-										<img src="http://hhhhold.com/40x40" alt="头像" class="img-circle">
-										<span>乔布斯</span>
-									</a>
-									<span class="info pull-right">
-										签到&nbsp;
-										<span class="importinfo">50</span>
-										&nbsp;天
-									</span>
-								</div>
-								<!--用户列表-->
 							</div>
 
 							<div class="tab-pane fade" id="tab2">
 								<!-- 用户列表 -->
-								<div class="tabuser">
-									<a href="#">
-										<img src="http://hhhhold.com/40x40" alt="头像" class="img-circle">
-										<span>乔布斯</span>
-									</a>
-									<span class="info pull-right">
-										交易&nbsp;
-										<span class="importinfo">50</span>
-										&nbsp;笔
-									</span>
-								</div>
-								<!--用户列表-->
+								<volist name="signlist" id="v">
+									<div class="tabuser">
+										<dl class="dl-horizontal">
+											<dt>
+												<a href="#">
+													<img src="{:getFileUrl($v['URL'],'40x40')}" alt="头像" class="img-circle">
+													<span>{$v[Nick]}</span>
+												</a>
+											</dt>
+											<dd class="">
+												<div class="info">
+													lv&nbsp;{$v[ClockinCount]}&nbsp;实习生
+												</div>
+											</dd>
+										</dl>
 
-								<div class="tabuser">
-									<a href="#">
-										<img src="http://hhhhold.com/40x40" alt="头像" class="img-circle">
-										<span>乔布斯</span>
-									</a>
-									<span class="info pull-right">
-										交易&nbsp;
-										<span class="importinfo">50</span>
-										&nbsp;笔
-									</span>
-								</div>
+									</div>
+								</volist>
 								<!--用户列表-->
 
 							</div>

@@ -61,6 +61,11 @@ class BaseController extends Controller {
 		$this->assign ( 'gmpath', C ( 'GOODS_IMG_PATH' ) );
 		/* 用户头像路径 */
 		$this->assign ( 'uapath', C ( 'USER_AVATAR_PATH' ) );
+
+		/*排行榜*/
+		$model = M('view_user_info_avatar');
+		$signlist = $model->where('Status = 10')->order('ClockinCount desc')->limit(5)->field('Nick,URL,ClockinCount')->select();
+		$this->assign('signlist',$signlist);
 	}
 }
 ?>

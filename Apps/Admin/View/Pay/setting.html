@@ -4,11 +4,11 @@
 		<div class="panel panel-danger">
 			<div class="panel-heading">爬虫设置</div>
 			<div class="panel-body">
-				<form class="form-horizontal" role="form">
+				<form class="form-horizontal" role="form" action="{:U('save')}" onsubmit="return ajaxsubmit()" method="post">
 					<div class="form-group">
 						<label class="col-sm-1 control-label">Cookies</label>
 						<div class="col-sm-11">
-							<textarea class="form-control" rows="5" name="cookies"></textarea>
+							<textarea class="form-control" rows="5" name="cookies" value="{$cookies[value]}">{$cookies}</textarea>
 						</div>
 					</div>
 					<div class="form-group">
