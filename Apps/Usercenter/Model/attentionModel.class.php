@@ -31,12 +31,16 @@ class attentionModel extends Model{
 	
 	/**
 	 * 删除关注
-	 * @param array $wherearr  
+	 * @param $goodsId, $userid
 	 * @return  1 or 0
 	 * @author LONGG
 	 */
-	public function del($whereall){
-		$rst = $this -> where($whereall) -> delete();
+	public function del($AttentionId, $userid){
+		$data = array (
+				'UserId' => $userid,
+				'AttentionId' => $AttentionId,
+		);
+		$rst = $this->where ( $data )->delete ();
 		if ($rst) {
 			return array (
 					'status' => 1,

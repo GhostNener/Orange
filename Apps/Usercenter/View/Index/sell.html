@@ -31,7 +31,9 @@
 							</div>
 						</div>
 						<div class="operation">
-							<button class="btn btn-danger">下架</button>
+							<button class="btn btn-danger favoritebtn" data-id=" {$v['Id']}" data-loading-text="提交中..." autocomplete="off">
+								下架
+							</button>
 						</div>
 					</div>
 				</volist>
@@ -40,4 +42,80 @@
 		</div>
 	</div>
 </div>
+
+<!-- 删除心愿单 -->	
+<form id="favoriteform" action="{:U('Usercenter/Index/delgoods')}" style="display:none" method="post" onsubmit="return ajaxsubmitfavorite()">
+<input type="hidden" name="GoodsId" value=""></form>
+</block>
+
+<block name="js">
+<script>
+function ajaxsubmit() {
+    var $btn = $('#submitref').button('loading');
+    $.ajax({
+        type: 'post',
+        cache: false,
+        url: $('#refform').attr('action'),
+        data: $('#refform').serialize(),
+        error:  
+        function(request)  {
+            showerrormsg('网络错误', 100, 1000);
+            $btn.button('reset');   
+            return false;             
+        },
+        success:  
+        function(data)  {
+            if (data.status == 0) {
+                showerrormsg(data.info, 100, 1000);
+                $btn.button('reset');
+                return false;
+            } else {
+				$('#refModal').modal('hide');
+                showsuccessmsg("提交成功", 100, 1000);
+                $('#refform')[0].reset() 
+                $btn.button('reset');
+				location.href=location.href;
+                return false;
+            }                
+        }
+    });
+    return false;
+}
+function ajaxsubmitfavorite(){
+	if(!confirm('您真的要下架吗？'))
+		return;
+	
+	var $btn = $('.favoritebtn').button('loading');
+	$btn.button('reset');
+	$.ajax({
+        type: 'post',
+        cache: false,
+        url: $('#favoriteform').attr('action'),
+        data: $('#favoriteform').serialize(),
+        error:  
+        function(request)  {
+            showerrormsg('网络错误', 100, 1000);
+            $btn.button('reset');  
+            return false;              
+        },
+         success:  
+        function(data)  {
+            if (data.status == 0) {
+                showerrormsg(data.info, 100, 1000);
+            } else {
+                showsuccessmsg(data.info, 100, 1000);
+            }     
+            $btn.button('reset');
+            return false;           
+        }
+    });
+	return false;
+}
+$(document).ready(function() {
+	$('.favoritebtn').click(function(){
+	 $('#favoriteform').find($('input')).val($(this).attr('data-id'));
+		return ajaxsubmitfavorite();
+	});
+});
+</script>
 </block>

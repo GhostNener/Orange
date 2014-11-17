@@ -58,9 +58,14 @@ class favoriteModel extends Model {
 	
 	/**
 	 * 删除
+	 * @param $goodsId, $userid
 	 */
-	public function del($whereall) {
-		$rst = $this->where ( $whereall )->delete ();
+	public function del($goodsId, $userid) {
+		$data = array (
+				'UserId' => $userid,
+				'GoodsId' => $goodsId,
+		);
+		$rst = $this->where ( $data )->delete ();
 		if ($rst) {
 			return array (
 					'status' => 1,

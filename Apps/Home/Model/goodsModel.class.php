@@ -301,6 +301,29 @@ class goodsModel extends Model {
 			);
 		}
 	}
+	
+	/**
+	 * 商品下架
+	 * @param $goodsId, $userid
+	 */
+	public function del($goodsId , $userid) {
+		$rst = $this->where ( 
+				array (
+				'UserId' => $userid,
+				'Id' => $goodsId,
+		) )->save ( array ( 'Status' => 70 ) ) ;
+		if ($rst) {
+			return array (
+					'status' => 1,
+					'msg' => "下架成功" 
+			);
+		} else {
+			return array (
+					'status' => 0,
+					'msg' => "下架失败" 
+			);
+		}
+	}
 }
 
 ?>

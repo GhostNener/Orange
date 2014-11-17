@@ -191,9 +191,8 @@ class UserController extends BaseController {
 		$user = new userModel();
 		$bool = $user->checkuserid($userid);
 		if (! $bool) {
-			$this->redirect('home/Index/index', array(), 0, '页面跳转中...');
+			$this->redirect('home/Index/index');
 		}
-		
 		
 		$limit = 100;
 		/* 拼接where */

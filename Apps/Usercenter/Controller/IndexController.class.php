@@ -196,20 +196,22 @@ class IndexController extends LoginController {
 	/**
 	 * 关注
 	 */
-	public function attention($Id) {
-		$AttentionId = $Id;
-		$userid = cookie ( '_uid' );
+	public function attention() {
+		if (! IS_POST || ! I ( 'AttentionId' )) {
+			$this->error ( '页面不存在' );
+			die ();
+		}
 		/* 验证被关注的用户是否存在 */
 		$userModel = new userModel ();
-		$bool = $userModel->checkuserid ( $AttentionId );
+		$bool = $userModel->checkuserid ( I ( 'AttentionId' ) );
 		if (! $bool) {
 			$this->redirect ( 'home/Index/index', array (), 0, '页面跳转中...' );
 		}
 		/* 拼接查询条件 */
 		$whereall = array (
 				'CreateTime' => time (),
-				'AttentionId' => $AttentionId,
-				'UserId' => $userid 
+				'AttentionId' => I ( 'AttentionId' ),
+				'UserId' => cookie ( '_uid' )
 		);
 		/* 添加关注 */
 		$model = new attentionModel ();
@@ -217,30 +219,42 @@ class IndexController extends LoginController {
 		if ($arr ['status'] == 0) {
 			$this->error ( $arr ['msg'] );
 		} else {
-			$this->redirect ( 'Usercenter/User/home', array (
-					'attenid' => $AttentionId 
-			) );
+ 			$this->success ( $arr ['msg'] );
+		}
+	}
+	
+
+	/**
+	 * 商品下架
+	 */
+	public function delgoods() {
+		if (! IS_POST || ! I ( 'GoodsId' )) {
+			$this->error ( '页面不存在' );
+			die ();
+		}
+		$model = new goodsModel();
+		$arr = $model -> del ( I ( 'GoodsId' ), cookie ( '_uid' ) );
+		if ($arr ['status'] == 0) {
+			$this->error ( $arr ['msg'] );
+		} else {
+			$this->success ( $arr ['msg'] );
 		}
 	}
 	
 	/**
 	 * 取消关注
 	 */
-	public function delattention($Id) {
-		$AttentionId = $Id;
-		$userid = cookie ( '_uid' );
-		$whereall = array (
-				'AttentionId' => $AttentionId,
-				'UserId' => $userid 
-		);
+	public function delattention() {
+		if (! IS_POST || ! I ( 'AttentionId' )) {
+			$this->error ( '页面不存在' );
+			die ();
+		}
 		$model = new attentionModel ();
-		$arr = $model->del ( $whereall );
+		$arr = $model -> del ( I ( 'AttentionId' ), cookie ( '_uid' ) );
 		if ($arr ['status'] == 0) {
 			$this->error ( $arr ['msg'] );
 		} else {
-			$this->redirect ( 'Usercenter/User/home', array (
-					'attenid' => $AttentionId 
-			) );
+			$this->success ( $arr ['msg'] );
 		}
 	}
 	
@@ -269,27 +283,28 @@ class IndexController extends LoginController {
 	/**
 	 * 删除心愿单
 	 */
-	public function dellike($Id) {
-		$GoodsId = $Id;
-		$userid = cookie ( '_uid' );
+	public function dellike() {
+		if (! IS_POST || ! I ( 'GoodsId' )) {
+			$this->error ( '页面不存在' );
+			die ();
+		}
 		$dal = M ();
 		// 开始事务
 		$dal->startTrans ();
+		/* 删除心愿单 */
 		$model = new favoriteModel ();
-		$rst = $model->del ( array (
-				'GoodsId' => $GoodsId,
-				'UserId' => $userid 
-		) );
+		$rst = $model->del (I ( 'GoodsId' ),cookie ( '_uid' ) );
+		/* 收藏数减一 */
 		$goods = new goodsModel ();
-		$c = $goods->VCChhandle ( $GoodsId, 2, false );
+		$c = $goods->VCChhandle ( I ( 'GoodsId' ), 2, false );
 		if (! $rst || ! $c) {
 			// 失败 回滚
 			$dal->rollback ();
-			$this->error ( "操作失败！" );
+			$this->error ( '操作失败' );
 		} else {
 			// 操作成功 提交事务
 			$dal->commit ();
-			$this->redirect ( 'Index/like', array (), 0, '页面跳转中...' );
+			$this->success ( '添加成功' );
 		}
 	}
 	
