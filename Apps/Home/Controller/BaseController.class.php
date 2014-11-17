@@ -8,6 +8,7 @@ use Usercenter\Model\view_user_info_avatarModel;
 use Home\Model\goods_categoryModel;
 use Home\Model\activityModel;
 use Home\Model\noticeModel;
+use Usercenter\Model\user_gradeModel;
 
 /**
  * 基础控制器
@@ -65,7 +66,14 @@ class BaseController extends Controller {
 		/*排行榜*/
 		$model = M('view_user_info_avatar');
 		$signlist = $model->where('Status = 10')->order('ClockinCount desc')->limit(5)->field('Nick,URL,ClockinCount')->select();
+		$gradelist = $model->where('Status = 10')->order('EXP desc')->limit(5)->field('Nick,URL,EXP')->select();
+
+		$gradeModel = new user_gradeModel();
+		foreach ($gradelist as $key => $value) {
+			$gradelist[$key]['EXP'] = $gradeModel->getgrade($value['EXP']);
+		}
 		$this->assign('signlist',$signlist);
+		$this->assign('gradelist',$gradelist);
 	}
 }
 ?>

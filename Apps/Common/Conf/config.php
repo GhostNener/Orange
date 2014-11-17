@@ -151,10 +151,10 @@ return array (
 						'jpeg' 
 				),
 				'driverConfig' => array (
-						'secrectKey' => 'ApFyYUL4aaaPbGAYQRJT1-4qGUJfjziQ7KQ_SJni', // '-LdkxeAxW_or_1UssZbSdATJmlVZm5G-M4oWRDcD',
-						'accessKey' => 'dU131Y7XxO1dZtrPNWFg2RCW1PbemyoVPecdldP_', // 'fJOIxQXMh6cn0j0FNSsx4uSEwG9sFCkel0BhwdOw',
-						'domain' => 'ghostdatabase.qiniudn.com', // 'bigoranger.qiniudn.com',
-						'bucket' => 'ghostdatabase', // 'bigoranger',
+						'secrectKey' => '-LdkxeAxW_or_1UssZbSdATJmlVZm5G-M4oWRDcD', // 'ApFyYUL4aaaPbGAYQRJT1-4qGUJfjziQ7KQ_SJni',
+						'accessKey' => 'fJOIxQXMh6cn0j0FNSsx4uSEwG9sFCkel0BhwdOw', // 'dU131Y7XxO1dZtrPNWFg2RCW1PbemyoVPecdldP_',
+						'domain' => 'ghostdatabase.qiniudn.combigoranger.qiniudn.com', // 'ghostdatabase.qiniudn.com',
+						'bucket' => 'bigoranger', // 'bigoranger',
 						'CallbackUrl' => '',
 						'CallbackBody' => 'key=$(key)&cid=$(x:cid)&sid=$(x:sid)&ckey=$(x:ckey)',
 						'Expires' => 36000 
