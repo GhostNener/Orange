@@ -8,11 +8,11 @@
 				<volist name="likelist" id="v" empty="$empty">
 					<div class="col-sm-4 col-lg-4 col-md-4">
 						<div class="thumbnail">
-							<img src="__ROOT__{:checkfile_exists($uapath['G_320'].$user['URL'])? $uapath['G_320']:getdefaultimg(1)}" alt="">
+							<img src="{:getFileUrl($v['URL'],'320x160')}" alt="{$v['Nick']}">
 							<div class="caption">
 								<h4 class="pull-right message">{$v['TradeWayTxt']}</h4>
 								<p>
-									<img src="__ROOT__{:checkfile_exists($uapath['A_40'].$user['URL'])? $uapath['A_40']:getdefaultimg(4)}" alt="头像" class="img-circle">
+									<img src="{:getFileUrl($v['URL'],'40x40')}" alt="{$v['Nick']}" class="img-circle">
 									<span>{$v['Nick']}</span>
 								</p>
 								<p>{$v['Title']}</p>
