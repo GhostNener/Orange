@@ -485,7 +485,7 @@ footer {
 	.board li.active:after {
 		content: " ";
 		position: absolute;
-		left: 30%;
+		left: 36%;
 	}
 
 }
