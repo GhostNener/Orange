@@ -65,8 +65,8 @@ class BaseController extends Controller {
 
 		/*排行榜*/
 		$model = M('view_user_info_avatar');
-		$signlist = $model->where('Status = 10')->order('ClockinCount desc')->limit(5)->field('Nick,URL,ClockinCount')->select();
-		$gradelist = $model->where('Status = 10')->order('EXP desc')->limit(5)->field('Nick,URL,EXP')->select();
+		$signlist = $model->where('Status = 10')->order('ClockinCount desc')->limit(5)->field('Id,Nick,URL,ClockinCount')->select();
+		$gradelist = $model->where('Status = 10')->order('EXP desc')->limit(5)->field('Id,Nick,URL,EXP')->select();
 
 		$gradeModel = new user_gradeModel();
 		foreach ($gradelist as $key => $value) {
