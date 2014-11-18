@@ -38,8 +38,8 @@ class BaseController extends Controller {
 		} else {
 			$isclockin = 0;
 		}
-		$nm=new noticeModel();
-		$un=$nm->getunread(null,2);
+		$nm = new noticeModel ();
+		$un = $nm->getunread ( null, 2 );
 		$this->assign ( 'urnotice', $un );
 		/* 分类复制 */
 		$model = new goods_categoryModel ();
@@ -62,18 +62,24 @@ class BaseController extends Controller {
 		$this->assign ( 'gmpath', C ( 'GOODS_IMG_PATH' ) );
 		/* 用户头像路径 */
 		$this->assign ( 'uapath', C ( 'USER_AVATAR_PATH' ) );
-
-		/*排行榜*/
-		$model = M('view_user_info_avatar');
-		$signlist = $model->where('Status = 10')->order('ClockinCount desc')->limit(5)->field('Id,Nick,URL,ClockinCount')->select();
-		$gradelist = $model->where('Status = 10')->order('EXP desc')->limit(5)->field('Id,Nick,URL,EXP')->select();
-
-		$gradeModel = new user_gradeModel();
-		foreach ($gradelist as $key => $value) {
-			$gradelist[$key]['EXP'] = $gradeModel->getgrade($value['EXP']);
+		
+		/* 排行榜 */
+		$model = M ( 'view_user_info_avatar' );
+		$lct = $signlist = $model->where ( array (
+				'Status' => 10,
+				'LastClockinTime' => array (
+						'egt',
+						strtotime ( date ( 'Y-m-d', strtotime ( '-1 day' ) ) ) 
+				) 
+		) )->order ( 'ClockinCount desc' )->limit ( 5 )->field ( 'Id,Nick,URL,ClockinCount' )->select ();
+		$gradelist = $model->where ( 'Status = 10' )->order ( 'EXP desc' )->limit ( 5 )->field ( 'Id,Nick,URL,EXP' )->select ();
+		
+		$gradeModel = new user_gradeModel ();
+		foreach ( $gradelist as $key => $value ) {
+			$gradelist [$key] ['EXP'] = $gradeModel->getgrade ( $value ['EXP'] );
 		}
-		$this->assign('signlist',$signlist);
-		$this->assign('gradelist',$gradelist);
+		$this->assign ( 'signlist', $signlist );
+		$this->assign ( 'gradelist', $gradelist );
 	}
 }
 ?>
