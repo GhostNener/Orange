@@ -1,145 +1,148 @@
 <extend name="./Tpl/layout.html"/>
 <block name="content">
-<div id="main" class="container">
-	<div class="col-lg-6 col-lg-offset-3">
-		<!-- ===== vCard Navigation ===== -->
-		<div class="row w">
-			<div class="col-md-4">
-				<div class="text-center"><img class="img-responsive profile-img" src="{:getFileUrl($user['URL'],'150x150')}" alt="{$user['Nick']}"></div>
-				<ul class="nav nav-tabs nav-stacked" id="myTab">
-					<li class="active">
-						<a href="#about">关于我</a>
-					</li>
-					<li>
-						<a href="#sell">在售商品</a>
-					</li>
-					<li>
-						<a href="#like">心愿单</a>
-					</li>
-					<li>
-						<a href="#contact">联系方式</a>
-					</li>
-				</ul>
-			</div>
-			<!-- col-md-4 -->
-
-			<!-- ===== vCard Content ===== -->
-			<div class="col-md-8">
-				<div class="tab-content like">
-
-					<!-- ===== First Tab ===== -->
-					<div class="tab-pane active" id="about">
-						<h3>{$user['Nick']}</h3>
-						<h5>{$grade['Title']}</h5>
-						<hr>
-
-						<dl class="dl-horizontal">
-							<dt>信誉度</dt>
-							<dd>99%</dd>
-						</dl>
-						<dl class="dl-horizontal">
-							<dt>累计交易(笔)</dt>
-							<dd>32</dd>
-						</dl>
-						<dl class="dl-horizontal">
-							<dt>连续签到(天)</dt>
-							<dd>20</dd>
-						</dl>
-						<dl class="dl-horizontal">
-							<dt>综合排名</dt>
-							<dd>第 200 位</dd>
-						</dl>
-
-					</div>
-					<!-- tab about -->
-
-					<!-- ===== Second Tab ===== -->
-					<div class="tab-pane" id="sell">
-						<div class="row">
-							<!-- col-xs-6 -->
-							<volist name="selllist" id="v" empty="$empty">
-							<div class="col-xs-6 centered">
-								<img class="img-responsive" src="{:getFileUrl($v['URL'],'320x160')}" alt="{$v['Nick']}">
-								<a href="#">
-									<h6>{$v['Title']}</h6>
-								</a>
-							</div>
-							</volist>
-						</div>
-						<!-- row -->
-					</div>
-					<!-- Tab Profile -->
-
-					<!-- ===== Third Tab ===== -->
-					<div class="tab-pane" id="like">
-						<div class="row">
-							<!-- col-xs-6 -->
-							<volist name="likelist" id="v" empty="$empty">
-							<div class="col-xs-6 centered">
-								<img class="img-responsive" src="{:getFileUrl($v['URL'],'320x160')}" alt="{$v['Nick']}">
-								<a href="#">
-									<h6>{$v['Title']}</h6>
-								</a>
-							</div>
-							</volist>
-							<!-- col-xs-6 -->
-						</div>
-						<!-- row -->
-					</div>
-					<!-- /Tab Portfolio -->
-
-					<!-- ===== Fourth Tab ===== -->
-					<div class="tab-pane" id="contact">
-						<h4>邮箱</h4>
-						<hr>
-						<div class="row">
-							<div class="col-xs-6">
-								<p class="sm">{$user['E-Mail']}</p>
-							</div>
-						</div>
-						<!-- row -->
-
-						<h4>QQ</h4>
-						<hr>
-						<div class="row">
-							<div class="col-xs-6">
-								<p class="sm">{$user['TP_QQ']}</p>
-							</div>
-							<!-- col-xs-6 -->
-						</div>
-						<!-- row -->
-					</div>
-					<!-- Tab Contact -->
-
+	<div id="main" class="container">
+		<div class="col-lg-6 col-lg-offset-3">
+			<!-- ===== vCard Navigation ===== -->
+			<div class="row w">
+				<div class="col-md-4">
+					<div class="text-center">
+						<img class="img-responsive profile-img" src="{:getFileUrl($user['URL'],'200x200')}" alt="{$user['Nick']}"></div>
+					<ul class="nav nav-tabs nav-stacked" id="myTab">
+						<li class="active">
+							<a href="#about">关于我</a>
+						</li>
+						<li>
+							<a href="#sell">在售商品</a>
+						</li>
+						<li>
+							<a href="#like">心愿单</a>
+						</li>
+						<li>
+							<a href="#contact">联系方式</a>
+						</li>
+					</ul>
 				</div>
-				<!-- Tab Content -->
+				<!-- col-md-4 -->
+
+				<!-- ===== vCard Content ===== -->
+				<div class="col-md-8">
+					<div class="tab-content like">
+
+						<!-- ===== First Tab ===== -->
+						<div class="tab-pane active" id="about">
+							<h3>{$user['Nick']}</h3>
+							<h5>{$grade['Title']}</h5>
+							<hr>
+
+							<dl class="dl-horizontal">
+								<dt>信誉度</dt>
+								<dd>99%</dd>
+							</dl>
+							<dl class="dl-horizontal">
+								<dt>累计交易(笔)</dt>
+								<dd>32</dd>
+							</dl>
+							<dl class="dl-horizontal">
+								<dt>连续签到(天)</dt>
+								<dd>20</dd>
+							</dl>
+							<dl class="dl-horizontal">
+								<dt>综合排名</dt>
+								<dd>第 200 位</dd>
+							</dl>
+
+						</div>
+						<!-- tab about -->
+
+						<!-- ===== Second Tab ===== -->
+						<div class="tab-pane" id="sell">
+							<div class="row">
+								<!-- col-xs-6 -->
+								<volist name="selllist" id="v" empty="$empty">
+									<div class="col-xs-6 centered">
+										<a href="{:U('/Home/Index/g_show',array('Id'=>
+											$v[Id]))}" target="_blank">
+											<img class="img-responsive" src="{:getFileUrl($v['URL'],'320x160')}" alt="{$v['Nick']}">
+											<h6>{$v['Title']}</h6>
+										</a>
+									</div>
+								</volist>
+							</div>
+							<!-- row -->
+						</div>
+						<!-- Tab Profile -->
+
+						<!-- ===== Third Tab ===== -->
+						<div class="tab-pane" id="like">
+							<div class="row">
+								<!-- col-xs-6 -->
+								<volist name="likelist" id="v" empty="$empty">
+									<div class="col-xs-6 centered">
+										<a href="{:U('/Home/Index/g_show',array('Id'=>
+											$v[Id]))}" target="_blank">
+											<img class="img-responsive" src="{:getFileUrl($v['URL'],'320x160')}" alt="{$v['Nick']}">
+											<h6>{$v['Title']}</h6>
+										</a>
+									</div>
+								</volist>
+								<!-- col-xs-6 -->
+							</div>
+							<!-- row -->
+						</div>
+						<!-- /Tab Portfolio -->
+
+						<!-- ===== Fourth Tab ===== -->
+						<div class="tab-pane" id="contact">
+							<h4>邮箱</h4>
+							<hr>
+							<div class="row">
+								<div class="col-xs-6">
+									<p class="sm">{$user['E-Mail']}</p>
+								</div>
+							</div>
+							<!-- row -->
+
+							<h4>QQ</h4>
+							<hr>
+							<div class="row">
+								<div class="col-xs-6">
+									<p class="sm">{$user['TP_QQ']}</p>
+								</div>
+								<!-- col-xs-6 -->
+							</div>
+							<!-- row -->
+						</div>
+						<!-- Tab Contact -->
+
+					</div>
+					<!-- Tab Content -->
+				</div>
+				<!-- col-md-8 -->
 			</div>
-			<!-- col-md-8 -->
+			<!-- row w -->
 		</div>
-		<!-- row w -->
+		<!-- col-lg-6 -->
 	</div>
-	<!-- col-lg-6 -->
-</div>
-<!-- /.container -->
+	<!-- /.container -->
 </div>
 
 <!-- 关注按钮 -->
 <div class="navbar-fixed-bottom fixed-expand">
-    <if condition="($md eq 0)">
-	    <button class="btn btn-danger btnpublish btnfollow favoritebtn" data-toggle="tooltip" autocomplete="off" data-placement="top" title="关注">
+	<if condition="($md eq 0)">
+		<button class="btn btn-danger btnpublish btnfollow favoritebtn" data-toggle="tooltip" autocomplete="off" data-placement="top" title="关注">
 			<!-- 关注 -->
 			<span class="glyphicon glyphicon-eye-open"></span>
 		</button>
 		<form id="favoriteform" action="{:U('Usercenter/Index/attention')}" style="display:none" method="post" onsubmit="return ajaxsubmitfavorite()">
-		<input type="hidden" name="AttentionId" value="{$user['Id']}"></form>
-    <else />
-    	<button class="btn btn-danger btnpublish btnfollow favoritebtn" data-toggle="tooltip" autocomplete="off" data-placement="top" title="取消关注"> 
-    		<!-- 取消关注 -->
-    		<span class="glyphicon glyphicon-eye-close"></span>
-    	</button>
-    	<form id="favoriteform" action="{:U('Usercenter/Index/delattention')}" style="display:none" method="post" onsubmit="return ajaxsubmitfavorite()">
-		<input type="hidden" name="AttentionId" value="{$user['Id']}"></form>
-    </if>
+			<input type="hidden" name="AttentionId" value="{$user['Id']}"></form>
+		<else />
+		<button class="btn btn-danger btnpublish btnfollow favoritebtn" data-toggle="tooltip" autocomplete="off" data-placement="top" title="取消关注">
+			<!-- 取消关注 -->
+			<span class="glyphicon glyphicon-eye-close"></span>
+		</button>
+		<form id="favoriteform" action="{:U('Usercenter/Index/delattention')}" style="display:none" method="post" onsubmit="return ajaxsubmitfavorite()">
+			<input type="hidden" name="AttentionId" value="{$user['Id']}"></form>
+	</if>
 </div>
 <script src="js/jquery-1.11.0.js"></script>
 <script src="js/bootstrap.min.js"></script>
