@@ -51,6 +51,7 @@ class PayController extends LoginController {
 				$user['E-Money'] += $result['Amount'];
 				$r = $model->save($user);
 				if ($r) {
+					CSYSN(cookie('_uid'),'充值成功',"共充值".$result['Amount']."元，请到个人中心核对");
 					$this->success("充值成功，共充值".$result['Amount']."元，请到个人中心核对", U('/Usercenter/Index/index'));
 				}
 
