@@ -7,4 +7,4 @@
 	<p>[$_Nick_$]</p>
 	<p>[$_Content_$]</p>
 </blockquote>
-<button class="btn btn-primary replaybtn" gid="[$_GId_$]" aid="[$_AId_$]" cid="[$_CId_$]" >回复评论</button>
+<button class="btn btn-primary replaybtn" gid="[$_GId_$]" aid="[$_AId_$]" cid="[$_CId_$]" data-toggle="modal" data-target="#refModal" >回复评论</button>

@@ -92,7 +92,7 @@ class goods_commentModel extends Model {
 		$cdata ['Nick'] = $u ['Nick']; // Nick
 		$cdata ['CId'] = $arr ['Id']; // CId
 		$cdata ['Content'] = $arr ['Content']; // Content
-		$cdata ['AId'] = $arr ['AssesseeId'];
+		$cdata ['AId'] = $u ['Id'] ;
 		$cdata ['GId'] = $arr ['GoodsId'];
 		/* 消息体结束 */
 		$m = new noticeModel ();

@@ -1,37 +1,110 @@
 <extend name="./userlayout"/>
 <block name="content">
-<div class="col-md-9">
-	<div class="panel panel-default profilemain">
-		<div class="panel-body">
-		<volist  name='urnl' id='v' empty='$empty' >
-			<!-- 系统消息 -->
-			<div class="media nt_{$v['Id']}" >
-				<button type="button" nid="{$v['Id']}" class="close noticeclose">&times;</button>
-				<a class="pull-left">
-					{:htmlspecialchars_decode($v['Theme'])}
-				</a>
-				<div class="media-body">
-					<!--消息头-->
-					<h5 class="media-heading text-danger"><small>{$v['CreateTime']|date="y-m-d H:i:s",###}</small>&nbsp;&nbsp;{$v['Title']}</h5>
-					<!--消息内容-->
-					<p class="text-p">{:htmlspecialchars_decode($v['Content'])} </p>
-				</div>
-			</div>
-			<hr class="nt_{$v['Id']}">
-		</volist>			
-		</div>
-		<!--panel-body-->
-		<div class="page pull-right">
-			{$page}
-		</div>
-	</div>
-	<input type="hidden" id="closeurl" value="{:U('Usercenter/Index/delnotice')}">
-	<!--panel panel-default profilemain-->
-</div>
-<!--col-md-9-->
+    <div class="col-md-9">
+        <div class="panel panel-default profilemain">
+            <div class="panel-body">
+                <volist  name='urnl' id='v' empty='$empty' >
+                    <!-- 系统消息 -->
+                    <div class="media nt_{$v['Id']}" >
+                        <button type="button" nid="{$v['Id']}" id="close_{$v['Id']}" class="close noticeclose">&times;</button>
+                        <a class="pull-left">{:htmlspecialchars_decode($v['Theme'])}</a>
+                        <div class="media-body">
+                            <!--消息头-->
+                            <h5 class="media-heading text-danger">
+                                <small>{$v['CreateTime']|date="y-m-d H:i:s",###}</small>
+                                &nbsp;&nbsp;{$v['Title']}
+                            </h5>
+                            <!--消息内容-->
+                            <div class="text-p" nid="{$v['Id']}">{:htmlspecialchars_decode($v['Content'])}</div>
+                        </div>
+                    </div>
+                    <hr class="nt_{$v['Id']}"></volist>
+            </div>
+            <!--panel-body-->
+            <div class="page pull-right">{$page}</div>
+        </div>
+        <input type="hidden" id="closeurl" value="{:U('Usercenter/Index/delnotice')}"></div>
+    <!-- 留言模态框 -->
+    <div class="modal fade" id="refModal" tabindex="-1" role="dialog" aria-labelledby="refModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title hightlight" id="refModalLabel">留言</h4>
+                </div>
+                <form id="refform" class="form-horizontal" action="{:U('Home/Index/addComment')}" method="post" onsubmit="return ajaxsubmit()">
+                    <div class="modal-body">
+                        <input type="hidden" name="GoodsId" id="GoodsId" value="{$goods['Id']}" />
+                        <input type="hidden" name="AssesseeId" id="AssesseeId" value="0" />
+                        <input type="hidden" name="UserId" id="UserId" value="{$usermodel['Id']}" />
+                        <input type="hidden" name="ReplyId" id="ReplyId" value="0">
+                        <input type="hidden"  id="NoticeId" value="0">
+                        <div class="form-group">
+                            <label for="Content" class="col-sm-2 control-label">内容</label>
+                            <div class="col-sm-10">
+                                <textarea id="Content" name="Content" class="form-control" rows="3" placeholder="内容" required></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">关闭</button>
+                        <button id="submitref" type="submit" class="btn btn-primary" data-loading-text="提交中..." autocomplete="off" >提交</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 </block>
 <block name="js">
-	<script>
+    <script>
+    $('.replaybtn').click(function(e){
+        $('#GoodsId').val($(this).attr('gid'));
+        $('#AssesseeId').val($(this).attr('aid'));
+        $('#ReplyId').val($(this).attr('cid'));
+        $('#NoticeId').val($(this).parent().attr('nid'));
+
+    });
+function ajaxsubmit() {
+    var $btn = $('#submitref').button('loading');
+    if (!$.trim($('#Content').val())) {
+        showerrormsg('内容不能为空', 100, 1000);
+        $('#Content').focus();
+        $btn.button('reset');
+        return false;
+    }
+    $.ajax({
+        type: 'post',
+        cache: false,
+        url: $('#refform').attr('action'),
+        data: $('#refform').serialize(),
+        error:  
+        function(request)  {
+            showerrormsg('网络错误', 100, 1000);
+            $btn.button('reset');   
+            return false;             
+        },
+                        success:  
+        function(data)  {
+            if (data.status == 0) {
+                showerrormsg(data.info, 100, 1000);
+                $btn.button('reset');
+                return false;
+            } else {
+                $('#refModal').modal('hide');
+                showsuccessmsg("回复成功", 100, 1000);
+                $('#refform')[0].reset() 
+                $btn.button('reset');
+
+                setTimeout(function(){$('#close_'+$('#NoticeId').val()).click();},200);
+                return false;
+            }                
+        }
+    });
+    return false;
+}
 $('.noticeclose').click(function(e) {
     var _id = $(this).attr('nid');
     $.ajax({
@@ -63,5 +136,5 @@ $('.noticeclose').click(function(e) {
     });
     return false;
 });
-	</script>
+    </script>
 </block>

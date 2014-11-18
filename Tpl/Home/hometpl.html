@@ -3,6 +3,7 @@
 <!-- 内容 -->
 <div id="main" class="container">
 	<!-- 发布按钮 -->
+	{:strtotime ( date ( 'Y-m-d', strtotime ( '-1 day' ) ) )}
 	<div class="navbar-fixed-bottom fixed-expand">
 		<button id="creategoods" url="{:U('Home/Goods/add')}" type="button" class="btn btn-orange btnpublish" data-toggle="tooltip" data-placement="top" title="发布商品">
 			<span class="glyphicon glyphicon-plus"></span>
