@@ -22,3 +22,17 @@
 		</div>
 	</div>
 </block>
+<block name="js">
+<script type="text/javascript">
+	$(document).ready(function() {
+
+	 $(document).keypress(function(e){ 
+            if(e.ctrlKey && e.which == 13 || e.which == 10) { 
+                    ajaxsubmit(); 
+            } else if (e.shiftKey && e.which==13 || e.which == 10) { 
+                    ajaxsubmit(); 
+            } 
+     });
+	});
+</script>
+</block>
