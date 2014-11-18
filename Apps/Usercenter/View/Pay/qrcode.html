@@ -42,10 +42,9 @@
 
 				<p>备注:</p>
 				<p>
-					1. 转账成功但提示充值失败，请与管理员联系 Email:
+					1. 转账成功并提交订单号后若未即时到账，请与管理员联系 Email:
 					<a href="mailto:feedback@bigoranger.com" class="text-orange">feedback@bigoranger.com</a>
 				</p>
-				<p>2. 充值后获得的金橘可用于购买服务、交易商品，目前暂不提供<strong>折现服务</strong></p>
 			</div>
 		</div>
 	</div>
@@ -111,10 +110,6 @@
 			                350);
               			}else{
             				showerrormsg(data.info, 100, 1000);
-            				setTimeout(function() {
-            					location.href=location.href;
-			                },
-			                1500);
               			}
        			},
        			error:function () {
