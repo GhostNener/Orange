@@ -34,14 +34,26 @@ class PayController extends LoginController {
 	public function tradeno(){
 		$model = M('alipay');
 		$tradeno = I('tradeno');
-		$result = $model -> where('Enabled=0 AND TradeNo like %' . $tradeno)->select();
+		$result = $model -> where(array(
+			'Enabled' => 0,
+			'TradeTailNo' => $tradeno
+			))->find();
 		
 		if($result){
 
 			$result['Enabled'] = 1;
-			$result = $model->save($result);
-			if($result){
-				$this->success("充值成功，共充值50元，请到个人中心核对", U('/Usercenter/Index/index'));
+			$r = $model->save($result);
+			if($r){
+
+				//给用户充值
+				$model = M('user');
+				$user = $model->where(array('Id'=>cookie('_uid')))->find();
+				$user['E-Money'] += $result['Amount'];
+				$r = $model->save($user);
+				if ($r) {
+					$this->success("充值成功，共充值".$result['Amount']."元，请到个人中心核对", U('/Usercenter/Index/index'));
+				}
+
 			}
 
 		}

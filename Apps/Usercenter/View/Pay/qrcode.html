@@ -34,7 +34,7 @@
 
 						<div class="form-group">
 							<div class="col-md-offset-4 col-md-4 text-center">
-								<button type="submit" class="btn btn-success btn-lg hightlight">确定</button>
+								<button type="submit" class="btn btn-success btn-lg hightlight" id="btnsubmit" data-loading-text="请稍后..." autocomplete="off">确定</button>
 							</div>
 						</div>
 					</form>
@@ -97,23 +97,29 @@
 			}
 
 			var form = $('form[ajaxsubmit]');
+			var btn = $('#btnsubmit');
 			$.ajax({
 				type: form.attr('method'),
 				url: form.attr('action'),
        			data: form.serialize(),
+       			beforeSend:function () {
+              			 btn.button('loading');
+              		},
        			success:function (data) {
               			if (data.status) {
             				showsuccessmsg(data.info, 100, 1000);
             				setTimeout(function() {
-            					location.href = '{:U("/Usercenter/Index/msg")}';
+            					location.href = '{:U("/Usercenter/Index/index")}';
 			                },
 			                350);
               			}else{
             				showerrormsg(data.info, 100, 1000);
+            				location.href=location.href;
               			}
        			},
        			error:function () {
             		showerrormsg('网络错误', 100, 1000);
+            		location.href=location.href;
        			}
 			})
 

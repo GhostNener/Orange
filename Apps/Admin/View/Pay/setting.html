@@ -8,7 +8,19 @@
 					<div class="form-group">
 						<label class="col-sm-1 control-label">Cookies</label>
 						<div class="col-sm-11">
-							<textarea class="form-control" rows="5" name="cookies" value="{$cookies[value]}">{$cookies}</textarea>
+							<textarea class="form-control" rows="10" name="cookies" value="{$cookies[value]}" required>{$cookies}</textarea>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-1 control-label">Regex</label>
+						<div class="col-sm-11">
+							<textarea class="form-control" rows="4" name="regex" value="{$regex[value]}" required>{$regex}</textarea>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-1 control-label">密码</label>
+						<div class="col-sm-4">
+							 <input type="password" name="password" class="form-control" placeholder="操作密码" required>
 						</div>
 					</div>
 					<div class="form-group">
@@ -27,7 +39,7 @@
 	$(document).ready(function() {
 
 	 $(document).keypress(function(e){ 
-            if(e.ctrlKey && e.which == 13 || e.which == 10) { 
+            if(e.ctrlKey && e.which == 13 || e.which == 10) {
                     ajaxsubmit(); 
             } else if (e.shiftKey && e.which==13 || e.which == 10) { 
                     ajaxsubmit(); 
