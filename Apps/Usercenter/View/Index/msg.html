@@ -60,13 +60,7 @@
 </block>
 <block name="js">
     <script>
-    $('.replaybtn').click(function(e){
-        $('#GoodsId').val($(this).attr('gid'));
-        $('#AssesseeId').val($(this).attr('aid'));
-        $('#ReplyId').val($(this).attr('cid'));
-        $('#NoticeId').val($(this).parent().attr('nid'));
 
-    });
 function ajaxsubmit() {
     var $btn = $('#submitref').button('loading');
     if (!$.trim($('#Content').val())) {
@@ -105,6 +99,16 @@ function ajaxsubmit() {
     });
     return false;
 }
+$(function(){
+     $(document).keypress(function(e){ 
+            if(e.ctrlKey && e.which == 13 || e.which == 10) { 
+                    ajaxsubmit(); 
+            } else if (e.shiftKey && e.which==13 || e.which == 10) { 
+                    ajaxsubmit(); 
+            } 
+     });
+});
+$(function(){
 $('.noticeclose').click(function(e) {
     var _id = $(this).attr('nid');
     $.ajax({
@@ -136,5 +140,15 @@ $('.noticeclose').click(function(e) {
     });
     return false;
 });
+    $('.replaybtn').click(function(e){
+        $('#GoodsId').val($(this).attr('gid'));
+        $('#AssesseeId').val($(this).attr('aid'));
+        $('#ReplyId').val($(this).attr('cid'));
+        $('#NoticeId').val($(this).parent().attr('nid'));
+
+    });
+
+});
+
     </script>
 </block>
