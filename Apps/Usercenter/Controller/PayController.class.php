@@ -33,14 +33,14 @@ class PayController extends LoginController {
 	public function tradeno(){
 		$model = M('alipay');
 		$tradeno = I('tradeno');
-		$result = $model -> where('Enabled=0 AND TradeNo like %' . $tradeno);
+		$result = $model -> where('Enabled=0 AND TradeNo like %' . $tradeno)->select();
 		if($result){
 
 			//TODO
 			$this->success("充值成功，共充值50元，请到个人中心核对", U('/Usercenter/Index/index'));
 
 		}else{
-			$this->error('操作失败');
+			$this->error('充值失败，请确认订单号是否填写正确');
 		}
 	}
 }
