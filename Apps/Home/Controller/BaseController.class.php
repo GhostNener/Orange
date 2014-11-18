@@ -71,7 +71,10 @@ class BaseController extends Controller {
 						'egt',
 						strtotime ( date ( 'Y-m-d', strtotime ( '-1 day' ) ) ) 
 				) 
-		) )->order ( 'ClockinCount desc' )->limit ( 5 )->field ( 'Id,Nick,URL,ClockinCount' )->select ();
+		) )->order ( array (
+				'ClockinCount' => 'DESC',
+				'LastClockinTime' => 'ASC' 
+		) )->limit ( 5 )->field ( 'Id,Nick,URL,ClockinCount' )->select ();
 		$gradelist = $model->where ( 'Status = 10' )->order ( 'EXP desc' )->limit ( 5 )->field ( 'Id,Nick,URL,EXP' )->select ();
 		
 		$gradeModel = new user_gradeModel ();
