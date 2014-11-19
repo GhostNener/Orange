@@ -16,13 +16,13 @@
 			<div class="panel panel-default">
 				<div class="panel-body">
 					<if condition="$usermodel eq null">
-						<a href="{:U('Usercenter/User/index')}" class="btn btn-orange btn-lg btn-block">打卡签到</a>
+						<a href="{:U('Usercenter/User/index')}" class="btn btn-orange btn-lg btn-block hightlight">打卡签到</a>
 						<else/>
 						<if condition="$isclockin eq 1">
-							<button  class="btn btn-orange btn-lg btn-block disabled">已连续打卡 {:getclockincount(null)} 天</button>
+							<button  class="btn btn-orange btn-lg btn-block hightlight disabled">已连续打卡 {:getclockincount(null)} 天</button>
 							<else/>
 							<form id="clockinform" action="{:U('Home/Index/clockin')}" method="post" onsubmit="return ajaxclockin()">
-								<button id="clockinbtn"  type="submit" class="btn btn-orange btn-lg btn-block" data-loading-text="签到中..." autocomplete="off">打卡签到</button>
+								<button id="clockinbtn"  type="submit" class="btn btn-orange btn-lg btn-block hightlight" data-loading-text="签到中..." autocomplete="off">打卡签到</button>
 							</form>
 						</if>
 					</if>
