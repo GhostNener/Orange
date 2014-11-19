@@ -4,7 +4,7 @@
 		<div class="panel panel-default">
 			<div class="panel-body">
 				<h1 class="hightlight">支付宝钱包转账-充值流程</h1>
-				<h5>1. 扫描二维码</h5>
+				<h5>1. 扫描二维码，确认收款账号为<strong>李清伟 lee***@qq.com</strong></h5>
 				<p class="text-center">
 					<img src="__PUBLIC__/Img/alipay_qr.jpg" alt="支付宝转账二维码"></p>
 				<p class="text-center">
@@ -42,7 +42,7 @@
 
 				<p>备注:</p>
 				<p>
-					1. 转账成功并提交订单号后若未即时到账，请与管理员联系 Email:
+					1. 转账成功但没能成功转账请与管理员联系 Email:
 					<a href="mailto:feedback@bigoranger.com" class="text-orange">feedback@bigoranger.com</a>
 				</p>
 			</div>
@@ -114,7 +114,10 @@
 			                350);
               			}else{
             				showerrormsg(data.info, 100, 1000);
-            				location.href=location.href;
+            				setTimeout(function() {
+            					location.href=location.href;
+			                },
+			                500);
               			}
        			},
        			error:function () {
