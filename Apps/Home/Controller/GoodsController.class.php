@@ -21,7 +21,7 @@ class GoodsController extends LoginController {
 	public function _initialize() {
 		parent::_initialize ();
 		if (! isactivated ()) {
-			redirect ( U ( 'Usercenter/Index/activated' ) );
+			redirect ( U ( '/u/act' ) );
 			die ();
 		}
 	}

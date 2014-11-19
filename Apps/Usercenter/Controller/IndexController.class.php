@@ -35,7 +35,7 @@ class IndexController extends LoginController {
 				'Status' => 101 
 		) )->find ();
 		if (! $u || ! checkmail ( $u ['E-Mail'] )) {
-			redirect ( U ( 'Home/Index/index' ) );
+			redirect ( U ( '/' ) );
 		} else {
 			$ex = substr ( strrchr ( $u ['E-Mail'], '@' ), 1 );
 			$mailurl = 'http://mail.' . $ex;
@@ -50,7 +50,7 @@ class IndexController extends LoginController {
 	 */
 	public function sendactivatemail() {
 		if (! IS_POST) {
-			$this->error ( '页面不存在', U ( 'Home/Index/index' ) );
+			$this->error ( '页面不存在', U ( '/' ) );
 		}
 		$u = new userModel ();
 		$r = $u->sendactive ( cookie ( '_uid' ) );
@@ -205,7 +205,7 @@ class IndexController extends LoginController {
 		$userModel = new userModel ();
 		$bool = $userModel->checkuserid ( I ( 'AttentionId' ) );
 		if (! $bool) {
-			$this->redirect ( 'home/Index/index', array (), 0, '页面跳转中...' );
+			$this->redirect ( '/', array (), 0, '页面跳转中...' );
 		}
 		/* 拼接查询条件 */
 		$whereall = array (

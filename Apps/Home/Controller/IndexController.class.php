@@ -119,7 +119,7 @@ class IndexController extends BaseController {
 		$model = new view_goods_listModel ();
 		$arr = $model->getgoodsdetails ( $Id );
 		if (! $arr || ! $arr ['goods']) {
-			$this->error ( '商品不存在或已下架' ,U('Home/Index/index'));
+			$this->error ( '商品不存在或已下架' ,U('/'));
 			die ();
 		}
 		$gid = cookie ( '_viewgid' );

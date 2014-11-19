@@ -17,7 +17,7 @@ class OrderController extends LoginController {
 	public function _initialize() {
 		parent::_initialize ();
 		if (! isactivated ()) {
-			redirect ( U ( 'Usercenter/Index/activated' ) );
+			redirect ( U ( '/u/act' ) );
 			die ();
 		}
 	}
@@ -27,7 +27,7 @@ class OrderController extends LoginController {
 	public function index() {
 		$Id = I ( 'Id' );
 		if (! IS_POST || ! $Id) {
-			$this->error ( '页面不存在', U ( 'Home/Index/index' ) );
+			$this->error ( '页面不存在', U ( '/' ) );
 			die ();
 		}
 		$m = new goodsModel ();
@@ -65,12 +65,12 @@ class OrderController extends LoginController {
 	 */
 	public function createorder() {
 		if (! IS_POST) {
-			$this->error ( '页面不存在', U ( 'Home/Index/index' ) );
+			$this->error ( '页面不存在', U ( '/' ) );
 			die ();
 		}
 		$okey = cookie ( '_okey' );
 		if (! $okey || ! session ( $okey ) || ! (session ( $okey ) == C ( 'GOODS_ORDER_SESSION_VALUE' ))) {
-			$this->error ( '订单已过期', U ( 'Home/Index/index' ) );
+			$this->error ( '订单已过期', U ( '/' ) );
 			die ();
 		} else {
 			session ( $okey, null );
@@ -80,7 +80,7 @@ class OrderController extends LoginController {
 		$m = new goods_orderModel ();
 		$rst = $m->createone ( $arr );	
 		if ((int)$rst ['status'] == 0) {
-			$this->error ( $rst ['msg'], U ( 'Home/Index/index' ) );
+			$this->error ( $rst ['msg'], U ( '/' ) );
 			die ();
 		} else {
 			$this->assign ( 'omodel', $rst );

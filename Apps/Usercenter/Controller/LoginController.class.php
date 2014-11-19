@@ -27,7 +27,7 @@ class LoginController extends BaseController {
 		$model = new userModel ();
 		$rst = $model->islogin ( null, false, false );
 		if (! $rst) {
-			redirect ( U ( 'Usercenter/User/u_login', array (
+			redirect ( U ( '/u/login', array (
 					'isadmin' => false 
 			) ) );
 		}

@@ -50,7 +50,7 @@ class UserController extends BaseController {
 				$this->success ( '登录成功', U ( 'Admin/Index/index' ), 1 );
 				
 			} else {
-				$this->success ( '登录成功', U ( 'Home/Index/index' ), 1 );
+				$this->success ( '登录成功', U ( '/' ), 1 );
 			}
 		} else {
 			if ($isadmin) {
@@ -79,7 +79,7 @@ class UserController extends BaseController {
 			cookie ( 'admin_key', null );
 			cookie ( 'admin_uid', null );
 		}
-		redirect ( U ( 'Home/Index/index' ) );
+		redirect ( U ( '/' ) );
 	}
 	
 	/**
@@ -152,18 +152,18 @@ class UserController extends BaseController {
 	 */
 	public function active() {
 		if (! IS_GET) {
-			$this->error ( '页面不存在', U ( 'Home/Index/index' ) );
+			$this->error ( '页面不存在', U ( '/' ) );
 		}
 		$arr = I ( 'get.' );
 		if (! $arr) {
-			$this->error ( '页面不存在', U ( 'Home/Index/index' ) );
+			$this->error ( '页面不存在', U ( '/' ) );
 		}
 		$model = new userModel ();
 		$rst = $model->active ( $arr );
 		if ($rst ['status'] == 1) {
-			$this->success ( '激活成功', U ( 'Home/Index/index' ) );
+			$this->success ( '激活成功', U ( '/' ) );
 		} else {
-			$this->error ( '页面不存在', U ( 'Home/Index/index' ) );
+			$this->error ( '链接已失效', U ( '/' ) );
 		}
 	}
 	/**
@@ -191,7 +191,7 @@ class UserController extends BaseController {
 		$user = new userModel();
 		$bool = $user->checkuserid($userid);
 		if (! $bool) {
-			$this->redirect('home/Index/index');
+			$this->redirect('/');
 		}
 		
 		$limit = 100;
