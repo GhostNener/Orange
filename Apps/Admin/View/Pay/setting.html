@@ -6,6 +6,12 @@
 			<div class="panel-body">
 				<form class="form-horizontal" role="form" action="{:U('save')}" onsubmit="return ajaxsubmit()" method="post">
 					<div class="form-group">
+						<label class="col-sm-1 control-label">状态</label>
+						<div class="col-sm-10">
+							<p class="form-control-static hightlight">{$enabled==1?运行中:出错}</p>
+						</div>
+					</div>
+					<div class="form-group">
 						<label class="col-sm-1 control-label">Cookies</label>
 						<div class="col-sm-11">
 							<textarea class="form-control" rows="4" name="cookies" placeholder="安全起见设置后不予显示">{$cookies}</textarea>
@@ -20,8 +26,7 @@
 					<div class="form-group">
 						<label class="col-sm-1 control-label">密码</label>
 						<div class="col-sm-4">
-							 <input type="password" name="password" class="form-control" placeholder="操作密码" required>
-						</div>
+							<input type="password" name="password" class="form-control" placeholder="操作密码" required></div>
 					</div>
 					<div class="form-group">
 						<div class="col-sm-offset-1 col-sm-11">
@@ -35,7 +40,7 @@
 	</div>
 </block>
 <block name="js">
-<script type="text/javascript">
+	<script type="text/javascript">
 	$(document).ready(function() {
 
 	 $(document).keypress(function(e){ 
