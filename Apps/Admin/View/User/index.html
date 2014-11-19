@@ -28,7 +28,7 @@
 								<td>{$v.E-Mail}</td>
 								<td>
 									<?php echo date("Y-m-d H:i:s ", $v[LastLoginTime]); ?></td>
-								<td>{$v[Status]}</td>
+								<td>{$v[Status]==10?启用:($v[Status]==101?未激活:$v[Status])}</td>
 
 							</tr>
 						</foreach>
