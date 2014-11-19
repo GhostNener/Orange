@@ -59,9 +59,9 @@ class PayController extends BaseController {
 		if(!$result){
 			$this->error('密码错误，请滚粗');
 		}
-
+		
+		$cookies = I('post.cookies');
 		if ($cookies) {
-			$cookies = I('post.cookies');
 			$cookies=base64_encode($cookies);
 			$data1['value'] = $cookies;
 			$r1 = $model->where('`key` = "cookies"')->save($data1);
