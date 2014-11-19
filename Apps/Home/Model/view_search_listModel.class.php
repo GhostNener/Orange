@@ -20,11 +20,11 @@ class view_search_listModel extends Model {
 	 *        
 	 */
 	private function getlist($key, $limit = 6) {
-		$allcount = $this->query ( "SELECT COUNT(*) AS COUNT FROM view_search_list WHERE MATCH(SearchTitle) AGAINST('" . $key . "' IN BOOLEAN MODE);" );
+		$allcount = $this->query ( "SELECT COUNT(*) AS COUNT FROM view_search_list WHERE `Status`=10 AND MATCH(SearchTitle) AGAINST('" . $key . "' IN BOOLEAN MODE);" );
 		$allcount = $allcount [0] ['COUNT'];
 		$Page = new \Think\Page ( $allcount, $limit );
 		$showPage = $Page->show ();
-		$q = "SELECT * FROM view_search_list WHERE MATCH(SearchTitle) AGAINST('" . $key . "' IN BOOLEAN MODE) ORDER BY CreateTime DESC";
+		$q = "SELECT * FROM view_search_list WHERE `Status`=10 AND MATCH(SearchTitle) AGAINST('" . $key . "' IN BOOLEAN MODE) ORDER BY CreateTime DESC";
 		$qp = $q . " LIMIT " . $Page->firstRow . "," . $Page->listRows;
 		$list = $this->query ( $qp );
 		return array (

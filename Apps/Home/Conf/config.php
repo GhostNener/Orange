@@ -1,7 +1,14 @@
 <?php
-return array(
-	//'配置项'=>'配置值'
-//	//让页面显示追踪日志信息
-//    	'SHOW_PAGE_TRACE'   => true,
-) 
-;
+return array (
+		'URL_ROUTE_RULES' => array (
+				'add' => 'Home/Goods/add', // 发布
+				'g/:id' => 'Home/Index/g_show?Id=:1', // 商品详情
+				'gift' => 'Home/Gift/index', // 礼物
+				'find' => 'Home/Activity/index', // 发现
+				's' => 'Home/Index/searchgoods?wd=:1', // 搜索
+				'c/:id' => 'Home/Index/cggoods?Id=:1', // 分类
+				'f/:id' => 'Home/Activity/detail?id=:1', // 发现
+				'o' => 'Home/Order/index'  // 订单
+		     )
+		 
+);

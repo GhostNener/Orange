@@ -73,14 +73,14 @@ class IndexController extends BaseController {
 	 *        
 	 */
 	public function searchgoods() {
-		$test = I ( 'wd' );
-		if (! $test) {
+		$title = I ( 'wd' );
+		if (! $title) {
 			redirect ( U ( 'Home/Index/index' ) );
 		}
 		$model = new view_search_listModel ();
-		$arr = $model->getsearchlist ( $test, 12 );
+		$arr = $model->getsearchlist ( $title, 12 );
 		/* 获得分类 */
-		$this->assign ( 'test', $test );
+		$this->assign ( 'test', $title );
 		$this->assign ( 'goodlist', $arr ['list'] );
 		$this->assign ( 'page', $arr ['page'] );
 		$this->assign ( 'empty', '<h3 class="text-center text-import">没有符合的商品</h3>' );

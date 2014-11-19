@@ -4,7 +4,7 @@
 <div id="main" class="container">
 	<!-- 发布按钮 -->
 	<div class="navbar-fixed-bottom fixed-expand">
-		<button id="creategoods" url="{:U('Home/Goods/add')}" type="button" class="btn btn-orange btnpublish" data-toggle="tooltip" data-placement="top" title="发布商品">
+		<button id="creategoods" url="{:U('/add')}" type="button" class="btn btn-orange btnpublish" data-toggle="tooltip" data-placement="top" title="发布商品">
 			<span class="glyphicon glyphicon-plus"></span>
 		</button>
 	</div>
@@ -32,8 +32,7 @@
 						<hr>
 						<ul class="list-group">
 							<foreach name="clist" item="v">
-								<a href="{:U('Home/Index/cggoods',array('Id'=>
-									$v['Id']))}" class="list-group-item">
+								<a href="{:U('/c/'.$v['Id'])}" class="list-group-item">
 									<span class="badge">{$v['Hot']}</span>
 									{$v['Title']}
 								</a>
@@ -47,13 +46,12 @@
 						<volist name="hotactivity" id="v" empty="$emptyact">
 							<hr>
 							<div class="media">
-								<a class="pull-left" href="{$v[Href]?$v[Href]:U('Home/Activity/detail',array('id'=>
-									$v[Id]))}" target="_blank">
+								<a class="pull-left" href="{$v[Href]?$v[Href]:U('/',array('f'=>$v['Id']))}" target="_blank">
 									<img class="media-object" src="{:getFileUrl($v['ThumURL'],'80x80')}" alt="{$v['Title']}"></a>
 								<div class="media-body">
 									<h5 class="media-heading">{$v['Title']}</h5>
 									<p>{$v['Presentation']}</p>
-									<a class="btn btn-success" href="{$v[Href]?$v[Href]:U('Home/Activity/detail',array('id'=>$v[Id]))}" target="_blank">参与活动</a>
+									<a class="btn btn-success" href="{$v[Href]?$v[Href]:U('/',array('f'=>$v['Id']))}" target="_blank">参与活动</a>
 
 								</div>
 							</div>

@@ -15,8 +15,14 @@ return array (
 				'Home',
 				'Api',
 				'Admin',
-				'Usercenter' 
+				'Usercenter' ,
+				'u',
+				'user'
 		),
+		'URL_MODULE_MAP'    =>    array('u'=>'Usercenter','user'=>'Usercenter'),
+
+
+		'URL_ROUTER_ON'   => true,
 		/* 多级过滤  */
     	'DEFAULT_FILTER' => 'strip_tags,htmlspecialchars',
 		'SESSION_AUTO_START' => true,
