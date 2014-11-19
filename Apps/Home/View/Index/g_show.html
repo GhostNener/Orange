@@ -6,7 +6,7 @@
 		<div id="main" class="container">
 			<!-- 购买按钮 -->	
 			<div class="navbar-fixed-bottom fixed-expand">
-				<form action="{:U('Home/Order/index')}" method="post" role="form">
+				<form action="{:U('/o')}" method="post" role="form">
 					<input type="hidden" name="Id" value="{$goods['Id']}">	
 					<button  type="submit" class="btn btn-orange btnpublish" data-toggle="tooltip" data-placement="top" data-container="body" title="立即购买">
 						<span class="glyphicon glyphicon-shopping-cart"></span>
@@ -29,7 +29,7 @@
 						</div>
 						<hr/>	
 						<if condition="(($usermodel eq null) or ($usermodel['Id'] eq  null))">
-							<a href="{:U('Usercenter/User/index')}" class="btn btn-danger">
+							<a href="{:U('/u/login')}" class="btn btn-danger">
 								<span class="glyphicon glyphicon-heart"></span>
 								&nbsp心愿单
 							</a>
@@ -40,7 +40,7 @@
 							</button>
 						</if>
 						<if condition="(($usermodel eq null) or ($usermodel['Id'] eq  null))">
-							<a href="{:U('Usercenter/User/index')}"  class="btn btn-primary " >
+							<a href="{:U('/u/login')}"  class="btn btn-primary " >
 								<span class="glyphicon glyphicon-comment"></span>
 								&nbsp留言
 							</a>
@@ -109,7 +109,7 @@
 						<div class="row">
 							<div class="col-md-12">
 								<h4 class="pull-right message">{:date('Y-m-d H:i:s',$goods['CreateTime'])}</h4>
-									<a href="{:U('Usercenter/User/u_show',array('Id' => $goods['UserId']))}">
+									<a href="{:U('/user/'.$goods['UserId'])}">
 									<img class="img-circle" src="{:getFileUrl($goods['avatarURL'],'40x40')}" alt="头像">	
 
 									<span>{$goods['Nick']}</span>
@@ -138,16 +138,16 @@
 											<div class="timeline-label">
 												<span class="pull-right time">{:date('Y-m-d H:i:s',$v['CreateTime'])}</span>
 												<h2>
-													<a href="#">{$v['Critics']}</a>
+													<a href="{:U('/user/'.$v['UserId'])}">{$v['Critics']}</a>
 													<if condition="(($v['UserId'] eq $v['AssesseeId']) or ($v['AssesseeId'] eq null)) or ($v['AssesseeId'] eq 0)">
 														<else/>	
 														<span>回复</span>
-														<a href="#">{$v['Reply']}</a>
+														<a href="{:U('/user/'.$v['AssesseeId'])}">{$v['Reply']}</a>
 													</if>
 												</h2>
 												<p class="content">{$v['Content']}</p>
 												<if condition="(($usermodel eq null) or ($usermodel['Id'] eq  null))">
-													<a href="{:U('Usercenter/User/index')}"  class="replay " >回复</a>
+													<a href="{:U('/u/login')}"  class="replay " >回复</a>
 													<else/>	
 													<a href="javascript:void(0)" uid="{$v['UserId']}" nick="{$v['Critics']}" class="replay" data-toggle="modal" data-target="#refModal" replyid="{$v['Id']}">回复</a>
 												</if>
@@ -209,7 +209,7 @@
 						</div>
 						<hr/>	
 						<if condition="(($usermodel eq null) or ($usermodel['Id'] eq  null))">
-							<a href="{:U('Usercenter/User/index')}" class="btn btn-danger">
+							<a href="{:U('/u/login')}" class="btn btn-danger">
 								<span class="glyphicon glyphicon-heart"></span>
 								&nbsp心愿单
 							</a>
@@ -220,7 +220,7 @@
 							</button>
 						</if>
 						<if condition="(($usermodel eq null) or ($usermodel['Id'] eq  null))">
-							<a href="{:U('Usercenter/User/index')}" class="btn btn-primary " >
+							<a href="{:U('/u/login')}" class="btn btn-primary " >
 								<span class="glyphicon glyphicon-comment"></span>
 								&nbsp留言
 							</a>
@@ -235,7 +235,7 @@
 			</div>
 		</div>
 		<!-- 心愿单 -->	
-		<form  id="favoriteform" action="{:U('Usercenter/Index/addlike')}" style="display:none" method="post" onsubmit="return ajaxsubmitfavorite()">
+		<form  id="favoriteform" action="{:U('u/Index/addlike')}" style="display:none" method="post" onsubmit="return ajaxsubmitfavorite()">
 			<input type="hidden" name="GoodsId" value="{$goods['Id']}"></form>
 	</block>
 	<block name="js">

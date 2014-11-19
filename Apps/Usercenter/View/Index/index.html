@@ -32,7 +32,7 @@
 							<dt>金橘</dt>
 							<dd>
 								{$user['E-Money']}&nbsp
-								<a class="btn btn-success btn-small" href="{:U('/Usercenter/Pay')}">充值</a>
+								<a class="btn btn-success btn-small" href="{:U('/u/pay')}">充值</a>
 							</dd>
 						</dl>
 						<dl class="dl-horizontal">
@@ -76,7 +76,7 @@
 					</button>
 					<h4 class="modal-title" id="myModalLabel">上传头像</h4>
 				</div>
-				<form id="avatarform" class="form-horizontal" action="{:U('Usercenter/Index/upload')}" method="post" enctype="multipart/form-data"  >
+				<form id="avatarform" class="form-horizontal" action="{:U('u/Index/upload')}" method="post" enctype="multipart/form-data"  >
 					<div class="modal-body">
 						<input type="hidden" name="modif" value="add">
 						<div class="form-group">

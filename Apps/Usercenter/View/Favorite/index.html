@@ -15,9 +15,9 @@
 	<foreach name='favorite' item='v' key="k">
 	<tr>
 		<td>{$k}</td>
-		<td><a href="{:U('Home/GoodsList/showgoods',array('Id'=>$v['GoodsId']))}">{$v.GoodsTitle}</a></td>
+		<td><a href="{:U('/g/'.$v['GoodsId'])}">{$v.GoodsTitle}</a></td>
 		<td>{:date('Y-m-d H:i',$v['Createtime'])}</td>
-		<td><a href="{:U('Usercenter/Favorit/del',array('Id'=>$v['Id']))}">删除</a></td>
+		<td><a href="{:U('u/Favorit/del',array('Id'=>$v['Id']))}">删除</a></td>
 	</tr>
 	</foreach>
 </table>

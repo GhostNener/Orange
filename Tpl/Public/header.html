@@ -109,7 +109,7 @@
 								</a>
 								<ul class="dropdown-menu">
 									<li>
-										<a href="{:U('Usercenter/Index/msg')}">
+										<a href="{:U('/u/msg')}">
 											<if condition="$urnotice gt 0">
 												<span class="badge pull-right">{$urnotice }</span>
 											</if>
@@ -120,7 +120,7 @@
 										<a href="{:U('/u')}">个人中心</a>
 									</li>
 									<li>
-										<a href="#">心愿单</a>
+										<a href="{:U('/u/like')}">心愿单</a>
 									</li>
 									<li>
 										<a href="{:U('/u/pay')}">充值</a>

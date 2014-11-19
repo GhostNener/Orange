@@ -46,7 +46,7 @@
 							<div class="tab-pane fade in active" id="step1">
 								<input type="hidden" id="GoodsId" name="GoodsId" value="0">
 								<input type="hidden" class="form-control " id="imgcount" name="imgcount" value="0" Readonly>
-								<input type="hidden" class="form-control " id="url"	publicurl="__PUBLIC__" appurl="__URL__" rooturl="__ROOT__" gid="0" saveurl="{:U('Home/Goods/save')}" urlindex="{:U('Home/Goods/index')}" homeurl="{:U('Home/Index/index')}" alowcount="0" computeurl="{:U('Home/Goods/computecost')}" Readonly>
+								<input type="hidden" class="form-control " id="url"	publicurl="__PUBLIC__" appurl="__URL__" rooturl="__ROOT__" gid="0" saveurl="{:U('Home/Goods/save')}" urlindex="{:U('/')}" homeurl="{:U('/')}" alowcount="0" computeurl="{:U('Home/Goods/computecost')}" Readonly>
 								<input type="hidden" class="form-control " id="keyid" name="keyid" value="0" Readonly>
 								<div class="form-group">
 									<label for="Title" class="col-sm-3 control-label">标题</label>
@@ -235,7 +235,7 @@
 									</button>
 									<h4 class="modal-title hightlight" id="addressModalLabel">添加地址</h4>
 								</div>
-								<form id="addressform" class="form-horizontal" action="{:U('Usercenter/Address/saveaddress')}" method="post" onsubmit="return ajaxaddresssubmit()">
+								<form id="addressform" class="form-horizontal" action="{:U('u/Address/saveaddress')}" method="post" onsubmit="return ajaxaddresssubmit()">
 									<div class="modal-body">
 										<input type="hidden" name="modif" value="add">
 										<div class="form-group">

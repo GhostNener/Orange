@@ -4,14 +4,14 @@
 		<div class="col-md-6 col-md-offset-3">
 			<div class="panel panel-default login-panel">
 				<div class="panel-body">
-					<form id="loginform" class="form-horizontal" role="form" method="post" action="{:U('Usercenter/User/login')}" onsubmit="return ajaxsubmit()">
+					<form id="loginform" class="form-horizontal" role="form" method="post" action="{:U('u/User/login')}" onsubmit="return ajaxsubmit()">
 						<div class="modal-body">
 							<div class="form-group">
 								<input type="hidden" id="isadmin" name="isadmin" value="{$admin}">
 								<if condition="($admin eq null) or ($admin eq false)">
-									<input type="hidden" id="url" value="0" getcode="{:U('Public/verifycode')}"  login="{:U('Usercenter/User/login')}" home="{:U ( 'Usercenter/Index/activated' )}" >
+									<input type="hidden" id="url" value="0" getcode="{:U('Public/verifycode')}"  login="{:U('u/User/login')}" home="{:U ( 'u/Index/activated' )}" >
 									<else/>
-									<input type="hidden" id="url" value="0" getcode="{:U('Public/verifycode')}"  login="{:U('Usercenter/User/login')}" home="{:U('Admin/Index/index')}" ></if>
+									<input type="hidden" id="url" value="0" getcode="{:U('Public/verifycode')}"  login="{:U('u/User/login')}" home="{:U('Admin/Index/index')}" ></if>
 								<label for="UserName" class="col-sm-2 control-label">用户名</label>
 								<div class="col-sm-10">
 									<input type="text" name="UserName" id="UserName" class="form-control" placeholder="邮箱/手机号" required></div>
@@ -28,7 +28,7 @@
 							</div>
 							<div class="form-group">
 								<div class="col-sm-offset-2 col-sm-10">
-									<img class="verifycode" src="{:U('Usercenter/Public/verifycode')}" alt="点击刷新" title="点击刷新"></div>
+									<img class="verifycode" src="{:U('u/Public/verifycode')}" alt="点击刷新" title="点击刷新"></div>
 							</div>
 							<div class="form-group">
 								<div class="col-sm-offset-2 col-sm-10">

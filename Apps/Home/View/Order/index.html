@@ -76,7 +76,7 @@
 							<button id="refbalance" type="button" class="btn btn-success btn-xs" title="刷新余额">
 								<span class="glyphicon glyphicon-refresh"></span>
 							</button>
-							<a id="rechargebtn" href="{:U('Usercenter/Pay')}" target="_blank"   class="btn btn-danger btn-xs" >余额不足请充值</a>
+							<a id="rechargebtn" href="{:U('/u/pay')}" target="_blank"   class="btn btn-danger btn-xs" >余额不足请充值</a>
 						</span>
 					</div>
 				</form>
@@ -91,7 +91,7 @@
 								</button>
 								<h4 class="modal-title hightlight" id="addressModalLabel">添加地址</h4>
 							</div>
-							<form id="addressform" class="form-horizontal" action="{:U('Usercenter/Address/saveaddress')}" method="post" onsubmit="return ajaxaddresssubmit()">
+							<form id="addressform" class="form-horizontal" action="{:U('u/Address/saveaddress')}" method="post" onsubmit="return ajaxaddresssubmit()">
 								<div class="modal-body">
 									<input type="hidden" name="modif" value="add">
 									<div class="form-group">

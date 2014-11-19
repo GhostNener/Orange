@@ -109,8 +109,8 @@
 									<td>{$v['Tel']}</td>
 									<td>{$v['QQ']}</td>
 									<td>
-										<button act="{:U('Usercenter/Index/deladd',array('Id'=>$v['Id']))}" class="btn btn-danger btn-small btndel">删除</button>
-										<button act="{:U('Usercenter/Index/getadd',array('Id'=>$v['Id']))}"  class="btn btn-primary btn-small btnedit">编辑</button>
+										<button act="{:U('u/Index/deladd',array('Id'=>$v['Id']))}" class="btn btn-danger btn-small btndel">删除</button>
+										<button act="{:U('u/Index/getadd',array('Id'=>$v['Id']))}"  class="btn btn-primary btn-small btnedit">编辑</button>
 									</td>
 								</tr>
 							</foreach>
@@ -119,7 +119,7 @@
 				</div>
 			</div>
 			<div role="tabpanel" class="tab-pane" id="tab3">
-				<form class="form-horizontal" id="changepwdform" action="{:U('Usercenter/Index/changepwd')}" method="post" onsubmit="return submitsavepwd('changepwdform')" role="form">
+				<form class="form-horizontal" id="changepwdform" action="{:U('u/Index/changepwd')}" method="post" onsubmit="return submitsavepwd('changepwdform')" role="form">
 					<div class="form-group">
 						<label for="OldPassword" class="col-sm-2 control-label">原密码</label>
 						<div class="col-sm-4">
@@ -159,7 +159,7 @@
 			</button>
 			<h4 class="modal-title hightlight" id="addressModalLabel">添加地址</h4>
 		</div>
-		<form id="addressform" class="form-horizontal" action="{:U('Usercenter/Address/saveaddress')}" method="post" onsubmit="return ajaxaddresssubmit()">
+		<form id="addressform" class="form-horizontal" action="{:U('u/Address/saveaddress')}" method="post" onsubmit="return ajaxaddresssubmit()">
 			<div class="modal-body">
 				<input type="hidden" id="modif" name="modif" value="add">
 				<input type="hidden" id="addressid" name="Id" value="0">

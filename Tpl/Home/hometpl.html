@@ -16,7 +16,7 @@
 			<div class="panel panel-default">
 				<div class="panel-body">
 					<if condition="$usermodel eq null">
-						<a href="{:U('Usercenter/User/index')}" class="btn btn-orange btn-lg btn-block hightlight">打卡签到</a>
+						<a href="{:U('/u/login')}" class="btn btn-orange btn-lg btn-block hightlight">打卡签到</a>
 						<else/>
 						<if condition="$isclockin eq 1">
 							<button  class="btn btn-orange btn-lg btn-block hightlight disabled">已连续打卡 {:getclockincount(null)} 天</button>
@@ -46,12 +46,22 @@
 						<volist name="hotactivity" id="v" empty="$emptyact">
 							<hr>
 							<div class="media">
-								<a class="pull-left" href="{$v[Href]?$v[Href]:U('/',array('f'=>$v['Id']))}" target="_blank">
+							<if condition="($v[Href] eq null) or ($v[Href] eq '')">
+								<a class="pull-left" href="{:U('/f/'.$v['Id'])}" target="_blank">
+								<else/>
+								<a class="pull-left" href="{$v[Href]}" target="_blank">
+							</if>
+
 									<img class="media-object" src="{:getFileUrl($v['ThumURL'],'80x80')}" alt="{$v['Title']}"></a>
 								<div class="media-body">
 									<h5 class="media-heading">{$v['Title']}</h5>
 									<p>{$v['Presentation']}</p>
-									<a class="btn btn-success" href="{$v[Href]?$v[Href]:U('/',array('f'=>$v['Id']))}" target="_blank">参与活动</a>
+							<if condition="($v[Href] eq null) or ($v[Href] eq '')">
+								<a class="btn btn-success" href="{:U('/f/'.$v['Id'])}" target="_blank">
+								<else/>
+								<a class="btn btn-success" href="{$v[Href]}" target="_blank">
+							</if>
+									参与活动</a>
 
 								</div>
 							</div>
@@ -78,8 +88,7 @@
 									<div class="tabuser hidden-xs">
 										<dl class="dl-horizontal">
 											<dt>
-												<a href="{:U('/Usercenter/User/u_show',array('Id'=>
-													$v['Id']))}" target="_blank">
+												<a href="{:U('/user/'.$v['Id'])}" target="_blank">
 													<img src="{:getFileUrl($v['URL'],'40x40')}" alt="{$v[Nick]}" class="img-circle">
 													<span>{$v[Nick]}</span>
 												</a>
@@ -95,8 +104,7 @@
 									</div>
 
 									<div class="tabuser visible-xs">
-										<a href="{:U('/Usercenter/User/u_show',array('Id'=>
-											$v['Id']))}" target="_blank">
+										<a href="{:U('/user/'.$v['Id'])}" target="_blank">
 											<img src="{:getFileUrl($v['URL'],'40x40')}" alt="{$v[Nick]}" class="img-circle">
 											<span>{$v[Nick]}</span>
 										</a>
@@ -117,8 +125,7 @@
 									<div class="tabuser  hidden-xs">
 										<dl class="dl-horizontal">
 											<dt>
-												<a href="{:U('/Usercenter/User/u_show',array('Id'=>
-													$v['Id']))}" target="_blank">
+											<a href="{:U('/user/'.$v['Id'])}" target="_blank">
 													<img src="{:getFileUrl($v['URL'],'40x40')}" alt="头像" class="img-circle">
 													<span>{$v[Nick]}</span>
 												</a>
@@ -130,8 +137,7 @@
 									</div>
 
 									<div class="tabuser visible-xs">
-										<a href="{:U('/Usercenter/User/u_show',array('Id'=>
-											$v['Id']))}" target="_blank">
+									<a href="{:U('/user/'.$v['Id'])}" target="_blank">
 											<img src="{:getFileUrl($v['URL'],'40x40')}" alt="{$v[Nick]}" class="img-circle">
 											<span>{$v[Nick]}</span>
 										</a>
