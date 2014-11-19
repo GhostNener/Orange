@@ -50,7 +50,7 @@ class goods_orderModel extends Model {
 	/**
 	 * 创建通知
 	 * Title，Content，SendId，RecipientId
-	 * 
+	 *
 	 * @param unknown $data        	
 	 */
 	private function createnotice($data) {
@@ -74,15 +74,15 @@ class goods_orderModel extends Model {
 		$sc ['Content'] = CNC ( $snd, $tpl ['SELL'] );
 		$sc ['Title'] = $nt ['SELL'];
 		$sc ['SendId'] = 0;
-		$sc ['RecipientId'] = (int)$data ['SellerId'];
+		$sc ['RecipientId'] = ( int ) $data ['SellerId'];
 		/* 买家通知 */
 		$bnd = array_merge ( $cdata, $selldata );
-		$bc ['Content']= CNC ( $bnd, $tpl ['BUY'] );
+		$bc ['Content'] = CNC ( $bnd, $tpl ['BUY'] );
 		$bc ['Title'] = $nt ['BUY'];
 		$bc ['SendId'] = 0;
-		$bc ['RecipientId'] = (int)$data ['BuyerId'];
+		$bc ['RecipientId'] = ( int ) $data ['BuyerId'];
 		/* 创建通知 */
-		$rst=($m->addone ( $bc, 2 ))&&($m->addone ( $sc, 2 ));
+		$rst = ($m->addone ( $bc, 2 )) && ($m->addone ( $sc, 2 ));
 		
 		/* return (() ()); */
 	}
@@ -98,7 +98,7 @@ class goods_orderModel extends Model {
 		) )->find ();
 		$cdata ['Nick'] = $m ['Nick'];
 		$cdata ['UURL'] = U ( 'Usercenter/User/u_show', array (
-				'Id' => $m['Id'] 
+				'Id' => $m ['Id'] 
 		) );
 		$cdata ['Tel'] = $m ['Tel'];
 		$cdata ['Content'] = $m ['Contacts'] . '&nbsp;' . $m ['Address'];
@@ -167,14 +167,21 @@ class goods_orderModel extends Model {
 			$dal->rollback ();
 			return $msg;
 		} else {
-			$dal->commit ();
-			$this->createnotice($order);
 			$am = new user_addressModel ();
-			$address = $am->getbyid ( $data ['SellerAddId'] );
+			$address = $am->getbyid ( ( int ) $data ['SellerAddId'], null, 2 );
+			if (! $address) {
+				$dal->rollback ();
+				return array (
+						'status' => 0,
+						'msg' => '交易失败，找不到卖家地址' 
+				);
+			}
+			$this->createnotice ( $order );
+			$dal->commit ();
 			return array (
 					'status' => 1,
 					'msg' => '交易生效，请与卖家联系',
-					'address' => $address 
+					'address' =>$address
 			);
 		}
 	}

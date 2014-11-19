@@ -98,15 +98,18 @@ class user_addressModel extends Model {
 	 * @param int $id：地址Id        	
 	 * @return array ：符合的地址
 	 */
-	public function getbyid($id, $uid = null) {
+	public function getbyid($id, $uid = null, $type = 1) {
 		if (! $uid) {
 			$uid = cookie ( '_uid' );
 		}
-		$rst = $this->order ( 'IsDefault DESC' )->where ( array (
-				'Status' => 10,
-				'UserId' => $uid,
+		$arr = array (
 				'Id' => $id 
-		) )->find ();
+		);
+		if ($type == 1) {
+			$arr['Status']=10;
+			 $arr ['UserId'] =$uid;
+		}
+		$rst = $this->where ($arr)->order ( 'IsDefault DESC' )->find ();
 		return $rst;
 	}
 	/**
