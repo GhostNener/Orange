@@ -8,6 +8,10 @@ html,body{
     font-family: "Microsoft YaHei","SimSun"
 }
 
+*::selection{color:#fff;background:#fa7d3c;}
+*::-moz-selection{color:#fff;background:#fa7d3c;}
+*::-webkit-selection{color:#fff;background:#fa7d3c;}
+
 #wrap{
 	min-height: 100%; 
 }
