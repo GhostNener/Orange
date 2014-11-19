@@ -37,8 +37,8 @@ class PayController extends BaseController {
 		$regex = $model->where('`key` = "regex"')->find();
 		$regex = $regex['value'];
 
-		//凯撒+base64解密
-		$cookies = base64_decode($cookies);
+		//base64解密
+		//$cookies = base64_decode($cookies);
 
 		//$this->assign('cookies',$cookies);
 		$this->assign('regex',$regex);

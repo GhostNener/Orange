@@ -29,7 +29,7 @@ class user_avatarModel extends Model {
 		$data = array (
 				'UserId' => $uid,
 				'IsSysDef' => 1,
-				'URL' => 'USER',
+				'URL' => 'Avatar',
 				'Status' => 10 
 		);
 		return $this->add ( $data );
