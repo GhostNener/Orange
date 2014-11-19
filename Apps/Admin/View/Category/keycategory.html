@@ -18,7 +18,7 @@
 								<td>{$v.Id}</td>
 								<td>{$v.Title}</td>
 								<td>{$v.Keyword}</td>
-								<td>{$v.Status}</td>
+								<td>{$v[Status]==10?启用:禁用}</td>
 								<td>
 									<a class="btn btn-danger btn-small save" action="{:U(del,array('Id'=>$v['Id'], 'CategoryId'=>$v['CategoryId']))}">删除</a>
 									<a class="btn btn-info btn-small save" action="{:U(SaveTempKey,array('Id'=>$v['Id']))}" modaltitle="收录关键字">收录</a>

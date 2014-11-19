@@ -20,8 +20,8 @@
 							<tr>
 								<td>{$v.Id}</td>
 								<td>{$v.Title}</td>
-								<td>{$v.IsTop}</td>
-								<td>{$v.IsHot}</td>
+								<td>{$v[IsTop]?是:否}</td>
+								<td>{$v[IsHot]?是:否}</td>
 								<td>
 									<?php echo date("Y-m-d H:i:s ", $v[CreateTime]); ?></td>
 								<td>

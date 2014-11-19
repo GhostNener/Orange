@@ -20,7 +20,7 @@
 								<td>{$v.Id}</td>
 								<td>{$cmodel['Title']}</td>
 								<td>{$v.Keyword}</td>
-								<td>{$v.Status}</td>
+								<td>{$v[Status]==10?启用:待审核}</td>
 								<td>
 									<a class="btn btn-danger btn-small save" action="{:U(del,array('Id'=>$v['Id'], 'CategoryId'=>$CategoryId))}">删除</a>
 									<a class="btn btn-primary btn-small edit" action="{:U(update,array('Id'=>$v['Id']))}" modaltitle="编辑关键字">编辑</a>

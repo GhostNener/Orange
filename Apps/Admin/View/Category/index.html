@@ -23,7 +23,7 @@
 								<td>{$v.Title}</td>
 								<td>{$v.Presentation}</td>
 								<td>{$v.Hot}</td>
-								<td>{$v.Status}</td>
+								<td>{$v[Status]==10?启用:禁用}</td>
 								<td>
 									<a class="btn btn-danger btn-small save" action="{:U(del,array('Id'=>$v['Id']))}">删除</a>
 									<a class="btn btn-primary btn-small edit" action="{:U(update,array('Id'=>$v['Id']))}"  modaltitle="编辑分类">编辑</a>
