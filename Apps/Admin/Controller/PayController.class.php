@@ -2,7 +2,6 @@
 
 namespace Admin\Controller;
 
-require_once 'ORG/AES/AES.php';
 /**
  * 支付宝订单
  *
@@ -14,16 +13,15 @@ class PayController extends BaseController {
 	public function index() {
 
 		$model = M('alipay');
-		$list = $model->select();
 
 		// 总数
 		$allCount = $model->count ();
 		// 分页
-		$Page = new \Think\Page ( $allCount, 20 );
+		$Page = new \Think\Page ( $allCount, 10 );
 		
 		$showPage = $Page->show ();
 		// 分页查询
-		$list = $model->limit ( $Page->firstRow . ',' . $Page->listRows )->select ();
+		$list = $model->order('CreateTime desc')->limit ( $Page->firstRow . ',' . $Page->listRows )->select ();
 
 		$this->assign ( 'list', $list );
 		$this->assign ( 'page', $showPage );
@@ -33,8 +31,8 @@ class PayController extends BaseController {
 
 	public function setting() {
 		$model = M('settings');
-		$cookies = $model->where('`key` = "cookies"')->find();
-		$cookies = $cookies['value'];
+		//$cookies = $model->where('`key` = "cookies"')->find();
+		//$cookies = $cookies['value'];
 
 		$regex = $model->where('`key` = "regex"')->find();
 		$regex = $regex['value'];
@@ -42,7 +40,7 @@ class PayController extends BaseController {
 		//凯撒+base64解密
 		$cookies = base64_decode($cookies);
 
-		$this->assign('cookies',$cookies);
+		//$this->assign('cookies',$cookies);
 		$this->assign('regex',$regex);
 		$this->display();
 	}
@@ -62,23 +60,24 @@ class PayController extends BaseController {
 			$this->error('密码错误，请滚粗');
 		}
 
-		$cookies = I('post.cookies');
-		
+		if ($cookies) {
+			$cookies = I('post.cookies');
+			$cookies=base64_encode($cookies);
+			$data1['value'] = $cookies;
+			$r1 = $model->where('`key` = "cookies"')->save($data1);
+		}
+
 		C('DEFAULT_FILTER','htmlspecialchars');
 		$regex = I('post.regex');
 		C('DEFAULT_FILTER','htmlspecialchars,strip_tags');
 
 		$regex = htmlspecialchars_decode($regex);
 
-		if (!$cookies || !$regex) {
+		if (!$regex) {
 			$this->error('操作错误');
 		}
 
-		$cookies=base64_encode($cookies);
-
-		$data1['value'] = $cookies;
 		$data2['value'] = $regex;
-		$r1 = $model->where('`key` = "cookies"')->save($data1);
 		$r2 = $model->where('`key` = "regex"')->save($data2);
 		if ($r1 || $r2) {
 			$this->success('保存成功');

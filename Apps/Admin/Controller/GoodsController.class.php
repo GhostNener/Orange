@@ -42,7 +42,21 @@ class GoodsController extends BaseController {
 		$dal = M ();
 		$dal->startTrans (); // 开始事务
 		$model = M ( 'goods' );
+		$data = $model->where($whereArr)->find();
 		$model->Status = I('get.status');
+
+		if ((int)I('get.status') == 50) {
+			
+			CSYSN($data['UserId'],'商品下架通知',"您发布的商品 " .$data['Title']." 已被管理员下架。 原因: " . I('note'));
+			
+		}
+
+		if ((int)I('get.status') == 10) {
+			
+			CSYSN($data['UserId'],'商品上架通知',"您发布的商品 " .$data['Title']." 通过审核，可正常查看。 ");
+			
+		}
+
 		$r1 = $model->where ( $whereArr )->save (); // 操作1
 		
 		if ($r1) { // 成功
@@ -64,7 +78,7 @@ class GoodsController extends BaseController {
 		$model = M ( 'view_goods_list' );
 		// 查询条件
 		$wherrArr = array (
-				'Status' => 70
+				'Status' => I('status')
 		);
 		
 		// 总数
