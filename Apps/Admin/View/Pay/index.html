@@ -16,7 +16,7 @@
 					</thead>
 					<tbody>
 						<foreach name='list' item='v'>
-							<tr>
+							<tr class="{$v[Enabled]?null:warning}">
 								<td>{$v[TradeNo]}</td>
 								<td>{$v[Name]}</td>
 								<td>{$v[Amount]}</td>
