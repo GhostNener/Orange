@@ -78,7 +78,7 @@ class IndexController extends BaseController {
 			redirect ( U ( 'Home/Index/index' ) );
 		}
 		$model = new view_search_listModel ();
-		$arr = $model->getsearchlist ( $title, 12 );
+		$arr = $model->getsearchlist ( $title, 12,'/s?wd='.$title);
 		/* 获得分类 */
 		$this->assign ( 'test', $title );
 		$this->assign ( 'goodlist', $arr ['list'] );
@@ -103,7 +103,7 @@ class IndexController extends BaseController {
 		$arr = $m->getlist ( array (
 				'Status' => 10,
 				'CategoryId' => $id 
-		), 12 );
+		), 12,'/c/'.$id,false );
 		$this->assign ( 'goodlist', $arr ['list'] );
 		$this->assign ( 'page', $arr ['page'] );
 		$this->assign ( 'cmodel', $cmodel );

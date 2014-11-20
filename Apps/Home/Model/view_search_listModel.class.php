@@ -19,11 +19,11 @@ class view_search_listModel extends Model {
 	 * @author NENER
 	 *        
 	 */
-	private function getlist($key, $limit = 6) {
+	private function getlist($key, $limit = 6,$baseurl=ACTION_NAME) {
 		$allcount = $this->query ( "SELECT COUNT(*) AS COUNT FROM view_search_list WHERE `Status`=10 AND MATCH(SearchTitle) AGAINST('" . $key . "' IN BOOLEAN MODE);" );
 		$allcount = $allcount [0] ['COUNT'];
-		$Page = new \Think\Page ( $allcount, $limit );
-		$showPage = $Page->show ();
+		$Page =new \Think\Page ( $allcount, $limit );
+		$showPage = $Page->show ($baseurl);
 		$q = "SELECT * FROM view_search_list WHERE `Status`=10 AND MATCH(SearchTitle) AGAINST('" . $key . "' IN BOOLEAN MODE) ORDER BY CreateTime DESC";
 		$qp = $q . " LIMIT " . $Page->firstRow . "," . $Page->listRows;
 		$list = $this->query ( $qp );
@@ -42,16 +42,16 @@ class view_search_listModel extends Model {
 	 * @return array page 翻页组装,list 列表
 	 * @author NENER
 	 */
-	public function getsearchlist($key, $limit = 6) {
+	public function getsearchlist($key, $limit = 6,$baseurl=ACTION_NAME) {
 		$arr = searchpart ( $key );
 		$arrtemp = $arr;
 		$key = implode ( ' +', $arr );
 		$keyt = '+*' . implode ( '* +*', $arrtemp ) . '*';
 		$key = '+' . $key;
-		$arr = $this->getlist ( $key, $limit );
+		$arr = $this->getlist ( $key, $limit,$baseurl );
 		/* 搜不到进行通配符搜索 */
 		if (count ( $arr ['list'] ) <= 0) {
-			$arr = $this->getlist ( $keyt, $limit );
+			$arr = $this->getlist ( $keyt, $limit ,$baseurl);
 		}
 		return $arr;
 	}

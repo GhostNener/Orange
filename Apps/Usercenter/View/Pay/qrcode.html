@@ -25,7 +25,7 @@
 
 						<div class="form-group has-feedback" id="verifydiv">
 							<label class="col-md-2 col-md-offset-4 control-label" style="text-align:left;padding-top:0;">
-								<img class="verifycode" style="width: 160px; height: 35px;" src="{:U('Usercenter/Public/verifycode')}" alt="点击刷新" title="点击刷新"></label>
+								<img class="verifycode" style="width: 160px; height: 35px;" src="{:U('u/Public/verifycode')}" alt="点击刷新" title="点击刷新"></label>
 							<div class="col-md-2">
 								<input type="number" name="code" id="code" class="form-control" placeholder="验证码" required>
 								<span id='verifyicon' class="glyphicon glyphicon-remove form-control-feedback" hidden='hidden'></span>
@@ -61,7 +61,7 @@
 			if($(this).val().length==4){
 				$.ajax({
 					type: 'post',
-              		url: 'check',
+              		url: 'Pay/check',
               		data: 'code=' + $(this).val(),
               		success: function (data) {
 	              		$('#verifyicon').removeAttr('hidden');
