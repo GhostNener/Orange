@@ -17,7 +17,7 @@ class goods_commentModel extends Model {
 	 * 保存商品评论及回复
 	 *
 	 * @param array $postarr:
-	 *        	post数组
+	 *        	post数组 :GoodsId,Content,AssesseeId,ReplyId
 	 * @return array 保存信息： 包含 status 状态 ；
 	 *         msg 消息
 	 * @author NENER

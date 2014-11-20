@@ -7,6 +7,7 @@ use Home\Model\goods_categoryModel;
 use Usercenter\Model\user_addressModel;
 use Home\Model\goods_serviceModel;
 use Home\Model\goods_imgModel;
+use Home\Model\goods_commentModel;
 
 /**
  * 个人商品管理api
@@ -223,4 +224,28 @@ class GoodsController extends LoginBaseController {
 		echo json_encode ( $rst );
 		return;
 	}
+	/**
+	 * 添加评论 (GoodsId,Content,AssesseeId,ReplyId)
+	 */
+	public function savecomment() {
+		$msg = array (
+				'status' => 0,
+				'msg' => '非法访问' 
+		);
+		if (! IS_POST) {
+			echo json_encode ( $msg );
+			return;
+		}
+		$arr = file_get_contents ( 'php://input' );
+		$arr = json_decode ( $arr, true );
+		if (! $arr) {
+			$msg ['msg'] = '空数据';
+			echo json_encode ( $msg );
+			return;
+		}
+		$m = new goods_commentModel ();
+		$r = $m->addComment ( $arr, api_get_uid () );
+		echo json_encode ( $r );
+	}
+
 }

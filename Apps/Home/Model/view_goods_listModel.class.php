@@ -19,10 +19,10 @@ class view_goods_listModel extends Model {
 	 * @author NENER
 	 *        
 	 */
-	public function getlist($wherearr = array('Status'=>10), $limit = 6,$baseurl=ACTION_NAME,$defaultpar=true) {
+	public function getlist($wherearr = array('Status'=>10), $limit = 6, $baseurl = ACTION_NAME, $defaultpar = true) {
 		$allCount = $this->where ( $wherearr )->count ();
-		$Page = new \Think\Page ( $allCount, $limit,null,$defaultpar );
-		$showPage = $Page->show ($baseurl);
+		$Page = new \Think\Page ( $allCount, $limit, null, $defaultpar );
+		$showPage = $Page->show ( $baseurl );
 		$list = $this->where ( $wherearr )->limit ( $Page->firstRow . ',' . $Page->listRows )->order ( 'CreateTime DESC ' )->select ();
 		return array (
 				'status' => 1,
@@ -60,38 +60,37 @@ class view_goods_listModel extends Model {
 	 *
 	 * @param
 	 *        	int Id
-	 * @param  int $type 1:返回所有信息，2：返回基础信息
+	 * @param int $type
+	 *        	1:返回所有信息，2：返回基础信息
 	 * @return goods 商品信息,commentlist 评论列表,goodsimg商品图片
 	 *        
 	 *        
 	 */
-	public function getgoodsdetails($Id, $type = 1) {
+	public function getgoodsdetails($Id, $type = 1, $limit = null) {
 		if ($type == 2) {
 			return $this->findone ( $Id );
 		}
-		$whereArr = array (
+		if (! $limit) {
+			$limit = C ( 'COMMENTS_LIST_COUNT' );
+		}
+		$goods = $this->where ( array (
 				'Id' => $Id,
 				'Status' => 10 
-		);
-		$goods = M ( "view_goods_list" )->where ( $whereArr )->find ();
-		$whereArr1 = array (
-				'GoodsId' => $Id,
-				'Status' => 10 
-		);
-		$whereArr3 = array (
+		) )->find ();
+		$m = new view_goods_comment_listModel ();
+		$commentlist = $m->getlist ( $Id, $limit );
+		$goodsimg = M ( 'goods_img' )->where ( array (
 				'GoodsId' => $Id 
-		);
-		$commentlist = M ( "view_goods_comment_list" )->where ( $whereArr1 )->limit ( C ( 'COMMENTS_LIST_COUNT' ) )->select ();
-		$goodsimg = M ( 'goods_img' )->where ( $whereArr3 )->select ();
+		) )->select ();
 		return array (
 				'goods' => $goods,
-				'commentlist' => $commentlist,
+				'commentlist' => $commentlist ['list'],
 				'goodsimg' => $goodsimg 
 		);
 	}
 	/**
 	 * 获得单个商品信息（不包含评论）
-	 * 
+	 *
 	 * @param number $id        	
 	 * @return obj
 	 */

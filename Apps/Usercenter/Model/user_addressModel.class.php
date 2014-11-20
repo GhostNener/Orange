@@ -91,12 +91,15 @@ class user_addressModel extends Model {
 		) )->select ();
 		return $arr;
 	}
-	
 	/**
 	 * 通过地址Id获取单个地址
-	 *
-	 * @param int $id：地址Id        	
-	 * @return array ：符合的地址
+	 * 
+	 * @param int $id
+	 *        	地址id
+	 * @param int $uid
+	 *        	uid
+	 * @param number $type        	
+	 * @return unknown
 	 */
 	public function getbyid($id, $uid = null, $type = 1) {
 		if (! $uid) {
@@ -106,43 +109,40 @@ class user_addressModel extends Model {
 				'Id' => $id 
 		);
 		if ($type == 1) {
-			$arr['Status']=10;
-			 $arr ['UserId'] =$uid;
+			$arr ['Status'] = 10;
+			$arr ['UserId'] = $uid;
 		}
-		$rst = $this->where ($arr)->order ( 'IsDefault DESC' )->find ();
+		$rst = $this->where ( $arr )->order ( 'IsDefault DESC' )->find ();
 		return $rst;
 	}
 	/**
 	 * 删除地址
+	 * 
+	 * @param unknown $id        	
+	 * @param string $uid        	
+	 * @return multitype:number string
 	 */
-	public function delbyid($id, $uid = null) {
+	public function del($id, $uid = null) {
 		if (! $uid) {
 			$uid = cookie ( '_uid' );
 		}
-		$wa = array (
+		$whereArr = array (
 				'Id' => $id,
 				'UserId' => $uid,
 				'Status' => 10 
 		);
-		if (! $this->where ( $wa )->find ()) {
+		$rst = $this->where ( $whereArr )->setField ( 'Status', - 1 );
+		if ($rst) {
+			return array (
+					'status' => 1,
+					'msg' => "删除成功" 
+			);
+		} else {
 			return array (
 					'status' => 0,
-					'msg' => '地址不存在' 
+					'msg' => "删除失败" 
 			);
 		}
-		$rst = $this->where ( $wa )->save ( array (
-				'Status' => 10 
-		) ); // $this->where ( $wa )->delete();
-		if (! $rst) {
-			return array (
-					'status' => 0,
-					'msg' => '删除失败' 
-			);
-		}
-		return array (
-				'status' => 1,
-				'msg' => '删除成功' 
-		);
 	}
 	
 	/**
@@ -150,10 +150,13 @@ class user_addressModel extends Model {
 	 *
 	 * @author NENER
 	 * @param array $data
-	 *        	:_uid,Tel,QQ,Address,IsDefault[0,1],modif
+	 *        	:Tel,QQ,Address,IsDefault[0,1],modif,Contacts
 	 * @return array status,msg
 	 */
-	public function saveone($data) {
+	public function saveone($data, $uid = null) {
+		if (! $uid) {
+			$uid = cookie ( '_uid' );
+		}
 		$msg = array (
 				'status' => 0,
 				'msg' => '数据为空' 
@@ -170,7 +173,7 @@ class user_addressModel extends Model {
 			return $msg;
 		}
 		$datain = array (
-				'UserId' => $data ['UserId'],
+				'UserId' => $uid,
 				'Tel' => $data ['Tel'],
 				'QQ' => $data ['QQ'],
 				'Address' => $data ['Address'],
@@ -188,7 +191,7 @@ class user_addressModel extends Model {
 		$rst2 = 1;
 		// 首先判断是不是设置的默认地址
 		if (( int ) $data ['IsDefault'] == 1) {
-			$rst2 = $this->clerdefault ( $datain ['UserId'] );
+			$rst2 = $this->clerdefault ( $uid );
 		}
 		if ($data ['modif'] == 'add') {
 			$rst1 = $this->add ( $address );
@@ -246,45 +249,27 @@ class user_addressModel extends Model {
 	}
 	
 	/**
-	 * 删除地址
-	 *
-	 * @param int $id        	
-	 */
-	public function del($id) {
-		$whereArr = array (
-				'Id' => $id 
-		);
-		$rst = $this->where ( $whereArr )->setField ( 'Status', - 1 );
-		if ($rst) {
-			return array (
-					'status' => 1,
-					'msg' => "删除成功" 
-			);
-		} else {
-			return array (
-					'status' => 0,
-					'msg' => "删除失败" 
-			);
-		}
-	}
-	
-	/**
 	 * 设为默认地址
 	 *
+	 * @author NENER
 	 * @param int $id        	
 	 */
 	public function setdefault($id, $uid) {
 		$whereArr = array (
 				'Id' => $id 
 		);
+		$dal = M ();
+		$dal->startTrans ();
 		$rst1 = $this->clerdefault ( $uid );
 		$rst2 = $this->where ( $whereArr )->setField ( 'IsDefault', 1 );
 		if ($rst1 && $rst2) {
+			$dal->commit ();
 			return array (
 					'status' => 1,
 					'msg' => "设置成功" 
 			);
 		} else {
+			$dal->rollback ();
 			return array (
 					'status' => 0,
 					'msg' => "设置失败" 

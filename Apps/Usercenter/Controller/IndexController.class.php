@@ -455,7 +455,7 @@ class IndexController extends LoginController {
 			return;
 		}
 		$m = new user_addressModel ();
-		$rst = $m -> delbyid ( $Id );
+		$rst = $m -> del( $Id );
 		if ( (int)$rst['status'] == 0) {
 			$this->error ( $rst['msg'] );
 		} else {

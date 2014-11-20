@@ -5,6 +5,7 @@ namespace Api\Controller;
 use Home\Model\view_goods_listModel;
 use Home\Model\goods_categoryModel;
 use Home\Model\activityModel;
+use Home\Model\view_goods_comment_listModel;
 
 /**
  * 首页控制器
@@ -29,7 +30,10 @@ class IndexController extends BaseController {
 		$clist = $model->getall ();
 		/* 获取活动图片 */
 		$model = new activityModel ();
-		$activitylist = $model->getlist (array('Status'=>10,'IsTop'=>1));
+		$activitylist = $model->getlist ( array (
+				'Status' => 10,
+				'IsTop' => 1 
+		) );
 		/* 返回结果 */
 		echo json_encode ( array (
 				'status' => 1,
@@ -75,7 +79,7 @@ class IndexController extends BaseController {
 		}
 		$Id = $arr ['Id'];
 		$model = new view_goods_listModel ();
-		$arr = $model->getgoodsdetails ( $Id );
+		$arr = $model->getgoodsdetails ( $Id, 1, 10 );
 		if (! $arr || ! $arr ['goods']) {
 			echo json_encode ( array (
 					'status' => 0,
@@ -90,5 +94,25 @@ class IndexController extends BaseController {
 					'commentlist' => $arr ['commentlist'] 
 			) );
 		}
+	}
+	/**
+	 * 获取评论翻页 Id ,p
+	 */
+	public function commentlist() {
+		$id = I ( 'Id' );
+		$m = new view_goods_comment_listModel ();
+		$r = $m->getlist ( $id, 10 );
+		if (! $r ['list']) {
+			echo json_encode ( array (
+					'satus' => 0,
+					'msg' => '没有了' 
+			) );
+			return;
+		}
+		echo json_encode ( array (
+				'satus' => 1,
+				'msg' => 'ok',
+				'commentlist' => $r ['list'] 
+		) );
 	}
 }
