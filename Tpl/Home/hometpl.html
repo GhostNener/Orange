@@ -46,121 +46,119 @@
 						<volist name="hotactivity" id="v" empty="$emptyact">
 							<hr>
 							<div class="media">
-							<if condition="($v[Href] eq null) or ($v[Href] eq '')">
-								<a class="pull-left" href="{:U('/f/'.$v['Id'])}" target="_blank">
-								<else/>
-								<a class="pull-left" href="{$v[Href]}" target="_blank">
-							</if>
+								<if condition="($v[Href] eq null) or ($v[Href] eq '')">
+									<a class="pull-left" href="{:U('/f/'.$v['Id'])}" target="_blank">
+										<else/>
+										<a class="pull-left" href="{$v[Href]}" target="_blank"></if>
 
-									<img class="media-object" src="{:getFileUrl($v['ThumURL'],'80x80')}" alt="{$v['Title']}"></a>
-								<div class="media-body">
-									<h5 class="media-heading">{$v['Title']}</h5>
-									<p>{$v['Presentation']}</p>
-							<if condition="($v[Href] eq null) or ($v[Href] eq '')">
-								<a class="btn btn-success" href="{:U('/f/'.$v['Id'])}" target="_blank"></a>
-								<else/>
-								<a class="btn btn-success" href="{$v[Href]}" target="_blank"></a>
-							</if>
-									参与活动</a>
+										<img class="media-object" src="{:getFileUrl($v['ThumURL'],'80x80')}" alt="{$v['Title']}"></a>
+									<div class="media-body">
+										<h5 class="media-heading">{$v['Title']}</h5>
+										<p>{$v['Presentation']}</p>
+										<if condition="($v[Href] eq null) or ($v[Href] eq '')">
+											<a class="btn btn-success" href="{:U('/f/'.$v['Id'])}" target="_blank">参与活动</a>
+											<else/>
+											<a class="btn btn-success" href="{$v[Href]}" target="_blank">参与活动</a>
+										</if>
+
+									</div>
+								</div>
+							</volist>
+						</div>
+						<!--/.sideitemnav-->
+
+						<!-- 排行榜 -->
+						<div class="sideitemnav">
+							<h4>排行榜</h4>
+							<hr>
+							<ul id="myTab" class="nav nav-tabs">
+								<li class="active">
+									<a href="#tab1" data-toggle="tab">签到狂人</a>
+								</li>
+								<li>
+									<a href="#tab2" data-toggle="tab">等级排名</a>
+								</li>
+							</ul>
+							<div id="myTabContent" class="tab-content">
+								<div class="tab-pane fade in active" id="tab1">
+									<!-- 用户列表 -->
+									<volist name="signlist" id="v">
+										<div class="tabuser hidden-xs">
+											<dl class="dl-horizontal">
+												<dt>
+													<a href="{:U('/user/'.$v['Id'])}" target="_blank">
+														<img src="{:getFileUrl($v['URL'],'40x40')}" alt="{$v[Nick]}" class="img-circle">
+														<span>{$v[Nick]}</span>
+													</a>
+												</dt>
+												<dd>
+													<div class="info">
+														签到&nbsp;
+														<span class="importinfo">{$v[ClockinCount]}</span>
+														&nbsp;天
+													</div>
+												</dd>
+											</dl>
+										</div>
+
+										<div class="tabuser visible-xs">
+											<a href="{:U('/user/'.$v['Id'])}" target="_blank">
+												<img src="{:getFileUrl($v['URL'],'40x40')}" alt="{$v[Nick]}" class="img-circle">
+												<span>{$v[Nick]}</span>
+											</a>
+											<span class="info pull-right">
+												签到&nbsp;
+												<span class="importinfo">{$v[ClockinCount]}</span>
+												&nbsp;天
+											</span>
+										</div>
+									</volist>
+									<!--用户列表-->
+
+								</div>
+
+								<div class="tab-pane fade" id="tab2">
+									<!-- 用户列表 -->
+									<volist name="gradelist" id="v">
+										<div class="tabuser  hidden-xs">
+											<dl class="dl-horizontal">
+												<dt>
+													<a href="{:U('/user/'.$v['Id'])}" target="_blank">
+														<img src="{:getFileUrl($v['URL'],'40x40')}" alt="头像" class="img-circle">
+														<span>{$v[Nick]}</span>
+													</a>
+												</dt>
+												<dd>
+													<div class="info">{$v[EXP]['Title']}</div>
+												</dd>
+											</dl>
+										</div>
+
+										<div class="tabuser visible-xs">
+											<a href="{:U('/user/'.$v['Id'])}" target="_blank">
+												<img src="{:getFileUrl($v['URL'],'40x40')}" alt="{$v[Nick]}" class="img-circle">
+												<span>{$v[Nick]}</span>
+											</a>
+											<span class="info pull-right">
+												<div class="info">{$v[EXP]['Title']}</div>
+											</span>
+										</div>
+									</volist>
+									<!--用户列表-->
 
 								</div>
 							</div>
-						</volist>
-					</div>
-					<!--/.sideitemnav-->
 
-					<!-- 排行榜 -->
-					<div class="sideitemnav">
-						<h4>排行榜</h4>
-						<hr>
-						<ul id="myTab" class="nav nav-tabs">
-							<li class="active">
-								<a href="#tab1" data-toggle="tab">签到狂人</a>
-							</li>
-							<li>
-								<a href="#tab2" data-toggle="tab">等级排名</a>
-							</li>
-						</ul>
-						<div id="myTabContent" class="tab-content">
-							<div class="tab-pane fade in active" id="tab1">
-								<!-- 用户列表 -->
-								<volist name="signlist" id="v">
-									<div class="tabuser hidden-xs">
-										<dl class="dl-horizontal">
-											<dt>
-												<a href="{:U('/user/'.$v['Id'])}" target="_blank">
-													<img src="{:getFileUrl($v['URL'],'40x40')}" alt="{$v[Nick]}" class="img-circle">
-													<span>{$v[Nick]}</span>
-												</a>
-											</dt>
-											<dd>
-												<div class="info">
-													签到&nbsp;
-													<span class="importinfo">{$v[ClockinCount]}</span>
-													&nbsp;天
-												</div>
-											</dd>
-										</dl>
-									</div>
-
-									<div class="tabuser visible-xs">
-										<a href="{:U('/user/'.$v['Id'])}" target="_blank">
-											<img src="{:getFileUrl($v['URL'],'40x40')}" alt="{$v[Nick]}" class="img-circle">
-											<span>{$v[Nick]}</span>
-										</a>
-										<span class="info pull-right">
-											签到&nbsp;
-											<span class="importinfo">{$v[ClockinCount]}</span>
-											&nbsp;天
-										</span>
-									</div>
-								</volist>
-								<!--用户列表-->
-
-							</div>
-
-							<div class="tab-pane fade" id="tab2">
-								<!-- 用户列表 -->
-								<volist name="gradelist" id="v">
-									<div class="tabuser  hidden-xs">
-										<dl class="dl-horizontal">
-											<dt>
-											<a href="{:U('/user/'.$v['Id'])}" target="_blank">
-													<img src="{:getFileUrl($v['URL'],'40x40')}" alt="头像" class="img-circle">
-													<span>{$v[Nick]}</span>
-												</a>
-											</dt>
-											<dd>
-												<div class="info">{$v[EXP]['Title']}</div>
-											</dd>
-										</dl>
-									</div>
-
-									<div class="tabuser visible-xs">
-									<a href="{:U('/user/'.$v['Id'])}" target="_blank">
-											<img src="{:getFileUrl($v['URL'],'40x40')}" alt="{$v[Nick]}" class="img-circle">
-											<span>{$v[Nick]}</span>
-										</a>
-										<span class="info pull-right">
-											<div class="info">{$v[EXP]['Title']}</div>
-										</span>
-									</div>
-								</volist>
-								<!--用户列表-->
-
-							</div>
 						</div>
+						<!--/.sideitemnav-->
 
 					</div>
-					<!--/.sideitemnav-->
-
 				</div>
 			</div>
 		</div>
 	</div>
-</div>
-<include file="./Tpl/Public/footer.html"/>
-<script>
+	<include file="./Tpl/Public/footer.html"/>
+	<script>
 function ajaxclockin() {
     var $btn = $('#clockinbtn').button('loading');
     $.ajax({
