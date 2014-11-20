@@ -22,7 +22,7 @@
 				<div class="tab-content">
 					<div role="tabpanel" class="tab-pane active" id="tab1">
 
-						<form class="form-horizontal" role="form">
+						<form class="form-horizontal" role="form" id="userform" action="{:U('Usercenter/Index/saveuser')}" method="post" onsubmit="return ajaxusersubmit()">
 							<div class="form-group">
 								<label for="NickName" class="col-sm-2 control-label">昵称</label>
 								<div class="col-sm-4">
@@ -66,7 +66,7 @@
 					<div class="form-group">
 						<label for="Name" class="col-sm-2 control-label">手机</label>
 						<div class="col-sm-4">
-							<input type="tel" class="form-control" name="Name" id="Name" value="{$user['Name']}"></div>
+							<input type="tel" class="form-control" name="Name" id="Name" value="{$user['Name']}" disabled="disabled"></div>
 						<div class="col-sm-2">
 							<button class="btn btn-primary">验证</button>
 						</div>
@@ -84,7 +84,7 @@
 
 					<div class="form-group">
 						<div class="col-sm-offset-2 col-sm-10">
-							<button type="submit" class="btn btn-success">保存</button>
+							<button type="submit" class="btn btn-success"  id="submituser" data-loading-text="保存中..." autocomplete="off" >保存</button>
 						</div>
 					</div>
 				</form>
@@ -384,6 +384,59 @@ function ajaxaddresssubmit(){
             } else {
                 showsuccessmsg("提交成功", 100, 1000);
                 $('#addressform')[0].reset();
+                $btn.button('reset');
+                setTimeout(function(){
+					location.href = location.href;
+                },300);  
+                return false;
+            }                
+        }
+    });
+    return false;
+}
+/*保存用户信息*/
+function ajaxusersubmit(){
+	var $btn = $('#submituser').button('loading');
+	if(!$.trim($('#Nick').val())){
+		showerrormsg('联系人为空',100,1000);
+		$('#Nick').focus();
+		$btn.button('reset');
+		return false;
+	}
+	var isMobile=/^(?:13\d|14\d|15\d|18\d)\d{5}(\d{3}|\*{3})$/; 
+	if(!$.trim($('#Name').val())||!isMobile.test($('#Name').val())){
+		showerrormsg('手机号不合法',100,1000);
+		$('#Name').focus();
+		$btn.button('reset');
+		return false;
+	}
+	var isQQ=/^(?!0)\d{5,11}$/; 
+	if(!$.trim($('#QQ').val())||!isQQ.test($('#QQ').val())){
+		showerrormsg('QQ号不合法',100,1000);
+		$('#QQ').focus();
+		$btn.button('reset');
+		return false;
+	}
+	$.ajax({
+        type: 'post',
+        cache: false,
+        url: $('#userform').attr('action'),
+        data: $('#userform').serialize(),
+        error:  
+        function(request)  {
+            showerrormsg('网络错误', 100, 1000);
+            $btn.button('reset');  
+            return false;              
+        },
+         success:  
+        function(data)  {
+            if (data.status == 0) {
+                showerrormsg(data.info, 100, 1000);
+                $btn.button('reset');
+                return false;
+            } else {
+                showsuccessmsg("提交成功", 100, 1000);
+                $('#userform')[0].reset();
                 $('#addressModal').modal('hide');
                 $btn.button('reset');
                 setTimeout(function(){

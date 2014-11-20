@@ -261,6 +261,7 @@ class UserController extends BaseController {
 		$this->display ();
 	}
 	public function lostpwd() {
+
 		$this->display ();
 	}
 	/**

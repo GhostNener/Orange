@@ -76,11 +76,15 @@ class IndexController extends LoginController {
 		$model = M('user');
 		$ranking = $model->query('select ranking from(
 								select @rownum := @rownum +1 AS ranking,Id from `user`, (SELECT@rownum :=0) r  
-								ORDER BY Credit desc,EXP desc,ClockinCount desc,`E-Money` desc ) M 
-								WHERE Id =' . cookie ( '_uid' ));
-
+								where `Status` = 10 ORDER BY Credit desc,EXP desc,ClockinCount desc,`E-Money` desc ) M 
+								WHERE Id = ' . cookie ( '_uid' ));
+		$user = $model->where(array('Id'=>cookie('_uid'),'Status'=>'10'))->find();
+		
+		$credit = $user['Credit']/($user['TradeCount']*5)*100;
 		$ranking = $ranking[0]['ranking'];
 		$this->assign('ranking',$ranking);
+		$this->assign('credit',$credit);
+		$this->assign('tradecount',$user['TradeCount']);
 		$this->display ();
 	}
 	
@@ -99,6 +103,8 @@ class IndexController extends LoginController {
 	
 	/**
 	 * 编辑个人信息页面
+	 * 
+	 * @author LongG
 	 */
 	public function edit() {
 		$userid = cookie ( '_uid' );
@@ -110,24 +116,11 @@ class IndexController extends LoginController {
 		$this->getCommon ();
 		$this->display ();
 	}
-	
-	/**
-	 * 编辑用户信息
-	 */
-	public function updateUser() {
-		$arr = I ( 'post.' );
-		$arr ['_uid'] = cookie ( '_uid' );
-		$model = new userModel ();
-		$rst = $model->updateUser ( $arr );
-		if (( int ) $rst ['status'] == 1) {
-			$this->success ( $rst ['msg'] );
-		} else {
-			$this->error ( $rst ['msg'] );
-		}
-	}
-	
+
 	/**
 	 * 订单管理
+	 * 
+	 * @author LongG
 	 */
 	public function order() {
 		$userid = cookie ( '_uid' );
@@ -156,6 +149,8 @@ class IndexController extends LoginController {
 	
 	/**
 	 * 在售商品
+	 * 
+	 * @author LongG
 	 */
 	public function sell() {
 		$userid = cookie ( '_uid' );
@@ -178,6 +173,8 @@ class IndexController extends LoginController {
 	
 	/**
 	 * 商品下架
+	 * 
+	 * @author LongG
 	 */
 	public function delgoods() {
 		if (! IS_POST || ! I ( 'GoodsId' )) {
@@ -195,6 +192,8 @@ class IndexController extends LoginController {
 	
 	/**
 	 * 已关注
+	 * 
+	 * @author LongG
 	 */
 	public function follow() {
 		$userid = cookie ( '_uid' );
@@ -217,6 +216,8 @@ class IndexController extends LoginController {
 	
 	/**
 	 * 关注
+	 * 
+	 * @author LongG
 	 */
 	public function attention() {
 		if (! IS_POST || ! I ( 'AttentionId' )) {
@@ -244,6 +245,8 @@ class IndexController extends LoginController {
 	
 	/**
 	 * 取消关注
+	 * 
+	 * @author LongG
 	 */
 	public function delattention() {
 		if (! IS_POST || ! I ( 'AttentionId' )) {
@@ -261,6 +264,8 @@ class IndexController extends LoginController {
 	
 	/**
 	 * 添加心愿单
+	 * 
+	 * @author LongG
 	 */
 	public function addlike() {
 		if (! IS_POST || ! I ( 'GoodsId' )) {
@@ -278,6 +283,8 @@ class IndexController extends LoginController {
 	
 	/**
 	 * 心愿单
+	 * 
+	 * @author LongG
 	 */
 	public function like() {
 		$userid = cookie ( '_uid' );
@@ -300,6 +307,8 @@ class IndexController extends LoginController {
 	
 	/**
 	 * 删除心愿单
+	 * 
+	 * @author LongG
 	 */
 	public function dellike() {
 		if (! IS_POST || ! I ( 'GoodsId' )) {
@@ -328,6 +337,8 @@ class IndexController extends LoginController {
 	
 	/**
 	 * 获取相同的模板变量并对模板进行赋值
+	 *
+	 * @author LongG
 	 */
 	private function getCommon() {
 		$userid = cookie ( '_uid' );
@@ -345,6 +356,23 @@ class IndexController extends LoginController {
 		}
 	}
 	
+	/**
+	 * 修改用户信息
+	 *
+	 * @author LongG
+	 */
+	public function saveuser() {
+		$arr = I ( 'post.' );
+		$arr ['Id'] = cookie ( '_uid' );
+		$model = new userModel ();
+		$rst = $model -> updateUser ( $arr );
+		if (( int ) $rst ['status'] == 1) {
+			$this->success ( $rst ['msg'] );
+		} else {
+			$this->error ( $rst ['msg'] );
+		}
+	}
+
 	/**
 	 * 修改密码
 	 *
@@ -367,6 +395,7 @@ class IndexController extends LoginController {
 			$this->success ( $rs ['msg'] );
 		}
 	}
+	
 	/**
 	 * 上传头像
 	 *
@@ -413,6 +442,7 @@ class IndexController extends LoginController {
 			$this->success ( 1 );
 		}
 	}
+	
 	/**
 	 * 删除地址
 	 *
@@ -432,8 +462,9 @@ class IndexController extends LoginController {
 			$this->success ($rst['msg']);
 		}
 	}
+	
 	/**
-	 * ajax 获取地址（出去了，回来做）
+	 * ajax 获取地址（
 	 *
 	 * @author NENER
 	 */
