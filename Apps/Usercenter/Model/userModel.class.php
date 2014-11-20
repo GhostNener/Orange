@@ -901,9 +901,11 @@ class userModel extends Model {
 	}
 	/**
 	 * 修改密码
-	 * @param array $data
-	 * @param string $uid
-	 * @return multitype:number string  */
+	 *
+	 * @param array $data        	
+	 * @param string $uid        	
+	 * @return multitype:number string
+	 */
 	public function changepwd($data, $uid = NULL) {
 		if (! $uid) {
 			$uid = cookie ( '_uid' );
@@ -937,7 +939,7 @@ class userModel extends Model {
 					'msg' => '原密码错误' 
 			);
 		}
-		$npwd=$this->encrypt ( $data ['Password'], $u ['RegistTime'] );
+		$npwd = $this->encrypt ( $data ['Password'], $u ['RegistTime'] );
 		$rs = $this->where ( array (
 				'Id' => $uid,
 				'Status' => 10 
@@ -955,6 +957,59 @@ class userModel extends Model {
 					'status' => 1,
 					'msg' => '修改成功,请重新登录' 
 			);
+		}
+	}
+	/**
+	 * 用户经验值处理
+	 * 
+	 * @param string $uid
+	 *        	用户id
+	 * @param number $type
+	 *        	类型：1：留言收藏回复，2：参与活动，3：上架，4：售出，5：购买，6：完成心愿单
+	 * @param string $isInc
+	 *        	是不是增加，默认是
+	 * @param string $isclockin
+	 *        	是不是签到默认是
+	 * @return
+	 */
+	public function handleEXP($uid = null, $type = 1, $isInc = true, $isclockin = false) {
+		if (! $uid) {
+			$uid = cookie ( '_uid' );
+		}
+		$wa = array (
+				'Id' => $uid 
+		);
+		if ($isclockin) {
+			return $this->where ( $wa )->setInc ( 'EXP', $type );
+		}
+		$n = 0;
+		switch ($type) {
+			case 1 : // 留言收藏
+				$n = 1;
+				break;
+			case 2 : // 参与活动
+				$n = 4;
+				break;
+			case 3 : // 上架
+				$n = 5;
+				break;
+			case 4 : // 售出
+				$n = 5;
+				break;
+			case 5 : // 购买
+				$n = 10;
+				break;
+			case 6 : // 给别人完成心愿单
+				$n = 10;
+				break;
+			default :
+				$n = 1;
+				break;
+		}
+		if ($isInc) {
+			return $this->where ( $wa )->setInc ( 'EXP', $n );
+		} else {
+			return $this->where ( $wa )->setDec ( 'EXP', $n );
 		}
 	}
 }

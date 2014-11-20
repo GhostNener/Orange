@@ -23,8 +23,7 @@ class PayController extends LoginController {
 		$this->display ();
 	}
 	public function check() {
-		$code = I ( 'code' );
-		
+		$code = I ( 'code' );	
 		$verify = new \Think\Verify ();
 		$verify->reset = true;
 		$rst = $verify->check ( $code, '' );
@@ -37,6 +36,10 @@ class PayController extends LoginController {
 	
 	// 检验订单号
 	public function tradeno() {
+		if(!IS_POST){
+			$this->error('不要瞎搞');
+			return ;
+		}
 		$model = M ( 'alipay' );
 		$tradeno = I ( 'tradeno' );
 		$result = $model->where ( array (
