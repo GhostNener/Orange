@@ -31,10 +31,10 @@
 								<th>状态</th>
 							</thead>
 							<tbody>
-							<foreach name="selling" item="v">
+							<foreach name="ing" item="v">
 								<tr>
 									<td>
-										<span class="label label-success">售出</span>
+										<if condition="$v['BuyerId'] eq cookie('_uid')"><span class="label label-success">购买</span><else/><span class="label label-primary">出售</span></if>
 									</td>
 									<td>{$v['Title']} </td>
 									<td>{$v['Price']}</td>
@@ -45,29 +45,14 @@
 										{$v['Address']}
 									</td>
 									<td>
-										<button class="btn btn-warning btn-small">未评价</button>
+										<button class="btn btn-warning btn-small" data-toggle="modal" data-backdrop="static" modaltitle="添加资讯" data-target="#addModal">未评价</button>
 									</td>
-								</tr></foreach>
-								<foreach name="buying" item="v">
-								<tr>
-									<td>
-										<span class="label label-primary">买入</span>
-									</td>
-									<td>{$v['Title']}</td>
-									<td>{$v['Price']}</td>
-									<td><if condition="$v['TradeWay'] eq 1">线上<else />线下</if></td>
-									<td>
-										{$v['SellNick']}：{$v['Tel']}
-										<br/>
-										{$v['Address']}
-									</td>
-									<td>
-										<button class="btn btn-warning btn-small">未评价</button>
-									</td>
-								</tr></foreach>
+								</tr>
+							</foreach>
 							</tbody>
 						</table>
 					</div>
+					<div class="page">{$pageing}</div>
 				</div>
 				
 				<div role="tabpanel" class="tab-pane" id="tab2">
@@ -126,4 +111,36 @@
 		</div>
 	</div>
 </div>
+<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-dialog modal-sm">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+					<span class="sr-only">Close</span>
+				</button>
+				<h4 class="modal-title hightlight" id="myModalLabel">请为本次交易评分</h4>
+			</div>
+
+			<form class="form-horizontal" action="{:U('save')}" onsubmit="syncsubmit()" method="post" enctype="multipart/form-data">
+				<div class="modal-body">
+
+					<h1 class="row text-center">
+						<div id="stars" class="starrr text-orange"></div>
+
+						<small id="count">0</small>
+						<small>星</small>
+					</h1>
+				</div>
+				<div class="modal-footer">
+					<button type="submit" class="btn btn-success">确定</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+<script src="__PUBLIC__/js/jquery-1.11.0.js"></script>
+<script src="__PUBLIC__/js/bootstrap.min.js"></script>
+<script src="__PUBLIC__/js/juzi.js"></script>
+<script src="__PUBLIC__/js/star.js"></script>
 </block>

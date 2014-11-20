@@ -103,13 +103,13 @@
 						</thead>
 						<tbody>
 							<foreach name='address' item='v'>
-								<tr>
+								<tr class="nt_{$v['Id']}">
 									<td>{$v['Contacts']}</td>
 									<td style="width:200px">{$v['Address']}</td>
 									<td>{$v['Tel']}</td>
 									<td>{$v['QQ']}</td>
 									<td>
-										<button act="{:U('Usercenter/Index/deladd',array('Id'=>$v['Id']))}" class="btn btn-danger btn-small btndel">删除</button>
+										<button nid="{$v['Id']}" class="btn btn-danger btn-small noticeclose">删除</button>
 										<button act="{:U('Usercenter/Index/getadd',array('Id'=>$v['Id']))}"  class="btn btn-primary btn-small btnedit" aid="{$v['Id']}" data-toggle="modal" data-backdrop="static" data-target="#addressModal">编辑</button>
 									</td>
 								</tr>
@@ -117,6 +117,7 @@
 						</tbody>
 					</table>
 				</div>
+				<input type="hidden" id="closeurl" value="{:U('u/Index/deladd')}">
 			</div>
 			<div role="tabpanel" class="tab-pane" id="tab3">
 				<form class="form-horizontal" id="changepwdform" action="{:U('Usercenter/Index/changepwd')}" method="post" onsubmit="return submitsavepwd('changepwdform')" role="form">
@@ -246,43 +247,41 @@ $(function(){
 		});
 	});
 	/*删除*/
-	$('.btndel').click(function(e){
-		/*回来做*/
+	$('.noticeclose').click(function(e) {
 		if(!confirm('您真的要删除吗？')){
 			return;
 		}
-		var a = $(this);
-		$.ajax({
-	        type: 'get',
+	    var _id = $(this).attr('nid');
+	    $.ajax({
+	        type: 'post',
 	        cache: false,
-	        url: a.attr('act'),
+	        url: $('#closeurl').val(),
+	        data: {
+	    		Id: _id
+	        },
 	        error:  
-		        function(request)  {
-		            showerrormsg('网络错误', 100, 1000);
-		            $btn.button('reset');  
-		            return false;              
-		        },
+	        function(request)  {
+	            showerrormsg('网络错误', 100, 1000);
+	            return false;               
+	        },
 	        success:  
-		        function(data){
-		            if (data.status == 0) {
-		                showerrormsg(data.info, 100, 1000);
-		            } else {
-		                showsuccessmsg(data.info, 100, 1000);
-		            }  
-		            setTimeout(function(){
-						location.href = location.href;
-	                },300);   
-		            $btn.button('reset');
-		            return false;           
-		        }
+	        function(data){
+	            if (data.status == 0) {
+	                location.href = location.href;
+	                return false;
+	            } else {
+	                $('.nt_' + _id).slideUp(300);
+	                return false;
+	            }                
+	        }
 	    });
-		return false;
+	    return false;
 	});
 });
 
-	function loading() { 
-		$("body").append('<div  id="load" style="z-index:99999; position:fixed; left:45%; top:30%"><img src="__PUBLIC__/Img/loading.gif" /></div>'); 
-	}
+function loading() { 
+	$("body").append('<div  id="load" style="z-index:99999; position:fixed; left:45%; top:30%"><img src="__PUBLIC__/Img/loading.gif" /></div>'); 
+}
 
 /*修改密码*/
 function submitsavepwd(_id){

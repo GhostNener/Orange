@@ -130,15 +130,14 @@ class IndexController extends LoginController {
 		$arrBuy = $model -> getorder ($userid, $limit, 1);
 		$arrSell = $model -> getorder ( $userid, $limit, 2 );
 		/* 获得未完成的订单 */
-		$arrBuying = $model -> getorder ( $userid, $limit, 3);
-		$arrSelling = $model -> getorder ( $userid, $limit, 4);
+		$arring = $model -> getorder ( $userid, 5, 3);
 		/* 模板赋值 */
 		$this->assign ( 'buy', $arrBuy ['list'] );
 		$this->assign ( 'sell', $arrSell ['list'] );
-		$this->assign ( 'buying', $arrBuying ['list'] );
-		$this->assign ( 'selling', $arrSelling ['list'] );
+		$this->assign ( 'ing', $arring ['list'] );
 		$this->assign ( 'pagebuy', $arrBuy ['page'] );
 		$this->assign ( 'pagesell', $arrSell ['page'] );
+		$this->assign ( 'pageing', $arring ['page'] );
 		$this->getcommon ();
 		$this->display ();
 	}

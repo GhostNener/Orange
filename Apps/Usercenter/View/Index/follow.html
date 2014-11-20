@@ -5,7 +5,7 @@
 		<div class="panel-body">
 			<div class="row userlist">
 			<volist name='attention' id='v' empty="$empty">
-				<div class="col-md-4">
+				<div class="col-md-4 nt_{$v['AttentionId']}">
 					<div class="media">
 						<a  class="pull-left" href="{:U('Usercenter/User/u_show',array('Id' => $v['AttentionId']))}">
 							<img class="media-object"  src="{:getFileUrl($v['URL'],'80x80')}" alt="{$v['Nick']}"></a>
@@ -13,7 +13,7 @@
 							<h5 class="media-heading">{$v['Nick']}</h5>
 							<p>{:getgrade($v['EXP'])}</p>
 							<a href="{:U('Usercenter/User/u_show',array('Id' => $v['AttentionId']))}"><button type="button" class="btn btn-success">详情</button></a>
-							<button class="btn btn-danger favoritebtn" data-id=" {$v['AttentionId']}" data-loading-text="提交中..." autocomplete="off">
+							<button class="btn btn-danger noticeclose" nid="{$v['AttentionId']}" data-loading-text="提交中..." autocomplete="off">
 								删除
 							</button>
 						</div>
@@ -27,49 +27,45 @@
 </div>
 
 <!-- 取消关注 -->	
-<form  id="favoriteform" action="{:U('Usercenter/Index/delattention')}" style="display:none" method="post" onsubmit="return ajaxsubmitfavorite()">
-<input type="hidden" name="AttentionId" value=""></form>
+<input type="hidden" id="closeurl" value="{:U('u/Index/delattention')}">
 </block>
 
 <block name="js">
 <script>
-function ajaxsubmitfavorite(){
-	if(!confirm('您真的要删除吗？')){
-		return;
-	}
-	var $btn = $('.favoritebtn').button('loading');
-	$btn.button('reset');
-	$.ajax({
-        type: 'post',
-        cache: false,
-        url: $('#favoriteform').attr('action'),
-        data: $('#favoriteform').serialize(),
-        error:  
-        function(request)  {
-            showerrormsg('网络错误', 100, 1000);
-            $btn.button('reset');  
-            return false;              
-        },
-         success:  
-        function(data)  {
-            if (data.status == 0) {
-                showerrormsg(data.info, 100, 1000);
-            } else {
-                showsuccessmsg(data.info, 100, 1000);
-                setTimeout(function(){
-					location.href = location.href;
-                },300);
-            }     
-            $btn.button('reset');
-            return false;           
-        }
-    });
-	return false;
-}
-$(document).ready(function() {
-	$('.favoritebtn').click(function(){
-	 $('#favoriteform').find($('input')).val($(this).attr('data-id'));
-		return ajaxsubmitfavorite();
+$(function(){
+	$('.noticeclose').click(function(e) {
+		if(!confirm('您真的要删除吗？')){
+			return;
+		}
+	    var _id = $(this).attr('nid');
+	    $.ajax({
+	        type: 'post',
+	        cache: false,
+	        url: $('#closeurl').val(),
+	        data: {
+	    		AttentionId: _id
+	        },
+	        error:  
+	        function(request)  {
+	            showerrormsg('网络错误', 100, 1000);
+	            return false;               
+	        },
+	        success:  
+	        function(data){
+	            if (data.status == 0) {
+	                location.href = location.href;
+	                return false;
+	            } else {
+	                $('.nt_' + _id).slideUp(300);
+	                setTimeout(function() {
+	                    location.href = location.href;
+	                },
+	                350);
+	                return false;
+	            }                
+	        }
+	    });
+	    return false;
 	});
 });
 </script>
