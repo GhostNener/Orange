@@ -180,9 +180,13 @@ class UserController extends BaseController {
 	
 	/**
 	 * 个人页面
-	 * 
+	 *
 	 * @param $Id 被关注人Id        	
 	 * @return
+	 *
+	 *
+	 *
+	 *
 	 *
 	 * @author LongG
 	 */
@@ -235,23 +239,111 @@ class UserController extends BaseController {
 		$this->assign ( 'selllist', $selllist ['list'] );
 		$this->assign ( 'selllist', $selllist ['list'] );
 		$this->assign ( 'likelist', $favorite ['list'] );
-		$this->assign ( 'md', $msg['status'] );
+		$this->assign ( 'md', $msg ['status'] );
 		$this->assign ( 'empty', '<h3 class="text-center text-import">暂无商品</h3>' );
-
-		//排行
-		$model = M('user');
-		$ranking = $model->query('select ranking from(
+		
+		// 排行
+		$model = M ( 'user' );
+		$ranking = $model->query ( 'select ranking from(
 								select @rownum := @rownum +1 AS ranking,Id from `user`, (SELECT@rownum :=0) r  
 								ORDER BY Credit desc,EXP desc,ClockinCount desc,`E-Money` desc ) M 
-								WHERE Id =' . cookie ( '_uid' ));
-
-		$ranking = $ranking[0]['ranking'];
-		$ClockinCount = $model->field('ClockinCount') -> where(array('Id'=>$attenid,'Status'=>10)) ->find();
-		$ClockinCount = $ClockinCount['ClockinCount'];
-		$this->assign('ClockinCount',$ClockinCount);
-		$this->assign('ranking',$ranking);
-
+								WHERE Id =' . cookie ( '_uid' ) );
+		
+		$ranking = $ranking [0] ['ranking'];
+		$ClockinCount = $model->field ( 'ClockinCount' )->where ( array (
+				'Id' => $attenid,
+				'Status' => 10 
+		) )->find ();
+		$ClockinCount = $ClockinCount ['ClockinCount'];
+		$this->assign ( 'ClockinCount', $ClockinCount );
+		$this->assign ( 'ranking', $ranking );
+		
 		$this->display ();
+	}
+	public function lostpwd() {
+		$this->display ();
+	}
+	/**
+	 * 用户激活页面
+	 *
+	 * @author NENER
+	 */
+	public function activated() {
+		$u = D ( 'user' )->where ( array (
+				'Id' => cookie ( '_uid' ),
+				'Status' => 101 
+		) )->find ();
+		if (! $u || ! checkmail ( $u ['E-Mail'] )) {
+			redirect ( U ( '/' ) );
+		} else {
+			$ex = substr ( strrchr ( $u ['E-Mail'], '@' ), 1 );
+			$mailurl = 'http://mail.' . $ex;
+			$this->assign ( 'activatedurl', $mailurl );
+			$this->display ();
+		}
+	}
+	/**
+	 * 重置密码（密码找回）
+	 */
+	public function resetpwd() {
+		$key = I ( 'key' );
+		$key = trim ( $key );
+		if (! $key) {
+			redirect ( U ( '/' ) );
+		}
+		$u = M ( 'user' )->where ( array (
+				'UserKey' => $key,
+				'Status' => array (
+						'neq',
+						- 1 
+				) 
+		) )->find ();
+		if (! $u) {
+			$this->error ( '链接已过期', U ( '/' ) );
+			die ();
+		}
+		if ((time () - $u ['LastKeyTime']) > C ( 'RESET_PWD_MAIL_TIME' )) {
+			$this->error ( '链接已过期', U ( '/' ) );
+			die ();
+		}
+		cookie ( '_fkey', $key );
+		$this->assign ( 'fmodel', $u );
+		$this->display ();
+	}
+	/**
+	 * 保存密码（密码找回）
+	 */
+	public function u_resetpwd() {
+		$key = cookie ( '_fkey' );
+		if (! IS_POST || ! $key) {
+			$this->error ( '不要瞎搞', U ( '/' ) );
+		}
+		$m = new userModel ();
+		$r = $m->resetpwd ( I ( 'post.' ), $key );
+		if (( int ) $r ['status'] == 0) {
+			$this->error ( $r ['msg'] );
+		} else {
+			cookie ( '_fkey', null );
+			$this->success ( $r ['msg'] );
+		}
+	}
+	/**
+	 * 发送密码找回邮件
+	 *
+	 * @author NENER
+	 */
+	public function findpwdmail() {
+		$email = I ( 'post.email' );
+		if (! IS_POST || ! $email) {
+			$this->error ( '页面不存在', U ( '/' ) );
+		}
+		$u = new userModel ();
+		$r = $u->sendfindpwdmail ( $email );
+		if (( int ) $r ['status'] == 0) {
+			$this->error ( $r ['msg'] );
+		} else {
+			$this->success ( '发送成功' );
+		}
 	}
 }
 ?>

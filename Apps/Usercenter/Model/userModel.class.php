@@ -62,7 +62,7 @@ class userModel extends Model {
 			array (
 					'Password',
 					'6,18',
-					'密码长度错误',
+					'请确保密码在6~18位字符',
 					self::EXISTS_VALIDATE,
 					'length' 
 			),
@@ -809,7 +809,7 @@ class userModel extends Model {
 			return $msg;
 		} else {
 			$dal->commit ();
-			$this->handleEXP($uid,$c,true,true);
+			$this->handleEXP ( $uid, $c, true, true );
 			return '签到成功，已连续签到' . $c . '天';
 		}
 	}
@@ -962,7 +962,7 @@ class userModel extends Model {
 	}
 	/**
 	 * 用户经验值处理
-	 * 
+	 *
 	 * @param string $uid
 	 *        	用户id
 	 * @param number $type
@@ -972,6 +972,11 @@ class userModel extends Model {
 	 * @param string $isclockin
 	 *        	是不是签到,默认不是
 	 * @return
+	 *
+	 *
+	 *
+	 *
+	 *
 	 */
 	public function handleEXP($uid = null, $type = 1, $isInc = true, $isclockin = false) {
 		if (! $uid) {
@@ -1012,6 +1017,110 @@ class userModel extends Model {
 		} else {
 			return $this->where ( $wa )->setDec ( 'EXP', $n );
 		}
+	}
+	/**
+	 * 发送密码找回邮件
+	 *
+	 * @param unknown $email        	
+	 * @return multitype:number string
+	 */
+	public function sendfindpwdmail($email) {
+		$email = trim ( $email );
+		if (! $email || ! checkmail ( $email )) {
+			return array (
+					'status' => 0,
+					'msg' => '邮箱不可用' 
+			);
+		}
+		$m = $this->where ( array (
+				'E-Mail' => $email,
+				'Status' => array (
+						'neq',
+						- 1 
+				) 
+		) )->find ();
+		if (! $m) {
+			return array (
+					'status' => 0,
+					'msg' => '用户不存在' 
+			);
+		}
+		$key = createonekey ( $email, 17, 16 );
+		if (! $this->where ( array (
+				'Id' => $m ['Id'] 
+		) )->save ( array (
+				'UserKey' => $key,
+				'LastKeyTime' => time () 
+		) )) {
+			return array (
+					'status' => 0,
+					'msg' => '邮件发送失败' 
+			);
+		}
+		$content = file_get_contents ( C ( 'FIND_PWD_MAIL_TPL_PATH' ) );
+		$content = str_replace ( '[$_USERNAME_$]', $email, $content );
+		$content = str_replace ( '[$_URL_$]', U ( '/u/resetpwd/' . $key, null, true, true ), $content );
+		if (sendEmail ( '密码找回', $content, $email )) {
+			return array (
+					'status' => 1,
+					'msg' => '发送成功' 
+			);
+		}
+		return array (
+				'status' => 0,
+				'msg' => '邮件发送失败' 
+		);
+	}
+	/**
+	 * 保存密码(密码找回)
+	 *
+	 * @param array $arr        	
+	 * @param string $key        	
+	 */
+	public function resetpwd($arr, $key) {
+		$u = $this->where ( array (
+				'UserKey' => $key,
+				'Status' => array (
+						'neq',
+						- 1 
+				) 
+		) )->find ();
+		if (! $u) {
+			return array (
+					'status' => 0,
+					'msg' => '保存失败' 
+			);
+		}
+		$data = array (
+				'ConfirmPassword' => $arr ['ConfirmPassword'],
+				'Password' => $arr ['Password'] 
+		);
+		if (! $this->create ( $data )) {
+			return array (
+					'status' => 0,
+					'msg' => $this->getError () 
+			);
+		}
+		$pwd = $this->encrypt ( $data ['Password'], $u ['RegistTime'] );
+		$key = $this->getnewkey ( $u ['Id'] );
+		if ($this->where ( array (
+				'Id' => $u ['Id'] 
+		) )->save ( array (
+				'Password' => $pwd,
+				'UserKey' => $key,
+				'LastKeyTime' => time () 
+		) )) {
+			cookie ( '_uid', $u ['Id'] );
+			cookie ( '_key', $key );
+			return array (
+					'status' => 1,
+					'msg' => '保存成功' 
+			);
+		}
+		return array (
+				'status' => 0,
+				'msg' => '保存失败' 
+		);
 	}
 }
 ?>

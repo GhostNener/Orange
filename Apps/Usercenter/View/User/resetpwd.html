@@ -1,0 +1,97 @@
+<extend name="./Tpl/layout.html"/>
+<block name="content">
+    <div id="main" class="container">
+        <div class="col-md-6 col-md-offset-3">
+            <div class="panel panel-default login-panel">
+                <div class="panel-body">
+                    <form id="resetpwdform" class="form-horizontal" role="form" method="post" action="{:U('u/User/u_resetpwd')}" onsubmit="return ajaxsubmit()">
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label for="UserName" class="col-sm-3 control-label">用户名</label>
+                                <div class="col-sm-9">
+                                    <input type="text" name="UserName" id="UserName" class="form-control" placeholder="邮箱/手机号" required disabled value="{$fmodel['E-Mail']?$fmodel['E-Mail']:$fmodel['Name']}"></div>
+                            </div>
+                            <div class="form-group">
+                                <label for="Password" class="col-sm-3 control-label">密&nbsp&nbsp&nbsp&nbsp码</label>
+                                <div class="col-sm-9">
+                                    <input type="password" name="Password" id="Password" class="form-control" required ></div>
+                            </div>
+                            <div class="form-group">
+                                <label for="Password" class="col-sm-3 control-label">确认密码</label>
+                                <div class="col-sm-9">
+                                    <input type="password" name="ConfirmPassword" id="ConfirmPassword" class="form-control" required ></div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" id="submitbutton"  class="btn btn-success" data-loading-text="提交中..." autocomplete="off" >提交</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</block>
+<block name="css">
+    <style>
+img.verifycode{
+    cursor: pointer;
+}
+    </style>
+</block>
+<block name="js">
+    <script>
+    function checkpwd(_pwd) {
+    var ispwd = /^[a-z0-9_A-Z~!@#$%^&*]{6,18}$/;
+    /*/^(?!\D+$)(?!\d+$)[a-zA-Z0-9_]\w{6,16}$/*/
+    ;
+    if (!ispwd.test(_pwd)) {
+        return false;
+    }
+    return true;
+}
+function ajaxsubmit() {
+    var $btn = $('#submitbutton').button('loading');
+    var _pwd = $.trim($('#Password').val());
+    var _confirmpwd = $.trim($('#ConfirmPassword').val());
+    if (!_pwd || !checkpwd(_pwd)) {
+        showerrormsg('请确保密码在6~18位字符', 100, 1000);
+        $('#Password').focus();
+        $btn.button('reset');
+        return false;
+    }
+    if (!_confirmpwd || !checkpwd(_confirmpwd) || _pwd != _confirmpwd) {
+        showerrormsg('密码不一致', 100, 1000);
+        $('#ConfirmPassword').focus();
+        $btn.button('reset');
+        return false;
+    }
+    $.ajax({
+        type: 'post',
+        cache: false,
+        url: $('#resetpwdform').attr('action'),
+        data: $('#resetpwdform').serialize(),
+        error:  
+        function(request)  {
+            showerrormsg('网络错误', 100, 1000);
+            $btn.button('reset');   
+            return false;             
+        },
+                        success:  
+        function(data)  {
+            if (data.status == 0) {
+                showerrormsg(data.info, 100, 1000);
+                $btn.button('reset');
+                return false;
+            } else {
+                showsuccessmsg('保存成功',100,1000);
+                setTimeout(function(){
+                    location.href = "{:U('/')}";
+                },1000);
+                
+            }                
+        }
+    });
+    return false;
+}
+    </script>
+</block>

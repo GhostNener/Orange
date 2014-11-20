@@ -65,7 +65,10 @@ return array (
 		'USER_ROLEID' => 2,
 		/*记住我 cookie保存时间*/
 		'COOKIE_REMEMBER_TIME' => 30 * 24 * 60 * 60,
+		/*单日留言经验值上限  */
 		'COMMENT_EXP_FOR_DAY' => 50,
+		/*密码找回邮件过期时间  */
+		'RESET_PWD_MAIL_TIME'=>24*60*60,
 		/* 激活邮件配置 */
 		'ORANGER_MAIL' => array (
 				'SMTP_HOST' => 'smtp.ym.163.com', // SMTP服务器
@@ -140,6 +143,8 @@ return array (
 		'MAX_PUBLISH_COST' => 10,
 		/*激活邮件模板路径  */
 		'ACTIVE_MAIL_TPL_PATH' => './Tpl/Public/Mail/activemail.txt',
+		/*密码找回邮件模板  */
+		'FIND_PWD_MAIL_TPL_PATH' => './Tpl/Public/Mail/findpwd.txt',
 		/*定制成功以及错误模板  */
 		'TMPL_ACTION_ERROR' => './Tpl/jump.html',
 		'TMPL_ACTION_SUCCESS' => './Tpl/jump.html',

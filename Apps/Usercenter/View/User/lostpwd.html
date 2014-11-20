@@ -1,0 +1,91 @@
+<extend name="./Tpl/layout.html"/>
+<block name="content">
+	<div id="main" class="container">
+		<div class="row">
+			<div class="col-md-6 col-md-offset-3 ">
+				<div class="board board-register ">
+					<div class="board-inner">
+						<ul id="myTab" class="nav nav-tabs text-center">
+							<li class="active">
+								<a href="#tab1" data-toggle="tab" title="邮箱找回" >
+									<span class="round-tabs three"> <i class="glyphicon glyphicon-envelope"></i>
+									</span>
+
+								</a>
+							</li>
+
+						</ul>
+					</div>
+					<div class="tab-content">
+						<div class="tab-pane fade in active" id="tab1">
+							<form id="findpwdform" class="form-horizontal" action="{:U('u/User/findpwdmail')}" role="form" onsubmit="return ajaxsubmit()">
+								<div class="form-group">
+									<label for="UserName" class="col-sm-3 control-label" >邮箱</label>
+									<div class="col-sm-8">
+										<input type="email" class="form-control" id="email" name="email" placeholder="请输入邮箱" required></div>
+								</div>
+								<div class="form-group">
+									<div class="col-sm-offset-3 col-sm-9">
+										<button type="submit" id="findpwdbutton" class="btn btn-orange" data-loading-text="提交中..."  autocomplete="off" >找回密码</button>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+					<!--myTabContent-->
+				</div>
+				<!--panel-body-->
+			</div>
+		</div>
+	</div>
+</block>
+<block name="js">
+	<script>
+function ajaxsubmit(){
+	var $btn = $('#findpwdbutton').button('loading');
+	var _mail=$('#email').val();
+	if (!_mail || !checkmail(_mail)) {
+        showerrormsg('邮箱不合法', 100, 1000);
+        $('#email').focus();
+        $btn.button('reset');
+        return false;
+    }
+    $.ajax({
+        type: 'post',
+        cache: false,
+        url: $('#findpwdform').attr('action'),
+        data: $('#findpwdform').serialize(),
+        error:  
+        function(request)  {
+            showerrormsg('网络错误', 100, 1000);
+            $btn.button('reset');   
+            return false;             
+        },
+                        success:  
+        function(data)  {
+            if (data.status == 0) {
+                showerrormsg(data.info, 100, 1000);
+                $btn.button('reset');
+                return false;
+            } else {
+            	showsuccessmsg('邮件发送成功！请到邮箱收取密码找回邮件',100,3500);
+            	setTimeout(function(){
+            		location.href = "{:U('/')}";
+            	},3500);
+                return false;
+            }                
+        }
+    });
+    return false;
+}
+function checkmail(_mail) {
+    var ismail1 = /^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/;
+    var ismail2 = /^[a-z\d]+(\.[a-z\d]+)*@([\da-z](-[\da-z])?)+(\.{1,2}[a-z]+)+$/;
+    if (!ismail1.test(_mail) && !ismail2.test(_mail)) {
+        return false;
+    }
+    return true;
+}
+
+	</script>
+</block>
