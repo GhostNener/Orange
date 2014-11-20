@@ -286,6 +286,7 @@ footer {
 
 .tab-pane .tabuser .info{
     margin-top: 8px;
+    text-align: right;
 }
 .tabuser {
 	margin-top: 20px;
