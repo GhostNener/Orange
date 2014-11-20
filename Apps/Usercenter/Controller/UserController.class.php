@@ -242,14 +242,21 @@ class UserController extends BaseController {
 		$model = M('user');
 		$ranking = $model->query('select ranking from(
 								select @rownum := @rownum +1 AS ranking,Id from `user`, (SELECT@rownum :=0) r  
-								ORDER BY Credit desc,EXP desc,ClockinCount desc,`E-Money` desc ) M 
-								WHERE Id =' . cookie ( '_uid' ));
+								where `Status` = 10 ORDER BY Credit desc,EXP desc,ClockinCount desc,`E-Money` desc ) M 
+								WHERE Id = ' . $attenid);
 
 		$ranking = $ranking[0]['ranking'];
-		$ClockinCount = $model->field('ClockinCount') -> where(array('Id'=>$attenid,'Status'=>10)) ->find();
-		$ClockinCount = $ClockinCount['ClockinCount'];
+		//签到
+		$user = $model-> where(array('Id'=>$attenid,'Status'=>10)) ->find();
+		$ClockinCount = $user['ClockinCount'];
+		//信誉度
+		$credit = $user['Credit']/($user['TradeCount']*5)*100;
+
 		$this->assign('ClockinCount',$ClockinCount);
 		$this->assign('ranking',$ranking);
+		$this->assign('credit',$credit);
+		//销量
+		$this->assign('tradecount',$user['TradeCount']);
 
 		$this->display ();
 	}

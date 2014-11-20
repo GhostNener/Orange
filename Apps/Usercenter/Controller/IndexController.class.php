@@ -76,11 +76,15 @@ class IndexController extends LoginController {
 		$model = M('user');
 		$ranking = $model->query('select ranking from(
 								select @rownum := @rownum +1 AS ranking,Id from `user`, (SELECT@rownum :=0) r  
-								ORDER BY Credit desc,EXP desc,ClockinCount desc,`E-Money` desc ) M 
-								WHERE Id =' . cookie ( '_uid' ));
-
+								where `Status` = 10 ORDER BY Credit desc,EXP desc,ClockinCount desc,`E-Money` desc ) M 
+								WHERE Id = ' . cookie ( '_uid' ));
+		$user = $model->where(array('Id'=>cookie('_uid'),'Status'=>'10'))->find();
+		
+		$credit = $user['Credit']/($user['TradeCount']*5)*100;
 		$ranking = $ranking[0]['ranking'];
 		$this->assign('ranking',$ranking);
+		$this->assign('credit',$credit);
+		$this->assign('tradecount',$user['TradeCount']);
 		$this->display ();
 	}
 	
