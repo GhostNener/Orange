@@ -4,6 +4,7 @@ use Vendor\PHPMailer;
 use Usercenter\Model\userModel;
 use Org\Util\String;
 use Home\Model\noticeModel;
+use Home\Model\logsModel;
 use Usercenter\Model\user_addressModel;
 require_once './ORG/qiniu/qiniu.class.php';
 /**
@@ -30,6 +31,20 @@ function isactivated() {
 function CSYSN($arruid, $title, $content) {
 	$m = new noticeModel ();
 	$m->CSYSN ( $arruid, $title, $content );
+}
+
+/**
+ * 添加一条日志
+ *
+ * @param string $contents
+ *        	内容
+ * @param int $type
+ *        	1: 商品（发布、购买、下架等），2: 用户行为（登录、修改密码、注册、激活），3: 订单（下单、完成订单），4: 充值, 5: 其他
+ *			默认类型为'其他'
+ */
+function log($contents, $type=5){
+	$log = new logsModel();
+	$log->log($contents,$type);
 }
 
 /**
@@ -1211,4 +1226,5 @@ function handleEXP($uid = null, $type = 1, $isInc = true, $isclockin = false) {
 	$m=new userModel();
 	return $m-> handleEXP($uid = null, $type = 1, $isInc = true, $isclockin = false);
 }
+
 ?>
