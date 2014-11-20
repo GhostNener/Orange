@@ -143,10 +143,12 @@ class noticeModel extends Model {
 	 * @return Ambigous <boolean, unknown>
 	 */
 	public function delone($Id) {
-		return $this->where ( array (
+		
+		return $this->delete($Id);
+		/*return $this->where ( array (
 				'Id' => $Id 
 		) )->save ( array (
 				'Status' => - 1 
-		) );
+		) );*/
 	}
 }
