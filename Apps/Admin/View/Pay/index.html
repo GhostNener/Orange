@@ -11,6 +11,7 @@
 						<th>金额</th>
 						<th>备注</th>
 						<th>状态</th>
+						<th>充值</th>
 						<th>时间</th>
 					</thead>
 					<tbody>
@@ -21,6 +22,7 @@
 								<td>{$v[Amount]}</td>
 								<td>{$v[Remark]}</td>
 								<td>{$v[Status]}</td>
+								<td>{$v[Enabled]?已充值:未使用}</td>
 								<td>{$v[CreateTime]|date="y-m-d H:i",###}</td>
 							</tr>
 						</foreach>
