@@ -237,6 +237,20 @@ class UserController extends BaseController {
 		$this->assign ( 'likelist', $favorite ['list'] );
 		$this->assign ( 'md', $msg['status'] );
 		$this->assign ( 'empty', '<h3 class="text-center text-import">暂无商品</h3>' );
+
+		//排行
+		$model = M('user');
+		$ranking = $model->query('select ranking from(
+								select @rownum := @rownum +1 AS ranking,Id from `user`, (SELECT@rownum :=0) r  
+								ORDER BY Credit desc,EXP desc,ClockinCount desc,`E-Money` desc ) M 
+								WHERE Id =' . cookie ( '_uid' ));
+
+		$ranking = $ranking[0]['ranking'];
+		$ClockinCount = $model->field('ClockinCount') -> where(array('Id'=>$attenid,'Status'=>10)) ->find();
+		$ClockinCount = $ClockinCount['ClockinCount'];
+		$this->assign('ClockinCount',$ClockinCount);
+		$this->assign('ranking',$ranking);
+
 		$this->display ();
 	}
 }
