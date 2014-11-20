@@ -77,7 +77,7 @@ class IndexController extends LoginController {
 		$ranking = $model->query('select ranking from(
 								select @rownum := @rownum +1 AS ranking,Id from `user`, (SELECT@rownum :=0) r  
 								ORDER BY Credit desc,EXP desc,ClockinCount desc,`E-Money` desc ) M 
-								WHERE Id =' . $userid);
+								WHERE Id =' . cookie ( '_uid' ));
 
 		$ranking = $ranking[0]['ranking'];
 		$this->assign('ranking',$ranking);
