@@ -8,7 +8,6 @@ use Think\Model;
  * 用户地址模型
  *
  * @author NENER
- *        
  */
 define ( 'USER_ROLEID', C ( 'USER_ROLEID' ) );
 class userModel extends Model {
@@ -688,19 +687,31 @@ class userModel extends Model {
 	
 	/**
 	 * 修改用户信息
+	 * @param array
+	 * @return array status msg
+	 * @author LongG
 	 */
 	public function updateUser($data) {
+		 $arr = $this -> where( array(
+			'Id' =>  array('neq',$data['Id']),
+		 	'Nick' => $data['Nick']
+		 ))->find();
+		if ($arr) {
+			$mag ['status'] = 0;
+			$msg ['msg'] = '修改失败 ,Nick已存在！';
+			return $msg;
+		}
+		
+		
 		$datain = array (
 				'RealName' => $data ['RealName'],
 				'Nick' => $data ['Nick'],
 				'Sex' => $data ['Sex'],
-				'Birthday' => $data ['Birthday'],
-				'TP_QQ' => $data ['TP_QQ'],
-				'TP_WeiChat' => $data ['TP_WeiChat'],
-				'TP_Weibo' => $data ['TP_Weibo'] 
+				'TP_QQ' => $data ['QQ'],
+				'Birthday' => $data ['Birthday']
 		);
 		$rst = $this->where ( array (
-				'Id' => $data ['_uid'] 
+				'Id' => $data['Id']
 		) )->save ( $datain );
 		if ($rst) {
 			$mag ['status'] = 1;
