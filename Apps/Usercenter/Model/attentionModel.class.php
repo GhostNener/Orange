@@ -11,35 +11,46 @@ use Think\Model;
 class attentionModel extends Model{
 	/**
 	 * 查询关注数
-	 * @param array $wherearr  
+	 * @param userid 
 	 * @return $allCount 关注数
-	 * @author LONGG
+	 * @author LongG
 	 */
-	public function getAttention($wherearr){
-		$allCount = $this->where ( $wherearr )->count ();
+	public function getAttention($userid){
+		$allCount = $this->where ( array(
+				'UserId' => $userid 
+		) )->count ();
 		return $allCount;
 	}
 	
 	/**
 	 * 获取粉丝数
+	 * @param $userid
+	 * @return 个数
+	 * @author LongG
 	 */
 	public function getFans($userid){
-		$whereArr = array('AttentionId' => $userid);
-		$fans = $this -> where($whereArr) -> select();
-		return count($fans);
+		$fans = $this -> where(array(
+				'AttentionId' => $userid
+		)) -> count ();
+		return $fans;
 	}
 	
 	/**
 	 * 删除关注
-	 * @param $goodsId, $userid
-	 * @return  1 or 0
-	 * @author LONGG
+	 * @param $AttentionId 被关注人Id, $userid 关注人Id
+	 * @return  array status ,msg
+	 * @author LongG
 	 */
 	public function del($AttentionId, $userid){
 		$data = array (
 				'UserId' => $userid,
 				'AttentionId' => $AttentionId,
 		);
+		/*判断是否已关注*/
+		$msg = $this->checkIsAtten($AttentionId, $userid);
+		if (!$msg['status']) {
+			return $msg;
+		}
 		$rst = $this->where ( $data )->delete ();
 		if ($rst) {
 			return array (
@@ -55,14 +66,24 @@ class attentionModel extends Model{
 	}
 	
 	/**
-	 * 关注
-	 * @param array $wherearr  
-	 * @return  1 or 0
-	 * @author LONGG
+	 * 添加关注
+	 * @param $AttentionId 被关注人Id, $userid 关注人Id
+	 * @return  array status ,msg
+	 * @author LongG
 	 */
-	public function add($whereall){
+	public function add($AttentionId, $userid){
+		$data = array (
+				'AttentionId' => $AttentionId,
+				'UserId' => $userid,
+				'CreateTime' => time ()
+		);
+		/*判断是否已关注*/
+		$msg = $this->checkIsAtten($AttentionId, $userid);
+		if ($msg['status']) {
+			return $msg;
+		}
 		$atten = M('attention');
-		$rst = $atten ->data($whereall)-> add();
+		$rst = $atten ->data($data)-> add();
 		if ($rst) {
 			return array (
 					'status' => 1,
@@ -78,21 +99,24 @@ class attentionModel extends Model{
 	
 	/**
 	 * 此人是否已关注
-	 * @param array $where
-	 * @return  是否关注
-	 * @author LONGG
+	 * @param $$AttentionId 被关注人Id, $userid 关注人Id
+	 * @return  array status ,msg
+	 * @author LongG
 	 */
-	public function checkIsAtten($where){
-		$rst = $this -> where($where) -> find();
-		if ($rst) {
-			return array (
-					'status' => 1,
-					'msg' => "已关注" 
-			);
-		} else {
+	public function checkIsAtten($AttentionId, $userid){
+		$rst = $this -> where(array (
+				'UserId' => $userid,
+				'AttentionId' => $AttentionId 
+		)) -> find();
+		if (!$rst) {
 			return array (
 					'status' => 0,
 					'msg' => "未关注" 
+			);
+		} else {
+			return array (
+					'status' => 1,
+					'msg' => "你已经关注过了" 
 			);
 		}
 	}

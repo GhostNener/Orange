@@ -60,7 +60,8 @@
 								<!-- col-xs-6 -->
 								<volist name="selllist" id="v" empty="$empty">
 									<div class="col-xs-6 centered">
-										<a href="{:U('/g/'.$v[Id])}" target="_blank">
+										<a href="{:U('/Home/Index/g_show',array('Id'=>
+											$v[Id]))}" target="_blank">
 											<img class="img-responsive" src="{:getFileUrl($v['URL'],'320x160')}" alt="{$v['Nick']}">
 											<h6>{$v['Title']}</h6>
 										</a>
@@ -77,7 +78,8 @@
 								<!-- col-xs-6 -->
 								<volist name="likelist" id="v" empty="$empty">
 									<div class="col-xs-6 centered">
-										<a href="{:U('/g/'.$v[Id])}" target="_blank">
+										<a href="{:U('/Home/Index/g_show',array('Id'=>
+											$v[Id]))}" target="_blank">
 											<img class="img-responsive" src="{:getFileUrl($v['URL'],'320x160')}" alt="{$v['Nick']}">
 											<h6>{$v['Title']}</h6>
 										</a>
@@ -120,67 +122,40 @@
 			<!-- row w -->
 		</div>
 		<!-- col-lg-6 -->
-	</div>
-	<!-- /.container -->
 </div>
+<!-- /.container -->
 
 <!-- 关注按钮 -->
 <div class="navbar-fixed-bottom fixed-expand">
-	<if condition="($md eq 0)">
-		<button class="btn btn-danger btnpublish btnfollow favoritebtn" data-toggle="tooltip" autocomplete="off" data-placement="top" title="关注">
-			<!-- 关注 -->
+	<if condition="(($usermodel eq null) or ($usermodel['Id'] eq  null))">
+		<a href="{:U('Usercenter/User/index')}" class="btn btn-danger btnpublish btnfollow" autocomplete="off" title="关注">
 			<span class="glyphicon glyphicon-eye-open"></span>
-		</button>
-		<form id="favoriteform" action="{:U('u/Index/attention')}" style="display:none" method="post" onsubmit="return ajaxsubmitfavorite()">
-			<input type="hidden" name="AttentionId" value="{$user['Id']}"></form>
+		</a>
+	<else />
+		<if condition="($md eq 0)">
+			<button class="btn btn-danger btnpublish btnfollow favoritebtn" data-toggle="tooltip" autocomplete="off" data-placement="top" title="关注">
+				<!-- 关注 -->
+				<span class="glyphicon glyphicon-eye-open"></span>
+			</button>
+			<form id="favoriteform" action="{:U('Usercenter/Index/attention')}" style="display:none" method="post" onsubmit="return ajaxsubmitfavorite()">
+				<input type="hidden" name="AttentionId" value="{$user['Id']}"></form>
 		<else />
-		<button class="btn btn-danger btnpublish btnfollow favoritebtn" data-toggle="tooltip" autocomplete="off" data-placement="top" title="取消关注">
-			<!-- 取消关注 -->
-			<span class="glyphicon glyphicon-eye-close"></span>
-		</button>
-		<form id="favoriteform" action="{:U('u/Index/delattention')}" style="display:none" method="post" onsubmit="return ajaxsubmitfavorite()">
-			<input type="hidden" name="AttentionId" value="{$user['Id']}"></form>
+			<button class="btn btn-danger btnpublish btnfollow favoritebtn" data-toggle="tooltip" autocomplete="off" data-placement="top" title="取消关注">
+				<!-- 取消关注 -->
+				<span class="glyphicon glyphicon-eye-close"></span>
+			</button>
+			<form id="favoriteform" action="{:U('Usercenter/Index/delattention')}" style="display:none" method="post" onsubmit="return ajaxsubmitfavorite()">
+				<input type="hidden" name="AttentionId" value="{$user['Id']}"></form>
+		</if>
 	</if>
 </div>
-<script src="js/jquery-1.11.0.js"></script>
-<script src="js/bootstrap.min.js"></script>
-<script src="js/juzi.js"></script>
-</body>
 </block>
 
 <block name="js">
+<script src="js/jquery-1.11.0.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/juzi.js"></script>
 <script>
-function ajaxsubmit() {
-    var $btn = $('#submitref').button('loading');
-    $.ajax({
-        type: 'post',
-        cache: false,
-        url: $('#refform').attr('action'),
-        data: $('#refform').serialize(),
-        error:  
-        function(request)  {
-            showerrormsg('网络错误', 100, 1000);
-            $btn.button('reset');   
-            return false;             
-        },
-        success:  
-        function(data)  {
-            if (data.status == 0) {
-                showerrormsg(data.info, 100, 1000);
-                $btn.button('reset');
-                return false;
-            } else {
-				$('#refModal').modal('hide');
-                showsuccessmsg("提交成功", 100, 1000);
-                $('#refform')[0].reset() 
-                $btn.button('reset');
-				location.href=location.href;
-                return false;
-            }                
-        }
-    });
-    return false;
-}
 function ajaxsubmitfavorite(){
 	var $btn = $('.favoritebtn').button('loading');
 	$btn.button('reset');
@@ -198,11 +173,11 @@ function ajaxsubmitfavorite(){
          success:  
         function(data)  {
             if (data.status == 0) {
-                showerrormsg(data.info, 100, 1000);
+               // showerrormsg(data.info, 100, 1000);
             } else {
-                showsuccessmsg(data.info, 100, 1000);
-                location.href=location.href;
+                //showsuccessmsg(data.info, 100, 1000);
             }     
+            location.href=location.href;
             $btn.button('reset');
             return false;           
         }

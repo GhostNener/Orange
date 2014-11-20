@@ -7,12 +7,12 @@
 			<volist name='attention' id='v' empty="$empty">
 				<div class="col-md-4">
 					<div class="media">
-						<a class="pull-left" href="#">
+						<a  class="pull-left" href="{:U('Usercenter/User/u_show',array('Id' => $v['AttentionId']))}">
 							<img class="media-object"  src="{:getFileUrl($v['URL'],'80x80')}" alt="{$v['Nick']}"></a>
 						<div class="media-body">
 							<h5 class="media-heading">{$v['Nick']}</h5>
 							<p>{:getgrade($v['EXP'])}</p>
-							<a href=""><button type="button" class="btn btn-success">心愿单</button></a>
+							<a href="{:U('Usercenter/User/u_show',array('Id' => $v['AttentionId']))}"><button type="button" class="btn btn-success">详情</button></a>
 							<button class="btn btn-danger favoritebtn" data-id=" {$v['AttentionId']}" data-loading-text="提交中..." autocomplete="off">
 								删除
 							</button>
@@ -27,47 +27,16 @@
 </div>
 
 <!-- 取消关注 -->	
-<form  id="favoriteform" action="{:U('u/Index/delattention')}" style="display:none" method="post" onsubmit="return ajaxsubmitfavorite()">
+<form  id="favoriteform" action="{:U('Usercenter/Index/delattention')}" style="display:none" method="post" onsubmit="return ajaxsubmitfavorite()">
 <input type="hidden" name="AttentionId" value=""></form>
 </block>
 
 <block name="js">
 <script>
-function ajaxsubmit() {
-    var $btn = $('#submitref').button('loading');
-    $.ajax({
-        type: 'post',
-        cache: false,
-        url: $('#refform').attr('action'),
-        data: $('#refform').serialize(),
-        error:  
-        function(request)  {
-            showerrormsg('网络错误', 100, 1000);
-            $btn.button('reset');   
-            return false;             
-        },
-        success:  
-        function(data)  {
-            if (data.status == 0) {
-                showerrormsg(data.info, 100, 1000);
-                $btn.button('reset');
-                return false;
-            } else {
-				$('#refModal').modal('hide');
-                showsuccessmsg("提交成功", 100, 1000);
-                $('#refform')[0].reset() 
-                $btn.button('reset');
-				location.href=location.href;
-                return false;
-            }                
-        }
-    });
-    return false;
-}
 function ajaxsubmitfavorite(){
-	if(!confirm('您真的要删除吗？'))
+	if(!confirm('您真的要删除吗？')){
 		return;
-	
+	}
 	var $btn = $('.favoritebtn').button('loading');
 	$btn.button('reset');
 	$.ajax({
@@ -87,6 +56,9 @@ function ajaxsubmitfavorite(){
                 showerrormsg(data.info, 100, 1000);
             } else {
                 showsuccessmsg(data.info, 100, 1000);
+                setTimeout(function(){
+					location.href = location.href;
+                },300);
             }     
             $btn.button('reset');
             return false;           

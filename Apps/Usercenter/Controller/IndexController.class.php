@@ -35,7 +35,7 @@ class IndexController extends LoginController {
 				'Status' => 101 
 		) )->find ();
 		if (! $u || ! checkmail ( $u ['E-Mail'] )) {
-			redirect ( U ( '/' ) );
+			redirect ( U ( 'Home/Index/index' ) );
 		} else {
 			$ex = substr ( strrchr ( $u ['E-Mail'], '@' ), 1 );
 			$mailurl = 'http://mail.' . $ex;
@@ -50,7 +50,7 @@ class IndexController extends LoginController {
 	 */
 	public function sendactivatemail() {
 		if (! IS_POST) {
-			$this->error ( '页面不存在', U ( '/' ) );
+			$this->error ( '页面不存在', U ( 'Home/Index/index' ) );
 		}
 		$u = new userModel ();
 		$r = $u->sendactive ( cookie ( '_uid' ) );
@@ -65,14 +65,9 @@ class IndexController extends LoginController {
 	 * 个人中心首页 查询用户信息
 	 */
 	public function index() {
-		$userid = cookie ( '_uid' );
-		/* 拼接查询条件 */
-		$whereall = array (
-				'UserId' => $userid 
-		);
 		/* 查询关注数 */
 		$model = new attentionModel ();
-		$attn = $model->getAttention ( $whereall );
+		$attn = $model->getAttention ( cookie ( '_uid' ) );
 		/* 模块赋值 */
 		$this->assign ( 'attn', $attn );
 		$this->getCommon ();
@@ -172,6 +167,23 @@ class IndexController extends LoginController {
 	}
 	
 	/**
+	 * 商品下架
+	 */
+	public function delgoods() {
+		if (! IS_POST || ! I ( 'GoodsId' )) {
+			$this->error ( '页面不存在' );
+			die ();
+		}
+		$model = new goodsModel();
+		$arr = $model -> del ( I ( 'GoodsId' ), cookie ( '_uid' ) );
+		if ($arr ['status'] == 0) {
+			$this->error ( $arr ['msg'] );
+		} else {
+			$this->success ( $arr ['msg'] );
+		}
+	}
+	
+	/**
 	 * 已关注
 	 */
 	public function follow() {
@@ -201,43 +213,22 @@ class IndexController extends LoginController {
 			$this->error ( '页面不存在' );
 			die ();
 		}
+		if (I ( 'AttentionId' )==cookie ( '_uid' )) {
+			$this->error ("亲！不能关注本人哟！");
+		}
 		/* 验证被关注的用户是否存在 */
 		$userModel = new userModel ();
 		$bool = $userModel->checkuserid ( I ( 'AttentionId' ) );
 		if (! $bool) {
-			$this->redirect ( '/', array (), 0, '页面跳转中...' );
+			$this->redirect ( 'home/Index/index' );
 		}
-		/* 拼接查询条件 */
-		$whereall = array (
-				'CreateTime' => time (),
-				'AttentionId' => I ( 'AttentionId' ),
-				'UserId' => cookie ( '_uid' )
-		);
 		/* 添加关注 */
 		$model = new attentionModel ();
-		$arr = $model->add ( $whereall );
+		$arr = $model -> add ( I ( 'AttentionId' ),cookie ( '_uid' ) );
 		if ($arr ['status'] == 0) {
-			$this->error ( $arr ['msg'] );
+			$this->error ();
 		} else {
  			$this->success ( $arr ['msg'] );
-		}
-	}
-	
-
-	/**
-	 * 商品下架
-	 */
-	public function delgoods() {
-		if (! IS_POST || ! I ( 'GoodsId' )) {
-			$this->error ( '页面不存在' );
-			die ();
-		}
-		$model = new goodsModel();
-		$arr = $model -> del ( I ( 'GoodsId' ), cookie ( '_uid' ) );
-		if ($arr ['status'] == 0) {
-			$this->error ( $arr ['msg'] );
-		} else {
-			$this->success ( $arr ['msg'] );
 		}
 	}
 	
@@ -255,6 +246,23 @@ class IndexController extends LoginController {
 			$this->error ( $arr ['msg'] );
 		} else {
 			$this->success ( $arr ['msg'] );
+		}
+	}
+	
+	/**
+	 * 添加心愿单
+	 */
+	public function addlike() {
+		if (! IS_POST || ! I ( 'GoodsId' )) {
+			$this->error ( '页面不存在' );
+			die ();
+		}
+		$m = new favoriteModel ();
+		$arr = $m->addone ( I ( 'GoodsId' ), cookie ( '_uid' ) );
+		if ($arr ['status'] == 0) {
+			$this->error ( $arr ['msg'] );
+		} else {
+			$this->success ( '添加成功' );
 		}
 	}
 	
@@ -304,7 +312,7 @@ class IndexController extends LoginController {
 		} else {
 			// 操作成功 提交事务
 			$dal->commit ();
-			$this->success ( '添加成功' );
+			$this->success ( '删除成功' );
 		}
 	}
 	
@@ -324,23 +332,6 @@ class IndexController extends LoginController {
 			/* 模版赋值 */
 			$this->assign ( 'user', $arr ['msg'] );
 			$this->assign ( 'grade', $rst );
-		}
-	}
-	
-	/**
-	 * 添加心愿单
-	 */
-	public function addlike() {
-		if (! IS_POST || ! I ( 'GoodsId' )) {
-			$this->error ( '页面不存在' );
-			die ();
-		}
-		$m = new favoriteModel ();
-		$arr = $m->addone ( I ( 'GoodsId' ), cookie ( '_uid' ) );
-		if ($arr ['status'] == 0) {
-			$this->error ( $arr ['msg'] );
-		} else {
-			$this->success ( '添加成功' );
 		}
 	}
 	
@@ -419,16 +410,16 @@ class IndexController extends LoginController {
 	 */
 	public function deladd() {
 		$Id = I ( 'Id' );
-		if (! IS_POST || ! $Id) {
+		if ( ! $Id) {
 			$this->error ( '页面不存在' );
 			return;
 		}
 		$m = new user_addressModel ();
-		$rst = $m->delbyid ( $Id );
-		if (! $rst ['status'] == 0) {
-			$this->error ( $rst ['msg'] );
+		$rst = $m -> delbyid ( $Id );
+		if ( (int)$rst['status'] == 0) {
+			$this->error ( $rst['msg'] );
 		} else {
-			$this->success ( 1 );
+			$this->success ($rst['msg']);
 		}
 	}
 	/**

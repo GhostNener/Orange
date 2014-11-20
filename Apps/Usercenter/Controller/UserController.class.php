@@ -184,20 +184,23 @@ class UserController extends BaseController {
 	
 	/**
 	 * 个人页面
+	 * @param  $Id 被关注人Id        	
+	 * @return 
+	 * @author LongG
 	 */
 	public function u_show($Id) {
 		/* 验证客户是否存在 */
-		$userid = $Id;
+		$attenid = $Id;
 		$user = new userModel();
-		$bool = $user->checkuserid($userid);
+		$bool = $user->checkuserid($attenid);
 		if (! $bool) {
-			$this->redirect('/');
+			$this->redirect('home/Index/index');
 		}
 		
 		$limit = 100;
 		/* 拼接where */
 		$wherearr = array (
-				'UserId' => $userid,
+				'UserId' => $attenid,
 				'Status' => 10 
 		);
 		/* 获得在售商品 */
@@ -210,7 +213,7 @@ class UserController extends BaseController {
 		/* 查询用户信息 */
 		
 		$model = new view_user_info_avatarModel ();
-		$arr = $model->getinfo ($userid);
+		$arr = $model->getinfo ($attenid);
 		if ($arr ['status'] == 1) {
 			// 获取经验 计算等级
 			$EXP = $arr ['msg'] ['EXP'];
@@ -226,10 +229,10 @@ class UserController extends BaseController {
 		/* 拼接where */
 		$where = array (
 				'UserId' => $uid,
-				'AttentionId' => $userid
+				'AttentionId' => $attenid
 		);
 		$atten = new attentionModel();
-		$msg = $atten -> checkIsAtten($where);
+		$msg = $atten -> checkIsAtten( $attenid , cookie ( '_uid' ));
 		/* 模板赋值 */
 		$this->assign ( 'selllist', $selllist ['list'] );
 		$this->assign ( 'selllist', $selllist ['list'] );
