@@ -1,14 +1,11 @@
 <?php
 
 namespace Usercenter\Controller;
+
 use Usercenter\Model\attentionModel;
-
 use Usercenter\Model\user_gradeModel;
-
 use Usercenter\Model\view_favorite_listModel;
-
 use Home\Model\view_goods_listModel;
-
 use Usercenter\Model\userModel;
 use Usercenter\Model\view_user_info_avatarModel;
 
@@ -48,7 +45,6 @@ class UserController extends BaseController {
 		if ($model->islogin ( null, $isadmin, false )) {
 			if ($isadmin) {
 				$this->success ( '登录成功', U ( 'Admin/Index/index' ), 1 );
-				
 			} else {
 				$this->success ( '登录成功', U ( '/' ), 1 );
 			}
@@ -68,17 +64,17 @@ class UserController extends BaseController {
 		$this->display ( 'User/regist' );
 	}
 	/**
-	*退出 
-	*/
+	 * 退出
+	 */
 	public function logout() {
 		$uid = cookie ( '_uid' );
 		if ($uid) {
 			session ( $uid, null );
-			cookie ( '_uid', null );
-			cookie ( '_key', null );
-			cookie ( 'admin_key', null );
-			cookie ( 'admin_uid', null );
 		}
+		cookie ( '_uid', null );
+		cookie ( '_key', null );
+		cookie ( 'admin_key', null );
+		cookie ( 'admin_uid', null );
 		redirect ( U ( '/' ) );
 	}
 	
@@ -118,7 +114,7 @@ class UserController extends BaseController {
 			cookie ( '_key', $rst ['_key'], C ( 'COOKIE_REMEMBER_TIME' ) );
 			cookie ( '_uid', $rst ['_uid'], C ( 'COOKIE_REMEMBER_TIME' ) );
 		}
-/* 		cookie ( '_lastLTK', createonekey ( microtime ( true ), 20, 10 ) ); */
+		/* cookie ( '_lastLTK', createonekey ( microtime ( true ), 20, 10 ) ); */
 		session ( $rst ['_uid'], $rst ['_key'] );
 		$this->success ( $rst ['msg'] );
 	}
@@ -184,17 +180,19 @@ class UserController extends BaseController {
 	
 	/**
 	 * 个人页面
-	 * @param  $Id 被关注人Id        	
-	 * @return 
+	 * 
+	 * @param $Id 被关注人Id        	
+	 * @return
+	 *
 	 * @author LongG
 	 */
 	public function u_show($Id) {
 		/* 验证客户是否存在 */
 		$attenid = $Id;
-		$user = new userModel();
-		$bool = $user->checkuserid($attenid);
+		$user = new userModel ();
+		$bool = $user->checkuserid ( $attenid );
 		if (! $bool) {
-			$this->redirect('home/Index/index');
+			$this->redirect ( 'home/Index/index' );
 		}
 		
 		$limit = 100;
@@ -204,20 +202,20 @@ class UserController extends BaseController {
 				'Status' => 10 
 		);
 		/* 获得在售商品 */
-		$model = new view_goods_listModel();
+		$model = new view_goods_listModel ();
 		$selllist = $model->getlist ( $wherearr );
 		
 		/* 获得心愿单 */
-		$favomodel = new view_favorite_listModel();
+		$favomodel = new view_favorite_listModel ();
 		$favorite = $favomodel->getlist ( $wherearr, $limit );
 		/* 查询用户信息 */
 		
 		$model = new view_user_info_avatarModel ();
-		$arr = $model->getinfo ($attenid);
+		$arr = $model->getinfo ( $attenid );
 		if ($arr ['status'] == 1) {
 			// 获取经验 计算等级
 			$EXP = $arr ['msg'] ['EXP'];
-			$model2 = new user_gradeModel();
+			$model2 = new user_gradeModel ();
 			$rst = $model2->getgrade ( $EXP );
 			/* 模版赋值 */
 			$this->assign ( 'user', $arr ['msg'] );
@@ -225,14 +223,14 @@ class UserController extends BaseController {
 		}
 		
 		/* 验证用户是否已关注 */
-		$uid = cookie('_uid');
+		$uid = cookie ( '_uid' );
 		/* 拼接where */
 		$where = array (
 				'UserId' => $uid,
-				'AttentionId' => $attenid
+				'AttentionId' => $attenid 
 		);
-		$atten = new attentionModel();
-		$msg = $atten -> checkIsAtten( $attenid , cookie ( '_uid' ));
+		$atten = new attentionModel ();
+		$msg = $atten->checkIsAtten ( $attenid, cookie ( '_uid' ) );
 		/* 模板赋值 */
 		$this->assign ( 'selllist', $selllist ['list'] );
 		$this->assign ( 'selllist', $selllist ['list'] );

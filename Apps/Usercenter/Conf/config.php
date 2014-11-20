@@ -10,7 +10,7 @@ return array(
 				'like$'=>'u/Index/like',
 				'login$'=>'u/User/u_login',
 				'regist$'=>'u/User/regist',
-				'logout$'=>'u/User/regist',
+				'logout$'=>'u/User/logout',
 				'pay$'=>'u/Pay/index',
 				'pcode$'=>'u/Pay/qrcode',
 				':Id$'=>'u/User/u_show?Id=:1'

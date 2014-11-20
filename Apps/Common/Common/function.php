@@ -1194,5 +1194,21 @@ function qiniuGetToken($action) {
 	$qiniu = new \qiniu ();
 	return $qiniu->GetToken ( $action );
 }
-
+/**
+ * 用户经验值处理
+ *
+ * @param string $uid
+ *        	用户id
+ * @param number $type
+ *        	类型：1：留言收藏回复，2：参与活动，3：上架，4：售出，5：购买，6：完成心愿单
+ * @param string $isInc
+ *        	是不是增加，默认是
+ * @param string $isclockin
+ *        	是不是签到默认是
+ * @return
+ */
+function handleEXP($uid = null, $type = 1, $isInc = true, $isclockin = false) {
+	$m=new userModel();
+	return handleEXP($uid = null, $type = 1, $isInc = true, $isclockin = false);
+}
 ?>
