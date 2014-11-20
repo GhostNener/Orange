@@ -3,7 +3,6 @@
 namespace Api\Controller;
 
 use Usercenter\Model\userModel;
-use Usercenter\Model\user_addressModel;
 
 /**
  * 用户API
