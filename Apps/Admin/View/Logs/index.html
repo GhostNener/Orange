@@ -28,9 +28,12 @@
 								<td>{$v.Id}</td>
 								<td>{$v.Action}</td>
 								<td>{$v.UserName}</td>
-								<td>{$v.IP}</td>
 								<td>
-									<?php echo date("Y-m-d H:i:s ", $v[CreateTime]); ?></td>
+									{$v.IP}
+									<script src="http://whois.pconline.com.cn/jsLabel.jsp?ip={$v[IP]}"></script>
+								</td>
+								<td>
+									<?php echo date("Y-m-d H:i:s ", $v[Time]); ?></td>
 							</tr>
 						</foreach>
 					</tbody>
@@ -40,3 +43,4 @@
 		</div>
 	</div>
 </block>
+<block name='js'></block>

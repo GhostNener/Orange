@@ -104,18 +104,23 @@ class UserController extends BaseController {
 		if (! ( int ) $arr ['isremeber']) {
 			cookie ( '_key', $rst ['_key'] );
 			cookie ( '_uid', $rst ['_uid'] );
+			cookie ( '_uname', $rst ['_uname'] );
 		} else {
 			cookie ( '_key', $rst ['_key'], C ( 'COOKIE_REMEMBER_TIME' ) );
 			cookie ( '_uid', $rst ['_uid'], C ( 'COOKIE_REMEMBER_TIME' ) );
+			cookie ( '_uname', $rst ['_uname'], C ( 'COOKIE_REMEMBER_TIME' ) );
 		}
 		if ($isadmin) {
 			cookie ( 'admin_key', $rst ['_key'] );
 			cookie ( 'admin_uid', $rst ['_uid'] );
+			cookie ( 'admin_uname', $rst ['_uname'] );
 			cookie ( '_key', $rst ['_key'], C ( 'COOKIE_REMEMBER_TIME' ) );
 			cookie ( '_uid', $rst ['_uid'], C ( 'COOKIE_REMEMBER_TIME' ) );
+			cookie ( '_uname', $rst ['_uname'], C ( 'COOKIE_REMEMBER_TIME' ) );
 		}
 		/* cookie ( '_lastLTK', createonekey ( microtime ( true ), 20, 10 ) ); */
-		session ( $rst ['_uid'], $rst ['_key'] );
+		session ( $rst ['_uid'], $rst ['_key'],$rst['_uname'] );
+
 		$this->success ( $rst ['msg'] );
 	}
 	

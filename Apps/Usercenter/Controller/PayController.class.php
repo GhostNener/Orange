@@ -14,7 +14,7 @@ class PayController extends LoginController {
 				'key' => 'enabled' 
 		) )->find ();
 		if (! $r || ( int ) $r ['value'] == 0) {
-			$this->error ( '充值服务暂停！', U ( '/' ) );
+			$this->error ( '充值服务暂停', U ( '/' ) );
 			die ();
 		}
 		$this->display ();

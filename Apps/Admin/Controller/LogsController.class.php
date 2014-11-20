@@ -12,12 +12,18 @@ class LogsController extends BaseController {
 	
 	public function index() {
 
-		$model = M ( 'Logs' );
+		$model = M ( 'logs' );
 		// 查询条件
-		$map['UserName'] = I('UserName');
-		$map['Action'] = array('LIKE', I('Action') );
-		$map['Type'] = I('Type');
-		
+		if(I('UserName')){
+			$map['UserName'] = I('UserName');
+		}
+		if(I('Action')){
+			$map['Action'] = array('LIKE', '%' .I('Action'). '%' );
+		}
+		if(I('Action')){
+			$map['Type'] = I('Type');
+		}
+
 		// 总数
 		$allCount = $model->where ( $map )->count ();
 		// 分页
@@ -25,7 +31,7 @@ class LogsController extends BaseController {
 		
 		$showPage = $Page->show ();
 		// 分页查询
-		$list = $model->where ( $map )->limit ( $Page->firstRow . ',' . $Page->listRows )->select ();
+		$list = $model->where ( $map )->order('Time desc')->limit ( $Page->firstRow . ',' . $Page->listRows )->select ();
 
 		$this->assign ( 'list', $list );
 		$this->assign ( 'page', $showPage );

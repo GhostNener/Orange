@@ -531,6 +531,7 @@ class userModel extends Model {
 		$msgarr ['_key'] = $key;
 		$msgarr ['status'] = 1;
 		$msgarr ['_uid'] = $rst ['Id'];
+		$msgarr ['_uname'] = base64_encode($rst ['Nick']);
 		return $msgarr;
 	}
 	/**
