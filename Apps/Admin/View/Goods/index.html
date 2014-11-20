@@ -25,7 +25,7 @@
 								<td>
 									<?php echo date("Y-m-d", $v[CreateTime]); ?></td>
 								<td>
-									<a class="btn btn-info btn-small" target="_blank" href="{:U('Home/Index/showgoods',array('Id'=>$v['Id']))}">查看</a>
+									<a class="btn btn-info btn-small" target="_blank" href="{:U('/g/'.$v['Id'])}">查看</a>
 									<a class="btn btn-danger btn-small" data-toggle="modal" data-backdrop="static" modaltitle='下架理由' data-target="#addModal">下架</a>
 								</td>
 							</tr>

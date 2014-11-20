@@ -57,9 +57,9 @@
 									<h5 class="media-heading">{$v['Title']}</h5>
 									<p>{$v['Presentation']}</p>
 							<if condition="($v[Href] eq null) or ($v[Href] eq '')">
-								<a class="btn btn-success" href="{:U('/f/'.$v['Id'])}" target="_blank">
+								<a class="btn btn-success" href="{:U('/f/'.$v['Id'])}" target="_blank"></a>
 								<else/>
-								<a class="btn btn-success" href="{$v[Href]}" target="_blank">
+								<a class="btn btn-success" href="{$v[Href]}" target="_blank"></a>
 							</if>
 									参与活动</a>
 
