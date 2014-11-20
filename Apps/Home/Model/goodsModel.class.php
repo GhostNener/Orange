@@ -311,7 +311,7 @@ class goodsModel extends Model {
 				array (
 				'UserId' => $userid,
 				'Id' => $goodsId,
-		) )->save ( array ( 'Status' => 70 ) ) ;
+		) )->save ( array ( 'Status' => 40 ) ) ;
 		if ($rst) {
 			return array (
 					'status' => 1,
