@@ -12,6 +12,8 @@
 						<button type="submit" class="btn btn-default btn-expend">搜索</button>
 					</div>
 				</form>
+				<button class="btn" btn>确定</button>
+				<div id="content"></div>
 			</div>
 			<div class="table-responsive">
 				<table class="table table-striped">
@@ -28,10 +30,7 @@
 								<td>{$v.Id}</td>
 								<td>{$v.Action}</td>
 								<td>{$v.UserName}</td>
-								<td>
-									{$v.IP}
-									<script src="http://whois.pconline.com.cn/jsLabel.jsp?ip={$v[IP]}"></script>
-								</td>
+								<td ip="{$v[IP]}">{$v.IP}</td>
 								<td>
 									<?php echo date("Y-m-d H:i:s ", $v[Time]); ?></td>
 							</tr>
@@ -43,4 +42,24 @@
 		</div>
 	</div>
 </block>
-<block name='js'></block>
+<block name='js'>
+ <script type="text/javascript">
+	 $(function () {
+	 	$('td[ip]').each(function () {
+	 		var td = $(this);
+	 		$.getJSON("http://query.yahooapis.com/v1/public/yql", { 
+				q: "select * from json where url=\"http://int.dpool.sina.com.cn/iplookup/iplookup.php?format=json&ip="+td.attr('ip')+"\"", 
+				format: "json" 
+				}, function(data) { 
+					if (data.query.results) { 
+						var json = JSON.stringify(data.query.results); 
+						var result =  eval('(' + json + ')').json;
+						td.html(result.province +' '+result.city);
+					}
+			});
+
+	 	})
+	 	
+	 })
+ </script>
+</block>
