@@ -547,7 +547,7 @@ class userModel extends Model {
 		/* 密码盐 */
 		$salt = C ( 'PDW_SALT' );
 		$temp = ( string ) $RegistTime . $source . $salt;
-		$pwd = strtoupper ( md5 ( $temp, FALSE ) );
+		$pwd = strtoupper ( sha1($temp, FALSE ) );
 		return $pwd;
 	}
 	/**
