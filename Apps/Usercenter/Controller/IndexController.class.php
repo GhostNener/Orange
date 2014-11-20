@@ -125,22 +125,18 @@ class IndexController extends LoginController {
 	public function order() {
 		$userid = cookie ( '_uid' );
 		$limit = 8;
-		/* 拼接where */
-		$wherebuy = array (
-				'BuyerId' => $userid,
-				'Status' => 10 
-		);
-		$wheresell = array (
-				'SellerId' => $userid,
-				'Status' => 10 
-		);
-		$model = new view_goods_order_listModel ();
-		/* 获得最新 */
-		$arrBuy = $model->getorder ( $wherebuy, $limit );
-		$arrSell = $model->getorder ( $wheresell, $limit );
+		/* 获得完成的订单 */
+		$model = new view_goods_order_listModel();
+		$arrBuy = $model -> getorder ($userid, $limit, 1);
+		$arrSell = $model -> getorder ( $userid, $limit, 2 );
+		/* 获得未完成的订单 */
+		$arrBuying = $model -> getorder ( $userid, $limit, 3);
+		$arrSelling = $model -> getorder ( $userid, $limit, 4);
 		/* 模板赋值 */
 		$this->assign ( 'buy', $arrBuy ['list'] );
 		$this->assign ( 'sell', $arrSell ['list'] );
+		$this->assign ( 'buying', $arrBuying ['list'] );
+		$this->assign ( 'selling', $arrSelling ['list'] );
 		$this->assign ( 'pagebuy', $arrBuy ['page'] );
 		$this->assign ( 'pagesell', $arrSell ['page'] );
 		$this->getcommon ();

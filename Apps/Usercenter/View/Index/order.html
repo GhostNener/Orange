@@ -31,83 +31,45 @@
 								<th>状态</th>
 							</thead>
 							<tbody>
+							<foreach name="selling" item="v">
 								<tr>
 									<td>
 										<span class="label label-success">售出</span>
 									</td>
+									<td>{$v['Title']} </td>
+									<td>{$v['Price']}</td>
+									<td><if condition="$v['TradeWay'] eq 1">线上<else />线下</if></td>
 									<td>
-										国行MX4全新我是来凑字数的哇哈凑字数的哇哈哈哈国行MX4全新我是来凑字数的哇哈凑字数的哇哈哈哈国行MX4全新我是来凑字数的哇哈凑字数的哇哈哈哈
-									</td>
-									<td>800.00</td>
-									<td>线上</td>
-									<td>
-										李清伟：1551954782
+										{$v['BuyNick']}：{$v['Tel']}
 										<br/>
-										贵州省花溪区贵州财经大学软件工程哇哈哈
+										{$v['Address']}
 									</td>
 									<td>
 										<button class="btn btn-warning btn-small">未评价</button>
 									</td>
-								</tr>
-
-								<tr>
-									<td>
-										<span class="label label-success">售出</span>
-									</td>
-									<td>国行MX4全新我是来凑字数的哇哈凑字数的哇哈哈哈</td>
-									<td>800.00</td>
-									<td>线上</td>
-									<td>
-										李清伟：1551954782
-										<br/>
-										贵州省花溪区贵州财经大学软件工程哇哈哈
-									</td>
-									<td>
-										<button class="btn btn-success btn-small">完成</button>
-									</td>
-								</tr>
-
+								</tr></foreach>
+								<foreach name="buying" item="v">
 								<tr>
 									<td>
 										<span class="label label-primary">买入</span>
 									</td>
-									<td>国行MX4全新我是来凑字数的哇哈凑字数的哇哈哈哈</td>
-									<td>800.00</td>
-									<td>线上</td>
+									<td>{$v['Title']}</td>
+									<td>{$v['Price']}</td>
+									<td><if condition="$v['TradeWay'] eq 1">线上<else />线下</if></td>
 									<td>
-										李清伟：1551954782
+										{$v['SellNick']}：{$v['Tel']}
 										<br/>
-										贵州省花溪区贵州财经大学软件工程哇哈哈
+										{$v['Address']}
 									</td>
 									<td>
 										<button class="btn btn-warning btn-small">未评价</button>
 									</td>
-								</tr>
-
-								<tr>
-									<td>
-										<span class="label label-primary">买入</span>
-									</td>
-									<td>国行MX4全新我是来凑字数的哇哈凑字数的哇哈哈哈</td>
-									<td>800.00</td>
-									<td>线上</td>
-									<td>
-										李清伟：1551954782
-										<br/>
-										贵州省花溪区贵州财经大学软件工程哇哈哈
-									</td>
-									<td>
-										<button class="btn btn-primary btn-small">完成</button>
-									</td>
-								</tr>
-
+								</tr></foreach>
 							</tbody>
 						</table>
 					</div>
-
-					
-
 				</div>
+				
 				<div role="tabpanel" class="tab-pane" id="tab2">
 					<div class="table-responsive">
 						<table class="table table-striped">
@@ -159,8 +121,8 @@
 					</div>
 					<div class="page">{$pagesell}</div>
 				</div>
+				
 			</div>
-
 		</div>
 	</div>
 </div>
