@@ -42,7 +42,7 @@ function CSYSN($arruid, $title, $content) {
  *        	1: 商品（发布、购买、下架等），2: 用户行为（登录、修改密码、注册、激活），3: 订单（下单、完成订单），4: 充值, 5: 其他
  *			默认类型为'其他'
  */
-function log($contents, $type=5){
+function logs($contents, $type=5){
 	$log = new logsModel();
 	$log->log($contents,$type);
 }

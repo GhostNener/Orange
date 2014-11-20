@@ -120,6 +120,7 @@ class UserController extends BaseController {
 		}
 		/* cookie ( '_lastLTK', createonekey ( microtime ( true ), 20, 10 ) ); */
 		session ( $rst ['_uid'], $rst ['_key'],$rst['_uname'] );
+
 		$this->success ( $rst ['msg'] );
 	}
 	

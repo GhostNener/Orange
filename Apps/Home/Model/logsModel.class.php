@@ -19,36 +19,22 @@ class logsModel extends Model {
 	 * @author Cinwell
 	 */
 	protected $_auto = array (
-		//IP接口http://whois.pconline.com.cn/
-			array (
-				'Time',
-				NOW_TIME,
-				self::MODEL_INSERT 
-			),
-			array (
-				'UserId',
-				cookie('_uid'),
-				slef::MODEL_INSERT
-			),
-			array (
-				'UserId',
-				base64_decode(cookie('_uname')),
-				slef::MODEL_INSERT
-			),
-			array (
-				'IP',
-				get_client_ip(),
-				slef::MODEL_INSERT
-			),
-			array (
-					'Type',
-					'getType',
-					self::MODEL_INSERT,
-					'callback' 
-			)
+			array ('Time',NOW_TIME),
+			array ('UserId','getUserId',1,'callback'),
+			array ('UserName','getUserName',1,'callback'),
+			array ('IP','get_client_ip',1,'function'),
+			array ('Type','getType',1,'callback')
 	);
 
-	private function getType($type){
+	protected function getUserId() {
+		return cookie('_uid');
+	}
+
+	protected function getUserName() {
+		return base64_decode(cookie('_uname'));
+	}
+
+	protected function getType($type){
 		switch ($type) {
 			
 			case '1':
@@ -85,8 +71,10 @@ class logsModel extends Model {
 
 		$data['Action'] = $contents;
 		$data['Type'] = $type;
-		$this->create($data);
-		
+		$result = $this->create($data);
+		if($result){
+			$this->add($result);
+		}
 	}
 
 }
