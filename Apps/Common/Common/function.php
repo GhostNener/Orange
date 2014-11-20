@@ -1204,11 +1204,11 @@ function qiniuGetToken($action) {
  * @param string $isInc
  *        	是不是增加，默认是
  * @param string $isclockin
- *        	是不是签到默认是
+ *        	是不是签到，默认不是
  * @return
  */
 function handleEXP($uid = null, $type = 1, $isInc = true, $isclockin = false) {
 	$m=new userModel();
-	return handleEXP($uid = null, $type = 1, $isInc = true, $isclockin = false);
+	return $m-> handleEXP($uid = null, $type = 1, $isInc = true, $isclockin = false);
 }
 ?>

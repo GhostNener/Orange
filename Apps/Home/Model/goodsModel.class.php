@@ -289,6 +289,7 @@ class goodsModel extends Model {
 			);
 			$smodel = new goods_searchModel ();
 			$smsg = $smodel->saveone ( $searchdata );
+			handleEXP ( $uid,3 );
 			return array (
 					'status' => 1,
 					'msg' => '操作成功' 

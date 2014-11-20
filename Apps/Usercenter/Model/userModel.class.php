@@ -809,6 +809,7 @@ class userModel extends Model {
 			return $msg;
 		} else {
 			$dal->commit ();
+			$this->handleEXP($uid,$c,true,true);
 			return '签到成功，已连续签到' . $c . '天';
 		}
 	}
@@ -969,7 +970,7 @@ class userModel extends Model {
 	 * @param string $isInc
 	 *        	是不是增加，默认是
 	 * @param string $isclockin
-	 *        	是不是签到默认是
+	 *        	是不是签到,默认不是
 	 * @return
 	 */
 	public function handleEXP($uid = null, $type = 1, $isInc = true, $isclockin = false) {
@@ -982,7 +983,7 @@ class userModel extends Model {
 		if ($isclockin) {
 			return $this->where ( $wa )->setInc ( 'EXP', $type );
 		}
-		$n = 0;
+		$n = 1;
 		switch ($type) {
 			case 1 : // 留言收藏
 				$n = 1;

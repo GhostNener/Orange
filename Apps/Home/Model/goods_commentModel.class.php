@@ -22,19 +22,22 @@ class goods_commentModel extends Model {
 	 *         msg 消息
 	 * @author NENER
 	 */
-	public function addComment($postarr) {
+	public function addComment($postarr, $uid = null) {
 		if (empty ( $postarr )) {
 			return array (
 					'status' => 0,
 					'msg' => '没有数据' 
 			);
 		}
+		if (! $uid) {
+			$uid = ( int ) cookie ( '_uid' );
+		}
 		// 需要提交的商品评论参数
 		$data = array (
 				'GoodsId' => ( int ) $postarr ['GoodsId'],
 				'Content' => $postarr ['Content'],
 				'CreateTime' => time (),
-				'UserId' => ( int ) cookie ( '_uid' ),
+				'UserId' => $uid,
 				'AssesseeId' => ( int ) $postarr ['AssesseeId'],
 				'ReplyId' => ( int ) $postarr ['ReplyId'],
 				'Status' => 10 
@@ -53,6 +56,18 @@ class goods_commentModel extends Model {
 		$rst = $this->add ( $data );
 		if ($rst) {
 			$dal->commit ();
+			$today= $this->where ( array (
+					'UserId' => $uid,
+					'Status' => 10,
+					'CreateTime' => array (
+							'egt',
+							strtotime ( date ( 'Y-m-d' ) ) 
+					) 
+			) )->count ();
+			$EXP=(int)C('COMMENT_EXP_FOR_DAY');
+			if($today<=$EXP){
+				handleEXP($uid);
+			}
 			$data ['Id'] = $rst;
 			$this->createnotice ( $data );
 			return array (
@@ -92,7 +107,7 @@ class goods_commentModel extends Model {
 		$cdata ['Nick'] = $u ['Nick']; // Nick
 		$cdata ['CId'] = $arr ['Id']; // CId
 		$cdata ['Content'] = $arr ['Content']; // Content
-		$cdata ['AId'] = $u ['Id'] ;
+		$cdata ['AId'] = $u ['Id'];
 		$cdata ['GId'] = $arr ['GoodsId'];
 		/* 消息体结束 */
 		$m = new noticeModel ();

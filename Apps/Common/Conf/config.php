@@ -15,14 +15,16 @@ return array (
 				'Home',
 				'Api',
 				'Admin',
-				'Usercenter' ,
+				'Usercenter',
 				'u',
-				'user'
+				'user' 
 		),
-		'URL_MODULE_MAP'    =>    array('u'=>'Usercenter','user'=>'Usercenter'),
-
-
-		'URL_ROUTER_ON'   => true,
+		'URL_MODULE_MAP' => array (
+				'u' => 'Usercenter',
+				'user' => 'Usercenter' 
+		),
+		
+		'URL_ROUTER_ON' => true,
 		/* 多级过滤  */
     	'DEFAULT_FILTER' => 'strip_tags,htmlspecialchars',
 		'SESSION_AUTO_START' => true,
@@ -62,8 +64,8 @@ return array (
 		/* 普通用户用户组Id */
 		'USER_ROLEID' => 2,
 		/*记住我 cookie保存时间*/
-		'COOKIE_REMEMBER_TIME' => 30 * 24 * 60 * 60 ,
-
+		'COOKIE_REMEMBER_TIME' => 30 * 24 * 60 * 60,
+		'COMMENT_EXP_FOR_DAY' => 50,
 		/* 激活邮件配置 */
 		'ORANGER_MAIL' => array (
 				'SMTP_HOST' => 'smtp.ym.163.com', // SMTP服务器

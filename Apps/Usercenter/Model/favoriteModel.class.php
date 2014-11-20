@@ -16,7 +16,10 @@ class favoriteModel extends Model {
 	/**
 	 * 添加心愿单
 	 */
-	public function addone($goodsId, $userid) {
+	public function addone($goodsId, $userid = null) {
+		if (! $userid) {
+			$userid = cookie ( '_uid' );
+		}
 		$data = array (
 				'UserId' => $userid,
 				'GoodsId' => $goodsId,
@@ -44,6 +47,18 @@ class favoriteModel extends Model {
 		if ($rst) {
 			$m = new goodsModel ();
 			$m->VCChhandle ( $goodsId, 2 );
+			$today = $this->where ( array (
+					'UserId' => $userid,
+					'Status' => 10,
+					'CreateTime' => array (
+							'egt',
+							strtotime ( date ( 'Y-m-d' ) ) 
+					) 
+			) )->count ();
+			$EXP = ( int ) C ( 'COMMENT_EXP_FOR_DAY' );
+			if ($today <= $EXP) {
+				handleEXP ( $userid );
+			}
 			return array (
 					'status' => 1,
 					'msg' => "添加成功" 
@@ -58,12 +73,13 @@ class favoriteModel extends Model {
 	
 	/**
 	 * 删除
-	 * @param $goodsId, $userid
+	 * 
+	 * @param $goodsId, $userid        	
 	 */
 	public function del($goodsId, $userid) {
 		$data = array (
 				'UserId' => $userid,
-				'GoodsId' => $goodsId,
+				'GoodsId' => $goodsId 
 		);
 		$rst = $this->where ( $data )->delete ();
 		if ($rst) {
