@@ -57,7 +57,7 @@ class PayController extends LoginController {
 		}
 		// 建立请求
 		$alipaySubmit = new \AlipaySubmit ( $submit );
-		$html_text = $alipaySubmit->buildRequestForm ( $parm, "post", "跳转中" );
+		$html_text = $alipaySubmit->buildRequestForm ( $parm, "post", "记得选择 即时到帐交易 ！！！！！！！！！！" );
 		echo $html_text;
 	}
 	/**
