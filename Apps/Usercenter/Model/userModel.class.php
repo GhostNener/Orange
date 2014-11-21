@@ -286,7 +286,10 @@ class userModel extends Model {
 		}
 		if (checkmail ( $data ['Name'] )) {
 			$data ['E-Mail'] = $data ['Name'];
-			if (! $data ['Nick']) {
+			if (! $data ['Nick']) {				
+				$str = C ( 'RAND_NICK_PREFIX' ) . $data ['E-Mail'];
+				$str = str_replace ( '@', 'at', $str );
+				$str = str_replace ( '.', '_', $str );
 				$data ['Nick'] = C ( 'RAND_NICK_PREFIX' ) . $data ['E-Mail'];
 			}
 			unset ( $data ['Name'] );
@@ -688,7 +691,7 @@ class userModel extends Model {
 	
 	/**
 	 * 修改用户信息
-	 * 
+	 *
 	 * @param
 	 *        	array
 	 * @return array status msg
@@ -707,7 +710,10 @@ class userModel extends Model {
 			$msg ['msg'] = '昵称已存在！';
 			return $msg;
 		}
-		
+		if(!preg_match('/^[\x{4e00}-\x{9fa5}A-Za-z0-9_]*$/ui',$data ['Nick'] )){
+			$msg ['msg'] = '昵称不能包含特殊字符！'.$data ['Nick'] ;
+			return $msg;
+		}
 		$datain = array (
 				'RealName' => trim ( $data ['RealName'] ),
 				'Nick' => trim ( $data ['Nick'] ),
@@ -900,14 +906,14 @@ class userModel extends Model {
 	
 	/**
 	 * 检查用户是否存在
-	 * 
+	 *
 	 * @param string $idornick
 	 *        	id或nick
 	 * @param number $type
 	 *        	1：表示Id，2：nick
 	 * @return boolean
 	 */
-	public function checkuserid($idornick, $type = 1,$isreturnmodel=false) {
+	public function checkuserid($idornick, $type = 1, $isreturnmodel = false) {
 		if (! trim ( $idornick )) {
 			return false;
 		}
@@ -920,7 +926,7 @@ class userModel extends Model {
 			$wherearr ['Id'] = $idornick;
 		}
 		$rst = $this->where ( $wherearr )->find ();
-		if($isreturnmodel){
+		if ($isreturnmodel) {
 			return $rst;
 		}
 		if (! $rst) {
@@ -1003,6 +1009,7 @@ class userModel extends Model {
 	 * @param string $isclockin
 	 *        	是不是签到,默认不是
 	 * @return
+	 *
 	 *
 	 *
 	 *

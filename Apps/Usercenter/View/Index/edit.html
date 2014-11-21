@@ -432,8 +432,16 @@ function ajaxaddresssubmit(){
 /*保存用户信息*/
 function ajaxusersubmit(){
 	var $btn = $('#submituser').button('loading');
-	if(!$.trim($('#Nick').val())){
+	var _name=$.trim($('#Nick').val());
+	if(!_name){
 		showerrormsg('昵称不能为空',100,1000);
+		$('#Nick').focus();
+		$btn.button('reset');
+		return false;
+	}
+	var _u=/^[0-9a-z_A-Z\u4e00-\u9fa5]*$/;
+	if(!_u.test(_name)){
+		showerrormsg('昵称不能有特殊字符',100,1000);
 		$('#Nick').focus();
 		$btn.button('reset');
 		return false;
