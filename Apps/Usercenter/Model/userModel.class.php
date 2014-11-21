@@ -698,28 +698,36 @@ class userModel extends Model {
 		 	'Nick' => $data['Nick']
 		 ))->find();
 		if ($arr) {
-			$mag ['status'] = 0;
+			$msg ['status'] = 0;
 			$msg ['msg'] = '昵称已存在！';
 			return $msg;
 		}
 		
 		
 		$datain = array (
-				'RealName' => $data ['RealName'],
-				'Nick' => $data ['Nick'],
-				'Sex' => $data ['Sex'],
-				'TP_QQ' => $data ['QQ'],
+				'RealName' => trim($data ['RealName']),
+				'Nick' => trim($data ['Nick']),
+				'Sex' => trim($data ['Sex']),
+				'TP_QQ' => trim($data ['QQ']),
 				'Birthday' => $data ['Birthday']
 		);
 		$rst = $this->where ( array (
 				'Id' => $uid
 		) )->save ( $datain );
 		if ($rst) {
-			$mag ['status'] = 1;
+			$msg ['status'] = 1;
 			$msg ['msg'] = '修改成功！';
+			return $msg;
 		} else {
-			$mag ['status'] = 0;
-			$msg ['msg'] = '修改失败！';
+			$datain['Id']=$uid;
+			if(!$this->where($datain)->find()){
+				$msg ['msg'] = '修改失败！';
+			}
+			else{
+				$msg ['msg'] = '你没做任何修改！';
+			}
+			$msg ['status'] = 0;
+			
 		}
 		return $msg;
 	}
