@@ -29,25 +29,31 @@ class view_goods_order_listModel extends Model{
 			case 1 :	//完成交易的购买订单
 				$where = array (
 						'BuyerId' => $userid,
-						'Status' => 10
+						'Status' => 60
 				);
 				break;
 			case 2 :	//完成交易的出售订单
 				$where = array (
 						'SellerId' => $userid,
-						'Status' => 10
+						'Status' => 60
 				);
 				break;
 			case 3 :	//未完成交易的购买订单
 				$where = array (
-						'BuyerId' => $userid,
-						'Status' => 60
+						
+
+				
+						'SellerId' => $userid,
+						'Status' => array('neq',60)
 				);
+				$where['SellerId'] = $userid;
+				$where['BuyerId'] = $userid;
+				$where['_logic'] = 'OR';
 				break;
 			default :	//未完成交易的出售订单
 				$where = array (
-						'SellerId' => $userid,
-						'Status' => 60
+						'BuyerId' => $userid,
+						'Status' => 10
 				);
 				break;
 		}

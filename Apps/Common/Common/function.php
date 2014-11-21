@@ -1227,4 +1227,23 @@ function handleEXP($uid = null, $type = 1, $isInc = true, $isclockin = false) {
 	return $m-> handleEXP($uid = null, $type = 1, $isInc = true, $isclockin = false);
 }
 
+
+function fuzhi( $Status, $Id ){
+	switch ($Status)
+	{
+		case 10 :
+			$res = "<button nid='$Id' class='btn btn-warning btn-small data-toggle='modal data-backdrop='static modaltitle='发货' data-target='#addModal'>确定发货</button>";
+			break;
+		case 21 :
+			$res = "<button nid='$Id' class='btn btn-warning btn-small data-toggle='modal data-backdrop='static modaltitle='收货' data-target='#addModal'>确定收货</button>";
+			break;
+		case 22 :
+			$res = "<button nid='$Id' class='btn btn-warning btn-small data-toggle='modal data-backdrop='static modaltitle='未评价' data-target='#addModal'>未评价</button>";
+			break;
+		default :
+			break;
+	}
+	return $res;
+	break;
+}
 ?>

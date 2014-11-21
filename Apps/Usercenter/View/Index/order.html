@@ -45,7 +45,7 @@
 										{$v['Address']}
 									</td>
 									<td>
-										<button class="btn btn-warning btn-small" data-toggle="modal" data-backdrop="static" modaltitle="添加资讯" data-target="#addModal">未评价</button>
+										{:fuzhi($v['Status'],$v['Id'])}
 									</td>
 								</tr>
 							</foreach>
@@ -122,7 +122,7 @@
 				<h4 class="modal-title hightlight" id="myModalLabel">请为本次交易评分</h4>
 			</div>
 
-			<form class="form-horizontal" action="{:U('save')}" onsubmit="syncsubmit()" method="post" enctype="multipart/form-data">
+			<form class="form-horizontal" action="{:U('u/Index/save')}" onsubmit="syncsubmit()" method="post" enctype="multipart/form-data">
 				<div class="modal-body">
 
 					<h1 class="row text-center">
@@ -139,8 +139,9 @@
 		</div>
 	</div>
 </div>
-<script src="__PUBLIC__/js/jquery-1.11.0.js"></script>
-<script src="__PUBLIC__/js/bootstrap.min.js"></script>
-<script src="__PUBLIC__/js/juzi.js"></script>
+
+</block>
+
+<block name="js">
 <script src="__PUBLIC__/js/star.js"></script>
 </block>

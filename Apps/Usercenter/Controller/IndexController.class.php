@@ -131,10 +131,10 @@ class IndexController extends LoginController {
 		$limit = 8;
 		/* 获得完成的订单 */
 		$model = new view_goods_order_listModel ();
-		$arrBuy = $model->getorder ( $userid, $limit, 1 );
-		$arrSell = $model->getorder ( $userid, $limit, 2 );
+		$arrBuy = $model -> getorder ( $userid, $limit, 1 );
+		$arrSell = $model -> getorder ( $userid, $limit, 2 );
 		/* 获得未完成的订单 */
-		$arring = $model->getorder ( $userid, 5, 3 );
+		$arring = $model -> getorder ( $userid, 5, 3 );
 		/* 模板赋值 */
 		$this->assign ( 'buy', $arrBuy ['list'] );
 		$this->assign ( 'sell', $arrSell ['list'] );
