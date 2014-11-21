@@ -38,15 +38,21 @@ class PublicController extends Controller {
 	}
 	
 	/**
-	 * 处理支付宝订单（支付宝双接口）
+	 * 处理支付宝订单:异步请求（支付宝双接口）
 	 */
 	public function handlealipay() {
-		$r = json_encode ( I ( 'get.' ) );
-		$w = json_encode ( I ( 'post.' ) );
-		M ( 'alipay_order' )->add ( array (
-				'TradeNo' => $r . '||' .$w
+		$arr = I ( 'post.' );
+		if (! $arr || ! $arr ['out_trade_no'] || ! $arr ['trade_no']) {
+			$this->error ( '不要瞎搞' );
+		}
+		$r = M ( 'alipay_order' )->where ( array (
+				'TradeCode' => strtoupper ( trim ( $arr ['out_trade_no'] ) ) 
+		) )->save ( array (
+				'TradeNo' => trim ( $arr ['trade_no'] ),
+				'Status' => 0,
+				'UpdateTime' => time () 
 		) );
-		$this->success(1,U('/'));
+		$this->success ( $r );
 	}
 }
 ?>

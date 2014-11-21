@@ -39,9 +39,20 @@ class PayController extends LoginController {
 		$submit = $config ['SUBMIT'];
 		$parm = $config ['PARAM'];
 		$parm ['out_trade_no'] = 'E' . date ( 'YmdHis' ) . randstr ( 5 ); // 生成订单号
-		$parm ['price'] =0.01 ;//( int ) I ( 'money' );
+		$parm ['out_trade_no'] = strtoupper ( $parm ['out_trade_no'] );
+		$parm ['price'] = ( int ) I ( 'money' );
 		if ($parm ['price'] <= 0) {
 			$this->error ( '不要瞎搞' );
+			return;
+		}
+		if (! M ( 'alipay_order' )->add ( array (
+				'TradeCode' => $parm ['out_trade_no'],
+				'Money' => $parm ['price'],
+				'Status' => 0,
+				'CreateTime' => time (),
+				'UpdateTime' => time () 
+		) )) {
+			$this->error ( '建立账单失败', U ( '/' ) );
 			return;
 		}
 		// 建立请求
@@ -49,7 +60,52 @@ class PayController extends LoginController {
 		$html_text = $alipaySubmit->buildRequestForm ( $parm, "post", "跳转中" );
 		echo $html_text;
 	}
-	
+	/**
+	 * 处理支付宝订单:成功处理（支付宝双接口）
+	 */
+	public function handlealipay() {
+		$arr = I ( 'param.' );
+		if (! $arr || ! $arr ['out_trade_no'] || ! $arr ['trade_no']) {
+			$this->error ( '不要瞎搞', U ( '/' ) );
+		}
+		$dal = M ();
+		$dal->startTrans ();
+		$r1 = M ( 'alipay_order' )->where ( array (
+				'Status' => 0,
+				'TradeNo' => trim ( $arr ['trade_no'] ),
+				'TradeCode' => strtoupper ( trim ( $arr ['out_trade_no'] ) ) 
+		) )->save ( array (
+				'Status' => 1,
+				'UpdateTime' => time () 
+		) );
+		if (! $r1) {
+			$dal->rollback ();
+			$this->error ( '不要瞎搞', U ( '/' ) );
+		}
+		$model = M ( 'user' );
+		$user = $model->where ( array (
+				'Id' => cookie ( '_uid' ) 
+		) )->find ();
+		$user ['E-Money'] += $arr ['price'];
+		$r = $model->save ( $user );
+		if (! $r) {
+			$dal->rollback ();
+			$this->error ( '充值失败，请联系检查是否支付成功', U ( '/' ) );
+			return;
+		} else {
+			$dal->commit ();
+			CSYSN ( cookie ( '_uid' ), '充值成功', "共充值" . $arr ['price'] . "元，请到个人中心核对" );
+			// 日志
+			logs ( $arr ['price'], 4 );
+			
+			M ( 'alipay' )->where ( array (
+					'TradeNo' => trim ( $arr ['trade_no'] ) 
+			) )->save ( array (
+					'Enabled' => 1 
+			) );
+			$this->success ( "充值成功，共充值" . $arr ['price'] . "元，请到个人中心核对", U ( '/u' ) );
+		}
+	}
 	public function qrcode() {
 		$this->display ();
 	}
@@ -78,8 +134,18 @@ class PayController extends LoginController {
 		) )->find ();
 		
 		if ($result) {
-			
+			if (M ( 'alipay_order' )->where ( array (
+					'Status' => 1,
+					'TradeNo' => $result ['TradeNo'] 
+			) )->find ()) {
+				$result ['Enabled'] = 1;
+				$r = $model->save ( $result );
+				$this->error ( '你已经充值过了', U ( '/u' ) );
+				return;
+			}
 			$result ['Enabled'] = 1;
+			$dal = M ();
+			$dal->startTrans ();
 			$r = $model->save ( $result );
 			if ($r) {
 				
@@ -91,14 +157,16 @@ class PayController extends LoginController {
 				$user ['E-Money'] += $result ['Amount'];
 				$r = $model->save ( $user );
 				if ($r) {
+					$dal->commit ();
 					CSYSN ( cookie ( '_uid' ), '充值成功', "共充值" . $result ['Amount'] . "元，请到个人中心核对" );
 					// 日志
 					logs ( $result ['Amount'], 4 );
-					$this->success ( "充值成功，共充值" . $result ['Amount'] . "元，请到个人中心核对", U ( '/Usercenter/Index/index' ) );
+					$this->success ( "充值成功，共充值" . $result ['Amount'] . "元，请到个人中心核对", U ( '/u' ) );
+				} else {
+					$dal->rollback ();
 				}
 			}
 		}
-		
 		$this->error ( '充值失败，请确认订单号是否填写正确' );
 	}
 }

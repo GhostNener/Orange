@@ -34,7 +34,7 @@ return array (
 						"partner" => '2088702698188573',
 						"payment_type" => '1',
 						"notify_url" => 'http://bigoranger.com/u/Public/handlealipay', // 回调地址
-						"return_url" => 'http://bigoranger.com', // 跳转地址
+						"return_url" => 'http://bigoranger.com/u/Pay/handlealipay', // 跳转地址
 						"seller_email" => '15519541782', // 收款人
 						"out_trade_no" => '', // 订单号
 						"subject" => '大橘子', // 单位名称
