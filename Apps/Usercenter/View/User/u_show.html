@@ -6,7 +6,7 @@
 			<div class="row w">
 				<div class="col-md-4">
 					<div class="text-center">
-						<img class="img-responsive profile-img" src="{:getFileUrl($user['URL'],'200x200')}" alt="{$user['Nick']}"></div>
+						<img id="image" class="img-responsive profile-img" src="{:getFileUrl($user['URL'],'200x200')}" alt="{$user['Nick']}"></div>
 					<ul class="nav nav-tabs nav-stacked" id="myTab">
 						<li class="active">
 							<a href="#about">关于我</a>
@@ -150,9 +150,17 @@
 </block>
 
 <block name="js">
-<script src="js/jquery-1.11.0.js"></script>
-<script src="js/bootstrap.min.js"></script>
-<script src="js/juzi.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/rgbaster.min.js"></script>
+<script type="text/javascript">
+	var img = document.getElementById('image');;
+	RGBaster.colors(img, {
+	  success: function(payload) {
+	  	var _color = payload.dominant=='rgb(255,255,255)'?'rgb(0,0,0)':payload.dominant;
+	  	$('head').append('<style>.w .nav-tabs > li.active > a, .w .nav-tabs > li.active > a:hover, .w .nav-tabs > li.active > a:focus {border-left: 5px solid '+_color+';}</style>');
+	  }
+	});
+</script>
+
 <script>
 function ajaxsubmitfavorite(){
 	var $btn = $('.favoritebtn').button('loading');
