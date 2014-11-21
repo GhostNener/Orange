@@ -160,6 +160,13 @@
 		  	$('head').append('<style>.w .nav-tabs > li.active > a, .w .nav-tabs > li.active > a:hover, .w .nav-tabs > li.active > a:focus {border-left: 5px solid '+_color+';}.image{background-color:'+_color+'}</style>');
 	  }
 	});
+
+	$('#image').load(function () {
+		var width = this.naturalWidth;
+		if(width<400 && $(window).width()>768){
+			$(this).attr('src',$(this).attr('src').replace('400x400','200x200'));
+		}
+	})
 </script>
 
 <script>

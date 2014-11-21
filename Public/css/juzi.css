@@ -898,6 +898,9 @@ form{
 		text-align: right;
     }
 
+    .thumbnail img{
+    	max-height: 130px;
+    }
     .nickul{
 		float: right;
     }
