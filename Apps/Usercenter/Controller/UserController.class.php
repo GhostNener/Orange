@@ -43,6 +43,10 @@ class UserController extends BaseController {
 	public function u_login($isadmin = false) {
 		$model = new userModel ();
 		if ($model->islogin ( null, $isadmin, false )) {
+
+			//日志
+			logs('登录成功',2);
+
 			if ($isadmin) {
 				$this->success ( '登录成功', U ( 'Admin/Index/index' ), 1 );
 			} else {
@@ -162,6 +166,9 @@ class UserController extends BaseController {
 		$model = new userModel ();
 		$rst = $model->active ( $arr );
 		if ($rst ['status'] == 1) {
+			
+			logs('激活成功',2);
+
 			$this->success ( '激活成功', U ( '/' ) );
 		} else {
 			$this->error ( '链接已失效', U ( '/' ) );

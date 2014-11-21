@@ -43,6 +43,9 @@ class OrderController extends LoginController {
 				'code' => date ( 'YmdHis' ) . $goods ['Id'],
 				'time' => time () 
 		);
+			
+		logs('下单成功 ID'. $goods ['Id'] ,3);
+
 		$m = new user_addressModel ();
 		$okey = createonekey ( time () . 'Oranger_Order' );
 		if (cookie ( '_okey' )) {
@@ -84,6 +87,7 @@ class OrderController extends LoginController {
 			die ();
 		} else {
 			$this->assign ( 'omodel', $rst );
+			logs('购买成功 ID'. $rst['GoodsId'] ,3);
 			$this->display ();
 		}
 	}

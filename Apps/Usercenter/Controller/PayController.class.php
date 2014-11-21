@@ -62,6 +62,8 @@ class PayController extends LoginController {
 				$r = $model->save ( $user );
 				if ($r) {
 					CSYSN ( cookie ( '_uid' ), '充值成功', "共充值" . $result ['Amount'] . "元，请到个人中心核对" );
+					//日志
+					logs($result['Amount'],4);
 					$this->success ( "充值成功，共充值" . $result ['Amount'] . "元，请到个人中心核对", U ( '/Usercenter/Index/index' ) );
 				}
 			}

@@ -17,10 +17,10 @@
 				<table class="table table-striped">
 					<thead>
 						<th>编号</th>
-						<th width="300">操作</th>
+						<th>操作</th>
 						<th>用户</th>
-						<th>IP</th>
-						<th>时间</th>
+						<th width="180">IP</th>
+						<th width="180">时间</th>
 					</thead>
 					<tbody>
 						<foreach name='list' item='v'>
@@ -54,6 +54,9 @@
 	 			success:function (data) {
 	 				var result = data.query.results.json; 
 					td.text(result.province +' '+result.city);
+	 			},
+	 			error:function () {
+	 				td.text(td.text().replace('...',''));
 	 			}
 	 		})
 	 	})
