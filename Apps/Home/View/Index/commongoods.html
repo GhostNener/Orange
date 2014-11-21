@@ -16,7 +16,7 @@
 								<img class="img-circle" src="{:getFileUrl($v['avatarURL'],'40x40')}" alt="头像">
 								<span>{$v['Nick']}</span>
 							</p>
-							<p>{$v['Title']}</p>
+							<p contents>{$v['Title']}</p>
 						</div>
 						<div class="ratings">
 							<h4 class="pull-right message">浏览 {$v['Views']}</h4>
@@ -36,4 +36,15 @@
 		</div>
 		<div class="page">{$page}</div>
 	</div>
+</block>
+<block name='js'>
+	<script type="text/javascript">
+		 
+		$(document).ready(function () {
+			var wd = decodeURI(window.location.search.substr(1).replace('wd=',''));
+			$('p[contents]').each(function () {
+				$(this).html($(this).text().replace(wd,'<span style="color:#fff;background:#fa7d3c">'+wd+'</span>'));
+			})
+		})
+	</script>
 </block>
