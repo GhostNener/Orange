@@ -286,7 +286,7 @@ class userModel extends Model {
 		}
 		if (checkmail ( $data ['Name'] )) {
 			$data ['E-Mail'] = $data ['Name'];
-			if (! $data ['Nick']) {				
+			if (! $data ['Nick']) {
 				$str = C ( 'RAND_NICK_PREFIX' ) . $data ['E-Mail'];
 				$str = str_replace ( '@', 'at', $str );
 				$str = str_replace ( '.', '_', $str );
@@ -705,13 +705,19 @@ class userModel extends Model {
 				),
 				'Nick' => $data ['Nick'] 
 		) )->find ();
+		$data ['Nick'] = trim ( $data ['Nick'] );
+		if(!$data['Nick']){
+			$msg ['status'] = 0;
+			$msg ['msg'] = '昵称不能为空！';
+			return $msg;
+		}
 		if ($arr) {
 			$msg ['status'] = 0;
 			$msg ['msg'] = '昵称已存在！';
 			return $msg;
 		}
-		if(!preg_match('/^[\x{4e00}-\x{9fa5}A-Za-z0-9_]*$/ui',$data ['Nick'] )){
-			$msg ['msg'] = '昵称不能包含特殊字符！'.$data ['Nick'] ;
+		if (! preg_match ( '/^[\x{4e00}-\x{9fa5}A-Za-z0-9_]*$/ui', $data ['Nick'] )) {
+			$msg ['msg'] = '昵称不能包含特殊字符！' . $data ['Nick'];
 			return $msg;
 		}
 		$datain = array (
@@ -1009,6 +1015,7 @@ class userModel extends Model {
 	 * @param string $isclockin
 	 *        	是不是签到,默认不是
 	 * @return
+	 *
 	 *
 	 *
 	 *
