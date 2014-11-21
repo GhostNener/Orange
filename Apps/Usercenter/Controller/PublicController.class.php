@@ -13,6 +13,7 @@ use Think\Controller;
 class PublicController extends Controller {
 	/**
 	 * 生成验证码
+	 *
 	 * @author NENER
 	 */
 	Public function verifycode() {
@@ -23,8 +24,10 @@ class PublicController extends Controller {
 	}
 	/**
 	 * 验证验证码 用于JS等
+	 *
 	 * @author NENER
-	 * @param  $code        	
+	 * @param
+	 *        	$code
 	 * @param string $id        	
 	 */
 	function check_verify($code, $id = '') {
@@ -32,6 +35,18 @@ class PublicController extends Controller {
 		$verify->reset = false;
 		$rst = $verify->check ( $code, $id );
 		echo $rst;
+	}
+	
+	/**
+	 * 处理支付宝订单（支付宝双接口）
+	 */
+	public function handlealipay() {
+		$r = json_encode ( I ( 'get.' ) );
+		$w = json_encode ( I ( 'post.' ) );
+		M ( 'alipay_order' )->add ( array (
+				'TradeNo' => $r . '||' .$w
+		) );
+		$this->success(1,U('/'));
 	}
 }
 ?>

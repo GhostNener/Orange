@@ -2,6 +2,7 @@
 
 namespace Usercenter\Controller;
 
+require_once 'ORG/Alipay/alipay_submit.class.php';
 /**
  * 充值
  *
@@ -19,11 +20,41 @@ class PayController extends LoginController {
 		}
 		$this->display ();
 	}
+	/**
+	 * 填写金额页面
+	 */
+	public function paytp() {
+		$this->display ();
+	}
+	
+	/**
+	 * 支付宝双接口(数据处理)
+	 */
+	public function alipay() {
+		if (! IS_POST) {
+			$this->error ( '不要瞎搞' );
+			return;
+		}
+		$config = C ( 'ALIPAY' );
+		$submit = $config ['SUBMIT'];
+		$parm = $config ['PARAM'];
+		$parm ['out_trade_no'] = 'E' . date ( 'YmdHis' ) . randstr ( 5 ); // 生成订单号
+		$parm ['price'] =0.01 ;//( int ) I ( 'money' );
+		if ($parm ['price'] <= 0) {
+			$this->error ( '不要瞎搞' );
+			return;
+		}
+		// 建立请求
+		$alipaySubmit = new \AlipaySubmit ( $submit );
+		$html_text = $alipaySubmit->buildRequestForm ( $parm, "post", "跳转中" );
+		echo $html_text;
+	}
+	
 	public function qrcode() {
 		$this->display ();
 	}
 	public function check() {
-		$code = I ( 'code' );	
+		$code = I ( 'code' );
 		$verify = new \Think\Verify ();
 		$verify->reset = true;
 		$rst = $verify->check ( $code, '' );
@@ -33,12 +64,11 @@ class PayController extends LoginController {
 			$this->error ( '验证码错误' );
 		}
 	}
-	
 	// 检验订单号
 	public function tradeno() {
-		if(!IS_POST){
-			$this->error('不要瞎搞');
-			return ;
+		if (! IS_POST) {
+			$this->error ( '不要瞎搞' );
+			return;
 		}
 		$model = M ( 'alipay' );
 		$tradeno = I ( 'tradeno' );
@@ -62,8 +92,8 @@ class PayController extends LoginController {
 				$r = $model->save ( $user );
 				if ($r) {
 					CSYSN ( cookie ( '_uid' ), '充值成功', "共充值" . $result ['Amount'] . "元，请到个人中心核对" );
-					//日志
-					logs($result['Amount'],4);
+					// 日志
+					logs ( $result ['Amount'], 4 );
 					$this->success ( "充值成功，共充值" . $result ['Amount'] . "元，请到个人中心核对", U ( '/Usercenter/Index/index' ) );
 				}
 			}
