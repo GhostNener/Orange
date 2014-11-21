@@ -23,14 +23,14 @@
 				<div role="tabpanel" class="tab-pane active" id="tab1">
 				<form class="form-horizontal" role="form" id="userform" action="{:U('u/Index/saveinfo')}" method="post" onsubmit="return ajaxusersubmit()">
 					<div class="form-group">
-						<label for="NickName" class="col-sm-2 control-label">昵称</label>
+						<label for="NickName" class="col-sm-2 control-label" >昵称</label>
 						<div class="col-sm-4">
-							<input type="text" class="form-control" name="Nick" id="Nick" value="{$user['Nick']}"></div>
+							<input type="text" class="form-control" name="Nick" id="Nick" maxlength="30" value="{$user['Nick']}"></div>
 					</div>
 					<div class="form-group">
-						<label for="RealName" class="col-sm-2 control-label">真实姓名</label>
+						<label for="RealName" class="col-sm-2 control-label" >真实姓名</label>
 						<div class="col-sm-4">
-							<input type="text" class="form-control" name="RealName" id="RealName" value="{$user['RealName']}"></div>
+							<input type="text" class="form-control" name="RealName" id="RealName" maxlength="10" value="{$user['RealName']}"></div>
 					</div>
 					<div class="form-group">
 						<label for="Sex" class="col-sm-2 control-label">性别</label>
@@ -439,9 +439,9 @@ function ajaxusersubmit(){
 		$btn.button('reset');
 		return false;
 	}
-	var _u=/^[0-9a-z_A-Z\u4e00-\u9fa5]*$/;
+	var _u=/^[0-9a-z_A-Z\u4e00-\u9fa5]{1,40}$/;
 	if(!_u.test(_name)){
-		showerrormsg('昵称不能有特殊字符',100,1000);
+		showerrormsg('昵称不能有特殊字符,或长度过长',100,1000);
 		$('#Nick').focus();
 		$btn.button('reset');
 		return false;

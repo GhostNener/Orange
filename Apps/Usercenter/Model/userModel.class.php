@@ -716,7 +716,7 @@ class userModel extends Model {
 			$msg ['msg'] = '昵称已存在！';
 			return $msg;
 		}
-		if (! preg_match ( '/^[\x{4e00}-\x{9fa5}A-Za-z0-9_]*$/ui', $data ['Nick'] )) {
+		if (! preg_match ( '/^[\x{4e00}-\x{9fa5}A-Za-z0-9_]{1,60}$/ui', $data ['Nick'] )) {
 			$msg ['msg'] = '昵称不能包含特殊字符！' . $data ['Nick'];
 			return $msg;
 		}
