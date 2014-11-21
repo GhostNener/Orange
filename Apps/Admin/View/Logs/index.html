@@ -52,8 +52,12 @@
 	 				td.text(td.text()+'...');
 	 			},
 	 			success:function (data) {
-	 				var result = data.query.results.json; 
-					td.text(result.province +' '+result.city);
+	 				if (data.query.results) {
+		 				var result = data.query.results.json; 
+						td.text(result.province +' '+result.city);
+					}else{
+	 					td.text(td.text().replace('...',''));
+					}
 	 			},
 	 			error:function () {
 	 				td.text(td.text().replace('...',''));

@@ -44,9 +44,6 @@ class UserController extends BaseController {
 		$model = new userModel ();
 		if ($model->islogin ( null, $isadmin, false )) {
 
-			//日志
-			logs('登录成功',2);
-
 			if ($isadmin) {
 				$this->success ( '登录成功', U ( 'Admin/Index/index' ), 1 );
 			} else {
@@ -109,10 +106,14 @@ class UserController extends BaseController {
 			cookie ( '_key', $rst ['_key'] );
 			cookie ( '_uid', $rst ['_uid'] );
 			cookie ( '_uname', $rst ['_uname'] );
+			logs($rst['msg'],2);
+
 		} else {
 			cookie ( '_key', $rst ['_key'], C ( 'COOKIE_REMEMBER_TIME' ) );
 			cookie ( '_uid', $rst ['_uid'], C ( 'COOKIE_REMEMBER_TIME' ) );
 			cookie ( '_uname', $rst ['_uname'], C ( 'COOKIE_REMEMBER_TIME' ) );
+			logs($rst['msg'],2);
+
 		}
 		if ($isadmin) {
 			cookie ( 'admin_key', $rst ['_key'] );
@@ -121,6 +122,8 @@ class UserController extends BaseController {
 			cookie ( '_key', $rst ['_key'], C ( 'COOKIE_REMEMBER_TIME' ) );
 			cookie ( '_uid', $rst ['_uid'], C ( 'COOKIE_REMEMBER_TIME' ) );
 			cookie ( '_uname', $rst ['_uname'], C ( 'COOKIE_REMEMBER_TIME' ) );
+			logs('管理员'.$rst['msg'],2);
+
 		}
 		/* cookie ( '_lastLTK', createonekey ( microtime ( true ), 20, 10 ) ); */
 		session ( $rst ['_uid'], $rst ['_key'],$rst['_uname'] );

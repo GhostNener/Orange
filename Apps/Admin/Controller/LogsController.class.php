@@ -20,7 +20,7 @@ class LogsController extends BaseController {
 		if(I('Action')){
 			$map['Action'] = array('LIKE', '%' .I('Action'). '%' );
 		}
-		if(I('Action')){
+		if(I('Type')){
 			$map['Type'] = I('Type');
 		}
 
