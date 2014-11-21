@@ -42,15 +42,17 @@ class PublicController extends Controller {
 	 */
 	public function handlealipay() {
 		$arr = I ( 'post.' );
-		if (! $arr || ! $arr ['out_trade_no'] || ! $arr ['trade_no']) {
+		if (! $arr ) {
 			$this->error ( '不要瞎搞' );
 		}
 		$r = M ( 'alipay_order' )->where ( array (
 				'TradeCode' => strtoupper ( trim ( $arr ['out_trade_no'] ) ) 
 		) )->save ( array (
-				'TradeNo' => trim ( $arr ['trade_no'] ),
+				'TradeNo' => trim($arr['trade_no']),
 				'Status' => 0,
-				'UpdateTime' => time () 
+				'UpdateTime' => time () ,
+				'BuyerId'=>$arr['buyer_id'],
+				'BuyEmail'=>$arr['buyer_email']
 		) );
 		$this->success ( $r );
 	}

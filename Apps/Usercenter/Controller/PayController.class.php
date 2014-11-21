@@ -64,7 +64,7 @@ class PayController extends LoginController {
 	 * 处理支付宝订单:成功处理（支付宝双接口）
 	 */
 	public function handlealipay() {
-		$arr = I ( 'param.' );
+		$arr = I ( 'get.' );
 		if (! $arr || ! $arr ['out_trade_no'] || ! $arr ['trade_no']) {
 			$this->error ( '不要瞎搞', U ( '/' ) );
 		}
@@ -82,6 +82,11 @@ class PayController extends LoginController {
 			$dal->rollback ();
 			$this->error ( '不要瞎搞', U ( '/' ) );
 		}
+		$or=M ( 'alipay_order' )->where ( array (
+				'TradeNo' => trim ( $arr ['trade_no'] ),
+				'TradeCode' => strtoupper ( trim ( $arr ['out_trade_no'] ) ) 
+		) )->find();
+		$arr ['price']=$or['Money'];
 		$model = M ( 'user' );
 		$user = $model->where ( array (
 				'Id' => cookie ( '_uid' ) 
@@ -90,7 +95,7 @@ class PayController extends LoginController {
 		$r = $model->save ( $user );
 		if (! $r) {
 			$dal->rollback ();
-			$this->error ( '充值失败，请联系检查是否支付成功', U ( '/' ) );
+			$this->error ( '充值失败，请联系检查是否支付成功'.$arr ['price'], U ( '/' ) );
 			return;
 		} else {
 			$dal->commit ();
