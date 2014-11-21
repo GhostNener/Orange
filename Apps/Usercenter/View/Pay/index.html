@@ -1,16 +1,23 @@
 <extend name="./Tpl/layout.html"/>
 <block name="content">
 	<div id="main" class="container">
-		<div class="row board-register">
-			<h1 class="hightlight">请选择充值方式：</h1>
-			<div class="col-md-4 col-md-offset-4">
+		<h1 class="hightlight">请选择充值方式：1元 = 1金橘</h1>
+
+		<div class="row order-panel">
+			<div class="col-md-4 col-md-offset-2">
+				<div class="text-center">
+					<p>
+						<img src="__PUBLIC__/Img/alipay_app.jpg" alt="支付宝钱包转账"></p>
+					<a href="{:U('/u/pcode')}" class="btn btn-info btn-lg hightlight">支付宝钱包转账</a>
+					<p class="text-p text-success">* 手机扫码支付（更快捷）</p>
+				</div>
+			</div>
+			<div class="col-md-4">
 				<div class="text-center">
 					<p>
 						<img src="__PUBLIC__/Img/alipay_logo.jpg" alt="支付宝充值"></p>
-					<a href="{:U('/u/pcode')}" class="btn btn-success btn-lg hightlight">支付宝钱包转账</a>
-					<p>
-						<img src="__PUBLIC__/Img/alipay_logo.jpg" alt="支付宝接口"></p>
-					<a href="{:U('u/Pay/paytp')}" class="btn btn-success btn-lg hightlight">支付宝接口</a>
+					<a href="{:U('/u/Pay/paytp')}" class="btn btn-primary btn-lg hightlight">支付宝即时到账</a>
+					<p class="text-p text-success">* web端支付（更安全）</p>
 				</div>
 			</div>
 		</div>
