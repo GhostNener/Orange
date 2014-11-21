@@ -154,7 +154,7 @@
 <script type="text/javascript">
 	var img = document.getElementById('image');;
 	RGBaster.colors(img, {
-		exclude: [ 'rgb(255,255,255)','rgb(254,254,254)' ],
+		exclude: [ 'rgb(255,255,255)','rgb(254,254,254)'],
 	  	success: function(payload) {
 		  	var _color = payload.dominant=='rgb()'?'rgb(0,0,0)':payload.dominant;
 		  	$('head').append('<style>.w .nav-tabs > li.active > a, .w .nav-tabs > li.active > a:hover, .w .nav-tabs > li.active > a:focus {border-left: 5px solid '+_color+';}</style>');
