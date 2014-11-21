@@ -22,7 +22,7 @@
 				<div class="tab-content">
 					<div role="tabpanel" class="tab-pane active" id="tab1">
 
-						<form class="form-horizontal" role="form" id="userform" action="{:U('Usercenter/Index/saveuser')}" method="post" onsubmit="return ajaxusersubmit()">
+						<form class="form-horizontal" role="form" id="userform" action="{:U('u/Index/saveuser')}" method="post" onsubmit="return ajaxusersubmit()">
 							<div class="form-group">
 								<label for="NickName" class="col-sm-2 control-label">昵称</label>
 								<div class="col-sm-4">
@@ -92,6 +92,7 @@
 
 			<div role="tabpanel" class="tab-pane" id="tab2">
 				<button class="btn btn-success btnadd"  data-toggle="modal" data-backdrop="static" data-target="#addressModal">添加</button>
+				<button class="btn btn-success" onclick="refaddress()">刷新</button>
 				<div class="table-responsive">
 					<table class="table table-striped">
 						<thead>
@@ -101,7 +102,7 @@
 							<th>QQ</th>
 							<th >操作</th>
 						</thead>
-						<tbody>
+						<tbody add editurl="{:U('u/Index/getadd')}">
 							<foreach name='address' item='v'>
 								<tr class="nt_{$v['Id']}">
 									<td>{$v['Contacts']}</td>
@@ -109,8 +110,8 @@
 									<td>{$v['Tel']}</td>
 									<td>{$v['QQ']}</td>
 									<td>
-										<button nid="{$v['Id']}" class="btn btn-danger btn-small noticeclose">删除</button>
-										<button act="{:U('Usercenter/Index/getadd',array('Id'=>$v['Id']))}"  class="btn btn-primary btn-small btnedit" aid="{$v['Id']}" data-toggle="modal" data-backdrop="static" data-target="#addressModal">编辑</button>
+										<button nid="{$v['Id']}" class="btn btn-danger btn-small delbtn">删除</button>
+										<button act="{:U('u/Index/getadd',array('Id'=>$v['Id']))}"  class="btn btn-primary btn-small btnedit" aid="{$v['Id']}" data-toggle="modal" data-backdrop="static" data-target="#addressModal">编辑</button>
 									</td>
 								</tr>
 							</foreach>
@@ -177,7 +178,7 @@
 					<div class="form-group">
 						<label for="QQ" class="col-sm-2 control-label">QQ</label>
 						<div class="col-sm-10">
-							<input type="text" name="QQ" id="QQ" class="form-control" placeholder="QQ" required></div>
+							<input type="text" name="QQ" id="QQ" class="form-control" placeholder="QQ" ></div>
 					</div>
 					<div class="form-group">
 						<label for="Address" class="col-sm-2 control-label">联系地址</label>
@@ -207,12 +208,12 @@
 <script src="__PUBLIC__/js/calendar.js"></script>
 <script type="text/javascript">
 $(function(){
-	$('.btnadd').click(function(e){
+	$('.btnadd').live('click',function(e){
 		$('#addressform')[0].reset();
 		$('#addressModalLabel').html("添加地址");
 		$('#modif').val('add');
 	});
-	$('.btnedit').click(function(e){
+	$('.btnedit').live('click',function(e){
 		var _id=$(this).attr('aid');
 		$('#modif').val('update');
 		$('#addressid').val(_id);
@@ -247,7 +248,7 @@ $(function(){
 		});
 	});
 	/*删除*/
-	$('.noticeclose').click(function(e) {
+	$('.delbtn').live('click',function(e) {
 		if(!confirm('您真的要删除吗？')){
 			return;
 		}
@@ -259,6 +260,7 @@ $(function(){
 	        data: {
 	    		Id: _id
 	        },
+	        beforeSend: loading(),
 	        error:  
 	        function(request)  {
 	            showerrormsg('网络错误', 100, 1000);
@@ -267,19 +269,54 @@ $(function(){
 	        success:  
 	        function(data){
 	            if (data.status == 0) {
-	                location.href = location.href;
+	                 showerrormsg(data.info, 100, 1000);
 	                return false;
 	            } else {
 	                $('.nt_' + _id).slideUp(300);
 	                return false;
 	            }                
+	        },
+	        complete:function(){
+	        	$("#load").remove();
 	        }
 	    });
 	    return false;
 	});
 });
+/*刷新地址*/
+function refaddress(){
+	$.ajax({
+		type:'get',
+		url:"{:U('u/Index/getalladd')}",
+		beforeSend:function(){
+			loading();
+		},
+		error:function(){
+			$('#load').remove();
+		},
+		success:function(data){
+			if(data.status==1){
+				data=JSON.parse(data.info);
+				if(!data){
+					$('#load').remove();
+					return;
+				}
+				$('tbody[add]').html('');
+				var _tbody=$('tbody[add]');
+				var _editurl=_tbody.attr('editurl');
+				$(data).each(function(i,v){
+					_tbody.append("<tr class='nt_'"+v['Id']+"><td>"+v['Contacts']+"</td><td style='width:200px'>"+v['Address']+"</td><td>"+v['Tel']+"</td><td>"+v['QQ']+"</td><td><button nid="+v['Id']+" class='btn btn-danger btn-small delbtn'style='margin-right: 4px;'>删除</button><button act="+_editurl+"?Id="+v['Id']+"  class='btn btn-primary btn-small btnedit' aid="+v['Id']+" data-toggle='modal' data-backdrop='static' data-target='#addressModal'>编辑</button></td></tr>");
+				});
+			}
+		},
+		complete:function(){
+			$('#load').remove();
+		}
+	});
+}
 
 function loading() { 
+	$('#load').remove();
 	$("body").append('<div  id="load" style="z-index:99999; position:fixed; left:45%; top:30%"><img src="__PUBLIC__/Img/loading.gif" /></div>'); 
 }
 
@@ -368,6 +405,7 @@ function ajaxaddresssubmit(){
         cache: false,
         url: $('#addressform').attr('action'),
         data: $('#addressform').serialize(),
+        beforeSend: loading(),
         error:  
         function(request)  {
             showerrormsg('网络错误', 100, 1000);
@@ -384,11 +422,14 @@ function ajaxaddresssubmit(){
                 showsuccessmsg("提交成功", 100, 1000);
                 $('#addressform')[0].reset();
                 $btn.button('reset');
-                setTimeout(function(){
-					location.href = location.href;
-                },300);  
+                $('#addressModal').modal('hide');
+                refaddress();  
                 return false;
             }                
+        },
+        complete:function(){
+        	$('#load').remove();
+
         }
     });
     return false;
@@ -397,20 +438,20 @@ function ajaxaddresssubmit(){
 function ajaxusersubmit(){
 	var $btn = $('#submituser').button('loading');
 	if(!$.trim($('#Nick').val())){
-		showerrormsg('联系人为空',100,1000);
+		showerrormsg('昵称不能为空',100,1000);
 		$('#Nick').focus();
 		$btn.button('reset');
 		return false;
 	}
-	var isMobile=/^(?:13\d|14\d|15\d|18\d)\d{5}(\d{3}|\*{3})$/; 
-	if(!$.trim($('#Name').val())||!isMobile.test($('#Name').val())){
+/*	var isMobile=/^(?:13\d|14\d|15\d|18\d)\d{5}(\d{3}|\*{3})$/; 
+	if($.trim($('#Name').val())&&!isMobile.test($('#Name').val())){
 		showerrormsg('手机号不合法',100,1000);
 		$('#Name').focus();
 		$btn.button('reset');
 		return false;
-	}
+	}*/
 	var isQQ=/^(?!0)\d{5,11}$/; 
-	if(!$.trim($('#QQ').val())||!isQQ.test($('#QQ').val())){
+	if($.trim($('#QQ').val())&&!isQQ.test($('#QQ').val())){
 		showerrormsg('QQ号不合法',100,1000);
 		$('#QQ').focus();
 		$btn.button('reset');
@@ -436,12 +477,10 @@ function ajaxusersubmit(){
             } else {
                 showsuccessmsg("提交成功", 100, 1000);
                 $('#userform')[0].reset();
-                $('#addressModal').modal('hide');
                 $btn.button('reset');
                 setTimeout(function(){
 					location.href = location.href;
                 },300);  
-                refaddress(false);
                 return false;
             }                
         }

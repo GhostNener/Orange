@@ -71,20 +71,24 @@ class IndexController extends LoginController {
 		/* 模块赋值 */
 		$this->assign ( 'attn', $attn );
 		$this->getCommon ();
-
-		//综合排名
-		$model = M('user');
-		$ranking = $model->query('select ranking from(
+		
+		// 综合排名
+		$model = M ( 'user' );
+		$ranking = $model->query ( 'select ranking from(
 								select @rownum := @rownum +1 AS ranking,Id from `user`, (SELECT@rownum :=0) r  
 								where `Status` = 10 ORDER BY Credit desc,EXP desc,ClockinCount desc,`E-Money` desc ) M 
-								WHERE Id = ' . cookie ( '_uid' ));
-		$user = $model->where(array('Id'=>cookie('_uid'),'Status'=>'10'))->find();
+								WHERE Id = ' . cookie ( '_uid' ) );
+		$user = $model->where ( array (
+				'Id' => cookie ( '_uid' ),
+				'Status' => '10' 
+		) )->find ();
 		
-		$credit = $user['Credit']/($user['TradeCount']*5)*100;
-		$ranking = $ranking[0]['ranking'];
-		$this->assign('ranking',$ranking);
-		$this->assign('credit',$credit);
-		$this->assign('tradecount',$user['TradeCount']);
+		$credit = ( int ) (($user ['Credit'] / ($user ['TradeCount'] * 5)) * 100);
+		$credit = $credit > 0 ? $credit : 100;
+		$ranking = $ranking [0] ['ranking'];
+		$this->assign ( 'ranking', $ranking );
+		$this->assign ( 'credit', $credit );
+		$this->assign ( 'tradecount', $user ['TradeCount'] );
 		$this->display ();
 	}
 	
@@ -103,7 +107,7 @@ class IndexController extends LoginController {
 	
 	/**
 	 * 编辑个人信息页面
-	 * 
+	 *
 	 * @author LongG
 	 */
 	public function edit() {
@@ -116,21 +120,21 @@ class IndexController extends LoginController {
 		$this->getCommon ();
 		$this->display ();
 	}
-
+	
 	/**
 	 * 订单管理
-	 * 
+	 *
 	 * @author LongG
 	 */
 	public function order() {
 		$userid = cookie ( '_uid' );
 		$limit = 8;
 		/* 获得完成的订单 */
-		$model = new view_goods_order_listModel();
-		$arrBuy = $model -> getorder ($userid, $limit, 1);
-		$arrSell = $model -> getorder ( $userid, $limit, 2 );
+		$model = new view_goods_order_listModel ();
+		$arrBuy = $model->getorder ( $userid, $limit, 1 );
+		$arrSell = $model->getorder ( $userid, $limit, 2 );
 		/* 获得未完成的订单 */
-		$arring = $model -> getorder ( $userid, 5, 3);
+		$arring = $model->getorder ( $userid, 5, 3 );
 		/* 模板赋值 */
 		$this->assign ( 'buy', $arrBuy ['list'] );
 		$this->assign ( 'sell', $arrSell ['list'] );
@@ -144,7 +148,7 @@ class IndexController extends LoginController {
 	
 	/**
 	 * 在售商品
-	 * 
+	 *
 	 * @author LongG
 	 */
 	public function sell() {
@@ -168,7 +172,7 @@ class IndexController extends LoginController {
 	
 	/**
 	 * 商品下架
-	 * 
+	 *
 	 * @author LongG
 	 */
 	public function delgoods() {
@@ -176,8 +180,8 @@ class IndexController extends LoginController {
 			$this->error ( '页面不存在' );
 			die ();
 		}
-		$model = new goodsModel();
-		$arr = $model -> del ( I ( 'GoodsId' ), cookie ( '_uid' ) );
+		$model = new goodsModel ();
+		$arr = $model->del ( I ( 'GoodsId' ), cookie ( '_uid' ) );
 		if ($arr ['status'] == 0) {
 			$this->error ( $arr ['msg'] );
 		} else {
@@ -187,7 +191,7 @@ class IndexController extends LoginController {
 	
 	/**
 	 * 已关注
-	 * 
+	 *
 	 * @author LongG
 	 */
 	public function follow() {
@@ -211,7 +215,7 @@ class IndexController extends LoginController {
 	
 	/**
 	 * 关注
-	 * 
+	 *
 	 * @author LongG
 	 */
 	public function attention() {
@@ -219,8 +223,8 @@ class IndexController extends LoginController {
 			$this->error ( '页面不存在' );
 			die ();
 		}
-		if (I ( 'AttentionId' )==cookie ( '_uid' )) {
-			$this->error ("亲！不能关注本人哟！");
+		if (I ( 'AttentionId' ) == cookie ( '_uid' )) {
+			$this->error ( "亲！不能关注本人哟！" );
 		}
 		/* 验证被关注的用户是否存在 */
 		$userModel = new userModel ();
@@ -230,17 +234,17 @@ class IndexController extends LoginController {
 		}
 		/* 添加关注 */
 		$model = new attentionModel ();
-		$arr = $model -> add ( I ( 'AttentionId' ),cookie ( '_uid' ) );
+		$arr = $model->add ( I ( 'AttentionId' ), cookie ( '_uid' ) );
 		if ($arr ['status'] == 0) {
 			$this->error ();
 		} else {
- 			$this->success ( $arr ['msg'] );
+			$this->success ( $arr ['msg'] );
 		}
 	}
 	
 	/**
 	 * 取消关注
-	 * 
+	 *
 	 * @author LongG
 	 */
 	public function delattention() {
@@ -249,7 +253,7 @@ class IndexController extends LoginController {
 			die ();
 		}
 		$model = new attentionModel ();
-		$arr = $model -> del ( I ( 'AttentionId' ), cookie ( '_uid' ) );
+		$arr = $model->del ( I ( 'AttentionId' ), cookie ( '_uid' ) );
 		if ($arr ['status'] == 0) {
 			$this->error ( $arr ['msg'] );
 		} else {
@@ -259,7 +263,7 @@ class IndexController extends LoginController {
 	
 	/**
 	 * 添加心愿单
-	 * 
+	 *
 	 * @author LongG
 	 */
 	public function addlike() {
@@ -278,7 +282,7 @@ class IndexController extends LoginController {
 	
 	/**
 	 * 心愿单
-	 * 
+	 *
 	 * @author LongG
 	 */
 	public function like() {
@@ -302,7 +306,7 @@ class IndexController extends LoginController {
 	
 	/**
 	 * 删除心愿单
-	 * 
+	 *
 	 * @author LongG
 	 */
 	public function dellike() {
@@ -315,7 +319,7 @@ class IndexController extends LoginController {
 		$dal->startTrans ();
 		/* 删除心愿单 */
 		$model = new favoriteModel ();
-		$rst = $model->del (I ( 'GoodsId' ),cookie ( '_uid' ) );
+		$rst = $model->del ( I ( 'GoodsId' ), cookie ( '_uid' ) );
 		/* 收藏数减一 */
 		$goods = new goodsModel ();
 		$c = $goods->VCChhandle ( I ( 'GoodsId' ), 2, false );
@@ -360,14 +364,14 @@ class IndexController extends LoginController {
 		$arr = I ( 'post.' );
 		$arr ['Id'] = cookie ( '_uid' );
 		$model = new userModel ();
-		$rst = $model -> updateUser ( $arr );
+		$rst = $model->updateUser ( $arr );
 		if (( int ) $rst ['status'] == 1) {
 			$this->success ( $rst ['msg'] );
 		} else {
 			$this->error ( $rst ['msg'] );
 		}
 	}
-
+	
 	/**
 	 * 修改密码
 	 *
@@ -445,21 +449,21 @@ class IndexController extends LoginController {
 	 */
 	public function deladd() {
 		$Id = I ( 'Id' );
-		if ( ! $Id) {
+		if (! $Id) {
 			$this->error ( '页面不存在' );
 			return;
 		}
 		$m = new user_addressModel ();
-		$rst = $m -> del( $Id );
-		if ( (int)$rst['status'] == 0) {
-			$this->error ( $rst['msg'] );
+		$rst = $m->del ( $Id );
+		if (( int ) $rst ['status'] == 0) {
+			$this->error ( $rst ['msg'] );
 		} else {
-			$this->success ($rst['msg']);
+			$this->success ( $rst ['msg'] );
 		}
 	}
 	
 	/**
-	 * ajax 获取地址（
+	 * ajax 获取单个地址（
 	 *
 	 * @author NENER
 	 */
@@ -475,6 +479,20 @@ class IndexController extends LoginController {
 			$this->error ( '加载失败' );
 		} else {
 			$this->success ( json_encode ( $rst ) );
+		}
+	}
+	/**
+	 * ajax 刷新地址
+	 * 
+	 * @author NENER
+	 */
+	public function getalladd() {
+		$m = new user_addressModel ();
+		$r = $m->getall ( cookie ( '_uid' ) );
+		if (! $r) {
+			$this->error ( '没有可用地址' );
+		} else {
+			$this->success ( json_encode ( $r ) );
 		}
 	}
 }
