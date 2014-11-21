@@ -12,7 +12,7 @@
 						<div class="media-body">
 							<h5 class="media-heading">{$v['Nick']}</h5>
 							<p>{:getgrade($v['EXP'])}</p>
-							<a href="{:U('Usercenter/User/u_show',array('Id' => $v['AttentionId']))}"><button type="button" class="btn btn-success">详情</button></a>
+							<a href="{:U('/user/'.$v['Nick'])}"><button type="button" class="btn btn-success">详情</button></a>
 							<button class="btn btn-danger noticeclose" nid="{$v['AttentionId']}" data-loading-text="提交中..." autocomplete="off">
 								删除
 							</button>
