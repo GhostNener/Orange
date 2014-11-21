@@ -531,7 +531,7 @@ class userModel extends Model {
 		$msgarr ['_key'] = $key;
 		$msgarr ['status'] = 1;
 		$msgarr ['_uid'] = $rst ['Id'];
-		$msgarr ['_uname'] = base64_encode($rst ['Nick']);
+		$msgarr ['_uname'] = base64_encode ( $rst ['Nick'] );
 		return $msgarr;
 	}
 	/**
@@ -548,7 +548,7 @@ class userModel extends Model {
 		/* 密码盐 */
 		$salt = C ( 'PDW_SALT' );
 		$temp = ( string ) $RegistTime . $source . $salt;
-		$pwd = strtoupper ( sha1($temp, FALSE ) );
+		$pwd = strtoupper ( sha1 ( $temp, FALSE ) );
 		return $pwd;
 	}
 	/**
@@ -688,38 +688,48 @@ class userModel extends Model {
 	
 	/**
 	 * 修改用户信息
-	 * @param array
+	 * 
+	 * @param
+	 *        	array
 	 * @return array status msg
 	 * @author LongG
 	 */
-	public function updateUser($data) {
-		 $arr = $this -> where( array(
-			'Id' =>  array('neq',$data['Id']),
-		 	'Nick' => $data['Nick']
-		 ))->find();
+	public function updateinfo($data, $uid) {
+		$arr = $this->where ( array (
+				'Id' => array (
+						'neq',
+						$uid 
+				),
+				'Nick' => $data ['Nick'] 
+		) )->find ();
 		if ($arr) {
-			$mag ['status'] = 0;
-			$msg ['msg'] = '修改失败 ,Nick已存在！';
+			$msg ['status'] = 0;
+			$msg ['msg'] = '昵称已存在！';
 			return $msg;
 		}
 		
-		
 		$datain = array (
-				'RealName' => $data ['RealName'],
-				'Nick' => $data ['Nick'],
-				'Sex' => $data ['Sex'],
-				'TP_QQ' => $data ['QQ'],
-				'Birthday' => $data ['Birthday']
+				'RealName' => trim ( $data ['RealName'] ),
+				'Nick' => trim ( $data ['Nick'] ),
+				'Sex' => trim ( $data ['Sex'] ),
+				'TP_QQ' => trim ( $data ['QQ'] ),
+				'Birthday' => $data ['Birthday'] 
 		);
 		$rst = $this->where ( array (
-				'Id' => $data['Id']
+				'Id' => $uid 
 		) )->save ( $datain );
 		if ($rst) {
-			$mag ['status'] = 1;
+			$msg ['status'] = 1;
 			$msg ['msg'] = '修改成功！';
+			return $msg;
 		} else {
-			$mag ['status'] = 0;
-			$msg ['msg'] = '修改失败！';
+			$datain ['Id'] = $uid;
+			if (! $this->where ( $datain )->find ()) {
+				$msg ['msg'] = '修改失败！';
+			} else {
+				$msg ['msg'] = '你没做任何修改！';
+			}
+			$msg ['status'] = 0;
 		}
 		return $msg;
 	}
@@ -889,21 +899,30 @@ class userModel extends Model {
 	}
 	
 	/**
-	 * 该用户是否存在
-	 *
-	 * @param
-	 *        	userid 用户Id
-	 * @return false or true
+	 * 检查用户是否存在
+	 * 
+	 * @param string $idornick
+	 *        	id或nick
+	 * @param number $type
+	 *        	1：表示Id，2：nick
+	 * @return boolean
 	 */
-	public function checkuserid($userid) {
-		if (! trim ( $userid )) {
+	public function checkuserid($idornick, $type = 1,$isreturnmodel=false) {
+		if (! trim ( $idornick )) {
 			return false;
 		}
 		$wherearr = array (
-				'Id' => $userid,
 				'Status' => 10 
 		);
+		if ($type == 2) {
+			$wherearr ['Nick'] = $idornick;
+		} else {
+			$wherearr ['Id'] = $idornick;
+		}
 		$rst = $this->where ( $wherearr )->find ();
+		if($isreturnmodel){
+			return $rst;
+		}
 		if (! $rst) {
 			// 不存在
 			return false;
@@ -984,6 +1003,7 @@ class userModel extends Model {
 	 * @param string $isclockin
 	 *        	是不是签到,默认不是
 	 * @return
+	 *
 	 *
 	 *
 	 *

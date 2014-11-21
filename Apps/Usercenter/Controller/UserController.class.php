@@ -43,7 +43,7 @@ class UserController extends BaseController {
 	public function u_login($isadmin = false) {
 		$model = new userModel ();
 		if ($model->islogin ( null, $isadmin, false )) {
-
+			
 			if ($isadmin) {
 				$this->success ( '登录成功', U ( 'Admin/Index/index' ), 1 );
 			} else {
@@ -106,14 +106,12 @@ class UserController extends BaseController {
 			cookie ( '_key', $rst ['_key'] );
 			cookie ( '_uid', $rst ['_uid'] );
 			cookie ( '_uname', $rst ['_uname'] );
-			logs($rst['msg'],2);
-
+			logs ( $rst ['msg'], 2 );
 		} else {
 			cookie ( '_key', $rst ['_key'], C ( 'COOKIE_REMEMBER_TIME' ) );
 			cookie ( '_uid', $rst ['_uid'], C ( 'COOKIE_REMEMBER_TIME' ) );
 			cookie ( '_uname', $rst ['_uname'], C ( 'COOKIE_REMEMBER_TIME' ) );
-			logs($rst['msg'],2);
-
+			logs ( $rst ['msg'], 2 );
 		}
 		if ($isadmin) {
 			cookie ( 'admin_key', $rst ['_key'] );
@@ -122,12 +120,11 @@ class UserController extends BaseController {
 			cookie ( '_key', $rst ['_key'], C ( 'COOKIE_REMEMBER_TIME' ) );
 			cookie ( '_uid', $rst ['_uid'], C ( 'COOKIE_REMEMBER_TIME' ) );
 			cookie ( '_uname', $rst ['_uname'], C ( 'COOKIE_REMEMBER_TIME' ) );
-			logs('管理员'.$rst['msg'],2);
-
+			logs ( '管理员' . $rst ['msg'], 2 );
 		}
 		/* cookie ( '_lastLTK', createonekey ( microtime ( true ), 20, 10 ) ); */
-		session ( $rst ['_uid'], $rst ['_key'],$rst['_uname'] );
-
+		session ( $rst ['_uid'], $rst ['_key'], $rst ['_uname'] );
+		
 		$this->success ( $rst ['msg'] );
 	}
 	
@@ -170,8 +167,8 @@ class UserController extends BaseController {
 		$rst = $model->active ( $arr );
 		if ($rst ['status'] == 1) {
 			
-			logs('激活成功',2);
-
+			logs ( '激活成功', 2 );
+			
 			$this->success ( '激活成功', U ( '/' ) );
 		} else {
 			$this->error ( '链接已失效', U ( '/' ) );
@@ -195,29 +192,21 @@ class UserController extends BaseController {
 	
 	/**
 	 * 个人页面
-	 *
-	 * @param $Id 被关注人Id        	
-	 * @return
-	 *
-	 *
-	 *
-	 *
-	 *
+	 * 
 	 * @author LongG
 	 */
 	public function u_show($Id) {
 		/* 验证客户是否存在 */
-		$attenid = $Id;
-		$user = new userModel ();
-		$bool = $user->checkuserid ( $attenid );
-		if (! $bool) {
-			$this->redirect ( 'home/Index/index' );
+		$m = new userModel ();
+		$user = $m->checkuserid ( $Id,2,true );
+		if (! $user) {
+			$this->redirect ( '/' );
 		}
 		
 		$limit = 100;
 		/* 拼接where */
 		$wherearr = array (
-				'UserId' => $attenid,
+				'UserId' => $user['Id'],
 				'Status' => 10 
 		);
 		/* 获得在售商品 */
@@ -230,7 +219,7 @@ class UserController extends BaseController {
 		/* 查询用户信息 */
 		
 		$model = new view_user_info_avatarModel ();
-		$arr = $model->getinfo ( $attenid );
+		$arr = $model->getinfo ( $user['Id'] );
 		if ($arr ['status'] == 1) {
 			// 获取经验 计算等级
 			$EXP = $arr ['msg'] ['EXP'];
@@ -246,10 +235,10 @@ class UserController extends BaseController {
 		/* 拼接where */
 		$where = array (
 				'UserId' => $uid,
-				'AttentionId' => $attenid 
+				'AttentionId' => $user['Id'] 
 		);
 		$atten = new attentionModel ();
-		$msg = $atten->checkIsAtten ( $attenid, cookie ( '_uid' ) );
+		$msg = $atten->checkIsAtten ( $user['Id'], cookie ( '_uid' ) );
 		/* 模板赋值 */
 		$this->assign ( 'selllist', $selllist ['list'] );
 		$this->assign ( 'selllist', $selllist ['list'] );
@@ -262,25 +251,21 @@ class UserController extends BaseController {
 		$ranking = $model->query ( 'select ranking from(
 								select @rownum := @rownum +1 AS ranking,Id from `user`, (SELECT@rownum :=0) r  
 								where `Status` = 10 ORDER BY Credit desc,EXP desc,ClockinCount desc,`E-Money` desc ) M 
-								WHERE Id = ' . $attenid );
+								WHERE Id = ' . $user['Id'] );
 		
 		$ranking = $ranking [0] ['ranking'];
-		//签到
-		$user = $model-> where(array('Id'=>$attenid,'Status'=>10)) ->find();
-		$ClockinCount = $user['ClockinCount'];
-		//信誉度
-		$credit = $user['Credit']/($user['TradeCount']*5)*100;
-
-		$this->assign('ClockinCount',$ClockinCount);
-		$this->assign('ranking',$ranking);
-		$this->assign('credit',$credit);
-		//销量
-		$this->assign('tradecount',$user['TradeCount']);
-		
+		$ClockinCount = $user ['ClockinCount'];
+		// 信誉度
+		$credit = $user ['Credit'] / ($user ['TradeCount'] * 5) * 100;
+		$credit = $credit > 0 ? $credit : 100;
+		$this->assign ( 'ClockinCount', $ClockinCount );
+		$this->assign ( 'ranking', $ranking );
+		$this->assign ( 'credit', $credit );
+		// 销量
+		$this->assign ( 'tradecount', $user ['TradeCount'] );	
 		$this->display ();
 	}
 	public function lostpwd() {
-
 		$this->display ();
 	}
 	/**

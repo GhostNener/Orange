@@ -109,7 +109,7 @@
 						<div class="row">
 							<div class="col-md-12">
 								<h4 class="pull-right message">{:date('Y-m-d H:i:s',$goods['CreateTime'])}</h4>
-									<a href="{:U('/user/'.$goods['UserId'])}">
+									<a href="{:U('/user/'.$goods['Nick'])}">
 									<img class="img-circle" src="{:getFileUrl($goods['avatarURL'],'40x40')}" alt="头像">	
 
 									<span>{$goods['Nick']}</span>
@@ -138,11 +138,11 @@
 											<div class="timeline-label">
 												<span class="pull-right time">{:date('Y-m-d H:i:s',$v['CreateTime'])}</span>
 												<h2>
-													<a href="{:U('/user/'.$v['UserId'])}">{$v['Critics']}</a>
+													<a href="{:U('/user/'.$v['Critics'])}">{$v['Critics']}</a>
 													<if condition="(($v['UserId'] eq $v['AssesseeId']) or ($v['AssesseeId'] eq null)) or ($v['AssesseeId'] eq 0)">
 														<else/>	
 														<span>回复</span>
-														<a href="{:U('/user/'.$v['AssesseeId'])}">{$v['Reply']}</a>
+														<a href="{:U('/user/'.$v['Reply'])}">{$v['Reply']}</a>
 													</if>
 												</h2>
 												<p class="content">{$v['Content']}</p>
