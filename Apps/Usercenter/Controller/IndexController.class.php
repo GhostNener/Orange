@@ -362,9 +362,8 @@ class IndexController extends LoginController {
 	 */
 	public function saveuser() {
 		$arr = I ( 'post.' );
-		$arr ['Id'] = cookie ( '_uid' );
 		$model = new userModel ();
-		$rst = $model->updateUser ( $arr );
+		$rst = $model->updateUser ( $arr ,cookie ( '_uid' ));
 		if (( int ) $rst ['status'] == 1) {
 			$this->success ( $rst ['msg'] );
 		} else {

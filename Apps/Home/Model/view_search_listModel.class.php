@@ -46,13 +46,13 @@ class view_search_listModel extends Model {
 		$arr = searchpart ( $key );
 		$arrtemp = $arr;
 		$key = implode ( ' +', $arr );
-		$keyt = '+*' . implode ( '* +*', $arrtemp ) . '*';
+/* 		$keyt = '+*' . implode ( '* +*', $arrtemp ) . '*'; */
 		$key = '+' . $key;
 		$arr = $this->getlist ( $key, $limit,$baseurl );
 		/* 搜不到进行通配符搜索 */
-		if (count ( $arr ['list'] ) <= 0) {
+/* 		if (count ( $arr ['list'] ) <= 0) {
 			$arr = $this->getlist ( $keyt, $limit ,$baseurl);
-		}
+		} */
 		return $arr;
 	}
 }

@@ -692,14 +692,14 @@ class userModel extends Model {
 	 * @return array status msg
 	 * @author LongG
 	 */
-	public function updateUser($data) {
+	public function updateinfo($data,$uid) {
 		 $arr = $this -> where( array(
-			'Id' =>  array('neq',$data['Id']),
+			'Id' =>  array('neq',$uid),
 		 	'Nick' => $data['Nick']
 		 ))->find();
 		if ($arr) {
 			$mag ['status'] = 0;
-			$msg ['msg'] = '修改失败 ,Nick已存在！';
+			$msg ['msg'] = '昵称已存在！';
 			return $msg;
 		}
 		
@@ -712,7 +712,7 @@ class userModel extends Model {
 				'Birthday' => $data ['Birthday']
 		);
 		$rst = $this->where ( array (
-				'Id' => $data['Id']
+				'Id' => $uid
 		) )->save ( $datain );
 		if ($rst) {
 			$mag ['status'] = 1;
