@@ -33,7 +33,7 @@ class FeedbackController extends BaseController {
 		$model = M ( 'feedback' );
 		// 查询条件
 		$wherrArr = array (
-				'Status' => -1 
+				'Status' => 1 
 		);
 		
 		

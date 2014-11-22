@@ -2,13 +2,14 @@
 <block name="content">
 	<div class="col-md-9">
 		<div class="panel panel-default">
-			<div class="panel-heading">待处理反馈信息</div>
+			<div class="panel-heading">已处理记录</div>
 			<div class="table-responsive">
 				<table class="table table-striped">
 					<thead>
 						<th>编号</th>
 						<th>用户</th>
-						<th>留言</th>
+						<th width="200">留言</th>
+						<th width="300">回复</th>
 						<th width="180">时间</th>
 					</thead>
 					<tbody>
@@ -17,6 +18,7 @@
 								<td>{$v.Id}</td>
 								<td>{$v.Name}</td>
 								<td>{$v.Contents}</td>
+								<td>{$v.Reply}</td>
 								<td>{:date("Y-m-d H:i:s ", $v[Time])}</td>
 							</tr>
 						</foreach>
