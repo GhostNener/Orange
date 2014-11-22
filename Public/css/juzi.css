@@ -278,10 +278,11 @@ footer {
 .tabuser dt{
 	text-align: left;
 	font-weight: 400;
+	width: 150px;
 }
 
 .tabuser dd{
-	margin-left: 160px;
+	margin-left: 150px;
 }
 
 .tab-pane .tabuser .info{
