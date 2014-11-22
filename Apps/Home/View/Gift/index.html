@@ -12,7 +12,12 @@
 							<p>{$v[Name]}</p>
 						</div>
 						<div class="ratings">
-							<button class="btn btn-success ajaxpost" data-toggle="modal" data-amount='{$v[Amount]}' data-price='{$v[Price]}' data-giftid='{$v[Id]}'>兑换</button>
+							<if condition="$usermodel eq null">
+								<a class="btn btn-success " href="{:U('/u/login')}">兑换</a>
+								<else/>
+								<button class="btn btn-success ajaxpost" data-toggle="modal" data-amount='{$v[Amount]}' data-price='{$v[Price]}' data-giftid='{$v[Id]}'>兑换</button>
+							</if>
+
 							<h5 class="pull-right">剩余: {$v[Amount]}</h5>
 						</div>
 					</div>
@@ -37,7 +42,7 @@
 					</h4>
 				</div>
 
-				<form class="form-horizontal" action="{:U('exchange')}" method="post">
+				<form class="form-horizontal" action="{:U('/gift/exchange')}" method="post">
 					<div class="modal-body">
 
 						<input type="hidden" class="form-control" id="giftid" name="giftid">
@@ -151,7 +156,7 @@
 
 			$.ajax({
 				type:'post',
-				url:'Order/getbalance',
+				url: "{:U('Home/Order/getbalance')}",
 				beforeSend: function () {
 					$('#userbalance').text('加载中...');
 				},
@@ -193,7 +198,7 @@
 			$('#Amount').val(1);
 			$.ajax({
                 type: 'post',
-                url: 'Gift/getinfo',
+                url: "{:U('/gift/getinfo')}",
                 beforeSend: function(){loading();},
                 timeout: 10000,
                 error: function(request) {
