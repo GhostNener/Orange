@@ -55,12 +55,12 @@ class attentionModel extends Model{
 		if ($rst) {
 			return array (
 					'status' => 1,
-					'msg' => "删除成功" 
+					'msg' => "取消关注完成" 
 			);
 		} else {
 			return array (
 					'status' => 0,
-					'msg' => "删除失败" 
+					'msg' => "取消关注失败" 
 			);
 		}
 	}
