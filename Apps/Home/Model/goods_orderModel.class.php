@@ -61,9 +61,7 @@ class goods_orderModel extends Model {
 		$m = new view_goods_listModel ();
 		$m = $m->getgoodsdetails ( ( int ) $data ['GoodsId'], 2 );
 		$cdata ['Title'] = $m ['Title'];
-		$cdata ['GURL'] = U ( 'Home/Index/g_show', array (
-				'Id' => ( int ) $data ['GoodsId'] 
-		) );
+		$cdata ['GURL'] = U ( '/g/'.( int ) $data ['GoodsId'] );
 		/* 卖家信息 */
 		$selldata = $this->CBSN ( $data ['SellerAddId'] );
 		/* 买家信息 */
@@ -97,9 +95,8 @@ class goods_orderModel extends Model {
 				'AddId' => ( int ) $uaid 
 		) )->find ();
 		$cdata ['Nick'] = $m ['Nick'];
-		$cdata ['UURL'] = U ( 'Usercenter/User/u_show', array (
-				'Id' => $m ['Id'] 
-		) );
+		$cdata ['UURL'] = U ( '/user/'. $m ['Nick'] 
+		 );
 		$cdata ['Tel'] = $m ['Tel'];
 		$cdata ['Content'] = $m ['Contacts'] . '&nbsp;' . $m ['Address'];
 		return $cdata;
