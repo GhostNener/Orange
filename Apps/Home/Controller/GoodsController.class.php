@@ -115,9 +115,7 @@ class GoodsController extends LoginController {
 		if (( int ) $rst ['status'] == 0) {
 			$this->error ( $rst ['msg'] );
 		} else {
-
 			logs('发布商品 ID'.$postarr['GoodsId'],1);
-
 			$this->success ( '发布成功' );
 		}
 	}

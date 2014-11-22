@@ -167,9 +167,13 @@ class userModel extends Model {
 		if (( int ) $cost > ($this->getbalance ( $uid, 2 ))) {
 			return false;
 		}
-		return ($this->where ( array (
-				'Id' => $uid 
-		) )->setDec ( 'E-Money', $cost ));
+		if (! $cost || ( int ) $cost <= 0) {
+			return true;
+		} else {
+			return ($this->where ( array (
+					'Id' => $uid 
+			) )->setDec ( 'E-Money', $cost ));
+		}
 	}
 	
 	/**
@@ -1061,6 +1065,7 @@ class userModel extends Model {
 	 *
 	 *
 	 *
+	 *
 	 */
 	public function handleEXP($uid = null, $type = 1, $isInc = true, $isclockin = false) {
 		if (! $uid) {
@@ -1134,15 +1139,15 @@ class userModel extends Model {
 		if (! $u) {
 			return array (
 					'status' => 0,
-					'msg' => '链接已失效'
+					'msg' => '链接已失效' 
 			);
 		}
 		if (($this->where ( array (
-				'E-Mail' => $mail
+				'E-Mail' => $mail 
 		) )->count ()) > 0) {
 			return array (
 					'status' => 0,
-					'msg' => '邮箱已' . $mail . '被使用'
+					'msg' => '邮箱已' . $mail . '被使用' 
 			);
 		}
 		if ($u ['E-Mail']) {

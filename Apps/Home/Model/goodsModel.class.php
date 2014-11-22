@@ -189,10 +189,14 @@ class goodsModel extends Model {
 		$um = new userModel ();
 		$b = $um->getbalance ( $uid, 2 );
 		$c = $this->computecost ( $arr, 2 );
-		if (! $c || ! $b || $b < $c) {
-			return false;
+		if((int)$c<=0||!$c){
+			return true;
 		}
-		return ($um->payEM ( $uid, $c ));
+		if (! $b || $b < $c) {
+			return false;
+		}else{
+			return ($um->payEM ( $uid, $c ));
+		}
 	}
 	/**
 	 * 保存商品
