@@ -100,10 +100,10 @@ class goodsModel extends Model {
 	 *        	商品Id
 	 * @param int $type
 	 *        	1:浏览，2：收藏，3：评论
-	 *        @param $isInc  是否是增加
+	 * @param $isInc 是否是增加        	
 	 * @author NENER
 	 */
-	public function VCChhandle($gid, $type = 1,$isInc=true) {
+	public function VCChhandle($gid, $type = 1, $isInc = true) {
 		if (! $this->where ( array (
 				'Status' => 10,
 				'Id' => $gid 
@@ -124,18 +124,17 @@ class goodsModel extends Model {
 			default :
 				return false;
 		}
-		if($isInc){
+		if ($isInc) {
 			return ($this->where ( array (
-				'Status' => 10,
-				'Id' => $gid 
+					'Status' => 10,
+					'Id' => $gid 
 			) )->setInc ( $filed ));
-		}else{
+		} else {
 			return ($this->where ( array (
-				'Status' => 10,
-				'Id' => $gid 
-			) )->setDec ( $filed ));			
+					'Status' => 10,
+					'Id' => $gid 
+			) )->setDec ( $filed ));
 		}
-
 	}
 	
 	/**
@@ -163,9 +162,10 @@ class goodsModel extends Model {
 		/* 计算服务费 */
 		$scost = $se->computecost ( $arr ['Server'] );
 		/* 计算发布费 */
-		$temp = ceil ( $arr ['Price'] * 0.04 );
-		if($temp>C('MAX_PUBLISH_COST')){
-			$temp=C('MAX_PUBLISH_COST');
+		$per = C ( 'PUBLISH_COST_PERCENT' );
+		$temp = ceil ( $arr ['Price'] * $per );
+		if ($temp > C ( 'MAX_PUBLISH_COST' )) {
+			$temp = C ( 'MAX_PUBLISH_COST' );
 		}
 		if ($type == 2) {
 			return ($scost + $temp);
@@ -289,7 +289,7 @@ class goodsModel extends Model {
 			);
 			$smodel = new goods_searchModel ();
 			$smsg = $smodel->saveone ( $searchdata );
-			handleEXP ( $uid,3 );
+			handleEXP ( $uid, 3 );
 			return array (
 					'status' => 1,
 					'msg' => '操作成功' 
@@ -305,14 +305,16 @@ class goodsModel extends Model {
 	
 	/**
 	 * 商品下架
-	 * @param $goodsId, $userid
+	 * 
+	 * @param $goodsId, $userid        	
 	 */
-	public function del($goodsId , $userid) {
-		$rst = $this->where ( 
-				array (
+	public function del($goodsId, $userid) {
+		$rst = $this->where ( array (
 				'UserId' => $userid,
-				'Id' => $goodsId,
-		) )->save ( array ( 'Status' => 40 ) ) ;
+				'Id' => $goodsId 
+		) )->save ( array (
+				'Status' => 40 
+		) );
 		if ($rst) {
 			return array (
 					'status' => 1,

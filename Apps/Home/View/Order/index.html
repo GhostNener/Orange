@@ -65,7 +65,7 @@
 					<div class="panel-footer">
 						<h3 class="text-orange">
 							{$goods['Price']}.00
-							<button id="surebuybtn" class="btn btn-orange pull-right" data-loading-text="处理中..." autocomplete="off">确定购买</button>
+							<button id="surebuybtn" class="btn btn-orange pull-right" type="button" data-loading-text="处理中..." autocomplete="off" data-toggle="modal" data-target="#surebuyModal">确定购买</button>
 
 						</h3>
 
@@ -126,12 +126,85 @@
 						</div>
 					</div>
 				</div>
+				<div class="modal fade" id="surebuyModal" tabindex="-1" role="dialog" aria-labelledby="surebuyModalLabel" aria-hidden="true">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal">
+									<span aria-hidden="true">&times;</span>
+									<span class="sr-only">Close</span>
+								</button>
+								<h4 class="modal-title hightlight" id="surebuyModalLabel">请输入支付密码(初始密码和登录密码一致)</h4>
+							</div>
+							<form id="paypwdform" class="form-horizontal" action="{:U('Home/Order/checkpaypwd')}" method="post" onsubmit="return ajaxsubmitpaypwd()">
+								<div class="modal-body">
+									<input type="hidden" name="modif" value="add">
+									<div class="form-group">
+										<label for="Contacts" class="col-sm-2 control-label">支付密码</label>
+										<div class="col-sm-10">
+											<input type="password" name="paypassword" id="paypassword" class="form-control" required maxlength="18"></div>
+									</div>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-danger" data-dismiss="modal">关闭</button>
+									<button id="submitpaypwd" type="submit" class="btn btn-primary" data-loading-text="提交中..." autocomplete="off" >确认</button>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
 </block>
 <block name="js">
 	<script>
+
+function ajaxsubmitpaypwd(){
+	var $btn = $('#submitpaypwd').button('loading');
+	var _pwd=$.trim($('#paypassword').val());
+	if(!_pwd){
+		showerrormsg('支付密码不能为空');
+		$('#paypassword').val('');
+		$('#paypassword').focus();
+		$btn.button('reset');
+		return false;
+	}
+	$.ajax({
+		type:'post',
+		url: $('#paypwdform').attr('action'),
+        data: $('#paypwdform').serialize(),
+        beforeSend:loading(),
+         error:function(request)  {
+            showerrormsg('网络错误', 100, 1000);
+            $btn.button('reset');  
+            return false;              
+        },
+        success:function(data){
+        	if(data.status==0){
+	        	showerrormsg(data.info, 100, 1000);
+	            $btn.button('reset');  
+	            $('#paypassword').focus();
+	            return false; 
+        	}else{
+        		$('#surebuyModal').modal('hide');
+        		$btn.button('reset');  
+        		$('#paypwdform')[0].reset();
+        		$('#orderform').submit();
+        	}
+        },
+        complete:removeloading()
+	});
+return false;
+}
+function removeloading(){
+	$('#load').remove();
+}
+function loading() { 
+	removeloading();
+	$("body").append('<div  id="load" style="z-index:99999; position:fixed; left:45%; top:30%"><img src="__PUBLIC__/Img/loading.gif" /></div>'); 
+}
+
 /*保存地址*/
 function ajaxaddresssubmit(){
 	var $btn = $('#submitaddress').button('loading');

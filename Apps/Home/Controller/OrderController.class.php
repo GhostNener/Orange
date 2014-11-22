@@ -43,9 +43,9 @@ class OrderController extends LoginController {
 				'code' => date ( 'YmdHis' ) . $goods ['Id'],
 				'time' => time () 
 		);
-			
-		logs('下单成功 ID'. $goods ['Id'] ,3);
-
+		
+		logs ( '下单成功 ID' . $goods ['Id'], 3 );
+		
 		$m = new user_addressModel ();
 		$okey = createonekey ( time () . 'Oranger_Order' );
 		if (cookie ( '_okey' )) {
@@ -81,13 +81,13 @@ class OrderController extends LoginController {
 		}
 		$arr = I ( 'post.' );
 		$m = new goods_orderModel ();
-		$rst = $m->createone ( $arr );	
-		if ((int)$rst ['status'] == 0) {
+		$rst = $m->createone ( $arr );
+		if (( int ) $rst ['status'] == 0) {
 			$this->error ( $rst ['msg'], U ( '/' ) );
 			die ();
 		} else {
 			$this->assign ( 'omodel', $rst );
-			logs('购买成功 ID'. $rst['GoodsId'] ,3);
+			logs ( '购买成功 ID' . $rst ['GoodsId'], 3 );
 			$this->display ();
 		}
 	}
@@ -103,5 +103,22 @@ class OrderController extends LoginController {
 		$m = new userModel ();
 		$b = $m->getbalance ( cookie ( '_uid' ), 2 );
 		$this->success ( $b );
+	}
+	/**
+	 * 校验支付密码
+	 */
+	public function checkpaypwd(){
+		if(!IS_POST){
+			$this->error('不要瞎搞',U('/'));
+			return ;
+		}
+		$p=I('paypassword');
+		$m=new userModel();
+		$r=$m->checkpaypwd($p);
+		if((int)$r['status']==1){
+			$this->success(1);
+		}else{
+			$this->error($r['msg']);
+		}
 	}
 }

@@ -94,6 +94,12 @@ class userModel extends Model {
 					'callback' 
 			),
 			array (
+					'PayPwd',
+					'pwd_md5',
+					self::MODEL_INSERT,
+					'callback'
+			),
+			array (
 					'LastKeyTime',
 					NOW_TIME,
 					self::MODEL_INSERT 
@@ -126,7 +132,7 @@ class userModel extends Model {
 	 * @param unknown $Password        	
 	 * @return string
 	 */
-	protected function pwd_md5($Password, $RegistTime) {
+	protected function pwd_md5($Password) {
 		return $this->encrypt ( $Password, NOW_TIME );
 	}
 	/**
@@ -300,6 +306,7 @@ class userModel extends Model {
 		}
 		$dal = M ();
 		$dal->startTrans ();
+		$data['PayPwd']=$data['Password'];
 		$user = $this->create ( $data );
 		if (! $user) {
 			$msg ['msg'] = $this->getError ();
@@ -313,7 +320,8 @@ class userModel extends Model {
 				'RoleId',
 				'Status',
 				'E-Mail',
-				'Nick' 
+				'Nick' ,
+				'PayPwd'
 		) )->add ( $user );
 		if (! $rst) {
 			$msg ['msg'] = '注册失败';
@@ -706,7 +714,7 @@ class userModel extends Model {
 				'Nick' => $data ['Nick'] 
 		) )->find ();
 		$data ['Nick'] = trim ( $data ['Nick'] );
-		if(!$data['Nick']){
+		if (! $data ['Nick']) {
 			$msg ['status'] = 0;
 			$msg ['msg'] = '昵称不能为空！';
 			return $msg;
@@ -1018,11 +1026,6 @@ class userModel extends Model {
 	 *
 	 *
 	 *
-	 *
-	 *
-	 *
-	 *
-	 *
 	 */
 	public function handleEXP($uid = null, $type = 1, $isInc = true, $isclockin = false) {
 		if (! $uid) {
@@ -1032,7 +1035,8 @@ class userModel extends Model {
 				'Id' => $uid 
 		);
 		if ($isclockin) {
-			return $this->where ( $wa )->setInc ( 'EXP', $type );
+			$type = $type <= C ( 'MAX_CLOCKIN_EXP' ) ? $type : C ( 'MAX_CLOCKIN_EXP' );
+			return $this->where ( $wa )->setInc ( 'EXP', ( int ) $type );
 		}
 		$n = 1;
 		switch ($type) {
@@ -1167,6 +1171,52 @@ class userModel extends Model {
 				'status' => 0,
 				'msg' => '保存失败' 
 		);
+	}
+	/**
+	 * 校验支付密码
+	 *
+	 * @param unknown $pwd        	
+	 * @param string $uid        	
+	 * @return multitype:number string
+	 */
+	public function checkpaypwd($pwd, $uid = null, $isadd = false) {
+		if (! $uid) {
+			$uid = cookie ( '_uid' );
+		}
+		$u = $this->where ( array (
+				'Id' => $uid 
+		) )->find ();
+		if (! $u) {
+			return array (
+					'status' => 0,
+					'msg' => '登录过期或用户不存在' 
+			);
+		}
+		if (! $u ['PayPwd']) {
+			if (! $isadd) {
+				return array (
+						'status' => 0,
+						'msg' => '暂未设置支付密码，请到个人中心设置' 
+				);
+			} else {
+				return array (
+						'status' => 1,
+						'msg' => '暂未设置支付密码，请到个人中心设置' 
+				);
+			}
+		}
+		$key = $this->encrypt ( $pwd, $u ['RegistTime'] );
+		if ($key == $u ['PayPwd']) {
+			return array (
+					'status' => 1,
+					'msg' => 'ok' 
+			);
+		} else {
+			return array (
+					'status' => 0,
+					'msg' => '支付密码错误' 
+			);
+		}
 	}
 }
 ?>

@@ -32,22 +32,6 @@ return array (
 		'URL_MODEL' => 2,
 		/*url分隔符*/
 		'URL_PATHINFO_DEPR' => '/',
-		/*图片上传配置*/
-		'IMG_UPLOAD_CONFIG' => array (
-				'maxSize' => 5 * 1024 * 1024,
-				'rootPath' => './Uploads/',
-				'savePath' => 'GoodsImg/',
-				'saveName' => str_replace ( '.', '', microtime ( true ) ),
-				'exts' => array (
-						'jpg',
-						'gif',
-						'png',
-						'jpeg' 
-				),
-				'autoSub' => false,
-				'hash' => false 
-		)
-		 ,
 		/*关闭自动模板布局*/
 		'LAYOUT_ON' => false ,
 		
@@ -67,8 +51,10 @@ return array (
 		'COOKIE_REMEMBER_TIME' => 30 * 24 * 60 * 60,
 		/*单日留言经验值上限  */
 		'COMMENT_EXP_FOR_DAY' => 50,
+		/*签到经验值增加上线  */
+		'MAX_CLOCKIN_EXP' => 30,
 		/*密码找回邮件过期时间  */
-		'RESET_PWD_MAIL_TIME'=>24*60*60,
+		'RESET_PWD_MAIL_TIME' => 24 * 60 * 60,
 		/* 激活邮件配置 */
 		'ORANGER_MAIL' => array (
 				'SMTP_HOST' => 'smtp.ym.163.com', // SMTP服务器
@@ -81,10 +67,6 @@ return array (
 				'REPLY_NAME' => ''  // 回复名称（留空则为发件人名称）
 				)
 		,
-		/*图片保存类型  */
-		'IMG_SAVE_TYPE' => 'jpg',
-		/*图片保存质量  */
-		'IMG_SAVE_QUALITY' => 75 ,
 		/*分类词典路径  【相对与ORG/phpAnalysis/】  */
 		'CATEGOEY_DIC' => 'dict/category_dic_full.dic',
 		/*全文检索词典路径  【相对与ORG/phpAnalysis/】  */
@@ -141,6 +123,8 @@ return array (
 		'SEARCH_CATEGORY_NAME' => '搜索关键字',
 		/*发布时最多收取发布费用！不算服务费  */
 		'MAX_PUBLISH_COST' => 10,
+		/*发布收费百分比  */
+		'PUBLISH_COST_PERCENT' => 0.00,
 		/*激活邮件模板路径  */
 		'ACTIVE_MAIL_TPL_PATH' => './Tpl/Public/Mail/activemail.txt',
 		/*密码找回邮件模板  */
@@ -151,7 +135,7 @@ return array (
 		/*七牛OSS*/
 		'FILE_SIZE_SEPARATOR' => '-', // 分隔符
 		'UPLOAD_SITEIMG_QINIU' => array (
-				'maxSize' => 5 * 1024 * 1024, // 文件大小
+				'maxSize' => 6 * 1024 * 1024, // 文件大小
 				'rootPath' => './',
 				'savePath' => 'Activity/',
 				'autoSub' => false,

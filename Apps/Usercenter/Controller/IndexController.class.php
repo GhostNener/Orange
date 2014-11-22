@@ -494,5 +494,6 @@ class IndexController extends LoginController {
 			$this->success ( json_encode ( $r ) );
 		}
 	}
+
 }
 ?>
