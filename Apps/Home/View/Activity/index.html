@@ -1,19 +1,19 @@
 <extend name="./Tpl/Home/hometpl.html"/>
 <block name="content">
 	<div class="col-md-9">
-		<div class="row">
-		
-			<volist name="list" id="v" empty="$empty">
-				<if condition="($v[Href] eq null) or ($v[Href] eq '')">
-					<a class="col-md-12 thumbnail" href="{:U('/f/'.$v[Id])}">
-						<else/>
-						<a class="col-md-12 thumbnail" href="{$v[Href]}"></if>
 
-						<img src="{:getFileUrl($v[ImgURL]),'800x300'}" alt="{$v[Title]}"></a>
-				</volist>
+		<volist name="list" id="v" empty="$empty">
+			<if condition="($v[Href] eq null) or ($v[Href] eq '')">
+				<a class="col-md-12 thumbnail" href="{:U('/f/'.$v[Id])}">
+					<img src="{:getFileUrl($v[ImgURL]),'800x300'}" alt="{$v[Title]}"></a>
+				<else/>
+				<a class="col-md-12 thumbnail" href="{$v[Href]}">
+					<img src="{:getFileUrl($v[ImgURL]),'800x300'}" alt="{$v[Title]}"></a>
+			</if>
 
-			</div>
-			<div class="page text-center">{$page}</div>
-		</div>
+		</volist>
 
-	</block>
+		<div class="page text-center">{$page}</div>
+	</div>
+
+</block>
