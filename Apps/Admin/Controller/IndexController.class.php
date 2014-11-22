@@ -14,6 +14,7 @@ class IndexController extends BaseController {
 		$goodsModel = M('goods');
 		$logModel = M('logs');
 		$giftModel = M('gift_order');
+		$fbModel = M('feedback');
 
 		$userList = $userModel->where('FROM_UNIXTIME(RegistTime, "%Y%m%d") ='. date("Ymd"))->order('RegistTime desc')->field('Nick,RegistTime')->limit(5)->select();
 		$goodsList = $goodsModel->where('FROM_UNIXTIME(CreateTime, "%Y%m%d") ='. date("Ymd"))->order('CreateTime desc')->field('Title,CreateTime')->limit(5)->select();
@@ -23,6 +24,7 @@ class IndexController extends BaseController {
 		$goodsCount = $goodsModel->where('FROM_UNIXTIME(CreateTime, "%Y%m%d") ='. date("Ymd"))->count();
 		$logCount = $logModel->where('FROM_UNIXTIME(Time, "%Y%m%d") ='. date("Ymd") .' AND Type="pay"')->field('SUM(Action) as pay')->select();
 		$giftCount = $giftModel -> where('Status = 10') ->count();
+		$fbCount = $fbModel -> where('Status = 0') ->count();
 		$complainCount = $goodsModel->where('Status = -1')->count();
 
 		$this->assign ( 'userList', $userList );
@@ -33,6 +35,7 @@ class IndexController extends BaseController {
 		$this->assign('goodsCount',$goodsCount);
 		$this->assign('logCount',$logCount);
 		$this->assign('giftCount',$giftCount);
+		$this->assign('fbCount',$fbCount);
 		$this->assign('complainCount',$complainCount);
 
 		$this->display ();

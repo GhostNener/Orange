@@ -19,7 +19,7 @@
 				<a href="{:U('/Home/About/us')}" >橘子团队</a>
 			</p>
 			<p>
-				<a href="mailto:feedback@bigoranger.com" arget="_blank">问题反馈</a>
+				<a href="javascript:void(0);" data-toggle="modal" data-backdrop="static" data-target="#feedbackModal">问题反馈</a>
 			</p>
 			<p>
 				<a href="mailto:hi@bigoranger.com" arget="_blank">联系我们</a>
@@ -61,6 +61,78 @@
 </script>
 <!-- 额外js -->
 <block name="js"></block>
+<script type="text/javascript">
+	function feedback(){
+			var form = $("form[feedback]");
+			$('.modal-footer button[type="submit"]').attr('disabled' ,'disabled');
+			$('.modal-footer button[type="submit"]').text('等啊等...');
+			$.ajax({
+                type: form.attr("method"),
+                url: form.attr("action"),
+                data: form.serialize(),
+                error: function(request) {
+					showerrormsg('网络连接失败',100,1000);
+                },
+                success: function(data) {
+                    if (data.status != 1) {
+						showerrormsg(data.info,100,1000);
+                    }
+                    else{
+						showsuccessmsg(data.info,100,1000);
+						window.location.href=window.location.href;
+                    }
+                },
+                complete:function () {
+                	$('.modal-footer button[type="submit"]').removeAttr('disabled');
+					$('.modal-footer button[type="submit"]').text('提交');
+                }
+            });
+            return false;
+		}
+</script>
+<div class="modal fade" id="feedbackModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal-dialog">
+<div class="modal-content">
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal">
+			<span aria-hidden="true">&times;</span>
+			<span class="sr-only">Close</span>
+		</button>
+		<h4 class="modal-title hightlight" id="myModalLabel">问题反馈</h4>
+	</div>
 
+	<form class="form-horizontal" action="{:U('/Home/Feedback/save')}" onsubmit="return feedback()" method="post" feedback>
+		<div class="modal-body">
+
+			<div class="form-group">
+				<label class="col-sm-2 control-label">姓名</label>
+				<div class="col-sm-10">
+					<input type="text" class="form-control" id="Title" name="Name" required></div>
+			</div>
+
+			<div class="form-group">
+				<label class="col-sm-2 control-label">邮箱</label>
+				<div class="col-sm-10">
+					<input type="email" class="form-control" id="Email" name="Email" required></div>
+			</div>
+
+			<div class="form-group">
+				<label class="col-sm-2 control-label">留言</label>
+				<div class="col-sm-10">
+					<textarea class="form-control" name="Contents" id="Contents" rows="3" required></textarea>
+				</div>
+			</div>
+
+		</div>
+		<div class="modal-footer">
+			<button type="button" class="btn btn-danger" data-dismiss="modal">关闭</button>
+			<button type="reset" class="btn btn-warning">清空</button>
+			<button type="submit" class="btn btn-primary loading">提交</button>
+		</div>
+	</form>
+
+</div>
+</div>
+</div>
 </body>
 </html>

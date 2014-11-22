@@ -1,0 +1,30 @@
+<extend name="Public/feedback"/>
+<block name="content">
+	<div class="col-md-9">
+		<div class="panel panel-default">
+			<div class="panel-heading">待处理反馈信息</div>
+			<div class="table-responsive">
+				<table class="table table-striped">
+					<thead>
+						<th>编号</th>
+						<th>用户</th>
+						<th>留言</th>
+						<th width="180">时间</th>
+					</thead>
+					<tbody>
+						<foreach name='list' item='v'>
+							<tr>
+								<td>{$v.Id}</td>
+								<td>{$v.Name}</td>
+								<td>{$v.Contents}</td>
+								<td>{:date("Y-m-d H:i:s ", $v[Time])}</td>
+							</tr>
+						</foreach>
+					</tbody>
+				</table>
+			</div>
+			<div class="page pull-right">{$page}</div>
+		</div>
+	</div>
+</block>
+<block name='js'></block>

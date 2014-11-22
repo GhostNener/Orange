@@ -18,7 +18,7 @@
 				<div class="panel-heading">待处理任务</div>
 				<div class="panel-body">
 					<div class="row">
-						<div class="col-md-6">
+						<div class="col-md-4">
 							<dl class="dl-horizontal">
 								<a href="{:U('Gift/order')}">
 									<dt>礼品订单</dt>
@@ -26,12 +26,21 @@
 								</a>
 							</dl>
 						</div>
-						<div class="col-md-6">
+						<div class="col-md-4">
 							<dl class="dl-horizontal">
 								<a href="{:U('Goods/index',array('status'=>
 									-1))}">
 									<dt>商品投诉</dt>
 									<dd>{$complainCount?$complainCount:0}</dd>
+								</a>
+							</dl>
+						</div>
+
+						<div class="col-md-4">
+							<dl class="dl-horizontal">
+								<a href="{:U('Feedback/index')}">
+									<dt>问题反馈</dt>
+									<dd>{$fbCount?$fbCount:0}</dd>
 								</a>
 							</dl>
 						</div>
