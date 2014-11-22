@@ -31,9 +31,9 @@ class LoginController extends BaseController {
 			$rst = $model->islogin ( $arr, false, true );
 		}
 		if (! $rst) {
-			redirect ( U ( '/u/login', array (
+			$this->error ( '未登录', U ( '/u/login', array (
 					'isadmin' => false 
-			) ) );
+			) ) ,1);
 		}
 	}
 }

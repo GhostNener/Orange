@@ -12,6 +12,7 @@ return array (
 				'regist$' => 'u/User/regist',
 				'logout$' => 'u/User/logout',
 				'pay$' => 'u/Pay/index',
+				'bundlmail/:key/:mail$'=>'u/Index/bundlmail?key=:1&mail=:2',
 				'pcode$' => 'u/Pay/qrcode',
 				'lostpwd$' => 'u/User/lostpwd',
 				'lostpaypwd$' => 'u/Index/lostpaypwd',

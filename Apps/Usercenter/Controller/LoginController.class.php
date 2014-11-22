@@ -1,6 +1,7 @@
 <?php
 
 namespace Usercenter\Controller;
+
 use Usercenter\Model\userModel;
 
 /**
@@ -12,11 +13,11 @@ use Usercenter\Model\userModel;
 class LoginController extends BaseController {
 	/**
 	 * 检测登录
-	 * 
+	 *
 	 * @author NENER
 	 */
 	public function _initialize() {
-		parent::_initialize();
+		parent::_initialize ();
 		$sid = I ( 'sid' );
 		if ($sid) {
 			session_id ( $sid );
@@ -27,9 +28,9 @@ class LoginController extends BaseController {
 		$model = new userModel ();
 		$rst = $model->islogin ( null, false, false );
 		if (! $rst) {
-			redirect ( U ( '/u/login', array (
+			$this->error ( '未登录', U ( '/u/login', array (
 					'isadmin' => false 
-			) ) );
+			) ) ,1);
 		}
 	}
 }

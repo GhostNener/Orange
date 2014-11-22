@@ -129,6 +129,8 @@ return array (
 		'ACTIVE_MAIL_TPL_PATH' => './Tpl/Public/Mail/activemail.txt',
 		/*密码找回邮件模板  */
 		'FIND_PWD_MAIL_TPL_PATH' => './Tpl/Public/Mail/findpwd.txt',
+		/*帐号绑定邮件模板  */
+		'BUND_MAIL_TPL_PATH' => './Tpl/Public/Mail/bundling.txt',
 		/*定制成功以及错误模板  */
 		'TMPL_ACTION_ERROR' => './Tpl/jump.html',
 		'TMPL_ACTION_SUCCESS' => './Tpl/jump.html',

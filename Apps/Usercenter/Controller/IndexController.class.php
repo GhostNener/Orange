@@ -553,6 +553,39 @@ class IndexController extends LoginController {
 		}
 	}
 	/**
+	 * ajax发送帐号绑定邮件
+	 */
+	public function sendbundlmail() {
+		if (! IS_POST) {
+			$this->error ( '不要瞎搞' );
+			return;
+		}
+		$mail = I ( 'post.mail' );
+		$m = new userModel ();
+		$r = $m->sendbundlingmail ( $mail, cookie ( '_uid' ) );
+		if (( int ) $r ['status'] == 1) {
+			$this->success ( 1 );
+			
+		}
+		else{
+			$this->error($r['msg']);
+		} 
+		
+	}
+	/**
+	 * 帐号绑定（邮件）
+	 *  */
+	public function bundlmail() {
+		$arr=I('get.');
+		$m=new userModel();
+		$r=$m->bundling($arr);
+		if((int)$r['status']==1){
+			$this->success('帐号绑定成功',U('/'));
+		}else{
+			$this->error('帐号绑定失败,'.$r['msg'],U('/'));
+		}
+	}
+	/**
 	 * ajax 刷新地址
 	 *
 	 * @author NENER
