@@ -1061,15 +1061,6 @@ class userModel extends Model {
 	 *
 	 *
 	 *
-	 *
-	 *
-	 *
-	 *
-	 *
-	 *
-	 *
-	 *
-	 *
 	 */
 	public function handleEXP($uid = null, $type = 1, $isInc = true, $isclockin = false) {
 		if (! $uid) {
@@ -1112,8 +1103,137 @@ class userModel extends Model {
 			return $this->where ( $wa )->setDec ( 'EXP', $n );
 		}
 	}
+	
 	/**
-	 * 发送密码找回邮件
+	 * 帐号绑定
+	 *
+	 * @param array $arr
+	 *        	key,mail
+	 * @param int $type
+	 *        	1:mail绑定
+	 * @param int $uid        	
+	 * @return array status,msg
+	 */
+	public function bundling($arr, $type = 1, $uid = null) {
+		if (! $uid) {
+			$uid = ( int ) cookie ( '_uid' );
+		}
+		$key = trim ( $arr ['key'] );
+		$mail = $arr ['mail'];
+		$mail = base64_decode ( $mail );
+		if (! $key || ! checkmail ( $mail )) {
+			return array (
+					'status' => 0,
+					'msg' => '数据不完整' 
+			);
+		}
+		$u = $this->where ( array (
+				'Id' => $uid,
+				'UserKey' => $key 
+		) )->find ();
+		if (! $u) {
+			return array (
+					'status' => 0,
+					'msg' => '链接已失效'
+			);
+		}
+		if (($this->where ( array (
+				'E-Mail' => $mail
+		) )->count ()) > 0) {
+			return array (
+					'status' => 0,
+					'msg' => '邮箱已' . $mail . '被使用'
+			);
+		}
+		if ($u ['E-Mail']) {
+			return array (
+					'status' => 0,
+					'msg' => '帐号已经绑定了邮箱' 
+			);
+		}
+		$nkey = $this->getnewkey ( $uid );
+		$r = $this->where ( array (
+				'Id' => $uid 
+		) )->save ( array (
+				'LastKeyTime' => time (),
+				'E-Mail' => $mail,
+				'UserKey' => $nkey 
+		) );
+		if (! $r) {
+			return array (
+					'status' => 0,
+					'msg' => '链接已失效或数据不完整' 
+			);
+		} else {
+			cookie ( '_key', $nkey );
+			return array (
+					'status' => 1,
+					'msg' => 'ok' 
+			);
+		}
+	}
+	/**
+	 * 发送帐号绑定邮件
+	 *
+	 * @param string $mail        	
+	 * @param int $uid        	
+	 * @return array ststus,msg
+	 */
+	public function sendbundlingmail($mail, $uid) {
+		$mail = trim ( $mail );
+		if (! checkmail ( $mail )) {
+			return array (
+					'status' => 0,
+					'msg' => '邮箱' . $mail . '格式不正确' 
+			);
+		}
+		if (($this->where ( array (
+				'E-Mail' => $mail 
+		) )->count ()) > 0) {
+			return array (
+					'status' => 0,
+					'msg' => '邮箱' . $mail . '已被使用' 
+			);
+		}
+		$u = $this->where ( array (
+				'Id' => $uid 
+		) )->find ();
+		if (! $u) {
+			return array (
+					'status' => 0,
+					'msg' => '用户未登录' 
+			);
+		}
+		$key = createonekey ( $mail, 11, 11 );
+		$d = M ();
+		$d->startTrans ();
+		$r1 = $this->where ( array (
+				'Id' => $uid 
+		) )->save ( array (
+				'UserKey' => $key,
+				'LastKeyTime' => time () 
+		) );
+		if (! $r1) {
+			$d->rollback ();
+			return array (
+					'status' => 0,
+					'msg' => '邮件发送失败' 
+			);
+		}
+		$content = file_get_contents ( C ( 'BUND_MAIL_TPL_PATH' ) );
+		$content = str_replace ( '[$_USERNAME_$]', $mail, $content );
+		$content = str_replace ( '[$_URL_$]', U ( '/u/bundlmail/' . $key . '/' . base64_encode ( $mail ), '', true, true ), $content );
+		if (sendEmail ( '帐号绑定', $content, $mail )) {
+			$d->commit ();
+			cookie ( "_key", $key );
+			return array (
+					'status' => 1,
+					'msg' => 'ok' 
+			);
+		}
+	}
+	/**
+	 * 发送邮件（密码找回）
 	 *
 	 * @param unknown $email        	
 	 * @return multitype:number string
