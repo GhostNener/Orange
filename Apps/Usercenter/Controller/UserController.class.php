@@ -192,13 +192,13 @@ class UserController extends BaseController {
 	
 	/**
 	 * 个人页面
-	 * 
+	 *
 	 * @author LongG
 	 */
 	public function u_show($Id) {
 		/* 验证客户是否存在 */
 		$m = new userModel ();
-		$user = $m->checkuserid ( $Id,2,true );
+		$user = $m->checkuserid ( $Id, 2, true );
 		if (! $user) {
 			$this->redirect ( '/' );
 		}
@@ -206,7 +206,7 @@ class UserController extends BaseController {
 		$limit = 100;
 		/* 拼接where */
 		$wherearr = array (
-				'UserId' => $user['Id'],
+				'UserId' => $user ['Id'],
 				'Status' => 10 
 		);
 		/* 获得在售商品 */
@@ -219,7 +219,7 @@ class UserController extends BaseController {
 		/* 查询用户信息 */
 		
 		$model = new view_user_info_avatarModel ();
-		$arr = $model->getinfo ( $user['Id'] );
+		$arr = $model->getinfo ( $user ['Id'] );
 		if ($arr ['status'] == 1) {
 			// 获取经验 计算等级
 			$EXP = $arr ['msg'] ['EXP'];
@@ -235,10 +235,10 @@ class UserController extends BaseController {
 		/* 拼接where */
 		$where = array (
 				'UserId' => $uid,
-				'AttentionId' => $user['Id'] 
+				'AttentionId' => $user ['Id'] 
 		);
 		$atten = new attentionModel ();
-		$msg = $atten->checkIsAtten ( $user['Id'], cookie ( '_uid' ) );
+		$msg = $atten->checkIsAtten ( $user ['Id'], cookie ( '_uid' ) );
 		/* 模板赋值 */
 		$this->assign ( 'selllist', $selllist ['list'] );
 		$this->assign ( 'selllist', $selllist ['list'] );
@@ -251,7 +251,7 @@ class UserController extends BaseController {
 		$ranking = $model->query ( 'select ranking from(
 								select @rownum := @rownum +1 AS ranking,Id from `user`, (SELECT@rownum :=0) r  
 								where `Status` = 10 ORDER BY Credit desc,EXP desc,ClockinCount desc,`E-Money` desc ) M 
-								WHERE Id = ' . $user['Id'] );
+								WHERE Id = ' . $user ['Id'] );
 		
 		$ranking = $ranking [0] ['ranking'];
 		$ClockinCount = $user ['ClockinCount'];
@@ -262,10 +262,11 @@ class UserController extends BaseController {
 		$this->assign ( 'ranking', $ranking );
 		$this->assign ( 'credit', $credit );
 		// 销量
-		$this->assign ( 'tradecount', $user ['TradeCount'] );	
+		$this->assign ( 'tradecount', $user ['TradeCount'] );
 		$this->display ();
 	}
 	public function lostpwd() {
+		$this->assign ( 'findurl', U ( 'u/User/findpwdmail' ) );
 		$this->display ();
 	}
 	/**
@@ -288,7 +289,7 @@ class UserController extends BaseController {
 		}
 	}
 	/**
-	 * 重置密码（密码找回）
+	 * 重置登录密码（密码找回）
 	 */
 	public function resetpwd() {
 		$key = I ( 'key' );
@@ -313,10 +314,11 @@ class UserController extends BaseController {
 		}
 		cookie ( '_fkey', $key );
 		$this->assign ( 'fmodel', $u );
+		$this->assign ( 'reseturl', U ( 'u/User/u_resetpwd' ) );
 		$this->display ();
 	}
 	/**
-	 * 保存密码（密码找回）
+	 * 保存登录密码（密码找回）
 	 */
 	public function u_resetpwd() {
 		$key = cookie ( '_fkey' );
@@ -333,7 +335,7 @@ class UserController extends BaseController {
 		}
 	}
 	/**
-	 * 发送密码找回邮件
+	 * 发送登录密码找回邮件
 	 *
 	 * @author NENER
 	 */

@@ -131,10 +131,10 @@ class IndexController extends LoginController {
 		$limit = 8;
 		/* 获得完成的订单 */
 		$model = new view_goods_order_listModel ();
-		$arrBuy = $model -> getorder ( $userid, $limit, 1 );
-		$arrSell = $model -> getorder ( $userid, $limit, 2 );
+		$arrBuy = $model->getorder ( $userid, $limit, 1 );
+		$arrSell = $model->getorder ( $userid, $limit, 2 );
 		/* 获得未完成的订单 */
-		$arring = $model -> getorder ( $userid, 5, 3 );
+		$arring = $model->getorder ( $userid, 5, 3 );
 		/* 模板赋值 */
 		$this->assign ( 'buy', $arrBuy ['list'] );
 		$this->assign ( 'sell', $arrSell ['list'] );
@@ -363,8 +363,8 @@ class IndexController extends LoginController {
 	public function saveinfo() {
 		$arr = I ( 'post.' );
 		$model = new userModel ();
-		$rst = $model->updateinfo ( $arr ,cookie ( '_uid' ));
-		if ( $rst ['status'] == 1) {
+		$rst = $model->updateinfo ( $arr, cookie ( '_uid' ) );
+		if ($rst ['status'] == 1) {
 			$this->success ( $rst ['msg'] );
 		} else {
 			$this->error ( $rst ['msg'] );
@@ -382,17 +382,88 @@ class IndexController extends LoginController {
 			$this->error ( '页面不存在' );
 			return;
 		}
-		$type=(int)$data['Type'];
+		$type = ( int ) $data ['Type'];
 		$m = new userModel ();
-		$rs = $m->changepwd ( $data,$type );
+		$rs = $m->changepwd ( $data, $type );
 		if (( int ) $rs ['status'] == 0) {
 			$this->error ( $rs ['msg'] );
 		} else {
-			if($type==1){
-			session ( cookie ( '_uid' ), null );
-			cookie ( '_uid', null );
-			cookie ( '_key', null );}
+			if ($type == 1) {
+				session ( cookie ( '_uid' ), null );
+				cookie ( '_uid', null );
+				cookie ( '_key', null );
+			}
 			$this->success ( $rs ['msg'] );
+		}
+	}
+	public function lostpaypwd() {
+		$this->assign ( 'findurl', U ( 'u/Index/findpaypwdmail' ) );
+		$this->display ( 'User/lostpwd' );
+	}
+	
+	/**
+	 * 发送支付密码找回邮件
+	 *
+	 * @author NENER
+	 */
+	public function findpaypwdmail() {
+		$email = I ( 'post.email' );
+		if (! IS_POST || ! $email) {
+			$this->error ( '页面不存在', U ( '/' ) );
+		}
+		$u = new userModel ();
+		$r = $u->sendfindpwdmail ( $email, 2 );
+		if (( int ) $r ['status'] == 0) {
+			$this->error ( $r ['msg'] );
+		} else {
+			$this->success ( '发送成功' );
+		}
+	}
+	/**
+	 * 重置支付密码（密码找回）
+	 */
+	public function resetpaypwd() {
+		$key = I ( 'key' );
+		$key = trim ( $key );
+		if (! $key) {
+			redirect ( U ( '/' ) );
+		}
+		$u = M ( 'user' )->where ( array (
+				'UserKey' => $key,
+				'Status' => array (
+						'neq',
+						- 1 
+				) 
+		) )->find ();
+		if (! $u) {
+			$this->error ( '链接已过期', U ( '/' ) );
+			die ();
+		}
+		if ((time () - $u ['LastKeyTime']) > C ( 'RESET_PWD_MAIL_TIME' )) {
+			$this->error ( '链接已过期', U ( '/' ) );
+			die ();
+		}
+		cookie ( '_fkey', $key );
+		$this->assign ( 'fmodel', $u );
+		$this->assign ( 'reseturl', U ( 'u/Index/u_resetpwd' ) );
+		$this->display ( 'User/resetpwd' );
+	}
+	
+	/**
+	 * 保存支付密码（密码找回）
+	 */
+	public function u_resetpwd() {
+		$key = cookie ( '_fkey' );
+		if (! IS_POST || ! $key) {
+			$this->error ( '不要瞎搞', U ( '/' ) );
+		}
+		$m = new userModel ();
+		$r = $m->resetpwd ( I ( 'post.' ), $key, 2 );
+		if (( int ) $r ['status'] == 0) {
+			$this->error ( $r ['msg'] );
+		} else {
+			cookie ( '_fkey', null );
+			$this->success ( $r ['msg'] );
 		}
 	}
 	/**
@@ -483,7 +554,7 @@ class IndexController extends LoginController {
 	}
 	/**
 	 * ajax 刷新地址
-	 * 
+	 *
 	 * @author NENER
 	 */
 	public function getalladd() {
@@ -495,6 +566,5 @@ class IndexController extends LoginController {
 			$this->success ( json_encode ( $r ) );
 		}
 	}
-
 }
 ?>

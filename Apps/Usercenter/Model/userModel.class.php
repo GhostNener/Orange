@@ -1069,6 +1069,7 @@ class userModel extends Model {
 	 *
 	 *
 	 *
+	 *
 	 */
 	public function handleEXP($uid = null, $type = 1, $isInc = true, $isclockin = false) {
 		if (! $uid) {
@@ -1117,7 +1118,7 @@ class userModel extends Model {
 	 * @param unknown $email        	
 	 * @return multitype:number string
 	 */
-	public function sendfindpwdmail($email) {
+	public function sendfindpwdmail($email, $type = 1) {
 		$email = trim ( $email );
 		if (! $email || ! checkmail ( $email )) {
 			return array (
@@ -1152,8 +1153,18 @@ class userModel extends Model {
 		}
 		$content = file_get_contents ( C ( 'FIND_PWD_MAIL_TPL_PATH' ) );
 		$content = str_replace ( '[$_USERNAME_$]', $email, $content );
-		$content = str_replace ( '[$_URL_$]', U ( '/u/resetpwd/' . $key, null, true, true ), $content );
-		if (sendEmail ( '密码找回', $content, $email )) {
+		if ($type == 2) {
+			$title = "支付密码找回";
+			$content = str_replace ( '[$_URL_$]', U ( '/u/resetpaypwd/' . $key, null, true, true ), $content );
+		} else {
+			$title = "登录密码找回";
+			$content = str_replace ( '[$_URL_$]', U ( '/u/resetpwd/' . $key, null, true, true ), $content );
+		}
+		
+		if (sendEmail ( $title, $content, $email )) {
+			if ($type == 2) {
+				cookie ( '_key', $key );
+			}
 			return array (
 					'status' => 1,
 					'msg' => '发送成功' 
@@ -1169,8 +1180,10 @@ class userModel extends Model {
 	 *
 	 * @param array $arr        	
 	 * @param string $key        	
+	 * @param string $type
+	 *        	:1,登录密码，2，支付密码
 	 */
-	public function resetpwd($arr, $key) {
+	public function resetpwd($arr, $key, $type = 1) {
 		$u = $this->where ( array (
 				'UserKey' => $key,
 				'Status' => array (
@@ -1196,10 +1209,15 @@ class userModel extends Model {
 		}
 		$pwd = $this->encrypt ( $data ['Password'], $u ['RegistTime'] );
 		$key = $this->getnewkey ( $u ['Id'] );
+		if ($type == 2) {
+			$filed = 'PayPwd';
+		} else {
+			$filed = 'Password';
+		}
 		if ($this->where ( array (
 				'Id' => $u ['Id'] 
 		) )->save ( array (
-				'Password' => $pwd,
+				$filed => $pwd,
 				'UserKey' => $key,
 				'LastKeyTime' => time () 
 		) )) {

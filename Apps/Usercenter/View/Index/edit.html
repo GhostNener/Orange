@@ -148,8 +148,7 @@
 									<button type="submit" class="btn btn-success submitbtn" data-loading-text="提交中..." autocomplete="off">提交</button>
 								</div>
 							</div>
-							<input type="hidden" name="Type" value="1">
-						</form>
+							<input type="hidden" name="Type" value="1"></form>
 					</div>
 					<div role="tabpanel" class="tab-pane" id="tab4">
 						<form class="form-horizontal" id="changepaypwdform" action="{:U('u/Index/changepwd')}" method="post" onsubmit="return submitsavepwd('changepaypwdform')" role="form">
@@ -172,11 +171,14 @@
 
 							<div class="form-group">
 								<div class="col-sm-offset-2 col-sm-10">
+
 									<button type="submit" class="btn btn-success submitbtn" data-loading-text="提交中..." autocomplete="off">提交</button>
+									<span style="marign:10px">
+										<a href="{:U('/u/lostpaypwd')}">忘记密码</a>
+									</span>
 								</div>
 							</div>
-							<input type="hidden" name="Type" value="2">
-						</form>
+							<input type="hidden" name="Type" value="2"></form>
 					</div>
 				</div>
 			</div>

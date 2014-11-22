@@ -14,7 +14,9 @@ return array (
 				'pay$' => 'u/Pay/index',
 				'pcode$' => 'u/Pay/qrcode',
 				'lostpwd$' => 'u/User/lostpwd',
+				'lostpaypwd$' => 'u/Index/lostpaypwd',
 				'resetpwd/:key' => 'u/User/resetpwd?key=:1',
+				'resetpaypwd/:key' => 'u/Index/resetpaypwd?key=:1',
 				':Id$' => 'u/User/u_show?Id=:1' 
 		),
 		/*支付宝接口  */
