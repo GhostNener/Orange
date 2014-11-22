@@ -382,18 +382,19 @@ class IndexController extends LoginController {
 			$this->error ( '页面不存在' );
 			return;
 		}
+		$type=(int)$data['Type'];
 		$m = new userModel ();
-		$rs = $m->changepwd ( $data );
+		$rs = $m->changepwd ( $data,$type );
 		if (( int ) $rs ['status'] == 0) {
 			$this->error ( $rs ['msg'] );
 		} else {
+			if($type==1){
 			session ( cookie ( '_uid' ), null );
 			cookie ( '_uid', null );
-			cookie ( '_key', null );
+			cookie ( '_key', null );}
 			$this->success ( $rs ['msg'] );
 		}
 	}
-	
 	/**
 	 * 上传头像
 	 *

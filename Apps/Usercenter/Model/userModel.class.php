@@ -97,7 +97,7 @@ class userModel extends Model {
 					'PayPwd',
 					'pwd_md5',
 					self::MODEL_INSERT,
-					'callback'
+					'callback' 
 			),
 			array (
 					'LastKeyTime',
@@ -306,7 +306,7 @@ class userModel extends Model {
 		}
 		$dal = M ();
 		$dal->startTrans ();
-		$data['PayPwd']=$data['Password'];
+		$data ['PayPwd'] = $data ['Password'];
 		$user = $this->create ( $data );
 		if (! $user) {
 			$msg ['msg'] = $this->getError ();
@@ -320,8 +320,8 @@ class userModel extends Model {
 				'RoleId',
 				'Status',
 				'E-Mail',
-				'Nick' ,
-				'PayPwd'
+				'Nick',
+				'PayPwd' 
 		) )->add ( $user );
 		if (! $rst) {
 			$msg ['msg'] = '注册失败';
@@ -954,22 +954,39 @@ class userModel extends Model {
 	/**
 	 * 修改密码
 	 *
-	 * @param array $data        	
+	 * @param array $data
+	 *        	:NewPassword,OldPassword, ConfirmPwd,
+	 * @param int $type:1,登录密码，2：支付密码        	
 	 * @param string $uid        	
 	 * @return multitype:number string
+	 *        
 	 */
-	public function changepwd($data, $uid = NULL) {
+	public function changepwd($data, $type, $uid = NULL) {
 		if (! $uid) {
 			$uid = cookie ( '_uid' );
 		}
+		$np = $data ['NewPassword'];
 		$data = array (
-				'Password' => $data ['NewPassword'],
 				'OldPassword' => $data ['OldPassword'],
 				'ConfirmPassword' => $data ['ConfirmPwd'] 
 		);
+		if ($type == 1) {
+			$data ['Password'] = $np;
+		} elseif ($type == 2) {
+			$data ['PayPwd'] = $np;
+			$data ['Password'] = $np;
+		} else {
+			return array (
+					'status' => 0,
+					'msg' => '操作不存在' 
+			);
+		}
 		$u = $this->where ( array (
 				'Id' => $uid,
-				'Status' => 10 
+				'Status' => array (
+						'neq',
+						- 1 
+				) 
 		) )->find ();
 		if (! $u) {
 			return array (
@@ -977,6 +994,7 @@ class userModel extends Model {
 					'msg' => '用户不存在' 
 			);
 		}
+		
 		$rs = $this->create ( $data );
 		if (! $rs) {
 			return array (
@@ -984,20 +1002,37 @@ class userModel extends Model {
 					'msg' => $this->getError () 
 			);
 		}
+		if ($type == 2) {
+			unset ( $data ['Password'] );
+		}
 		$npwd = $this->encrypt ( $data ['OldPassword'], $u ['RegistTime'] );
-		if ($npwd != $u ['Password']) {
+		if ($type == 1) {
+			$op = $u ['Password'];
+		} else {
+			$op = $u ['PayPwd'];
+		}
+		if ($npwd != $op) {
 			return array (
 					'status' => 0,
 					'msg' => '原密码错误' 
 			);
 		}
-		$npwd = $this->encrypt ( $data ['Password'], $u ['RegistTime'] );
+		if ($type == 1) {
+			$filed = 'Password';
+			$ms = ',请重新登录';
+			$kt = 0;
+		} else {
+			$filed = 'PayPwd';
+			$ms = '';
+			$kt = $u ['LastKeyTime'];
+		}
+		$npwd = $this->encrypt ( $data [$filed], $u ['RegistTime'] );
 		$rs = $this->where ( array (
 				'Id' => $uid,
 				'Status' => 10 
 		) )->save ( array (
-				'Password' => $npwd,
-				'LastKeyTime' => 0 
+				$filed => $npwd,
+				'LastKeyTime' => $kt 
 		) );
 		if (! $rs) {
 			return array (
@@ -1007,7 +1042,7 @@ class userModel extends Model {
 		} else {
 			return array (
 					'status' => 1,
-					'msg' => '修改成功,请重新登录' 
+					'msg' => '修改成功' . $ms 
 			);
 		}
 	}
@@ -1023,6 +1058,14 @@ class userModel extends Model {
 	 * @param string $isclockin
 	 *        	是不是签到,默认不是
 	 * @return
+	 *
+	 *
+	 *
+	 *
+	 *
+	 *
+	 *
+	 *
 	 *
 	 *
 	 *

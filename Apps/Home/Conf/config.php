@@ -8,7 +8,8 @@ return array (
 				's' => 'Home/Index/searchgoods?wd=:1', // 搜索
 				'c/:id' => 'Home/Index/cggoods?Id=:1', // 分类
 				'f/:id' => 'Home/Activity/detail?id=:1', // 发现
-				'o' => 'Home/Order/index'  // 订单
+				'o$' => 'Home/Order/index',  // 订单
+				'buysuccess$'=>'Home/Order/createorder'
 		     )
 		 
 );
