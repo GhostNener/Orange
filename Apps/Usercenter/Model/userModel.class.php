@@ -1404,5 +1404,27 @@ class userModel extends Model {
 			);
 		}
 	}
+	
+	/**
+	 * 用户信誉度的修改
+	 * 
+	 * @param $userid, $start 增加的信誉度       	
+	 */
+	public function updatecredit($userid, $star) {
+		$rst = $this->where( array (
+				'Id' => $userid 
+		) )->setInc('Credit', $star); // 用户的总信誉度
+		if ($rst) {
+			return array (
+					'status' => 1,
+					'msg' => "评价成功" 
+			);
+		} else {
+			return array (
+					'status' => 0,
+					'msg' => "评价失败" 
+			);
+		}
+	}
 }
 ?>

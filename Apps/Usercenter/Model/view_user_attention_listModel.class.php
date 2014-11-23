@@ -17,12 +17,13 @@ class view_user_attention_listModel extends Model {
 	 * @author LONGG
 	 *        
 	 */
-	public function getattention($wherearr = array('Status'=>10), $limit = 6) {
+	public function getattention($wherearr = array('Status'=>10), $limit = 6, $baseurl = ACTION_NAME, $defaultpar = true) {
 		$allCount = $this->where ( $wherearr )->count ();
-		$Page = new \Think\Page ( $allCount, $limit );
-		$showPage = $Page->show ();
+		$Page = new \Think\Page ( $allCount, $limit, null, $defaultpar );
+		$showPage = $Page->show ( $baseurl );
 		$list = $this->where ( $wherearr )->limit ( $Page->firstRow . ',' . $Page->listRows )->order ( 'CreateTime DESC ' )->select ();
 		return array (
+				'status' => 1,
 				'page' => $showPage,
 				'list' => $list 
 		);

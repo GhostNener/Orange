@@ -2,6 +2,7 @@
 
 namespace Usercenter\Controller;
 
+use Usercenter\Model\goods_orderModel;
 use Home\Model\noticeModel;
 use Home\Model\goodsModel;
 use Usercenter\Model\view_favorite_listModel;
@@ -147,6 +148,58 @@ class IndexController extends LoginController {
 	}
 	
 	/**
+	 * 修改订单状态
+	 *
+	 * @author LongG
+	 */
+	public function updateorder() {
+		if (! IS_POST || ! I ( 'OId' )) {
+			$this->error ( '页面不存在' );
+			die ();
+		}
+		$model = new goods_orderModel();
+		$arr = $model -> update(I ('OId'), I('OType'));
+		if ($arr ['status'] == 0) {
+			$this->error ( $arr ['msg'] );
+		} else {
+			$this->success ( $arr ['msg'] );
+		}
+	}
+	
+	/**
+	 * 修改评价
+	 *
+	 * @author LongG
+	 */
+	public function savestar() {
+		if (! IS_POST || ! I ( 'count' )) {
+			$this->error ( '页面不存在' );
+			die ();
+		}
+		$dal = M ();
+		// 开始事务
+		$dal->startTrans ();
+		/* 添加订单表的评价 */
+		$model = new goods_orderModel();
+		$rst = $model -> savestar( I( 'oid' ), I( 'otype' ), I ( 'count' ));
+		
+		$cc = $model -> isComplete();
+		
+		/* 用户总信誉修改 */
+		$user = new userModel();
+		$c = $user -> updatecredit(cookie('_uid'), I ( 'count' ));
+		if (! $rst || ! $c) {
+			// 失败 回滚
+			$dal->rollback ();
+			$this->error ( '评价失败' );
+		} else {
+			// 操作成功 提交事务
+			$dal->commit ();
+			$this->success ( '评价成功' );
+		}
+	}
+	
+	/**
 	 * 在售商品
 	 *
 	 * @author LongG
@@ -161,7 +214,7 @@ class IndexController extends LoginController {
 		);
 		/* 获得在售商品 */
 		$model = new view_goods_listModel ();
-		$likelist = $model->getlist ( $whereall, $limit );
+		$likelist = $model->getlist ( $whereall, $limit,'/u/sell',false );
 		/* 模板赋值 */
 		$this->assign ( 'likelist', $likelist ['list'] );
 		$this->assign ( 'page', $likelist ['page'] );
@@ -197,14 +250,14 @@ class IndexController extends LoginController {
 	public function follow() {
 		$userid = cookie ( '_uid' );
 		/* 拼接查询条件 */
-		$limit = 6;
+		$limit = 9;
 		$whereall = array (
 				'UserId' => $userid,
 				'Status' => 10 
 		);
 		/* 获得关注 */
 		$model = new view_user_attention_listModel ();
-		$arr = $model->getattention ( $whereall, $limit );
+		$arr = $model->getattention ( $whereall, $limit, '/u/f', false);
 		/* 模板赋值 */
 		$this->assign ( 'attention', $arr ['list'] );
 		$this->assign ( 'page', $arr ['page'] );
@@ -295,7 +348,7 @@ class IndexController extends LoginController {
 		);
 		/* 获得心愿单 */
 		$model = new view_favorite_listModel ();
-		$arr = $model->getlist ( $whereall, $limit );
+		$arr = $model->getlist ( $whereall, $limit, '/u/like', false);
 		/* 模板赋值 */
 		$this->assign ( 'likelist', $arr ['list'] );
 		$this->assign ( 'page', $arr ['page'] );

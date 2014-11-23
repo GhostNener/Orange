@@ -106,6 +106,7 @@ $( document ).ready(function() {
       
   $('#stars').on('starrr:change', function(e, value){
     $('#count').html(value);
+    $('#star').val(value);
   });
 
 });

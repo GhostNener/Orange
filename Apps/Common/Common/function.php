@@ -1227,23 +1227,69 @@ function handleEXP($uid = null, $type = 1, $isInc = true, $isclockin = false) {
 	return $m-> handleEXP($uid = null, $type = 1, $isInc = true, $isclockin = false);
 }
 
-
-function fuzhi( $Status, $Id ){
-	switch ($Status)
+/**
+ * 订单界面的状态栏
+ *
+ * @author LongL
+ */
+function fuzhi($v){
+	$oid = $v['Id'];
+	if ($v['BuyerStar'] != null && $v['SellerId'] == cookie('_uid')) {
+		return "<button class='btn btn-warning btn-small' disabled='true'>已评</button>";
+	}elseif ($v['SellerStar'] != null && $v['BuyerId'] == cookie('_uid'))
 	{
-		case 10 :
-			$res = "<button nid='$Id' class='btn btn-warning btn-small data-toggle='modal data-backdrop='static modaltitle='发货' data-target='#addModal'>确定发货</button>";
+		return "<button class='btn btn-warning btn-small' disabled='true'>已评</button>";
+	}
+	else{
+		if ($v['Status'] == 10 && $v['BuyerId'] == cookie('_uid')) {
+			return "<button class='btn btn-warning btn-small' disabled='true'>未发货</button>";
+		}
+		if ($v['Status'] == 10 && $v['SellerId'] == cookie('_uid')) {
+			return "<button nid='$oid' otype='1' class='btn btn-success sendgoods' data-loading-text='提交中...' autocomplete='off' onsubmit='return syncsubmit()'>发货</button>";
+		}
+		
+		if ($v['Status'] == 21 && $v['BuyerId'] == cookie('_uid')) {
+			return "<button nid='$oid' otype='2' class='btn btn-success sendgoods' data-loading-text='提交中...' autocomplete='off' onsubmit='return syncsubmit()'>收货</button>";
+		}
+		if ($v['Status'] == 21 && $v['SellerId'] == cookie('_uid')) {
+			return "<button class='btn btn-warning btn-small' disabled='true'>已发货</button>";
+		}
+		
+		if ($v['Status'] == 22 && $v['BuyerId'] == cookie('_uid')) {
+		 	return "<button nid='$oid' otype='2' class='btn btn-success pingfen' data-toggle='modal' data-backdrop='static' modaltitle='评分' data-target='#addModal'>评分</button>";
+		}
+		if ($v['Status'] == 22 && $v['SellerId'] == cookie('_uid')) {
+			return "<button nid='$oid' otype='1' class='btn btn-success pingfen' data-toggle='modal' data-backdrop='static' modaltitle='评分' data-target='#addModal'>评分</button>";
+		}
+	}
+}
+
+/**
+ * 赋值星星
+ *
+ * @param 星星个数    	
+ * @return 几个★
+ * @author LongG
+ */
+function star($c){
+	switch ($c){
+		case 0 :
 			break;
-		case 21 :
-			$res = "<button nid='$Id' class='btn btn-warning btn-small data-toggle='modal data-backdrop='static modaltitle='收货' data-target='#addModal'>确定收货</button>";
+		case 1 :
+			return ★;
 			break;
-		case 22 :
-			$res = "<button nid='$Id' class='btn btn-warning btn-small data-toggle='modal data-backdrop='static modaltitle='未评价' data-target='#addModal'>未评价</button>";
+		case 2 :
+			return ★★;
+			break;
+		case 3 :
+			return ★★★;
+			break;
+		case 4 :
+			return ★★★★;
 			break;
 		default :
+			return ★★★★★;
 			break;
 	}
-	return $res;
-	break;
 }
 ?>

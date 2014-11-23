@@ -16,7 +16,7 @@ class view_goods_order_listModel extends Model{
 	 *
 	 * @param $userid 用户Id
 	 * @param $limit 分页显示个数
-	 * @param $type  1.完成交易的购买 2.完成交易的出售 3.未完成交易的购买 4.未完成交易的出售
+	 * @param $type  1.完成交易的购买 2.完成交易的出售 3.未完成交易的购买
 	 * @return array page 翻页组装,list 列表
 	 * @author LongG
 	 *        
@@ -29,38 +29,27 @@ class view_goods_order_listModel extends Model{
 			case 1 :	//完成交易的购买订单
 				$where = array (
 						'BuyerId' => $userid,
-						'Status' => 60
+						'Status' => 25
 				);
 				break;
 			case 2 :	//完成交易的出售订单
 				$where = array (
 						'SellerId' => $userid,
-						'Status' => 60
+						'Status' => 25
 				);
 				break;
 			case 3 :	//未完成交易的购买订单
-				$where = array (
-						
-
-				
-						'SellerId' => $userid,
-						'Status' => array('neq',60)
-				);
-				$where['SellerId'] = $userid;
-				$where['BuyerId'] = $userid;
-				$where['_logic'] = 'OR';
-				break;
-			default :	//未完成交易的出售订单
-				$where = array (
-						'BuyerId' => $userid,
-						'Status' => 10
-				);
+				$arr['SellerId'] = cookie('_uid');
+				$arr['BuyerId'] = cookie('_uid');
+				$arr['_logic'] = 'OR'; 
+				$where['_complex'] = $arr; 
+				$where['Status']  = array('neq',25); 
 				break;
 		}
 		$allCount = $this->where ( $where )->count ();
-		$Page = new \Think\Page ( $allCount, $limit );
+		$Page = new \Think\Page ( $allCount, $limit);
 		$showPage = $Page->show ();
-		$list = $this->where ( $where )->limit ( $Page->firstRow . ',' . $Page->listRows )->select ();
+		$list = $this->where ( $where )->limit ( $Page->firstRow . ',' . $Page->listRows )->order ( 'CreateTime DESC ' )->select ();
 		return array (
 				'page' => $showPage,
 				'list' => $list 

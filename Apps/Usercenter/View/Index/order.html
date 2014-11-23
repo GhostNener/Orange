@@ -45,7 +45,7 @@
 										{$v['Address']}
 									</td>
 									<td>
-										{:fuzhi($v['Status'],$v['Id'])}
+										{:fuzhi($v)}
 									</td>
 								</tr>
 							</foreach>
@@ -72,7 +72,7 @@
 									<td>{$v['Price']}</td>
 									<td><if condition="$v['TradeWay'] eq 1"> 线上<else /> 线下</if></td>
 									<td><a href="#">{$v['SellNick']}</a></td>
-									<td class="text-orange">★★★★</td>
+									<td class="text-orange">{:star($v['BuyerStar'])}</td>
 								</tr>
 								</foreach>
 							</tbody>
@@ -98,7 +98,7 @@
 									<td>{$v['Price']}</td>
 									<td><if condition="$v['TradeWay'] eq 1"> 线上<else /> 线下</if></td>
 									<td><a href="#">{$v['BuyNick']}</a></td>
-									<td class="text-orange">★★★★</td>
+									<td class="text-orange">{:star($v['SellerStar'])}</td>
 								</tr>
 								</foreach>
 							</tbody>
@@ -122,13 +122,15 @@
 				<h4 class="modal-title hightlight" id="myModalLabel">请为本次交易评分</h4>
 			</div>
 
-			<form class="form-horizontal" action="{:U('u/Index/save')}" onsubmit="syncsubmit()" method="post" enctype="multipart/form-data">
+			<form class="form-horizontal" action="{:U('u/Index/savestar')}" onsubmit="syncsubmit()" method="post" enctype="multipart/form-data">
 				<div class="modal-body">
 
 					<h1 class="row text-center">
 						<div id="stars" class="starrr text-orange"></div>
-
 						<small id="count">0</small>
+						<input id="oid" type="hidden" name="oid" />
+						<input id="otype" type="hidden" name="otype" />
+						<input id="star" type="hidden" name="count" />
 						<small>星</small>
 					</h1>
 				</div>
@@ -139,9 +141,57 @@
 		</div>
 	</div>
 </div>
-
+<!-- 修改账单 -->
+<input type="hidden" id="updateurl" value="{:U('u/Index/updateorder')}">
 </block>
 
 <block name="js">
 <script src="__PUBLIC__/js/star.js"></script>
+<script type="text/javascript">
+/*发货*/
+$(function(){
+	$('.sendgoods').click(function(e) {
+		if(!confirm('您确定吗？')){
+			return;
+		}
+	    var _id = $(this).attr('nid');
+	    var _otype = $(this).attr('otype');
+	    $.ajax({
+	        type: 'post',
+	        cache: false,
+	        url: $('#updateurl').val(),
+	        data: {
+	            OId: _id,
+	            OType: _otype
+	        },
+	        error:  
+	        function(request)  {
+	            showerrormsg('网络错误', 100, 1000);
+	            return false;               
+	        },
+	        success:  
+	        function(data){
+	            if (data.status == 0) {
+	            	showsuccessmsg(data.info, 100, 1000);
+	                location.href = location.href;
+	                return false;
+	            } else {
+	            	showsuccessmsg(data.info, 100, 1000);
+	                setTimeout(function() {
+	                    location.href = location.href;
+	                },
+	                350);
+	                return false;
+	            }                
+	        }
+	    });
+	    return false;
+	});
+
+	$('.pingfen').click(function(e) {
+		$('#oid').val($(this).attr('nid'));
+		$('#otype').val($(this).attr('otype'));
+	});
+});
+</script>
 </block>

@@ -536,7 +536,6 @@ function submitsavepwd(_id){
     return false;
 }
 
-
 function checkpwd(_pwd) {
     var ispwd = /^[a-z0-9_A-Z~!@#$%^&*]{6,18}$/;
     /*/^(?!\D+$)(?!\d+$)[a-zA-Z0-9_]\w{6,16}$/*/
@@ -619,13 +618,6 @@ function ajaxusersubmit(){
 		$btn.button('reset');
 		return false;
 	}
-/*	var isMobile=/^(?:13\d|14\d|15\d|18\d)\d{5}(\d{3}|\*{3})$/; 
-	if($.trim($('#Name').val())&&!isMobile.test($('#Name').val())){
-		showerrormsg('手机号不合法',100,1000);
-		$('#Name').focus();
-		$btn.button('reset');
-		return false;
-	}*/
 	var isQQ=/^(?!0)\d{5,11}$/; 
 	if($.trim($('#QQ').val())&&!isQQ.test($('#QQ').val())){
 		showerrormsg('QQ号不合法',100,1000);
