@@ -3,6 +3,7 @@
 namespace Api\Controller;
 
 use Usercenter\Model\user_addressModel;
+use Usercenter\Model\userModel;
 
 /**
  * 个人中心api
@@ -27,8 +28,8 @@ class MemberController extends LoginBaseController {
 		}
 		echo json_encode ( array (
 				'status' => 1,
-				'address' => $list ,
-				'msg'=>'ok'
+				'address' => $list,
+				'msg' => 'ok' 
 		) );
 	}
 	/**
@@ -55,8 +56,8 @@ class MemberController extends LoginBaseController {
 		} else {
 			echo json_encode ( array (
 					'status' => 1,
-					'msg' => 'ok' ,
-					'address'=>$r
+					'msg' => 'ok',
+					'address' => $r 
 			) );
 			return;
 		}
@@ -109,6 +110,14 @@ class MemberController extends LoginBaseController {
 		}
 		$m = new user_addressModel ();
 		$r = $m->del ( ( int ) $arr ['Id'], api_get_uid () );
+		echo json_encode ( $r );
+	}
+	/**
+	 * 用户签到
+	 */
+	public function clockin() {
+		$u = new userModel ();
+		$r = $u->clockin ( api_get_uid () );
 		echo json_encode ( $r );
 	}
 }

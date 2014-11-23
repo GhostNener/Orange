@@ -247,5 +247,25 @@ class GoodsController extends LoginBaseController {
 		$r = $m->addComment ( $arr, api_get_uid () );
 		echo json_encode ( $r );
 	}
-
+	/**
+	 * 购买商品
+	 */
+	public function buy() {
+		// GoodsId,Code,CreateTime,BuyerAddId,TradeWay
+		$msg = array (
+				'status' => 0,
+				'msg' => '非法访问' 
+		);
+		if (! IS_POST) {
+			echo json_encode ( $msg );
+			return;
+		}
+		$arr = file_get_contents ( 'php://input' );
+		$arr = json_decode ( $arr, true );
+		if (! $arr) {
+			$msg ['msg'] = '空数据';
+			echo json_encode ( $msg );
+			return;
+		}
+	}
 }
