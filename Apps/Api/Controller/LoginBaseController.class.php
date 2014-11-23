@@ -13,6 +13,7 @@ use Usercenter\Model\userModel;
 class LoginBaseController extends BaseController {
 	/**
 	 * 检测登录
+	 * @param APPKEY ,_uid,_key
 	 */
 	public function _initialize() {
 		parent::_initialize ();

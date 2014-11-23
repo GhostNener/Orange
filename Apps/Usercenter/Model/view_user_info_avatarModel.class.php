@@ -13,7 +13,7 @@ class view_user_info_avatarModel extends Model {
 	 * @param $userid
 	 * @return array:status,msg
 	 */
-	public function getinfo($userid=null) {
+	public function getinfo($userid=null,$isapi=false) {
 		if(!$userid){
 			$userid= cookie('_uid');
 		}
@@ -26,9 +26,22 @@ class view_user_info_avatarModel extends Model {
 		$model = $this->where ( array (
 				'Id' => $userid 
 		) )->find ();
+		$credit = $model ['Credit'] / ($model ['TradeCount'] * 5) * 100;
+		$credit = $credit > 0 ? $credit : 100;
+		$m=new userModel();
+		$rank=$m->getranking($model['id']);
+		$model['Ranking']=$rank;
+		$model['CreditPre']=$credit;
+		$model['Grade']=getgrade((int)$model['EXP'],1);
+		if($isapi){
+			$info='ok';
+		}else{
+			$info=$model;
+		}
 		return array (
 				'status' => 1,
-				'msg' => $model 
+				'msg' => $info ,
+				'info'=>$model
 		);
 	}
 }

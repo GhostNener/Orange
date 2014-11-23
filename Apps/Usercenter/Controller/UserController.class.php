@@ -247,13 +247,8 @@ class UserController extends BaseController {
 		$this->assign ( 'empty', '<h3 class="text-center text-import">暂无商品</h3>' );
 		
 		// 排行
-		$model = M ( 'user' );
-		$ranking = $model->query ( 'select ranking from(
-								select @rownum := @rownum +1 AS ranking,Id from `user`, (SELECT@rownum :=0) r  
-								where `Status` = 10 ORDER BY Credit desc,EXP desc,ClockinCount desc,`E-Money` desc ) M 
-								WHERE Id = ' . $user ['Id'] );
-		
-		$ranking = $ranking [0] ['ranking'];
+		$model = new userModel();
+		$ranking = $model->getranking((int)$user ['Id']);
 		$ClockinCount = $user ['ClockinCount'];
 		// 信誉度
 		$credit = $user ['Credit'] / ($user ['TradeCount'] * 5) * 100;

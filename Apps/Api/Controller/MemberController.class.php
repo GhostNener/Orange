@@ -4,6 +4,7 @@ namespace Api\Controller;
 
 use Usercenter\Model\user_addressModel;
 use Usercenter\Model\userModel;
+use Usercenter\Model\view_user_info_avatarModel;
 
 /**
  * 个人中心api
@@ -34,6 +35,9 @@ class MemberController extends LoginBaseController {
 	}
 	/**
 	 * 获得单个地址（通过地址Id）
+	 *
+	 * @param
+	 *        	Id，地址Id
 	 */
 	public function getoneaddress() {
 		$m = new user_addressModel ();
@@ -64,7 +68,10 @@ class MemberController extends LoginBaseController {
 	}
 	/**
 	 * 保存地址
-	 * Id,Tel,QQ,Address,IsDefault[0,1],modif[add,update],Contacts
+	 *
+	 * @param
+	 *        	Id：地址Id（添加不用赋值）,Tel：电话（必填）,QQ：qq,Address：地址（必填），Contacts：联系人（必填）,IsDefault[0,1]：是否是默认（0或1）,modif[add,update]：更新还是添加（必须带）
+	 *        	
 	 */
 	public function saveaddress() {
 		if (! IS_POST) {
@@ -90,6 +97,9 @@ class MemberController extends LoginBaseController {
 	}
 	/**
 	 * 删除地址
+	 *
+	 * @param
+	 *        	Id，地址Id
 	 */
 	public function deladdress() {
 		if (! IS_POST) {
@@ -114,10 +124,49 @@ class MemberController extends LoginBaseController {
 	}
 	/**
 	 * 用户签到
+	 * 2014-11-23
 	 */
 	public function clockin() {
 		$u = new userModel ();
 		$r = $u->clockin ( api_get_uid () );
+		echo json_encode ( $r );
+	}
+	/**
+	 * 支付密码校验
+	 * 2014-11-23
+	 *
+	 * @param
+	 *        	pwd
+	 */
+	public function checkpaypwd() {
+		if (! IS_POST) {
+			echo json_decode ( array (
+					'status' => 0,
+					'msg' => '非法访问' 
+			) );
+			return;
+		}
+		$arr = file_get_contents ( 'php://input' );
+		$arr = json_encode ( $arr, true );
+		if (! $arr || ! $arr ['pwd']) {
+			echo json_encode ( array (
+					'status' => 0,
+					'msg' => '空数据' 
+			) );
+			return;
+		}
+		$m = new userModel ();
+		$r = $m->checkpaypwd ( $arr ['pwd'] );
+		echo json_decode ( $r );
+	}
+	/**
+	 * 获得个人基本信息
+	 * 2014-11-23
+	 * @return array ststus,msg,info
+	 */
+	public function getinfo() {
+		$u = new view_user_info_avatarModel();
+		$r=$u->getinfo(api_get_uid(),true);
 		echo json_encode ( $r );
 	}
 }

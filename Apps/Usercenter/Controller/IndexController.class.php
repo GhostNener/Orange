@@ -73,11 +73,8 @@ class IndexController extends LoginController {
 		$this->getCommon ();
 		
 		// 综合排名
-		$model = M ( 'user' );
-		$ranking = $model->query ( 'select ranking from(
-								select @rownum := @rownum +1 AS ranking,Id from `user`, (SELECT@rownum :=0) r  
-								where `Status` = 10 ORDER BY Credit desc,EXP desc,ClockinCount desc,`E-Money` desc ) M 
-								WHERE Id = ' . cookie ( '_uid' ) );
+		$model = new userModel();
+		$ranking = $model->getranking((int)cookie ( '_uid' ));
 		$user = $model->where ( array (
 				'Id' => cookie ( '_uid' ),
 				'Status' => '10' 

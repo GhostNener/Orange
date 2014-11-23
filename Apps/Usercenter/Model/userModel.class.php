@@ -1363,7 +1363,7 @@ class userModel extends Model {
 	 *
 	 * @param unknown $pwd        	
 	 * @param string $uid        	
-	 * @return multitype:number string
+	 * @return array status，msg
 	 */
 	public function checkpaypwd($pwd, $uid = null, $isadd = false) {
 		if (! $uid) {
@@ -1403,6 +1403,19 @@ class userModel extends Model {
 					'msg' => '支付密码错误' 
 			);
 		}
+	}
+	/**
+	 * 获得综合排名
+	 * @param int $uid
+	 * @return int  */
+	public function getranking($uid){
+		$ranking = $this->query ( 'select ranking from(
+								select @rownum := @rownum +1 AS ranking,Id from `user`, (SELECT@rownum :=0) r
+								where `Status` = 10 ORDER BY Credit desc,EXP desc,ClockinCount desc,`E-Money` desc ) M
+								WHERE Id = ' . (int)$uid );
+		
+		$ranking = $ranking [0] ['ranking'];
+		return $ranking;
 	}
 }
 ?>
