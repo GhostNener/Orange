@@ -71,7 +71,7 @@ class noticeModel extends Model {
 	 *        	1：获得 列表，2：获得数量
 	 * @return array or number
 	 */
-	public function getunread($uid = null, $type = 1, $limit = 20) {
+	public function getunread($uid = null, $type = 1, $limit = 20,$baseurl=ACTION_NAME,$defaultpar = true) {
 		if (! $uid) {
 			$uid = cookie ( '_uid' );
 		}
@@ -83,8 +83,8 @@ class noticeModel extends Model {
 			return ($this->where ( $warr )->count ());
 		} else {
 			$allCount = $this->where ( $warr )->count ();
-			$Page = new \Think\Page ( $allCount, $limit );
-			$showPage = $Page->show ();
+		$Page = new \Think\Page ( $allCount, $limit, null, $defaultpar );
+		$showPage = $Page->show ( $baseurl );
 			$list = $this->where ( $warr )->limit ( $Page->firstRow . ',' . $Page->listRows )->order ( 'CreateTime DESC ' )->select ();
 			return array (
 					'page' => $showPage,
@@ -144,11 +144,11 @@ class noticeModel extends Model {
 	 */
 	public function delone($Id) {
 		
-		return $this->delete($Id);
-		/*return $this->where ( array (
+		//return $this->delete($Id);
+		return $this->where ( array (
 				'Id' => $Id 
 		) )->save ( array (
 				'Status' => - 1 
-		) );*/
+		) );
 	}
 }

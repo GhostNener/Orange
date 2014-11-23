@@ -11,13 +11,7 @@ require_once 'ORG/Alipay/alipay_submit.class.php';
  */
 class PayController extends LoginController {
 	public function index() {
-		$r = M ( 'settings' )->where ( array (
-				'key' => 'enabled' 
-		) )->find ();
-		if (! $r || ( int ) $r ['value'] == 0) {
-			$this->error ( '充值服务暂停', U ( '/' ) );
-			die ();
-		}
+
 		$this->display ();
 	}
 	/**
@@ -112,6 +106,13 @@ class PayController extends LoginController {
 		}
 	}
 	public function qrcode() {
+		$r = M ( 'settings' )->where ( array (
+				'key' => 'enabled'
+		) )->find ();
+		if (! $r || ( int ) $r ['value'] == 0) {
+			$this->error ( '钱包转账服务暂停', U ( '/' ) );
+			die ();
+		}
 		$this->display ();
 	}
 	public function check() {

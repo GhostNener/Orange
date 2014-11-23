@@ -92,19 +92,7 @@ class IndexController extends LoginController {
 		$this->display ();
 	}
 	
-	/**
-	 * 未读信息
-	 */
-	public function msg() {
-		$model = new noticeModel ();
-		$all = $model->getunread ( null, 1, 10 );
-		$this->assign ( 'urnl', $all ['list'] );
-		$this->assign ( 'page', $all ['page'] );
-		$this->assign ( 'empty', '<h3 class="text-import text-center">没有更多未读消息</h3>' );
-		$this->getCommon ();
-		$this->display ();
-	}
-	
+
 	/**
 	 * 编辑个人信息页面
 	 *
@@ -493,6 +481,21 @@ class IndexController extends LoginController {
 		}
 	}
 	
+	
+	/**
+	 * 未读信息
+	 */
+	public function msg() {
+		$model = new noticeModel ();
+		$all = $model->getunread ( null, 1, 10,'/u/msg',false );
+		$this->assign ( 'urnl', $all ['list'] );
+		$this->assign ( 'page', $all ['page'] );
+		$this->assign ( 'empty', '<h3 class="text-import text-center">没有更多未读消息</h3>' );
+		$this->getCommon ();
+		$this->display ();
+	}
+	
+	
 	/**
 	 * 删除通知
 	 *
@@ -504,12 +507,15 @@ class IndexController extends LoginController {
 			$this->error ( '页面不存在' );
 			return;
 		}
-		$m = new noticeModel ();
-		$m = $m->delone ( $Id );
+		$model = new noticeModel ();
+		$m = $model->delone ( $Id );
 		if (! $m) {
 			$this->error ( '删除失败' );
 		} else {
-			$this->success ( 1 );
+			/*ajax局部刷新 返回剩下的通知  page ，list ，number  */
+			$number=$model->getunread(null,2);
+			$arr=$number>0?$model->getunread ( null, 1, 10,'/u/msg',false ):0;
+			$this->success (json_encode( array('list'=>$arr['list'],'page'=>$arr['page'],'number'=>$number) ));
 		}
 	}
 	

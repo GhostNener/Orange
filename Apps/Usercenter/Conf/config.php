@@ -2,7 +2,7 @@
 return array (
 		'URL_ROUTE_RULES' => array (
 				'act$' => 'u/Index/activated', // 激活
-				'msg$' => 'u/Index/msg',
+				'msg' => 'u/Index/msg',
 				'edit$' => 'u/Index/edit',
 				'order$' => 'u/Index/order',
 				'sell$' => 'u/Index/sell',
