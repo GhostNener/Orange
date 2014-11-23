@@ -104,12 +104,12 @@
 									<span class="caret"></span>
 									&nbsp;
 									<if condition="$urnotice gt 0">
-										<span class="badge">{$urnotice }</span>
+										<span navmsg class="badge">{$urnotice }</span>
 									</if>
 								</a>
 								<ul class="dropdown-menu">
 									<li>
-										<a href="{:U('/u/msg')}">
+										<a navmsg href="{:U('/u/msg')}">
 											<if condition="$urnotice gt 0">
 												<span class="badge pull-right">{$urnotice }</span>
 											</if>

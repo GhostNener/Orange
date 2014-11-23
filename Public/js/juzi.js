@@ -1,6 +1,31 @@
 
-$(document).ready(function() {
+/*分页样式*/
+function initPagination(selector) {
+    selector = selector || '.page';
+    $(selector).each(function(i, o) {
+        var html = '<ul class="pagination">';
+        $(o).find('a,span').each(function(i2, o2) {
+            var linkHtml = '';
+            if ($(o2).is('a')) {
+                linkHtml = '<a href="' + ($(o2).attr('href') || '#') + '">' + $(o2).text() + '</a>';
+            } else if ($(o2).is('span')) {
+                linkHtml = '<a>' + $(o2).text() + '</a>';
+            }
 
+            var css = '';
+            if ($(o2).hasClass('current')) {
+                css = ' class="active" ';
+            }
+
+            html += '<li' + css + '>' + linkHtml + '</li>';
+        });
+
+        html += '</ul>';
+        $(o).html(html).fadeIn();
+    });
+} 
+
+$(document).ready(function() {
     $(function () { $("[data-toggle='tooltip']").tooltip(); });
 	$(function () { $('a[title]').tooltip(); });
 
@@ -52,31 +77,7 @@ $(document).ready(function() {
 		}
 	});
 
-	/*分页样式*/
-	function initPagination(selector) {  
-		    selector = selector || '.page';  
-		    $(selector).each(function (i, o) {  
-		        var html = '<ul class="pagination">';  
-		        $(o).find('a,span').each(function (i2, o2) {  
-		            var linkHtml = '';  
-		            if ($(o2).is('a')) {  
-		                linkHtml = '<a href="' + ($(o2).attr('href') || '#') + '">' + $(o2).text() + '</a>';  
-		            } else if ($(o2).is('span')) {  
-		                linkHtml = '<a>' + $(o2).text() + '</a>';  
-		            }  
-		  
-		            var css = '';  
-		            if ($(o2).hasClass('current')) {  
-		                css = ' class="active" ';  
-		            }  
-		  
-		            html += '<li' + css + '>' + linkHtml + '</li>';  
-		        });  
-		  
-		        html += '</ul>';  
-		        $(o).html(html).fadeIn();  
-		    });  
-		}  
+ 
 	initPagination();
 
 	//自动显示下拉列表
@@ -91,40 +92,39 @@ $(document).ready(function() {
 });
 
 /*errormsg successmsg   msgbox*/
-	loadmsg();
-	function alertmsg(id, msg, intime, outtime) {
-	    id = '#' + id;
-	    $(id).stop();
-	    $(id).children('.msgbox').html(msg);
-	    $(id).fadeIn(intime);
-	    setTimeout(function() {
-	        $(id).fadeOut(outtime);
-	    },
-	    outtime);
+loadmsg();
+function alertmsg(id, msg, intime, outtime) {
+    id = '#' + id;
+    $(id).stop();
+    $(id).children('.msgbox').html(msg);
+    $(id).fadeIn(intime);
+    setTimeout(function() {
+        $(id).fadeOut(outtime);
+    },
+    outtime);
 
-	}
-	function showerrormsg(msg, intime, outtime) {
-	    alertmsg('errormsg', msg, intime, outtime);
-	}
-	function showsuccessmsg(msg, intime, outtime) {
-	    alertmsg('successmsg', msg, intime, outtime);
-	}
+}
+function showerrormsg(msg, intime, outtime) {
+    alertmsg('errormsg', msg, intime, outtime);
+}
+function showsuccessmsg(msg, intime, outtime) {
+    alertmsg('successmsg', msg, intime, outtime);
+}
 
-	function loadmsg () {
-		$('#successmsg').remove();
-		$('#errormsg').remove();
-		$("body").append('<div id="successmsg" class=" text-center alertmsg"  role="alert"> <span class="alert alert-success  msgbox">msg</span> </div>'); 
-		$("body").append('<div id="errormsg" class="text-center alertmsg"  role="alert"> <span class="alert alert-danger msgbox">msg</span> </div>');
-	}
+function loadmsg() {
+    $('#successmsg').remove();
+    $('#errormsg').remove();
+    $("body").append('<div id="successmsg" class=" text-center alertmsg"  role="alert"> <span class="alert alert-success  msgbox">msg</span> </div>');
+    $("body").append('<div id="errormsg" class="text-center alertmsg"  role="alert"> <span class="alert alert-danger msgbox">msg</span> </div>');
+}
 
-
-	function randomString(len) {
-	　　len = len || 32;
-	　　var $chars = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678';    /****默认去掉了容易混淆的字符oOLl,9gq,Vv,Uu,I1****/
-	　　var maxPos = $chars.length;
-	　　var pwd = '';
-	　　for (i = 0; i < len; i++) {
-	　　　　pwd += $chars.charAt(Math.floor(Math.random() * maxPos));
-	　　}
-	　　return pwd;
-	}
+function randomString(len) {　　len = len || 32;　　
+    var $chars = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678';
+    /****默认去掉了容易混淆的字符oOLl,9gq,Vv,Uu,I1****/
+    　　
+    var maxPos = $chars.length;　　
+    var pwd = '';　　
+    for (i = 0; i < len; i++) {　　　　pwd += $chars.charAt(Math.floor(Math.random() * maxPos));　　
+    }　　
+    return pwd;
+}

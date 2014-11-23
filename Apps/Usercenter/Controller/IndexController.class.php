@@ -72,40 +72,10 @@ class IndexController extends LoginController {
 		/* 模块赋值 */
 		$this->assign ( 'attn', $attn );
 		$this->getCommon ();
-		
-		// 综合排名
-		$model = M ( 'user' );
-		$ranking = $model->query ( 'select ranking from(
-								select @rownum := @rownum +1 AS ranking,Id from `user`, (SELECT@rownum :=0) r  
-								where `Status` = 10 ORDER BY Credit desc,EXP desc,ClockinCount desc,`E-Money` desc ) M 
-								WHERE Id = ' . cookie ( '_uid' ) );
-		$user = $model->where ( array (
-				'Id' => cookie ( '_uid' ),
-				'Status' => '10' 
-		) )->find ();
-		
-		$credit = ( int ) (($user ['Credit'] / ($user ['TradeCount'] * 5)) * 100);
-		$credit = $credit > 0 ? $credit : 100;
-		$ranking = $ranking [0] ['ranking'];
-		$this->assign ( 'ranking', $ranking );
-		$this->assign ( 'credit', $credit );
-		$this->assign ( 'tradecount', $user ['TradeCount'] );
 		$this->display ();
 	}
 	
-	/**
-	 * 未读信息
-	 */
-	public function msg() {
-		$model = new noticeModel ();
-		$all = $model->getunread ( null, 1, 10 );
-		$this->assign ( 'urnl', $all ['list'] );
-		$this->assign ( 'page', $all ['page'] );
-		$this->assign ( 'empty', '<h3 class="text-import text-center">没有更多未读消息</h3>' );
-		$this->getCommon ();
-		$this->display ();
-	}
-	
+
 	/**
 	 * 编辑个人信息页面
 	 *
@@ -278,12 +248,13 @@ class IndexController extends LoginController {
 		}
 		if (I ( 'AttentionId' ) == cookie ( '_uid' )) {
 			$this->error ( "亲！不能关注本人哟！" );
+			return;
 		}
 		/* 验证被关注的用户是否存在 */
 		$userModel = new userModel ();
 		$bool = $userModel->checkuserid ( I ( 'AttentionId' ) );
 		if (! $bool) {
-			$this->redirect ( 'home/Index/index' );
+			$this->redirect ( U('/') );
 		}
 		/* 添加关注 */
 		$model = new attentionModel ();
@@ -546,6 +517,21 @@ class IndexController extends LoginController {
 		}
 	}
 	
+	
+	/**
+	 * 未读信息
+	 */
+	public function msg() {
+		$model = new noticeModel ();
+		$all = $model->getunread ( null, 1, 10,'/u/msg',false );
+		$this->assign ( 'urnl', $all ['list'] );
+		$this->assign ( 'page', $all ['page'] );
+		$this->assign ( 'empty', '<h3 class="text-import text-center">没有更多未读消息</h3>' );
+		$this->getCommon ();
+		$this->display ();
+	}
+	
+	
 	/**
 	 * 删除通知
 	 *
@@ -557,12 +543,15 @@ class IndexController extends LoginController {
 			$this->error ( '页面不存在' );
 			return;
 		}
-		$m = new noticeModel ();
-		$m = $m->delone ( $Id );
+		$model = new noticeModel ();
+		$m = $model->delone ( $Id );
 		if (! $m) {
 			$this->error ( '删除失败' );
 		} else {
-			$this->success ( 1 );
+			/*ajax局部刷新 返回剩下的通知  page ，list ，number  */
+			$number=$model->getunread(null,2);
+			$arr=$number>0?$model->getunread ( null, 1, 10,'/u/msg',false ):0;
+			$this->success (json_encode( array('list'=>$arr['list'],'page'=>$arr['page'],'number'=>$number) ));
 		}
 	}
 	

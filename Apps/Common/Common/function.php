@@ -1159,13 +1159,10 @@ function getNextGrade($grade){
 }
 
 /**
- * 计算等级
- *
- * @param
- *        	EXP
- *        	经验
- * @return Title 等级名称
- */
+ * 获得等级
+ * @param int $EXP
+ * @param number $type 1:等级名称，2：等级
+ * @return Ambigous <>  */
 function getgrade($EXP, $type = 1) {
 	$whereArr ['MinEXP'] = array (
 			'elt',

@@ -8,6 +8,7 @@ use Usercenter\Model\user_addressModel;
 use Home\Model\goods_serviceModel;
 use Home\Model\goods_imgModel;
 use Home\Model\goods_commentModel;
+use Home\Model\goods_orderModel;
 
 /**
  * 个人商品管理api
@@ -61,6 +62,13 @@ class GoodsController extends LoginBaseController {
 	
 	/**
 	 * 商品上传 七牛 回调
+	 *
+	 * @param
+	 *        	key 表示文件名， 自己拼。格式如：时间戳+下划线+五位随机字符
+	 *        	token 表示七牛认证码： 通过api获取，`[IP]/Api/Goods/token`
+	 *        	file 为文件
+	 *        	goodsid, APPKEY, _key, _uid 都要带`x:` 例如`x:goodsid `, 值还是原来的值
+	 * @return array：status，msg，goodsid，imgid
 	 */
 	public function callback() {
 		$rstmsg = array (
@@ -126,6 +134,16 @@ class GoodsController extends LoginBaseController {
 	
 	/**
 	 * 保存商品
+	 * imgcount：图片总数量
+	 * GoodsId：商品Id，
+	 * Title：标题，
+	 * Price：价格，
+	 * CostPrice：原价
+	 * Presentation：简介，
+	 * CategoryId：分类Id，
+	 * AddressId：地址Id
+	 * TradeWay：交易方式【1：线上，2： 先下，3：线上/线下】
+	 * Server：服务Id；【多个服务Id用|分割：例如：1|2|3】
 	 *
 	 * @return array ,status,msg
 	 */
@@ -151,6 +169,11 @@ class GoodsController extends LoginBaseController {
 	/**
 	 * 上传商品图片
 	 *
+	 * @param
+	 *        	key 表示文件名， 自己拼。格式如：时间戳+下划线+五位随机字符
+	 *        	token 表示七牛认证码： 通过api获取，`[IP]/Api/Goods/token`
+	 *        	file 为文件
+	 *        	goodsid, APPKEY, _key, _uid 都要带`x:` 例如`x:goodsid `, 值还是原来的值
 	 * @return array：status，msg，goodsid，imgid
 	 */
 	public function upload() {
@@ -200,6 +223,8 @@ class GoodsController extends LoginBaseController {
 	/**
 	 * 删除图片
 	 *
+	 * @param
+	 *        	imgid
 	 * @return array：status，msg
 	 */
 	public function delimg() {
@@ -225,7 +250,10 @@ class GoodsController extends LoginBaseController {
 		return;
 	}
 	/**
-	 * 添加评论 (GoodsId,Content,AssesseeId,ReplyId)
+	 * 添加评论
+	 *
+	 * @param
+	 *        	array (GoodsId,Content,AssesseeId,ReplyId)
 	 */
 	public function savecomment() {
 		$msg = array (
@@ -247,5 +275,41 @@ class GoodsController extends LoginBaseController {
 		$r = $m->addComment ( $arr, api_get_uid () );
 		echo json_encode ( $r );
 	}
-
+	/**
+	 * 购买商品
+	 * 2014-11-23
+	 * 
+	 * @param
+	 *        	GoodsId：商品Id
+	 *        	BuyerAddId：买家地址Id
+	 *        	TradeWay：买家选择的交易方式（此交易方式需要根据商品提供的交易方式来创建，1=>线上，2=>线下，3=>[1,2]）
+	 * @return json string status,msg,address
+	 */
+	public function buy() {
+		$msg = array (
+				'status' => 0,
+				'msg' => '非法访问' 
+		);
+		if (! IS_POST) {
+			echo json_encode ( $msg );
+			return;
+		}
+		$arr = file_get_contents ( 'php://input' );
+		$arr = json_decode ( $arr, true );
+		if (! $arr) {
+			$msg ['msg'] = '空数据';
+			echo json_encode ( $msg );
+			return;
+		}
+		$arr ['Code'] = date ( 'YmdHis', time () ) . $arr ['GoodsId'];
+		$arr ['CreateTime'] = time ();
+		$m = new goods_orderModel ();
+		$rst = $m->createone ( $arr );
+		if (( int ) $rst ['status'] == 0) {
+			echo json_encode ( $rst );
+		} else {
+			logs ( '购买成功 ID' . $arr ['GoodsId'], 3 );
+			echo json_encode ( $rst );
+		}
+	}
 }

@@ -2,7 +2,7 @@
 <block name="content">
     <div class="col-md-9">
         <div class="panel panel-default profilemain">
-            <div class="panel-body">
+            <div class="panel-body msgbody" >
                 <volist  name='urnl' id='v' empty='$empty' >
                     <!-- 系统消息 -->
                     <div class="media nt_{$v['Id']}" >
@@ -11,7 +11,7 @@
                         <div class="media-body">
                             <!--消息头-->
                             <h5 class="media-heading text-danger">
-                                <small>{$v['CreateTime']|date="y-m-d H:i:s",###}</small>
+                                <small>{$v['CreateTime']|date="Y-m-d H:i:s",###}</small>
                                 &nbsp;&nbsp;{$v['Title']}
                             </h5>
                             <!--消息内容-->
@@ -22,7 +22,7 @@
                     </volist>
             </div>
             <!--panel-body-->
-            <div class="page pull-right">{$page}</div>
+            <div class="page pull-right" page>{$page}</div>
         </div>
         <input type="hidden" id="closeurl" value="{:U('u/Index/delnotice')}"></div>
     <!-- 留言模态框 -->
@@ -109,8 +109,17 @@ $(function(){
             } 
      });
 });
+
+function HTMLDecode(text) { 
+    var temp = document.createElement("div"); temp.innerHTML = text; var output = temp.innerText || temp.textContent; temp = null; return output; 
+}
+function formatDate(now) { 
+    var d = new Date(new Date(parseInt(now) * 1000).getTime());
+    return(d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate()+" "+d.getHours()+":"+d.getMinutes()+":"+d.getSeconds());
+} 
+
 $(function(){
-$('.noticeclose').click(function(e) {
+$('.noticeclose').live('click',function(e) {
     var _id = $(this).attr('nid');
     $.ajax({
         type: 'post',
@@ -132,9 +141,30 @@ $('.noticeclose').click(function(e) {
             } else {
                 $('.nt_' + _id).slideUp(300);
                 setTimeout(function() {
-                    location.href = location.href;
+                    data=JSON.parse(data.info);
+                    var _no=data['number'];
+                    if(_no>0){
+                        $('a[usermsg]').html("<span class='badge'>"+_no+"</span>未读消息");
+                        $('span[navmsg]').html(_no);
+                        $('span[navmsg]').show();
+                        $('a[navmsg]').html("<span class='badge pull-right'>"+_no+"</span>未读消息");
+                        $('.msgbody').html('');
+                        var _this= $('.msgbody');
+                        $(data['list']).each(function(i,v){ 
+                         _this.append("<div class='media nt_"+v['Id']+"'><button type='button' nid='"+v['Id']+"' id='close_"+v['Id']+"' class='close noticeclose'>&times;</button> <a class='pull-left'>"+HTMLDecode(v['Theme'])+"</a><div class='media-body'><h5 class='media-heading text-danger'> <small>"+formatDate(v['CreateTime'])+"</small>&nbsp;&nbsp;"+v['Title']+"</h5><div class='text-p' nid='"+v['Id']+"'>"+HTMLDecode(v['Content'])+"</div></div></div><hr class='nt_"+v['Id']+">");
+                        });
+                        $('div[page]').html(data['page']);
+                        initPagination('.page');
+                    }else{
+/*                        $('.msgbody').html('<h3 class="text-import text-center">没有更多未读消息</h3>');
+                        $('a[usermsg]').html('');
+                        $('span[navmsg]').hide();
+                        $('a[navmsg]').html('');
+                        $('div[page]').html(data['page']);*/
+                        location.href="{:U('/u/msg/')}"
+                    }
                 },
-                350);
+                310);
                 return false;
             }                
         }

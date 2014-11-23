@@ -23,7 +23,7 @@
 							<dt>经验值</dt>
 							<dd>
 								<div class="progress">
-									<div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: {$grade['division']}%;">{$grade['EXPDiff2']}/{$grade['EXPDiff1']}</div>
+									<div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: {$grade['percent']}%;">{$grade['now']}/{$grade['NextNeed']}</div>
 								</div>
 								<span class="pull-right">{:getNextGrade($grade['Number'])}</span>
 							</dd>
@@ -43,19 +43,19 @@
 						</dl>
 						<dl class="dl-horizontal">
 							<dt>信誉度</dt>
-							<dd>{$credit}%</dd>
+							<dd>{$user['CreditPer']}%</dd>
 						</dl>
 						<dl class="dl-horizontal">
 							<dt>累计交易(笔)</dt>
-							<dd>{$tradecount}</dd>
+							<dd>{$user['TradeCount']}</dd>
 						</dl>
 						<dl class="dl-horizontal">
 							<dt>连续签到(天)</dt>
-							<dd>{:getclockincount(null)}</dd>
+							<dd>{$user['ClockinCount']}</dd>
 						</dl>
 						<dl class="dl-horizontal">
 							<dt>综合排名</dt>
-							<dd>第 {$ranking} 位</dd>
+							<dd>第 {$user['Ranking']} 位</dd>
 						</dl>
 					</div>
 				</div>
