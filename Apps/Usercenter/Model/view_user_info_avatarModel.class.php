@@ -9,7 +9,7 @@ use Think\Model;
  */
 class view_user_info_avatarModel extends Model {
 	/**
-	 * 获取个人信息
+	 * 获取个人基础信息
 	 * @param $userid
 	 * @return array:status,msg
 	 */
@@ -29,9 +29,9 @@ class view_user_info_avatarModel extends Model {
 		$credit = $model ['Credit'] / ($model ['TradeCount'] * 5) * 100;
 		$credit = $credit > 0 ? $credit : 100;
 		$m=new userModel();
-		$rank=$m->getranking($model['id']);
+		$rank=$m->getranking($model['Id']);
 		$model['Ranking']=$rank;
-		$model['CreditPre']=$credit;
+		$model['CreditPer']=$credit;
 		$model['Grade']=getgrade((int)$model['EXP'],1);
 		if($isapi){
 			$info='ok';

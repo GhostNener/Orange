@@ -71,21 +71,6 @@ class IndexController extends LoginController {
 		/* 模块赋值 */
 		$this->assign ( 'attn', $attn );
 		$this->getCommon ();
-		
-		// 综合排名
-		$model = new userModel();
-		$ranking = $model->getranking((int)cookie ( '_uid' ));
-		$user = $model->where ( array (
-				'Id' => cookie ( '_uid' ),
-				'Status' => '10' 
-		) )->find ();
-		
-		$credit = ( int ) (($user ['Credit'] / ($user ['TradeCount'] * 5)) * 100);
-		$credit = $credit > 0 ? $credit : 100;
-		$ranking = $ranking [0] ['ranking'];
-		$this->assign ( 'ranking', $ranking );
-		$this->assign ( 'credit', $credit );
-		$this->assign ( 'tradecount', $user ['TradeCount'] );
 		$this->display ();
 	}
 	
@@ -210,12 +195,13 @@ class IndexController extends LoginController {
 		}
 		if (I ( 'AttentionId' ) == cookie ( '_uid' )) {
 			$this->error ( "亲！不能关注本人哟！" );
+			return;
 		}
 		/* 验证被关注的用户是否存在 */
 		$userModel = new userModel ();
 		$bool = $userModel->checkuserid ( I ( 'AttentionId' ) );
 		if (! $bool) {
-			$this->redirect ( 'home/Index/index' );
+			$this->redirect ( U('/') );
 		}
 		/* 添加关注 */
 		$model = new attentionModel ();

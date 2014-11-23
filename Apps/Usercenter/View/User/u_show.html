@@ -31,24 +31,24 @@
 						<!-- ===== First Tab ===== -->
 						<div class="tab-pane active" id="about">
 							<h3>{$user['Nick']}</h3>
-							<h5>{$grade['Title']}</h5>
+							<h5>{$user['Grade']}</h5>
 							<hr>
 
 							<dl class="dl-horizontal">
 								<dt>信誉度</dt>
-								<dd>{$credit}%</dd>
+								<dd>{$user['CreditPer']}%</dd>
 							</dl>
 							<dl class="dl-horizontal">
 								<dt>累计交易(笔)</dt>
-								<dd>{$tradecount}</dd>
+								<dd>{$user['TradeCount']}</dd>
 							</dl>
 							<dl class="dl-horizontal">
 								<dt>连续签到(天)</dt>
-								<dd>{$ClockinCount}</dd>
+								<dd>{$user['ClockinCount']}</dd>
 							</dl>
 							<dl class="dl-horizontal">
 								<dt>综合排名</dt>
-								<dd>第 {$ranking} 位</dd>
+								<dd>第 {$user['Ranking']} 位</dd>
 							</dl>
 
 						</div>
@@ -187,12 +187,14 @@ function ajaxsubmitfavorite(){
          success:  
         function(data)  {
             if (data.status == 0) {
-               // showerrormsg(data.info, 100, 1000);
+                showerrormsg(data.info, 100, 1000);
             } else {
-                //showsuccessmsg(data.info, 100, 1000);
+                showsuccessmsg(data.info, 100, 1000);
             }     
-            location.href=location.href;
             $btn.button('reset');
+            setTimeout(function(){
+            	location.href=location.href;
+            },500);
             return false;           
         }
     });

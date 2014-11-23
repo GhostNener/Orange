@@ -19,10 +19,10 @@ class user_gradeModel extends Model{
 		$whereArr['Status'] = 10; 
 		$rst = $this->where($whereArr)->find();
 		//显示需要升级的经验
-		$rst['EXPDiff1'] = $rst['MaxEXP']-$rst['MinEXP'];
+		$rst['nextNeed'] = $rst['MaxEXP']-$rst['MinEXP'];
 		//显示当前经验
-		$rst['EXPDiff2'] = $EXP-$rst['MinEXP'];
-		$rst['division'] = (int)(($rst['EXPDiff2'] / $rst['EXPDiff1'])*100);
+		$rst['now'] = $EXP-$rst['MinEXP'];
+		$rst['percent'] = (int)(($rst['now'] / $rst['nextNeed'])*100);
 		return $rst;
 	}
 	/**

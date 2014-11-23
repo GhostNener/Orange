@@ -216,18 +216,11 @@ class UserController extends BaseController {
 		/* 获得心愿单 */
 		$favomodel = new view_favorite_listModel ();
 		$favorite = $favomodel->getlist ( $wherearr, $limit );
-		/* 查询用户信息 */
-		
+		/* 查询用户信息 */		
 		$model = new view_user_info_avatarModel ();
 		$arr = $model->getinfo ( $user ['Id'] );
 		if ($arr ['status'] == 1) {
-			// 获取经验 计算等级
-			$EXP = $arr ['msg'] ['EXP'];
-			$model2 = new user_gradeModel ();
-			$rst = $model2->getgrade ( $EXP );
-			/* 模版赋值 */
 			$this->assign ( 'user', $arr ['msg'] );
-			$this->assign ( 'grade', $rst );
 		}
 		
 		/* 验证用户是否已关注 */
@@ -245,19 +238,6 @@ class UserController extends BaseController {
 		$this->assign ( 'likelist', $favorite ['list'] );
 		$this->assign ( 'md', $msg ['status'] );
 		$this->assign ( 'empty', '<h3 class="text-center text-import">暂无商品</h3>' );
-		
-		// 排行
-		$model = new userModel();
-		$ranking = $model->getranking((int)$user ['Id']);
-		$ClockinCount = $user ['ClockinCount'];
-		// 信誉度
-		$credit = $user ['Credit'] / ($user ['TradeCount'] * 5) * 100;
-		$credit = $credit > 0 ? $credit : 100;
-		$this->assign ( 'ClockinCount', $ClockinCount );
-		$this->assign ( 'ranking', $ranking );
-		$this->assign ( 'credit', $credit );
-		// 销量
-		$this->assign ( 'tradecount', $user ['TradeCount'] );
 		$this->display ();
 	}
 	public function lostpwd() {
