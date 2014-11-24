@@ -100,7 +100,7 @@ class IndexController extends LoginController {
 	public function order() {
 		/* 获得未完成的订单 */
 		$model = new view_goods_order_listModel ();
-		$arr = $model -> getorder ( cookie ( '_uid' ), 5, 3 );
+		$arr = $model -> getorder ( 1, 5);
 		/* 模板赋值 */
 		$this->assign ( 'order', $arr ['list'] );
 		$this->assign ( 'pageorder', $arr ['page'] );
@@ -116,7 +116,7 @@ class IndexController extends LoginController {
 	public function buyorder() {
 		/* 购买的订单 */
 		$model = new view_goods_order_listModel ();
-		$arr = $model->getorder ( cookie ( '_uid' ), 8, 1);
+		$arr = $model->getbuyorder(1,5);
 		if (! $arr) {
 			$this->error ( '没有购买记录' );
 		} else {
@@ -132,7 +132,7 @@ class IndexController extends LoginController {
 	public function sellorder() {
 		/* 出售的订单 */
 		$model = new view_goods_order_listModel ();
-		$arr = $model->getorder ( cookie ( '_uid' ), 8, 2 );
+		$arr = $model->getsellorder (1,5);
 		if (! $arr) {
 			$this->error ( '没有出售记录' );
 		} else {
@@ -150,12 +150,17 @@ class IndexController extends LoginController {
 			$this->error ( '页面不存在' );
 			die ();
 		}
+		$p = 1;
 		$model = new goods_orderModel();
 		$arr = $model -> update(I ('OId'), I('OType'));
 		if ($arr ['status'] == 0) {
 			$this->error ( $arr ['msg'] );
 		} else {
-			$this->success ( $arr ['msg'] );
+			/* ajax局部刷新 返回更新后的订单   page ，list ，number   */
+			$model = new view_goods_order_listModel();
+			$number=$model->getunread( 2 );
+			$arr=$number>0?$model->getunread ( 1, 5,'/u/order',false,array('p'=>$p) ):0;
+			$this->success(json_encode( array('list'=>$arr['list'],'pageorder'=>$arr['page'],'number'=>$number) ));
 		}
 	}
 	

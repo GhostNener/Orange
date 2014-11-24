@@ -12,47 +12,95 @@ use Think\Model;
 
 class view_goods_order_listModel extends Model{
 	/**
-	 * 查询完成订单及商品
+	 * 查询未完成订单
 	 *
-	 * @param $userid 用户Id
+	 * @param $type  
+	 * 			1：获取 列表   2：获取 数量 
 	 * @param $limit 分页显示个数
-	 * @param $type  1.完成交易的购买 2.完成交易的出售 3.未完成交易的购买
-	 * @return array page 翻页组装,list 列表
+	 * @return array or number
 	 * @author LongG
 	 *        
 	 */
-	public function getorder($userid, $limit = 6, $type = 1) {
-		if (!$userid) {
-			$userid = cookie('_uid');
+	public function getorder($type = 1, $limit = 6, $baseurl=ACTION_NAME, $defaultpar = true, $param=null) {
+		$arr['SellerId'] = cookie('_uid');
+		$arr['BuyerId'] = cookie('_uid');
+		$arr['_logic'] = 'OR'; 
+		$wherearr['_complex'] = $arr; 
+		$wherearr['Status']  = array('neq',25);
+
+		if ($type == 2) {
+			return ($this->where ( $wherearr )->count ());
+		} else {
+			$allCount = $this->where ( $wherearr )->count ();
+			$Page = new \Think\Page ( $allCount, $limit, $param, $defaultpar );
+			$showPage = $Page->show ( $baseurl );
+			$list = $this->where ( $wherearr )->limit ( $Page->firstRow . ',' . $Page->listRows )->order ( 'CreateTime DESC ' )->select ();
+			return array (
+					'status' => 1,
+					'page' => $showPage,
+					'list' => $list 
+			);
 		}
-		switch ($type) {
-			case 1 :	//完成交易的购买订单
-				$where = array (
-						'BuyerId' => $userid,
-						'Status' => 25
-				);
-				break;
-			case 2 :	//完成交易的出售订单
-				$where = array (
-						'SellerId' => $userid,
-						'Status' => 25
-				);
-				break;
-			case 3 :	//未完成交易的购买订单
-				$arr['SellerId'] = cookie('_uid');
-				$arr['BuyerId'] = cookie('_uid');
-				$arr['_logic'] = 'OR'; 
-				$where['_complex'] = $arr; 
-				$where['Status']  = array('neq',25); 
-				break;
-		}
-		$allCount = $this->where ( $where )->count ();
-		$Page = new \Think\Page ( $allCount, $limit);
-		$showPage = $Page->show ();
-		$list = $this->where ( $where )->limit ( $Page->firstRow . ',' . $Page->listRows )->order ( 'CreateTime DESC ' )->select ();
-		return array (
-				'page' => $showPage,
-				'list' => $list 
+	}
+	
+	/**
+	 * 查询购买订单
+	 *
+	 * @param $type
+	 * 			  1：获取 列表  2：获取 数量
+	  * @param $limit 分页显示个数
+	 * @return array or number
+	 * @author LongG
+	 *        
+	 */
+	public function getbuyorder($type = 1, $limit = 6) {
+		$wherearr = array (
+				'BuyerId' => cookie('_uid'),
+				'Status' => 25
 		);
+		if ($type == 2) {
+			return ($this->where ( $wherearr )->count ());
+		} else {
+			$allCount = $this->where ( $wherearr )->count ();
+			$Page = new \Think\Page ( $allCount, $limit);
+			$showPage = $Page->show ();
+			$list = $this->where ( $wherearr )->limit ( $Page->firstRow . ',' . $Page->listRows )->order ( 'CreateTime DESC ' )->select ();
+			return array (
+					'status' => 1,
+					'page' => $showPage,
+					'list' => $list 
+			);
+		}
+	}
+	
+	/**
+	 * 查询出售订单
+	 *
+	 
+	 * @param $type
+	 * 			  1：获取 列表  2：获取 数量
+	 * @param $limit 分页显示个数
+	 * @return array or number
+	 * @author LongG
+	 *        
+	 */
+	public function getsellorder($type = 1, $limit = 6) {
+		$wherearr = array (
+				'SellerId' => cookie('_uid'),
+				'Status' => 25
+		);
+		if ($type == 2) {
+			return ($this->where ( $wherearr )->count ());
+		} else {
+			$allCount = $this->where ( $wherearr )->count ();
+			$Page = new \Think\Page ( $allCount, $limit);
+			$showPage = $Page->show (  );
+			$list = $this->where ( $wherearr )->limit ( $Page->firstRow . ',' . $Page->listRows )->order ( 'CreateTime DESC ' )->select ();
+			return array (
+					'status' => 1,
+					'page' => $showPage,
+					'list' => $list 
+			);
+		}
 	}
 }

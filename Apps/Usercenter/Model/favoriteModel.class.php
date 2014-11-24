@@ -8,7 +8,7 @@ use Home\Model\goodsModel;
 /**
  * 心愿单模型
  *
- * @author DongZ
+ * @author LongG
  *        
  */
 class favoriteModel extends Model {
