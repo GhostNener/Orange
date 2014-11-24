@@ -62,6 +62,8 @@
 <block name="js">
     <script>
 
+var baseurl="{:U('/u/msg/',null,'')}"
+
 function ajaxsubmit() {
     var $btn = $('#submitref').button('loading');
     if (!$.trim($('#Content').val())) {
@@ -109,7 +111,13 @@ $(function(){
             } 
      });
 });
-
+function removeloading(){
+    $('#load').remove();
+}
+function loading() { 
+    removeloading();
+    $("body").append('<div  id="load" style="z-index:99999; position:fixed; left:45%; top:30%"><img src="__PUBLIC__/Img/loading.gif" /></div>'); 
+}
 function HTMLDecode(text) { 
     var temp = document.createElement("div"); temp.innerHTML = text; var output = temp.innerText || temp.textContent; temp = null; return output; 
 }
@@ -121,13 +129,18 @@ function formatDate(now) {
 $(function(){
 $('.noticeclose').live('click',function(e) {
     var _id = $(this).attr('nid');
+    var _p=$('.pagination').find('li[class="active"]').eq(0);
+     _p=_p.find('a').eq(0).html();
+     _p=$.isNumeric(_p)?parseInt(_p):1;
     $.ajax({
         type: 'post',
         cache: false,
         url: $('#closeurl').val(),
         data: {
-            Id: _id
+            Id: _id,
+            p:_p
         },
+        beforeSend:loading(),
         error:  
         function(request)  {
             showerrormsg('网络错误', 100, 1000);
@@ -150,24 +163,26 @@ $('.noticeclose').live('click',function(e) {
                         $('a[navmsg]').html("<span class='badge pull-right'>"+_no+"</span>未读消息");
                         $('.msgbody').html('');
                         var _this= $('.msgbody');
+                        var _nowcount=0;
                         $(data['list']).each(function(i,v){ 
                          _this.append("<div class='media nt_"+v['Id']+"'><button type='button' nid='"+v['Id']+"' id='close_"+v['Id']+"' class='close noticeclose'>&times;</button> <a class='pull-left'>"+HTMLDecode(v['Theme'])+"</a><div class='media-body'><h5 class='media-heading text-danger'> <small>"+formatDate(v['CreateTime'])+"</small>&nbsp;&nbsp;"+v['Title']+"</h5><div class='text-p' nid='"+v['Id']+"'>"+HTMLDecode(v['Content'])+"</div></div></div><hr class='nt_"+v['Id']+">");
+                         _nowcount=_nowcount+1;
                         });
+                        if(_nowcount<=0){
+                            location.href=baseurl+'/p/'+(_p-1);
+                            return false;
+                        }
                         $('div[page]').html(data['page']);
                         initPagination('.page');
                     }else{
-/*                        $('.msgbody').html('<h3 class="text-import text-center">没有更多未读消息</h3>');
-                        $('a[usermsg]').html('');
-                        $('span[navmsg]').hide();
-                        $('a[navmsg]').html('');
-                        $('div[page]').html(data['page']);*/
-                        location.href="{:U('/u/msg/')}"
+                        location.href=baseurl;
                     }
                 },
                 310);
                 return false;
             }                
-        }
+        },
+        complete:removeloading()
     });
     return false;
 });

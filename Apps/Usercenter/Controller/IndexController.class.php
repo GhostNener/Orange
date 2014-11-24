@@ -523,7 +523,7 @@ class IndexController extends LoginController {
 	 */
 	public function msg() {
 		$model = new noticeModel ();
-		$all = $model->getunread ( null, 1, 10,'/u/msg',false );
+		$all = $model->getunread ( null, 1, 10,'/u/msg',false ,null);
 		$this->assign ( 'urnl', $all ['list'] );
 		$this->assign ( 'page', $all ['page'] );
 		$this->assign ( 'empty', '<h3 class="text-import text-center">没有更多未读消息</h3>' );
@@ -539,10 +539,12 @@ class IndexController extends LoginController {
 	 */
 	public function delnotice() {
 		$Id = I ( 'Id' );
+		$p=(int)I('p');
 		if (! IS_POST || ! $Id) {
 			$this->error ( '页面不存在' );
 			return;
 		}
+		
 		$model = new noticeModel ();
 		$m = $model->delone ( $Id );
 		if (! $m) {
@@ -550,7 +552,7 @@ class IndexController extends LoginController {
 		} else {
 			/*ajax局部刷新 返回剩下的通知  page ，list ，number  */
 			$number=$model->getunread(null,2);
-			$arr=$number>0?$model->getunread ( null, 1, 10,'/u/msg',false ):0;
+			$arr=$number>0?$model->getunread ( null, 1, 10,'/u/msg',false,array('p'=>$p) ):0;
 			$this->success (json_encode( array('list'=>$arr['list'],'page'=>$arr['page'],'number'=>$number) ));
 		}
 	}

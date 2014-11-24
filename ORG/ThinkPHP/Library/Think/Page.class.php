@@ -49,8 +49,11 @@ class Page {
 		$this->listRows = $listRows; // 设置每页显示行数
 		if ($defaultpar) {
 			$this->parameter = empty ( $parameter ) ? $_GET : $parameter;
-		}
+		}		
 		$this->nowPage = empty ( $_GET [$this->p] ) ? 1 : intval ( $_GET [$this->p] );
+		if($this->nowPage<=1){
+			$this->nowPage=empty($parameter['p'])?1:(int)$parameter['p'];
+		}
 		$this->nowPage = $this->nowPage > 0 ? $this->nowPage : 1;
 		$this->firstRow = $this->listRows * ($this->nowPage - 1);
 	}
