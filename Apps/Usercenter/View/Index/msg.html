@@ -95,7 +95,11 @@ function ajaxsubmit() {
                 $('#refform')[0].reset() 
                 $btn.button('reset');
 
-                setTimeout(function(){$('#close_'+$('#NoticeId').val()).click();},200);
+                setTimeout(function(){
+                    var _id=$('#close_'+$('#NoticeId').val());
+                    _id = _id.attr('nid');
+                    delnotice(_id);
+                },200);
                 return false;
             }                
         }
@@ -125,10 +129,7 @@ function formatDate(now) {
     var d = new Date(new Date(parseInt(now) * 1000).getTime());
     return(d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate()+" "+d.getHours()+":"+d.getMinutes()+":"+d.getSeconds());
 } 
-
-$(function(){
-$('.noticeclose').live('click',function(e) {
-    var _id = $(this).attr('nid');
+function delnotice(_id){
     var _p=$('.pagination').find('li[class="active"]').eq(0);
      _p=_p.find('a').eq(0).html();
      _p=$.isNumeric(_p)?parseInt(_p):1;
@@ -185,6 +186,11 @@ $('.noticeclose').live('click',function(e) {
         complete:removeloading()
     });
     return false;
+}
+$(function(){
+$('.noticeclose').live('click',function(e) {
+    var _id = $(this).attr('nid');
+    delnotice(_id);
 });
     $('.replaybtn').click(function(e){
         $('#GoodsId').val($(this).attr('gid'));
