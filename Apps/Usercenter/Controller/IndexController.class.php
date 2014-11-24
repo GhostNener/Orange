@@ -93,28 +93,51 @@ class IndexController extends LoginController {
 	}
 	
 	/**
-	 * 订单管理
+	 * 未完成订单管理
 	 *
 	 * @author LongG
 	 */
 	public function order() {
-		$userid = cookie ( '_uid' );
-		$limit = 8;
-		/* 获得完成的订单 */
-		$model = new view_goods_order_listModel ();
-		$arrBuy = $model->getorder ( $userid, $limit, 1 );
-		$arrSell = $model->getorder ( $userid, $limit, 2 );
 		/* 获得未完成的订单 */
-		$arring = $model->getorder ( $userid, 5, 3 );
+		$model = new view_goods_order_listModel ();
+		$arr = $model -> getorder ( cookie ( '_uid' ), 5, 3 );
 		/* 模板赋值 */
-		$this->assign ( 'buy', $arrBuy ['list'] );
-		$this->assign ( 'sell', $arrSell ['list'] );
-		$this->assign ( 'ing', $arring ['list'] );
-		$this->assign ( 'pagebuy', $arrBuy ['page'] );
-		$this->assign ( 'pagesell', $arrSell ['page'] );
-		$this->assign ( 'pageing', $arring ['page'] );
+		$this->assign ( 'order', $arr ['list'] );
+		$this->assign ( 'pageorder', $arr ['page'] );
 		$this->getcommon ();
 		$this->display ();
+	}
+	
+	/**
+	 * 购买订单管理
+	 *
+	 * @author LongG
+	 */
+	public function buyorder() {
+		/* 购买的订单 */
+		$model = new view_goods_order_listModel ();
+		$arr = $model->getorder ( cookie ( '_uid' ), 8, 1);
+		if (! $arr) {
+			$this->error ( '没有购买记录' );
+		} else {
+			$this->success ( json_encode ( $arr ) );
+		}
+	}
+
+	/**
+	 * 出售订单管理
+	 *
+	 * @author LongG
+	 */
+	public function sellorder() {
+		/* 出售的订单 */
+		$model = new view_goods_order_listModel ();
+		$arr = $model->getorder ( cookie ( '_uid' ), 8, 2 );
+		if (! $arr) {
+			$this->error ( '没有出售记录' );
+		} else {
+			$this->success ( json_encode ( $arr ) );
+		}
 	}
 	
 	/**

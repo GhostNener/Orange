@@ -6,13 +6,13 @@
 			<!-- Nav tabs -->
 			<ul class="nav nav-tabs" role="tablist">
 				<li role="presentation" class="active">
-					<a href="#tab1" role="tab" data-toggle="tab">未完成</a>
+					<a href="#tab1"  role="tab" data-toggle="tab">未完成</a>
 				</li>
 				<li role="presentation">
-					<a href="#tab2" role="tab" data-toggle="tab">已买商品</a>
+					<a href="#tab2" id="buyorder" act="{:U('u/order/buyorder')}"  role="tab" data-toggle="tab">已买商品</a>
 				</li>
 				<li role="presentation">
-					<a href="#tab3" role="tab" data-toggle="tab">已售商品</a>
+					<a href="#tab3" id="sellorder" act="{:U('u/order/sellorder')}" class="sellorder" role="tab" data-toggle="tab">已售商品</a>
 				</li>
 			</ul>
 
@@ -31,7 +31,7 @@
 								<th>状态</th>
 							</thead>
 							<tbody>
-							<foreach name="ing" item="v">
+							<foreach name="order" item="v">
 								<tr>
 									<td>
 										<if condition="$v['BuyerId'] eq cookie('_uid')"><span class="label label-success">购买</span><else/><span class="label label-primary">出售</span></if>
@@ -52,7 +52,7 @@
 							</tbody>
 						</table>
 					</div>
-					<div class="page">{$pageing}</div>
+					<div class="page">{$pageorder}</div>
 				</div>
 				
 				<div role="tabpanel" class="tab-pane" id="tab2">
@@ -148,8 +148,39 @@
 <block name="js">
 <script src="__PUBLIC__/js/star.js"></script>
 <script type="text/javascript">
+
 /*发货*/
 $(function(){
+	$('.sellorder').click(function(e){
+		showsuccessmsg('ddd', 100, 1000);
+		$.ajax({
+			type:'post',
+			cache:false,
+			url:"{:U('u/Index/sellorder')}",
+			error:
+			function(request)  {
+	            showerrormsg('网络错误', 100, 1000);
+	            return false;               
+	        },
+	        success:  
+	        function(data){
+	        	if(data.status==1){
+					data=JSON.parse(data.info);
+					if(!data){
+						$('#load').remove();
+						return;
+					}
+					$('tbody[add]').html('');
+					var _tbody=$('tbody[add]');
+					var _editurl=_tbody.attr('editurl');
+					$(data).each(function(i,v){
+						_tbody.append("<tr class='nt_'"+v['Id']+"><td>"+v['Contacts']+"</td><td style='width:200px'>"+v['Address']+"</td><td>"+v['Tel']+"</td><td>"+v['QQ']+"</td><td><button nid="+v['Id']+" class='btn btn-danger btn-small delbtn'style='margin-right: 4px;'>删除</button><button act="+_editurl+"?Id="+v['Id']+"  class='btn btn-primary btn-small btnedit' aid="+v['Id']+" data-toggle='modal' data-backdrop='static' data-target='#addressModal'>编辑</button></td></tr>");
+					});
+				}               
+	        }
+		});
+		return false;
+	});
 	$('.sendgoods').click(function(e) {
 		if(!confirm('您确定吗？')){
 			return;
