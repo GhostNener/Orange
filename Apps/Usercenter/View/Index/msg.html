@@ -192,7 +192,7 @@ $('.noticeclose').live('click',function(e) {
     var _id = $(this).attr('nid');
     delnotice(_id);
 });
-    $('.replaybtn').click(function(e){
+    $('.replaybtn').live('click',function(e){
         $('#GoodsId').val($(this).attr('gid'));
         $('#AssesseeId').val($(this).attr('aid'));
         $('#ReplyId').val($(this).attr('cid'));
