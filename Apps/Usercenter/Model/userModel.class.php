@@ -296,18 +296,18 @@ class userModel extends Model {
 		}
 		if (checkmail ( $data ['Name'] )) {
 			$data ['E-Mail'] = $data ['Name'];
-			if (! $data ['Nick']) {
-				$str = C ( 'RAND_NICK_PREFIX' ) . $data ['E-Mail'];
-				$str = str_replace ( '@', 'at', $str );
-				$str = str_replace ( '.', '_', $str );
-				$data ['Nick'] = C ( 'RAND_NICK_PREFIX' ) . $data ['E-Mail'];
-			}
+			$str = C ( 'RAND_NICK_PREFIX' ) . $data ['E-Mail'];
+			$str = str_replace ( '@', 'at', $str );
+			$str = str_replace ( '.', '_', $str );
+			$data ['Nick'] = C ( 'RAND_NICK_PREFIX' ) . $str;
+
 			unset ( $data ['Name'] );
 		} else {
 			if (! $data ['Nick']) {
 				$data ['Nick'] = C ( 'RAND_NICK_PREFIX' ) . $data ['Name'];
 			}
 		}
+
 		$dal = M ();
 		$dal->startTrans ();
 		$data ['PayPwd'] = $data ['Password'];
