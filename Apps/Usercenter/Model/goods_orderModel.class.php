@@ -5,54 +5,51 @@ class goods_orderModel extends Model {
 	/**
 	 * 修改账单状态
 	 * 
-	 * @param $goodsId 账单Id,$Type 类型 1.发货 2. 收货
-	 * @return array status, msg
+	 * @param $goodsId 账单Id
+	 * @param $Type 类型
+	 * 			 1.发货 2. 收货
+	 * @return array
+	 * @author LongG
 	 */
 	public function update( $orderId, $Type ){
-		if ($Type == 1) {
-			$rst = $this->where( array(
-					'Id' => $orderId,
-					'SellerId' => cookie('_uid'),
-					'Status' => 10
-			) ) -> save( array(
-					'Status' => 21
-			) );
-			if ($rst) {
-				return array (
-						'status' => 1,
-						'msg' => "发货成功" 
+		switch ($Type){
+			case "1":
+				$wherearr = array(
+						'Id' => $orderId,
+						'SellerId' => cookie('_uid'),
+						'Status' => 10
 				);
-			} else {
-				return array (
-						'status' => 0,
-						'msg' => "发货失败" 
+				$where = array( 'Status' => 21 );
+				break;
+			case "2":
+				$wherearr = array(
+						'Id' => $orderId,
+						'BuyerId' => cookie('_uid'),
+						'Status' => 21
 				);
-			};
-		}elseif ($Type == 2){
-			$rst = $this->where( array(
-					'Id' => $orderId,
-					'BuyerId' => cookie('_uid'),
-					'Status' => 21
-			) ) -> save( array(
-					'Status' => 22
-			));
-			if ($rst) {
-				return array (
-						'status' => 1,
-						'msg' => "收货成功" 
-				);
-			} else {
-				return array (
-						'status' => 0,
-						'msg' => "收货失败" 
-				);
-			};
+				$where = array( 'Status' => 22 );
+				break;
+			default:
+				return "";
+				break;
 		}
+		$rst = $this->where( $wherearr )->save( $where );
+		if (!$rst) {
+			return array (
+					'status' => 0,
+					'msg' => "操作失败" 
+			);
+		} else {
+			return array (
+					'status' => 1,
+					'msg' => "操作成功" 
+			);
+		};
 	}
 	
 	/**
 	 * 将交易双方都评价过的 变为结束交易
-	 * Enter description here ...
+	 * @author LongG
 	 */
 	public function isComplete(){
 		$cond['BuyerStar'] = array('NEQ','NULL');
@@ -61,49 +58,47 @@ class goods_orderModel extends Model {
 	}
 	
 	/**
-	 * 修改订单Star
-	 * @param $goodsId 账单Id,$Type 类型 1.卖家评价  2.买家评价
-	 * @return array status, msg
+	 * 评价 操作
+	 * @param $goodsId 账单Id,
+	 * @param $Type 类型
+	 * 		 1.卖家评价  2.买家评价
+	 * @param $Star star 数
+	 * @return array
+	 * @author LongG
 	 */
-	public function savestar( $orderId, $Type, $Star ){
-		if ($Type == 1) {
-			$rst = $this->where( array(
-					'Id' => $orderId,
-					'SellerId' => cookie('_uid'),
-					'Status' => 22
-			) ) -> save( array(
-					'BuyerStar' => $Star
-			) );
-			if ($rst) {
-				return array (
-						'status' => 1,
-						'msg' => "评价成功" 
+	public function savestar( $orderId, $Type =1, $Star ){
+		switch ($Type){
+			case "1":
+				$wherearr = array(
+						'Id' => $orderId,
+						'SellerId' => cookie('_uid'),
+						'Status' => 22
 				);
-			} else {
-				return array (
-						'status' => 0,
-						'msg' => "评价失败" 
+				$where = array( 'BuyerStar' => $Star );
+				break;
+			case "2":
+				$wherearr = array(
+						'Id' => $orderId,
+						'BuyerId' => cookie('_uid'),
+						'Status' => 22
 				);
-			};
-		}elseif ($Type == 2){
-			$rst = $this->where( array(
-					'Id' => $orderId,
-					'BuyerId' => cookie('_uid'),
-					'Status' => 22
-			) ) -> save( array(
-					'SellerStar' => $Star
-			));
-			if ($rst) {
-				return array (
-						'status' => 1,
-						'msg' => "评价成功" 
-				);
-			} else {
-				return array (
-						'status' => 0,
-						'msg' => "评价失败" 
-				);
-			};
+				$where = array( 'SellerStar' => $Star );
+				break;
+			default:
+				return "";
+				break;
 		}
+		$rst = $this->where( $wherearr )->save( $where );
+		if (!$rst) {
+			return array (
+					'status' => 0,
+					'msg' => "评价失败" 
+			);
+		} else {
+			return array (
+					'status' => 1,
+					'msg' => "评价成功" 
+			);
+		};
 	}
 }

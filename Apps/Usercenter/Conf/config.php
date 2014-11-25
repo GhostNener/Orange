@@ -4,7 +4,7 @@ return array (
 				'act$' => 'u/Index/activated', // 激活
 				'msg' => 'u/Index/msg',
 				'edit$' => 'u/Index/edit',
-				'order$' => 'u/Index/order',
+				'order' => 'u/Index/order',
 				'sell' => 'u/Index/sell',
 				'f' => 'u/Index/follow',
 				'like' => 'u/Index/like',

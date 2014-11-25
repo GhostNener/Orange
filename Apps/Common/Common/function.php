@@ -1236,57 +1236,33 @@ function fuzhi($v){
 	}elseif ($v['SellerStar'] != null && $v['BuyerId'] == cookie('_uid'))
 	{
 		return "<button class='btn btn-warning btn-small' disabled='true'>已评</button>";
-	}
-	else{
-		if ($v['Status'] == 10 && $v['BuyerId'] == cookie('_uid')) {
-			return "<button class='btn btn-warning btn-small' disabled='true'>未发货</button>";
+	}else{
+		switch ((int)$v['Status']) {
+			case 10 :
+				if ($v['BuyerId'] == cookie('_uid')) {
+					return "<button class='btn btn-warning btn-small' disabled='true'>未发货</button>";
+				}else{
+					return "<button nid='$oid' otype='1' class='btn btn-success sendgoods' data-loading-text='提交中...' autocomplete='off'>发货</button>";
+				}
+				break;
+			case 21 :
+				if ($v['BuyerId'] == cookie('_uid')) {
+					return "<button nid='$oid' otype='2' class='btn btn-success sendgoods' data-loading-text='提交中...' autocomplete='off'>收货</button>";
+				}else{
+					return "<button class='btn btn-warning btn-small' disabled='true'>已发货</button>";
+				}
+				break;
+			case 22 :
+				if ($v['BuyerId'] == cookie('_uid')) {
+				 	return "<button nid='$oid' otype='2' class='btn btn-success pingfen' data-toggle='modal' data-backdrop='static' modaltitle='评分' data-target='#addModal'>评分</button>";
+				}else{
+					return "<button nid='$oid' otype='1' class='btn btn-success pingfen' data-toggle='modal' data-backdrop='static' modaltitle='评分' data-target='#addModal'>评分</button>";
+				}
+				break;
+			default :
+				return "";
+				break;
 		}
-		if ($v['Status'] == 10 && $v['SellerId'] == cookie('_uid')) {
-			return "<button nid='$oid' otype='1' class='btn btn-success sendgoods' data-loading-text='提交中...' autocomplete='off' onsubmit='return syncsubmit()'>发货</button>";
-		}
-		
-		if ($v['Status'] == 21 && $v['BuyerId'] == cookie('_uid')) {
-			return "<button nid='$oid' otype='2' class='btn btn-success sendgoods' data-loading-text='提交中...' autocomplete='off' onsubmit='return syncsubmit()'>收货</button>";
-		}
-		if ($v['Status'] == 21 && $v['SellerId'] == cookie('_uid')) {
-			return "<button class='btn btn-warning btn-small' disabled='true'>已发货</button>";
-		}
-		
-		if ($v['Status'] == 22 && $v['BuyerId'] == cookie('_uid')) {
-		 	return "<button nid='$oid' otype='2' class='btn btn-success pingfen' data-toggle='modal' data-backdrop='static' modaltitle='评分' data-target='#addModal'>评分</button>";
-		}
-		if ($v['Status'] == 22 && $v['SellerId'] == cookie('_uid')) {
-			return "<button nid='$oid' otype='1' class='btn btn-success pingfen' data-toggle='modal' data-backdrop='static' modaltitle='评分' data-target='#addModal'>评分</button>";
-		}
-	}
-}
-
-/**
- * 赋值星星
- *
- * @param 星星个数    	
- * @return 几个★
- * @author LongG
- */
-function star($c){
-	switch ($c){
-		case 0 :
-			break;
-		case 1 :
-			return ★;
-			break;
-		case 2 :
-			return ★★;
-			break;
-		case 3 :
-			return ★★★;
-			break;
-		case 4 :
-			return ★★★★;
-			break;
-		default :
-			return ★★★★★;
-			break;
 	}
 }
 ?>

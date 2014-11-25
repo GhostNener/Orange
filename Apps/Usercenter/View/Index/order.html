@@ -30,15 +30,15 @@
 								<th style="width:200px">联系人</th>
 								<th>状态</th>
 							</thead>
-							<tbody addorder>
+							<tbody class="addorder">
 							<foreach name="order" item="v">
-								<tr class="morder">
+								<tr>
 									<td>
 										<if condition="$v['BuyerId'] eq cookie('_uid')"><span class="label label-success">购买</span><else/><span class="label label-primary">出售</span></if>
 									</td>
 									<td>{$v['Title']} </td>
 									<td>{$v['Price']}</td>
-									<td>{:gettradewaytxt($v['TradeWay'])}</td>
+									<td star>{:gettradewaytxt($v['TradeWay'])}</td>
 									<td>
 										{$v['BuyNick']}:{$v['Tel']}
 										<br/>
@@ -50,7 +50,7 @@
 							</tbody>
 						</table>
 					</div>
-					<div class="page">{$pageorder}</div>
+					<div class="page" pageorder>{$pageorder}</div>
 				</div>
 				
 				<div role="tabpanel" class="tab-pane" id="tab2">
@@ -102,20 +102,19 @@
 				<h4 class="modal-title hightlight" id="myModalLabel">请为本次交易评分</h4>
 			</div>
 
-			<form class="form-horizontal" action="{:U('u/Index/savestar')}" onsubmit="syncsubmit()" method="post" enctype="multipart/form-data">
+			<form id="starform" class="form-horizontal" action="{:U('u/Index/savestar')}" onsubmit="return syncsubmit()" method="post" enctype="multipart/form-data">
 				<div class="modal-body">
-
+					<input id="oid" type="hidden" name="oid" />
+					<input id="otype" type="hidden" name="otype" />
+					<input id="star" type="hidden" name="count" />
 					<h1 class="row text-center">
 						<div id="stars" class="starrr text-orange"></div>
 						<small id="count">0</small>
-						<input id="oid" type="hidden" name="oid" />
-						<input id="otype" type="hidden" name="otype" />
-						<input id="star" type="hidden" name="count" />
 						<small>星</small>
 					</h1>
 				</div>
 				<div class="modal-footer">
-					<button type="submit" class="btn btn-success">确定</button>
+					<button id="submitref" type="submit" class="btn btn-success" data-loading-text="提交中..." autocomplete="off" >提交</button>
 				</div>
 			</form>
 		</div>
@@ -126,13 +125,105 @@
 <block name="js">
 <script src="__PUBLIC__/js/star.js"></script>
 <script type="text/javascript">
+function syncsubmit() {
+        
+    var $btn = $('#submitref').button('loading');
+    var _star = parseInt($('#star').val());
+    if(_star<=0){
+    	showerrormsg('还没评价呦！'，100，1000);
+    	return;
+    }
+    $.ajax({
+        type: 'post',
+        cache: false,
+        url: $('#starform').attr('action'),
+        data: $('#starform').serialize(),
+        error:  
+        function(request)  {
+            showerrormsg('网络错误', 100, 1000);
+            $btn.button('reset');   
+            return false;             
+        },
+        success:  
+        function(data)  {
+            if (data.status == 0) {
+                showerrormsg(data.info, 100, 1000);
+                $btn.button('reset');
+                return false;
+            } else {
+                $('#addModal').modal('hide');
+                showsuccessmsg("评价成功", 100, 1000);
+                $('#starform')[0].reset() 
+                $btn.button('reset');
+
+                setTimeout(function(){
+                	var _p=$('.pagination').find('li[class="active"]').eq(0);
+				    _p=_p.find('a').eq(0).html();
+				    _p=$.isNumeric(_p)?parseInt(_p):1;
+                   _url = "{:U('u/Index/queryorder')}";
+                    queryorder(_p,_url);
+                },200);
+                return false;
+            }                
+        }
+    });
+    return false;
+}
+
+function queryorder(_p,_url){
+    var _id = $(this).attr('nid');
+    var _otype = $(this).attr('otype');
+    $.ajax({
+        type: 'post',
+        cache: false,
+        url: _url,
+        data: {
+            p: _p
+        },
+        error:
+        function(request)  {
+            showerrormsg('网络错误', 100, 1000);
+            return false;               
+        },
+        success:  
+        function(data){
+            if (data.status == 0) {
+            	showsuccessmsg(data.info, 100, 1000);
+                location.href = location.href;
+                return false;
+            } else {
+            	data=JSON.parse(data.info);
+				if(!data){
+					return ;
+				}
+				var uid =parseInt(data['uid']);
+            	$('.addorder').html('');
+				var _tbody=$('.addorder');
+				$(data['list']).each(function(i,v){
+					_tbody.append("<tr><td>"+OrderType(v['BuyerId'],v['SellerId'],uid)+"</td><td>"+v['Title']+"</td><td>"+v['Price']+"</td><td>"+Gettradewaytxt(v['TradeWay'])+"</td><td>"+v['BuyNick']+":"+v['Tel']+"<br/>"+v['Address']+"</td><td>"+fuzhi(v,uid)+"</td></tr>");
+				});
+				$('div[pageorder]').html(data['pageorder']);
+				initPagination('.page');
+                return false;
+            }                
+        }
+    });
+    return false;
+}
+
+function loading() { 
+    removeloading();
+    $("body").append('<div  id="load" style="z-index:99999; position:fixed; left:45%; top:30%"><img src="__PUBLIC__/Img/loading.gif" /></div>'); 
+}
+
 /* 交易方式 */
-function Gettradewaytxt(_wayid) {
-	switch (_wayid){
-		case '1' :
+function Gettradewaytxt(_c) {
+	_c = parseInt(_c);
+	switch (_c){
+		case 1 :
 			return "线上";
 			break;
-		case '2' :
+		case 2 :
 			return "线下";
 			break;
 		default :
@@ -141,61 +232,96 @@ function Gettradewaytxt(_wayid) {
 	}
 }
 
-/* 评价 */
+function OrderType(buyerid,sellerid,uid){
+	buyerid = parseInt(buyerid);
+	sellerid = parseInt(sellerid);
+	uid = parseInt(uid);
+	if (buyerid == uid) {
+		return "<span class='label label-success'>购买</span>";
+	}else{
+		return "<span class='label label-primary'>出售</span>";
+	};
+}
+
+/* 赋值星星 */
 function Star(_c){
-	switch (_c){
-		case '1' :
-			return "★";
-			break;
-		case '2' :
-			return "★★";
-			break;
-		case '3' :
-			return "★★★";
-			break;
-		case '4' :
-			return "★★★★";
-			break;
-		case '5' :
-			return "★★★★★";
-			break;
-		default :
-			return "";
-			break;
+	_c = parseInt(_c);
+	var _msg = "";
+	for(var i=0 ; i<_c; i++)
+	{
+		_msg ="★" + _msg;
+	}
+	return _msg;
+}
+
+function fuzhi(v,uid){
+	var _oid = v['Id'];
+	v['BuyerId'] = parseInt(v['BuyerId']);
+	v['SellerId'] = parseInt(v['SellerId']);
+	if (v['BuyerStar'] != null && v['SellerId'] == uid) {
+		return "<button class='btn btn-warning btn-small' disabled='true'>已评</button>";
+	}else if (v['SellerStar'] != null && v['BuyerId'] == uid)
+	{
+		return "<button class='btn btn-warning btn-small' disabled='true'>已评</button>";
+	}else{
+		switch (parseInt(v['Status'])) {
+			case 10 :
+				if (v['BuyerId'] == uid) {
+					return "<button class='btn btn-warning btn-small' disabled='true'>未发货</button>";
+				}else{
+					return "<button nid='"+_oid+"' otype='1' class='btn btn-success sendgoods' data-loading-text='提交中...' autocomplete='off'>发货</button>";
+				}
+				break;
+			case 21 :
+				if (v['BuyerId'] == uid) {
+					return "<button nid='"+_oid+"' otype='2' class='btn btn-success sendgoods' data-loading-text='提交中...' autocomplete='off'>收货</button>";
+				}else{
+					return "<button class='btn btn-warning btn-small' disabled='true'>已发货</button>";
+				}
+				break;
+			case 22 :
+				if (v['BuyerId'] == uid) {
+				 	return "<button nid='"+_oid+"' otype='2' class='btn btn-success pingfen' data-toggle='modal' data-backdrop='static' modaltitle='评分' data-target='#addModal'>评分</button>";
+				}else{
+					return "<button nid='"+_oid+"' otype='1' class='btn btn-success pingfen' data-toggle='modal' data-backdrop='static' modaltitle='评分' data-target='#addModal'>评分</button>";
+				}
+				break;
+			default :
+				return "";
+				break;
+		}
 	}
 }
 
 $(function(){
-	$('.sellorder').click(function(e){
-		$.ajax({
-			type:'post',
-			cache:false,
-			url:"{:U('u/Index/sellorder')}",
-			error:
-			function(request)  {
+	$('.sellorder').live('click',function(e) {
+	    $.ajax({
+	        type: 'post',
+	        cache: false,
+	        url: "{:U('u/Index/sellorder')}",
+	        error: function(request)  {
 	            showerrormsg('网络错误', 100, 1000);
 	            return false;               
 	        },
-	        success:  
-	        function(data){
-	        	data=JSON.parse(data.info);
-	        	if(data.status==1){
-					if(!data){
-						showerrormsg('还没出售商品呦！', 100, 1000);
-						return;
-					}
-					$('tbody[addsell]').html('');
-					var _tbody=$('tbody[addsell]');
-					$(data['list']).each(function(i,v){
-						 _tbody.append("<tr><td>"+v['Title']+"</td><td>"+v['Price']+"</td><td>"+Gettradewaytxt(v['TradeWay'])+"</td><td><a>"+v['BuyNick']+"</a></td><td class='text-orange'>"+Star(v['SellerStar'])+"</td></tr>");
-					});
-				}               
+	        success: function(data) {
+	            data = JSON.parse(data.info);
+	            if (data.status == 1) {
+	                if (!data) {
+	                    showerrormsg('还没出售商品呦！', 100, 1000);
+	                    return;
+	                }
+	                $('tbody[addsell]').html('');
+	                var _tbody = $('tbody[addsell]');
+	                $(data['list']).each(function(i, v) {
+	                    _tbody.append("<tr><td>" + v['Title'] + "</td><td>" + v['Price'] + "</td><td>" + Gettradewaytxt(v['TradeWay']) + "</td><td><a>" + v['BuyNick'] + "</a></td><td class='text-orange'>" + Star(v['SellerStar']) + "</td></tr>");
+	                });
+	                $('div[pagesell]').html(data['pagesell']);
+	            }               
 	        }
-		});
-		return true;
+	    });
+	    return true;
 	});
-
-	$('.buyorder').click(function(e){
+	$('.buyorder').live('click',function(e){
 		$.ajax({
 			type:'post',
 			cache:false,
@@ -218,16 +344,20 @@ $(function(){
 					$(data['list']).each(function(i,v){
 						 _tbody.append("<tr><td>"+v['Title']+"</td><td>"+v['Price']+"</td><td>"+Gettradewaytxt(v['TradeWay'])+"</td><td><a>"+v['SellNick']+"</a></td><td class='text-orange'>"+Star(v['BuyerStar'])+"</td></tr>");
 					});
+					$('div[pagebuy]').html(data['pagebuy']);
 				}               
 	        }
 		});
 		return true;
 	});
 	/*发货 收货*/
-	$('.sendgoods').click(function(e) {
+	$('.sendgoods').live('click',function(e) {
 		if(!confirm('您确定吗？')){
 			return;
 		}
+		var _p=$('.pagination').find('li[class="active"]').eq(0);
+	     _p=_p.find('a').eq(0).html();
+	     _p=$.isNumeric(_p)?parseInt(_p):1;
 	    var _id = $(this).attr('nid');
 	    var _otype = $(this).attr('otype');
 	    $.ajax({
@@ -236,9 +366,10 @@ $(function(){
 	        url: "{:U('u/Index/updateorder')}",
 	        data: {
 	            OId: _id,
-	            OType: _otype
+	            OType: _otype,
+	            p: _p
 	        },
-	        error:  
+	        error:
 	        function(request)  {
 	            showerrormsg('网络错误', 100, 1000);
 	            return false;               
@@ -250,14 +381,18 @@ $(function(){
 	                location.href = location.href;
 	                return false;
 	            } else {
-		            $('.morder').remove();
-	            	showsuccessmsg(data.info, 100, 1000);
-	            	$('tbody[addorder]').html('');
-					var _tbody=$('tbody[addorder]');
+	            	data=JSON.parse(data.info);
+					if(!data){
+						return ;
+					}
+					var uid =parseInt(data['uid']);
+	            	$('.addorder').html('');
+					var _tbody=$('.addorder');
 					$(data['list']).each(function(i,v){
-						
-						 _tbody.append("<tr class='morder'><td></td><td>"+v['Title']+"</td><td>"+v['Price']+"</td><td>"+Gettradewaytxt(v['TradeWay'])+"</td><td>"+v['BuyNick']+":"+v['Tel']+"<br/>"+v['Address']+"</td><td></td></tr>");
+						_tbody.append("<tr><td>"+OrderType(v['BuyerId'],v['SellerId'],uid)+"</td><td>"+v['Title']+"</td><td>"+v['Price']+"</td><td>"+Gettradewaytxt(v['TradeWay'])+"</td><td>"+v['BuyNick']+":"+v['Tel']+"<br/>"+v['Address']+"</td><td>"+fuzhi(v,uid)+"</td></tr>");
 					});
+					$('div[pageorder]').html(data['pageorder']);
+					initPagination('.page');
 	                return false;
 	            }                
 	        }
@@ -265,7 +400,7 @@ $(function(){
 	    return false;
 	});
 	/* 点击评价后将 订单Id 传个弹出的界面 */
-	$('.pingfen').click(function(e) {
+	$('.pingfen').live('click',function(e) {
 		$('#oid').val($(this).attr('nid'));
 		$('#otype').val($(this).attr('otype'));
 	});

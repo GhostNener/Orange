@@ -131,15 +131,38 @@ class IndexController extends LoginController {
 	 */
 	public function sellorder() {
 		/* 出售的订单 */
+		$limit = 5;
+		$p=1;
 		$model = new view_goods_order_listModel ();
-		$arr = $model->getsellorder (1,5);
+		$number = $model -> getsellorder( 2 );
+		$p = $number>$limit*((int)$p-1)?$p:$p-1;
+		$arr = $number>0?$model -> getsellorder(1, $limit, '/u/order', false, array('p'=>$p)):0;
 		if (! $arr) {
 			$this->error ( '没有出售记录' );
 		} else {
-			$this->success ( json_encode ( $arr ) );
+			$this->success( json_encode( array('list' => $arr['list'], 'pageorder' => $arr['page'], 'number'=>$number,'uid'=>cookie('_uid')) ));
 		}
 	}
 	
+	/**
+	 * 查询账单列表
+	 *
+	 * @author LongG
+	 */
+	public function queryorder(){
+		if (! IS_POST || ! I ( 'p' )) {
+			$this->error ( '页面不存在' );
+			die ();
+		}
+		$p = I ( 'p' );
+		$limit = 5;
+		$m = new view_goods_order_listModel();
+		$number = $m -> getorder( 2 );
+		$p = $number>$limit*((int)$p-1)?$p:$p-1;
+		$arr = $number>0?$m -> getorder(1, $limit, '/u/order', false, array('p'=>$p)):0;
+		$this->success( json_encode( array('list' => $arr['list'], 'pageorder' => $arr['page'], 'number'=>$number,'uid'=>cookie('_uid')) ));
+	}
+
 	/**
 	 * 修改订单状态
 	 *
@@ -150,17 +173,19 @@ class IndexController extends LoginController {
 			$this->error ( '页面不存在' );
 			die ();
 		}
-		$p = 1;
+		$p = I ( 'p' );
+		$limit = 5;
 		$model = new goods_orderModel();
-		$arr = $model -> update(I ('OId'), I('OType'));
-		if ($arr ['status'] == 0) {
-			$this->error ( $arr ['msg'] );
+		$set = $model -> update(I ('OId'), I('OType'));
+		if (!$set) {
+			$this->error ( "修改失败" );
 		} else {
 			/* ajax局部刷新 返回更新后的订单   page ，list ，number   */
-			$model = new view_goods_order_listModel();
-			$number=$model->getunread( 2 );
-			$arr=$number>0?$model->getunread ( 1, 5,'/u/order',false,array('p'=>$p) ):0;
-			$this->success(json_encode( array('list'=>$arr['list'],'pageorder'=>$arr['page'],'number'=>$number) ));
+			$m = new view_goods_order_listModel();
+			$number = $m -> getorder( 2 );
+			$p = $number>$limit*((int)$p-1)?$p:$p-1;
+			$arr = $number>0?$m -> getorder(1, $limit, '/u/order', false, array('p'=>$p)):0;
+			$this->success( json_encode( array('list' => $arr['list'], 'pageorder' => $arr['page'], 'number'=>$number,'uid'=>cookie('_uid')) ));
 		}
 	}
 	
@@ -180,7 +205,6 @@ class IndexController extends LoginController {
 		/* 添加订单表的评价 */
 		$model = new goods_orderModel();
 		$rst = $model -> savestar( I( 'oid' ), I( 'otype' ), I ( 'count' ));
-		
 		$cc = $model -> isComplete();
 		
 		/* 用户总信誉修改 */
