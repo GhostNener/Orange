@@ -195,9 +195,14 @@ class IndexController extends LoginController {
 	 * @author LongG
 	 */
 	public function savestar() {
-		if (! IS_POST || ! I ( 'count' )) {
+		if (! IS_POST ) {
 			$this->error ( '页面不存在' );
 			die ();
+		}
+		$star=(int)I ( 'count' );
+		if(!$star||$star<=0){
+			$this->error ( '还没有打分哦！！' );
+			return false;
 		}
 		$dal = M ();
 		// 开始事务

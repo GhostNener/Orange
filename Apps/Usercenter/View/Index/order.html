@@ -50,7 +50,7 @@
 							</tbody>
 						</table>
 					</div>
-					<div class="page" pageorder>{$pageorder}</div>
+					<div class="page" pagetype="addorder" pageorder>{$pageorder}</div>
 				</div>
 				
 				<div role="tabpanel" class="tab-pane" id="tab2">
@@ -84,7 +84,7 @@
 							</tbody>
 						</table>
 					</div>
-					<div class="page">{$pagesell}</div>
+					<div class="page" >{$pagesell}</div>
 				</div>
 				
 			</div>
@@ -125,13 +125,23 @@
 <block name="js">
 <script src="__PUBLIC__/js/star.js"></script>
 <script type="text/javascript">
+function resetform() {
+    $('#star').val('');
+    $('#count').html(0);
+}
+
+function removepagehref() {
+    $('.pagination').find('a').attr('href', 'javascript:void(0)');
+}
+
 function syncsubmit() {
-        
+
     var $btn = $('#submitref').button('loading');
-    var _star = parseInt($('#star').val());
-    if(_star<=0){
-    	showerrormsg('还没评价呦！'，100，1000);
-    	return;
+    var _star = $('#star').val();
+    if (!_star||!$isNumeric(_star)) {
+        showerrormsg('还没评价呦！', 100, 1000);
+        $btn.button('reset');
+        return false;
     }
     $.ajax({
         type: 'post',
@@ -153,16 +163,17 @@ function syncsubmit() {
             } else {
                 $('#addModal').modal('hide');
                 showsuccessmsg("评价成功", 100, 1000);
-                $('#starform')[0].reset() 
-                $btn.button('reset');
+                $('#starform')[0].reset();
+                 $btn.button('reset');
 
-                setTimeout(function(){
-                	var _p=$('.pagination').find('li[class="active"]').eq(0);
-				    _p=_p.find('a').eq(0).html();
-				    _p=$.isNumeric(_p)?parseInt(_p):1;
-                   _url = "{:U('u/Index/queryorder')}";
-                    queryorder(_p,_url);
-                },200);
+                setTimeout(function() {
+                    var _p = $('.pagination').find('li[class="active"]').eq(0);
+                    _p = _p.find('a').eq(0).html();
+                    _p = $.isNumeric(_p) ? parseInt(_p) : 1;
+                    _url = "{:U('u/Index/queryorder')}";
+                    queryorder(_p, _url);
+                },
+                200);
                 return false;
             }                
         }
@@ -170,7 +181,7 @@ function syncsubmit() {
     return false;
 }
 
-function queryorder(_p,_url){
+function queryorder(_p, _url) {
     var _id = $(this).attr('nid');
     var _otype = $(this).attr('otype');
     $.ajax({
@@ -180,230 +191,291 @@ function queryorder(_p,_url){
         data: {
             p: _p
         },
-        error:
-        function(request)  {
+        error: function(request)  {
             showerrormsg('网络错误', 100, 1000);
             return false;               
         },
         success:  
-        function(data){
+        function(data) {
             if (data.status == 0) {
-            	showsuccessmsg(data.info, 100, 1000);
+                showsuccessmsg(data.info, 100, 1000);
                 location.href = location.href;
                 return false;
             } else {
-            	data=JSON.parse(data.info);
-				if(!data){
-					return ;
-				}
-				var uid =parseInt(data['uid']);
-            	$('.addorder').html('');
-				var _tbody=$('.addorder');
-				$(data['list']).each(function(i,v){
-					_tbody.append("<tr><td>"+OrderType(v['BuyerId'],v['SellerId'],uid)+"</td><td>"+v['Title']+"</td><td>"+v['Price']+"</td><td>"+Gettradewaytxt(v['TradeWay'])+"</td><td>"+v['BuyNick']+":"+v['Tel']+"<br/>"+v['Address']+"</td><td>"+fuzhi(v,uid)+"</td></tr>");
-				});
-				$('div[pageorder]').html(data['pageorder']);
-				initPagination('.page');
+                data = JSON.parse(data.info);
+                if (!data) {
+                    return;
+                }
+                var uid = parseInt(data['uid']);
+                $('.addorder').html('');
+                var _tbody = $('.addorder');
+                $(data['list']).each(function(i, v) {
+                    _tbody.append("<tr><td>" + OrderType(v['BuyerId'], v['SellerId'], uid) + "</td><td>" + v['Title'] + "</td><td>" + v['Price'] + "</td><td>" + Gettradewaytxt(v['TradeWay']) + "</td><td>" + v['BuyNick'] + ":" + v['Tel'] + "<br/>" + v['Address'] + "</td><td>" + fuzhi(v, uid) + "</td></tr>");
+                });
+                $('div[pageorder]').html(data['pageorder']);
+                initPagination('.page');
                 return false;
             }                
         }
     });
     return false;
 }
-
-function loading() { 
+function removeloading() {
+    $('#load').remove();
+}
+function loading() {
     removeloading();
-    $("body").append('<div  id="load" style="z-index:99999; position:fixed; left:45%; top:30%"><img src="__PUBLIC__/Img/loading.gif" /></div>'); 
+    $("body").append('<div  id="load" style="z-index:99999; position:fixed; left:45%; top:30%"><img src="__PUBLIC__/Img/loading.gif" /></div>');
 }
 
 /* 交易方式 */
 function Gettradewaytxt(_c) {
-	_c = parseInt(_c);
-	switch (_c){
-		case 1 :
-			return "线上";
-			break;
-		case 2 :
-			return "线下";
-			break;
-		default :
-			return "";
-			break;
-	}
+    _c = parseInt(_c);
+    switch (_c) {
+    case 1:
+        return "线上";
+        break;
+    case 2:
+        return "线下";
+        break;
+    default:
+        return "";
+        break;
+    }
 }
 
-function OrderType(buyerid,sellerid,uid){
-	buyerid = parseInt(buyerid);
-	sellerid = parseInt(sellerid);
-	uid = parseInt(uid);
-	if (buyerid == uid) {
-		return "<span class='label label-success'>购买</span>";
-	}else{
-		return "<span class='label label-primary'>出售</span>";
-	};
+function OrderType(buyerid, sellerid, uid) {
+    buyerid = parseInt(buyerid);
+    sellerid = parseInt(sellerid);
+    uid = parseInt(uid);
+    if (buyerid == uid) {
+        return "<span class='label label-success'>购买</span>";
+    } else {
+        return "<span class='label label-primary'>出售</span>";
+    };
 }
 
 /* 赋值星星 */
-function Star(_c){
-	_c = parseInt(_c);
-	var _msg = "";
-	for(var i=0 ; i<_c; i++)
-	{
-		_msg ="★" + _msg;
-	}
-	return _msg;
+function Star(_c) {
+    _c = parseInt(_c);
+    var _msg = "";
+    for (var i = 0; i < _c; i++) {
+        _msg = "★" + _msg;
+    }
+    return _msg;
 }
 
-function fuzhi(v,uid){
-	var _oid = v['Id'];
-	v['BuyerId'] = parseInt(v['BuyerId']);
-	v['SellerId'] = parseInt(v['SellerId']);
-	if (v['BuyerStar'] != null && v['SellerId'] == uid) {
-		return "<button class='btn btn-warning btn-small' disabled='true'>已评</button>";
-	}else if (v['SellerStar'] != null && v['BuyerId'] == uid)
-	{
-		return "<button class='btn btn-warning btn-small' disabled='true'>已评</button>";
-	}else{
-		switch (parseInt(v['Status'])) {
-			case 10 :
-				if (v['BuyerId'] == uid) {
-					return "<button class='btn btn-warning btn-small' disabled='true'>未发货</button>";
-				}else{
-					return "<button nid='"+_oid+"' otype='1' class='btn btn-success sendgoods' data-loading-text='提交中...' autocomplete='off'>发货</button>";
-				}
-				break;
-			case 21 :
-				if (v['BuyerId'] == uid) {
-					return "<button nid='"+_oid+"' otype='2' class='btn btn-success sendgoods' data-loading-text='提交中...' autocomplete='off'>收货</button>";
-				}else{
-					return "<button class='btn btn-warning btn-small' disabled='true'>已发货</button>";
-				}
-				break;
-			case 22 :
-				if (v['BuyerId'] == uid) {
-				 	return "<button nid='"+_oid+"' otype='2' class='btn btn-success pingfen' data-toggle='modal' data-backdrop='static' modaltitle='评分' data-target='#addModal'>评分</button>";
-				}else{
-					return "<button nid='"+_oid+"' otype='1' class='btn btn-success pingfen' data-toggle='modal' data-backdrop='static' modaltitle='评分' data-target='#addModal'>评分</button>";
-				}
-				break;
-			default :
-				return "";
-				break;
-		}
-	}
+function fuzhi(v, uid) {
+    var _oid = v['Id'];
+    v['BuyerId'] = parseInt(v['BuyerId']);
+    v['SellerId'] = parseInt(v['SellerId']);
+    if (v['BuyerStar'] != null && v['SellerId'] == uid) {
+        return "<button class='btn btn-warning btn-small' disabled='true'>已评</button>";
+    } else if (v['SellerStar'] != null && v['BuyerId'] == uid) {
+        return "<button class='btn btn-warning btn-small' disabled='true'>已评</button>";
+    } else {
+        switch (parseInt(v['Status'])) {
+        case 10:
+            if (v['BuyerId'] == uid) {
+                return "<button class='btn btn-warning btn-small' disabled='true'>未发货</button>";
+            } else {
+                return "<button nid='" + _oid + "' otype='1' class='btn btn-success sendgoods' data-loading-text='提交中...' autocomplete='off'>发货</button>";
+            }
+            break;
+        case 21:
+            if (v['BuyerId'] == uid) {
+                return "<button nid='" + _oid + "' otype='2' class='btn btn-success sendgoods' data-loading-text='提交中...' autocomplete='off'>收货</button>";
+            } else {
+                return "<button class='btn btn-warning btn-small' disabled='true'>已发货</button>";
+            }
+            break;
+        case 22:
+            if (v['BuyerId'] == uid) {
+                return "<button nid='" + _oid + "' otype='2' class='btn btn-success pingfen' data-toggle='modal' data-backdrop='static' modaltitle='评分' data-target='#addModal'>评分</button>";
+            } else {
+                return "<button nid='" + _oid + "' otype='1' class='btn btn-success pingfen' data-toggle='modal' data-backdrop='static' modaltitle='评分' data-target='#addModal'>评分</button>";
+            }
+            break;
+        default:
+            return "";
+            break;
+        }
+    }
 }
+function appendhtml(_parent, v, uid) {
+    _parent.append("<tr><td>" + OrderType(v['BuyerId'], v['SellerId'], uid) + "</td><td>" + v['Title'] + "</td><td>" + v['Price'] + "</td><td>" + Gettradewaytxt(v['TradeWay']) + "</td><td>" + v['BuyNick'] + ":" + v['Tel'] + "<br/>" + v['Address'] + "</td><td>" + fuzhi(v, uid) + "</td></tr>");
+}
+$(function() {
+    resetform();
+    removepagehref();
+    $('.sellorder').live('click',
+    function(e) {
+        $.ajax({
+            type: 'post',
+            cache: false,
+            url: "{:U('u/Index/sellorder')}",
+            error: function(request)  {
+                showerrormsg('网络错误', 100, 1000);
+                return false;               
+            },
+            success: function(data) {
+                data = JSON.parse(data.info);
+                if (data.status == 1) {
+                    if (!data) {
+                        showerrormsg('还没出售商品呦！', 100, 1000);
+                        return;
+                    }
+                    $('tbody[addsell]').html('');
+                    var _tbody = $('tbody[addsell]');
+                    $(data['list']).each(function(i, v) {
+                        _tbody.append("<tr><td>" + v['Title'] + "</td><td>" + v['Price'] + "</td><td>" + Gettradewaytxt(v['TradeWay']) + "</td><td><a>" + v['BuyNick'] + "</a></td><td class='text-orange'>" + Star(v['SellerStar']) + "</td></tr>");
+                    });
+                    $('div[pagesell]').html(data['pagesell']);
+                }               
+            }
+        });
+        return true;
+    });
+    $('.buyorder').live('click',
+    function(e) {
+        $.ajax({
+            type: 'post',
+            cache: false,
+            url: "{:U('u/Index/buyorder')}",
+            error: function(request)  {
+                showerrormsg('网络错误', 100, 1000);
+                return false;               
+            },
+            success:  
+            function(data) {
+                data = JSON.parse(data.info);
+                if (data.status == 1) {
+                    if (!data) {
+                        showerrormsg('还没购买商品呦！', 100, 1000);
+                        return;
+                    }
+                    $('tbody[addbuy]').html('');
+                    var _tbody = $('tbody[addbuy]');
+                    $(data['list']).each(function(i, v) {
+                        _tbody.append("<tr><td>" + v['Title'] + "</td><td>" + v['Price'] + "</td><td>" + Gettradewaytxt(v['TradeWay']) + "</td><td><a>" + v['SellNick'] + "</a></td><td class='text-orange'>" + Star(v['BuyerStar']) + "</td></tr>");
+                    });
+                    $('div[pagebuy]').html(data['pagebuy']);
+                }               
+            }
+        });
+        return true;
+    });
+    /*发货 收货*/
+    $('.sendgoods').live('click',
+    function(e) {
+        if (!confirm('您确定吗？')) {
+            return;
+        }
+        var _p = $('.pagination').find('li[class="active"]').eq(0);
+        _p = _p.find('a').eq(0).html();
+        _p = $.isNumeric(_p) ? parseInt(_p) : 1;
+        var _id = $(this).attr('nid');
+        var _otype = $(this).attr('otype');
+        $.ajax({
+            type: 'post',
+            cache: false,
+            url: "{:U('u/Index/updateorder')}",
+            data: {
+                OId: _id,
+                OType: _otype,
+                p: _p
+            },
+            error: function(request)  {
+                showerrormsg('网络错误', 100, 1000);
+                return false;               
+            },
+            success:  
+            function(data) {
+                if (data.status == 0) {
+                    showsuccessmsg(data.info, 100, 1000);
+                    location.href = location.href;
+                    return false;
+                } else {
+                    data = JSON.parse(data.info);
+                    if (!data) {
+                        return;
+                    }
+                    var uid = parseInt(data['uid']);
+                    $('.addorder').html('');
+                    var _tbody = $('.addorder');
+                    $(data['list']).each(function(i, v) {
+                        _tbody.append("<tr><td>" + OrderType(v['BuyerId'], v['SellerId'], uid) + "</td><td>" + v['Title'] + "</td><td>" + v['Price'] + "</td><td>" + Gettradewaytxt(v['TradeWay']) + "</td><td>" + v['BuyNick'] + ":" + v['Tel'] + "<br/>" + v['Address'] + "</td><td>" + fuzhi(v, uid) + "</td></tr>");
+                    });
+                    $('div[pageorder]').html(data['pageorder']);
+                    initPagination('.page');
+                    return false;
+                }                
+            }
+        });
+        return false;
+    });
+    /* 点击评价后将 订单Id 传个弹出的界面 */
+    $('.pingfen').live('click',
+    function(e) {
+        resetform();
+        $('#stars').children('i').removeClass('glyphicon-star');
+        $('#stars').children('i').addClass('glyphicon-star-empty');
+        $('#oid').val($(this).attr('nid'));
+        $('#otype').val($(this).attr('otype'));
+    });
 
-$(function(){
-	$('.sellorder').live('click',function(e) {
-	    $.ajax({
-	        type: 'post',
-	        cache: false,
-	        url: "{:U('u/Index/sellorder')}",
-	        error: function(request)  {
-	            showerrormsg('网络错误', 100, 1000);
-	            return false;               
-	        },
-	        success: function(data) {
-	            data = JSON.parse(data.info);
-	            if (data.status == 1) {
-	                if (!data) {
-	                    showerrormsg('还没出售商品呦！', 100, 1000);
-	                    return;
-	                }
-	                $('tbody[addsell]').html('');
-	                var _tbody = $('tbody[addsell]');
-	                $(data['list']).each(function(i, v) {
-	                    _tbody.append("<tr><td>" + v['Title'] + "</td><td>" + v['Price'] + "</td><td>" + Gettradewaytxt(v['TradeWay']) + "</td><td><a>" + v['BuyNick'] + "</a></td><td class='text-orange'>" + Star(v['SellerStar']) + "</td></tr>");
-	                });
-	                $('div[pagesell]').html(data['pagesell']);
-	            }               
-	        }
-	    });
-	    return true;
-	});
-	$('.buyorder').live('click',function(e){
-		$.ajax({
-			type:'post',
-			cache:false,
-			url:"{:U('u/Index/buyorder')}",
-			error:
-			function(request)  {
-	            showerrormsg('网络错误', 100, 1000);
-	            return false;               
-	        },
-	        success:  
-	        function(data){
-	        	data=JSON.parse(data.info);
-	        	if(data.status==1){
-					if(!data){
-						showerrormsg('还没购买商品呦！', 100, 1000);
-						return;
-					}
-					$('tbody[addbuy]').html('');
-					var _tbody=$('tbody[addbuy]');
-					$(data['list']).each(function(i,v){
-						 _tbody.append("<tr><td>"+v['Title']+"</td><td>"+v['Price']+"</td><td>"+Gettradewaytxt(v['TradeWay'])+"</td><td><a>"+v['SellNick']+"</a></td><td class='text-orange'>"+Star(v['BuyerStar'])+"</td></tr>");
-					});
-					$('div[pagebuy]').html(data['pagebuy']);
-				}               
-	        }
-		});
-		return true;
-	});
-	/*发货 收货*/
-	$('.sendgoods').live('click',function(e) {
-		if(!confirm('您确定吗？')){
-			return;
-		}
-		var _p=$('.pagination').find('li[class="active"]').eq(0);
-	     _p=_p.find('a').eq(0).html();
-	     _p=$.isNumeric(_p)?parseInt(_p):1;
-	    var _id = $(this).attr('nid');
-	    var _otype = $(this).attr('otype');
-	    $.ajax({
-	        type: 'post',
-	        cache: false,
-	        url: "{:U('u/Index/updateorder')}",
-	        data: {
-	            OId: _id,
-	            OType: _otype,
-	            p: _p
-	        },
-	        error:
-	        function(request)  {
-	            showerrormsg('网络错误', 100, 1000);
-	            return false;               
-	        },
-	        success:  
-	        function(data){
-	            if (data.status == 0) {
-	            	showsuccessmsg(data.info, 100, 1000);
-	                location.href = location.href;
-	                return false;
-	            } else {
-	            	data=JSON.parse(data.info);
-					if(!data){
-						return ;
-					}
-					var uid =parseInt(data['uid']);
-	            	$('.addorder').html('');
-					var _tbody=$('.addorder');
-					$(data['list']).each(function(i,v){
-						_tbody.append("<tr><td>"+OrderType(v['BuyerId'],v['SellerId'],uid)+"</td><td>"+v['Title']+"</td><td>"+v['Price']+"</td><td>"+Gettradewaytxt(v['TradeWay'])+"</td><td>"+v['BuyNick']+":"+v['Tel']+"<br/>"+v['Address']+"</td><td>"+fuzhi(v,uid)+"</td></tr>");
-					});
-					$('div[pageorder]').html(data['pageorder']);
-					initPagination('.page');
-	                return false;
-	            }                
-	        }
-	    });
-	    return false;
-	});
-	/* 点击评价后将 订单Id 传个弹出的界面 */
-	$('.pingfen').live('click',function(e) {
-		$('#oid').val($(this).attr('nid'));
-		$('#otype').val($(this).attr('otype'));
-	});
+    $('.pagination').find('a').live('click',function(e) {
+    	var _pp=$(this).parent('li').parent('ul').parent('div');
+    	_pp=_pp.attr('pagetype');
+        var _page = $(this).html();
+        if ($(this).parent('li').attr('class') == 'active') {
+            return false;
+        }
+        var _actpage = $('.pagination').find('li[class="active"]').eq(0);
+        _actpage = _actpage.find('a').eq(0).html();
+        _actpage = $.isNumeric(_actpage) ? parseInt(_actpage) : 1;
+        if ($.isNumeric(_page)) {
+            _page = parseInt(_page);
+            _page = _page > 0 ? _page: 1;
+        } else {
+            if (_page.indexOf('gt')>0) {
+                _page = _actpage + 1;
+            } else {
+                _page = (_actpage - 1) <= 0 ? 1 : (_actpage - 1);
+            }
+        }
+        $.ajax({
+            type: 'post',
+            url: "{:U('/u/Index/queryorder')}",
+            data: {
+                p: _page
+            },
+            beforeSend: loading(),
+            error: function() {
+                showerrormsg('网络错误', 100, 1000);
+            },
+            success: function(data) {
+                if (data.status == 1) {
+                    data = JSON.parse(data.info);
+                    if (!data || !data['list']) {
+                        showerrormsg('网络错误', 100, 1000);
+                        return false;
+                    }
+                    var _tbody = $('tbody[class="'+_pp+'"]');
+                    _tbody.html('');
+                    var _uid = parseInt(data['uid']);
+                    $(data['list']).each(function(i, v) {
+                        appendhtml(_tbody, v, _uid);
+                    });
+                    $('div[pageorder]').html(data['pageorder']);
+                    initPagination('.page');
+                    removepagehref();
+                    return false;
+                }
+            },
+            commpete: removeloading()
+        })
+    })
 });
 </script>
 </block>
