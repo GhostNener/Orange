@@ -51,7 +51,7 @@ class Page {
 			$this->parameter = empty ( $parameter ) ? $_GET : $parameter;
 		}		
 		$this->nowPage = empty ( $_GET [$this->p] ) ? 1 : intval ( $_GET [$this->p] );
-		if($this->nowPage<=1){
+		if($this->nowPage<=1&&$parameter['p']){
 			$this->nowPage=empty($parameter['p'])?1:(int)$parameter['p'];
 		}
 		$this->nowPage = $this->nowPage > 0 ? $this->nowPage : 1;
