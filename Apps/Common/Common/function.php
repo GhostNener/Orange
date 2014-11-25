@@ -110,7 +110,7 @@ function checkfile_exists($path, $type = 1) {
  * @return string
  */
 function getdefaultimg($type = 1) {
-	switch ($type) {
+	switch ((int)$type) {
 		case 1 :
 			$r = C ( 'DEFAULT_GOODS_IMG' );
 			return $r ['G_320'];
@@ -322,7 +322,7 @@ function gettradewaytxt($wayid) {
 	if (! $wayid) {
 		return '';
 	}
-	switch ($wayid) {
+	switch ((int)$wayid) {
 		case 1 :
 			$rst = '线上';
 			break;
@@ -915,7 +915,7 @@ function rotateimg($filename, $savesrc, $degrees = 90) {
 	if ($data == false)
 		return false;
 		// 读取格式
-	switch ($data [2]) {
+	switch ((int)$data [2]) {
 		case 1 :
 			$src_f = imagecreatefromgif ( $filename );
 			break;
@@ -952,7 +952,7 @@ function getexif($filename) {
 	if (! $r) {
 		return true;
 	}
-	switch ($r) {
+	switch ((int)$r) {
 		case 3 :
 			$degrees = 180;
 			break;
