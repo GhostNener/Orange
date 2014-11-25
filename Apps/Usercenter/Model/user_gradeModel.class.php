@@ -22,7 +22,7 @@ class user_gradeModel extends Model{
 		//$rst['nextNeed'] = $rst['MaxEXP']-$rst['MinEXP'];
 		//显示当前经验
 		$rst['now'] = $EXP-$rst['MinEXP'];
-		$rst['percent'] = (int)(($rst['now'] / $rst['NextNeed'])*100);
+		$rst['percent'] = (($rst['now'] / $rst['NextNeed'])*100);
 		return $rst;
 	}
 	/**
