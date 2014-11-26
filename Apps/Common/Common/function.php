@@ -1231,38 +1231,31 @@ function handleEXP($uid = null, $type = 1, $isInc = true, $isclockin = false) {
  */
 function fuzhi($v){
 	$oid = $v['Id'];
-	if ($v['BuyerStar'] != null && $v['SellerId'] == cookie('_uid')) {
-		return "<button class='btn btn-warning btn-small' disabled='true'>已评</button>";
-	}elseif ($v['SellerStar'] != null && $v['BuyerId'] == cookie('_uid'))
-	{
-		return "<button class='btn btn-warning btn-small' disabled='true'>已评</button>";
-	}else{
-		switch ((int)$v['Status']) {
-			case 10 :
-				if ($v['BuyerId'] == cookie('_uid')) {
-					return "<button class='btn btn-warning btn-small' disabled='true'>未发货</button>";
-				}else{
-					return "<button nid='$oid' otype='1' class='btn btn-success sendgoods' data-loading-text='提交中...' autocomplete='off'>发货</button>";
-				}
-				break;
-			case 21 :
-				if ($v['BuyerId'] == cookie('_uid')) {
-					return "<button nid='$oid' otype='2' class='btn btn-success sendgoods' data-loading-text='提交中...' autocomplete='off'>收货</button>";
-				}else{
-					return "<button class='btn btn-warning btn-small' disabled='true'>已发货</button>";
-				}
-				break;
-			case 22 :
-				if ($v['BuyerId'] == cookie('_uid')) {
-				 	return "<button nid='$oid' otype='2' class='btn btn-success pingfen' data-toggle='modal' data-backdrop='static' modaltitle='评分' data-target='#addModal'>评分</button>";
-				}else{
-					return "<button nid='$oid' otype='1' class='btn btn-success pingfen' data-toggle='modal' data-backdrop='static' modaltitle='评分' data-target='#addModal'>评分</button>";
-				}
-				break;
-			default :
-				return "";
-				break;
+	switch ((int)$v['Status']) {
+	case 10 :
+		if ($v['BuyerId'] == cookie('_uid')) {
+			return "<button class='btn btn-warning btn-small' disabled='true'>未发货</button>";
+		}else{
+			return "<button nid='".$oid."' otype='1' class='btn btn-success sendgoods' data-loading-text='提交中...' autocomplete='off'>发货</button>";
 		}
-	}
+		break;
+	case 21 :
+		if ($v['BuyerId'] == cookie('_uid')) {
+			return "<button nid='".$oid."' otype='2' class='btn btn-success sendgoods' data-loading-text='提交中...' autocomplete='off'>收货</button>";
+		}else{
+			return "<button class='btn btn-warning btn-small' disabled='true'>已发货</button>";
+		}
+		break;
+	case 22 :
+		if ($v['BuyerId'] == cookie('_uid')) {
+		 	return "<button nid='".$oid."' otype='2' class='btn btn-success pingfen' data-toggle='modal' data-backdrop='static' modaltitle='评分' data-target='#addModal'>评分</button>";
+		}else{
+			return "<button nid='".$oid."' otype='1' class='btn btn-success pingfen' data-toggle='modal' data-backdrop='static' modaltitle='评分' data-target='#addModal'>评分</button>";
+		}
+		break;
+	default :
+		return "";
+		break;
+}
 }
 ?>

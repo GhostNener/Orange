@@ -11,9 +11,10 @@ class goods_orderModel extends Model {
 	 * @return array
 	 * @author LongG
 	 */
-	public function update( $orderId, $Type ){
+	public function update( $orderId, $Type=1 ){
+		$Type= (int)$Type;
 		switch ($Type){
-			case "1":
+			case 1:
 				$wherearr = array(
 						'Id' => $orderId,
 						'SellerId' => cookie('_uid'),
@@ -21,7 +22,7 @@ class goods_orderModel extends Model {
 				);
 				$where = array( 'Status' => 21 );
 				break;
-			case "2":
+			case 2:
 				$wherearr = array(
 						'Id' => $orderId,
 						'BuyerId' => cookie('_uid'),
@@ -46,59 +47,40 @@ class goods_orderModel extends Model {
 			);
 		};
 	}
-	
-	/**
-	 * 将交易双方都评价过的 变为结束交易
-	 * @author LongG
-	 */
-	public function isComplete(){
-		$cond['BuyerStar'] = array('NEQ','NULL');
-		$cond['SellerStar'] = array('NEQ','NULL');
-		$rst = $this -> where($cond) -> save(array('Status' => 25));
-	}
-	
+
 	/**
 	 * 评价 操作
 	 * @param $goodsId 账单Id,
-	 * @param $Type 类型
-	 * 		 1.卖家评价  2.买家评价
 	 * @param $Star star 数
 	 * @return array
 	 * @author LongG
 	 */
-	public function savestar( $orderId, $Type =1, $Star ){
-		switch ($Type){
-			case "1":
-				$wherearr = array(
-						'Id' => $orderId,
-						'SellerId' => cookie('_uid'),
-						'Status' => 22
-				);
-				$where = array( 'BuyerStar' => $Star );
-				break;
-			case "2":
-				$wherearr = array(
-						'Id' => $orderId,
-						'BuyerId' => cookie('_uid'),
-						'Status' => 22
-				);
-				$where = array( 'SellerStar' => $Star );
-				break;
-			default:
-				return "";
-				break;
-		}
-		$rst = $this->where( $wherearr )->save( $where );
-		if (!$rst) {
+	public function savestar( $oid, $Star ){
+		$msg = $this->where( array( 'Id' =>$oid ) )-> find();
+		$uid = cookie('_uid');
+		if (!$msg ) {
 			return array (
 					'status' => 0,
 					'msg' => "评价失败" 
+			);
+		}
+		if ($msg['BuyerId']==$uid) {
+			$wherearr = array( 'SellerStar' => $Star, 'IsBuyEvaluate' => 1 );
+		} else {
+			$wherearr = array( 'BuyerStar' => $Star, 'IsSellEvaluate' => 1 );
+		}
+		$rst = $this->where( array( 'Id' => $oid ) )->data( $wherearr ) -> save();
+		if (!$rst) {
+			return array (
+					'status' => 0,
+					'msg' => "评价失败2" 
 			);
 		} else {
 			return array (
 					'status' => 1,
 					'msg' => "评价成功" 
 			);
-		};
+		}
+		
 	}
 }

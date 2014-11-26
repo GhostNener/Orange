@@ -2,10 +2,10 @@
 return array (
 		// '配置项'=>'配置值'
 		'DB_TYPE' => 'mysql',
-		'DB_HOST' => '10.200.10.90',
-		'DB_NAME' => 'juzidb',
-		'DB_USER' => 'rootZ',
-		'DB_PWD' => '8520', 
+		'DB_HOST' => 'localhost',
+		'DB_NAME' => 'juzi',
+		'DB_USER' => 'Admin',
+		'DB_PWD' => '123456', 
 		/* 模块相关配置 */
 		'DEFAULT_MODULE' => 'Home',
 		'MODULE_DENY_LIST' => array (

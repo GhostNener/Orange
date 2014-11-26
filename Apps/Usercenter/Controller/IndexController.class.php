@@ -130,7 +130,6 @@ class IndexController extends LoginController {
 	 * @author LongG
 	 */
 	public function sellorder() {
-		/* 出售的订单 */
 		$limit = 5;
 		$p=1;
 		$model = new view_goods_order_listModel ();
@@ -140,7 +139,7 @@ class IndexController extends LoginController {
 		if (! $arr) {
 			$this->error ( '没有出售记录' );
 		} else {
-			$this->success( json_encode( array('list' => $arr['list'], 'pageorder' => $arr['page'], 'number'=>$number,'uid'=>cookie('_uid')) ));
+			$this->success( json_encode( array('list' => $arr['list'], 'pagesell' => $arr['page'], 'uid'=>cookie('_uid') )));
 		}
 	}
 	
@@ -177,8 +176,8 @@ class IndexController extends LoginController {
 		$limit = 5;
 		$model = new goods_orderModel();
 		$set = $model -> update(I ('OId'), I('OType'));
-		if (!$set) {
-			$this->error ( "修改失败" );
+		if ($set['status'] == 0) {
+			$this->error ( $set['msg'] );
 		} else {
 			/* ajax局部刷新 返回更新后的订单   page ，list ，number   */
 			$m = new view_goods_order_listModel();
@@ -190,7 +189,7 @@ class IndexController extends LoginController {
 	}
 	
 	/**
-	 * 修改评价
+	 * 评价
 	 *
 	 * @author LongG
 	 */
@@ -209,20 +208,19 @@ class IndexController extends LoginController {
 		$dal->startTrans ();
 		/* 添加订单表的评价 */
 		$model = new goods_orderModel();
-		$rst = $model -> savestar( I( 'oid' ), I( 'otype' ), I ( 'count' ));
-		$cc = $model -> isComplete();
+		$rst = $model -> savestar( I( 'oid' ), I ( 'count' ));
 		
 		/* 用户总信誉修改 */
 		$user = new userModel();
 		$c = $user -> updatecredit(cookie('_uid'), I ( 'count' ));
-		if (! $rst || ! $c) {
+		if (! $rst['status'] || ! $c['status']) {
 			// 失败 回滚
 			$dal->rollback ();
 			$this->error ( '评价失败' );
 		} else {
 			// 操作成功 提交事务
 			$dal->commit ();
-			$this->success ( '评价成功' );
+			$this->success ( '修改正确' );
 		}
 	}
 	
