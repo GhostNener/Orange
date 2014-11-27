@@ -130,8 +130,11 @@ class IndexController extends LoginController {
 	 * @author LongG
 	 */
 	public function sellorder() {
-		$limit = 5;
-		$p=1;
+		if (! IS_POST || ! I ( 'p' )) {
+			$p = 1;
+		}
+		$p = I('p');
+		$limit = 3;
 		$model = new view_goods_order_listModel ();
 		$number = $model -> getsellorder( 2 );
 		$p = $number>$limit*((int)$p-1)?$p:$p-1;
@@ -139,7 +142,7 @@ class IndexController extends LoginController {
 		if (! $arr) {
 			$this->error ( '没有出售记录' );
 		} else {
-			$this->success( json_encode( array('list' => $arr['list'], 'pagesell' => $arr['page'], 'uid'=>cookie('_uid') )));
+			$this->success( json_encode( array('list' => $arr['list'], 'page' => $arr['page'], 'uid'=>cookie('_uid') )));
 		}
 	}
 	
@@ -159,11 +162,11 @@ class IndexController extends LoginController {
 		$number = $m -> getorder( 2 );
 		$p = $number>$limit*((int)$p-1)?$p:$p-1;
 		$arr = $number>0?$m -> getorder(1, $limit, '/u/order', false, array('p'=>$p)):0;
-		$this->success( json_encode( array('list' => $arr['list'], 'pageorder' => $arr['page'], 'number'=>$number,'uid'=>cookie('_uid')) ));
+		$this->success( json_encode( array('list' => $arr['list'], 'page' => $arr['page'], 'number'=>$number,'uid'=>cookie('_uid')) ));
 	}
 
 	/**
-	 * 修改订单状态
+	 * 发货 收货
 	 *
 	 * @author LongG
 	 */
@@ -184,10 +187,38 @@ class IndexController extends LoginController {
 			$number = $m -> getorder( 2 );
 			$p = $number>$limit*((int)$p-1)?$p:$p-1;
 			$arr = $number>0?$m -> getorder(1, $limit, '/u/order', false, array('p'=>$p)):0;
-			$this->success( json_encode( array('list' => $arr['list'], 'pageorder' => $arr['page'], 'number'=>$number,'uid'=>cookie('_uid')) ));
+			$this->success( json_encode( array('list' => $arr['list'], 'page' => $arr['page'], 'number'=>$number,'uid'=>cookie('_uid')) ));
 		}
 	}
 	
+	/**
+	 * 取消交易
+	 *
+	 * @author LongG
+	 */
+	public function cancelorder(){
+		if (!IS_POST || !I('OId')) {
+			$this -> error('页面不存在');
+			die();
+		}
+		$p = I('p');
+		$limit = 5;
+		$model = new goods_orderModel();
+		$rst = $model -> cancelorder(I('OId'));
+		if ($rst['status'] == 0) {
+			$this->error ( $rst['msg'] );
+		} else {
+			/* ajax局部刷新 返回更新后的订单   page ，list ，number   */
+			$m = new view_goods_order_listModel();
+			$number = $m -> getorder( 2 );
+			$p = $number>$limit*((int)$p-1)?$p:$p-1;
+			$arr = $number>0?$m -> getorder(1, $limit, '/u/order', false, array('p'=>$p)):0;
+			$this->success( json_encode( array('list' => $arr['list'], 'page' => $arr['page'], 'number'=>$number,'uid'=>cookie('_uid')) ));
+		}
+
+	}
+
+
 	/**
 	 * 评价
 	 *
