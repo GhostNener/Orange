@@ -1079,7 +1079,7 @@ class userModel extends Model {
 			return $this->where ( $wa )->setInc ( 'EXP', ( int ) $type );
 		}
 		$n = 1;
-		switch ($type) {
+		switch ((int)$type) {
 			case 1 : // 留言收藏
 				$n = 1;
 				break;
@@ -1408,23 +1408,17 @@ class userModel extends Model {
 	/**
 	 * 用户信誉度的修改
 	 * 
-	 * @param $userid, $start 增加的信誉度       	
+	 * @param $userid, 
+	 * @param $start 信誉度 
+	 * @param $type 
+	 *   		1.增加  2.减少  	
 	 * @author LongG
 	 */
-	public function updatecredit($userid, $star) {
-		$rst = $this->where( array (
-				'Id' => $userid 
-		) )->setInc('Credit', $star); // 用户的总信誉度
-		if ($rst) {
-			return array (
-					'status' => 1,
-					'msg' => "评价成功" 
-			);
+	public function updatecredit($userid, $star = 0,$type = 1) {
+		if ((int)$type == 1) {
+			return $this -> where( array('Id' => $userid) )->setInc('Credit', $star); 
 		} else {
-			return array (
-					'status' => 0,
-					'msg' => "评价失败" 
-			);
+			return $this -> where( array('Id' => $userid) )->setDec('Credit', $star);
 		}
 	}
 	

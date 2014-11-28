@@ -1221,7 +1221,7 @@ function qiniuGetToken($action) {
  */
 function handleEXP($uid = null, $type = 1, $isInc = true, $isclockin = false) {
 	$m=new userModel();
-	return $m-> handleEXP($uid = null, $type = 1, $isInc = true, $isclockin = false);
+	return $m-> handleEXP($uid, $type, $isInc, $isclockin);
 }
 
 /**
@@ -1234,7 +1234,7 @@ function fuzhi($v){
 	switch ((int)$v['Status']) {
 	case 10 :
 		if ($v['BuyerId'] == cookie('_uid')) {
-			return "<button class='btn btn-warning btn-small' disabled='true'>未发货</button>";
+			return "<button class='btn btn-warning ' disabled='true'>未发货</button>&nbsp;<button class='btn btn-danger btncancel' nid='".$oid."' >取消购买</button>";
 		}else{
 			return "<button nid='".$oid."' otype='1' class='btn btn-success sendgoods' data-loading-text='提交中...' autocomplete='off'>发货</button>";
 		}
@@ -1243,7 +1243,7 @@ function fuzhi($v){
 		if ($v['BuyerId'] == cookie('_uid')) {
 			return "<button nid='".$oid."' otype='2' class='btn btn-success sendgoods' data-loading-text='提交中...' autocomplete='off'>收货</button>";
 		}else{
-			return "<button class='btn btn-warning btn-small' disabled='true'>已发货</button>";
+			return "<button class='btn btn-warning ' disabled='true'>已发货</button>";
 		}
 		break;
 	case 22 :

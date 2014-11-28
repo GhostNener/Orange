@@ -5,8 +5,10 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 	<meta name="description" content="贵州财经大学-电子商务-校园二手交易-闲置物品市场-跳蚤市场-以物换物-服务平台-c2c">
-	<meta name="baidu-site-verification" content="97fKS05406" >
+	<meta name="keywords" content="贵州财经大学,电子商务,校园二手交易,闲置物品市场,跳蚤市场,以物换物,服务平台,大橘子,二手交易,大桔子,bigoranger">
+	<meta name="copyright" content="贵阳指尖科技">
 	<meta name="author" content="橘子团队">
+	<meta name="baidu-site-verification" content="97fKS05406" >
 	<title>大橘子-贵财最大的二手交易平台</title>
 	<!-- Bootstrap Core CSS -->
 	<!-- <link href="__PUBLIC__/css/bootstrap.min.css" rel="stylesheet">
@@ -58,13 +60,13 @@
 				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 					<ul class="nav navbar-nav">
 						<li>
-							<a href="{:U('/')}">首页</a>
+							<a href="{:U('/',null,true,true)}">首页</a>
 						</li>
 						<li>
-							<a href="{:U('/find')}">发现</a>
+							<a href="{:U('/find',null,true,true)}">发现</a>
 						</li>
 						<li>
-							<a href="{:U('/gift')}">
+							<a href="{:U('/gift',null,true,true)}">
 								礼品
 								<span class="navbar-new"></span>
 							</a>
@@ -86,10 +88,10 @@
 					<if condition="$usermodel eq null">
 						<ul class="nav navbar-nav navbar-right">
 							<li>
-								<a href="{:U('/u/login')}" >登录</a>
+								<a href="{:U('/u/login',null,true,true)}" >登录</a>
 							</li>
 							<li>
-								<a href="{:U('/u/regist')}">注册</a>
+								<a href="{:U('/u/regist',null,true,true)}">注册</a>
 							</li>
 						</ul>
 						<else/>
@@ -109,7 +111,7 @@
 								</a>
 								<ul class="dropdown-menu">
 									<li>
-										<a navmsg href="{:U('/u/msg')}">
+										<a navmsg href="{:U('/u/msg',null,true,true)}">
 											<if condition="$urnotice gt 0">
 												<span class="badge pull-right">{$urnotice }</span>
 											</if>
@@ -117,17 +119,17 @@
 										</a>
 									</li>
 									<li>
-										<a href="{:U('/u')}">个人中心</a>
+										<a href="{:U('/u',null,true,true)}">个人中心</a>
 									</li>
 									<li>
-										<a href="{:U('/u/like')}">心愿单</a>
+										<a href="{:U('/u/like',null,true,true)}">心愿单</a>
 									</li>
 									<li>
-										<a href="{:U('/u/pay')}">充值</a>
+										<a href="{:U('/u/pay',null,true,true)}">充值</a>
 									</li>
 									<li class="divider"></li>
 									<li>
-										<a href="{:U('/u/logout')}">退出用户</a>
+										<a href="{:U('/u/logout',null,true,true)}">退出用户</a>
 									</li>
 								</ul>
 							</li>

@@ -4,7 +4,7 @@
 <div id="main" class="container">
 	<!-- 发布按钮 -->
 	<div class="navbar-fixed-bottom fixed-expand">
-		<button id="creategoods" url="{:U('/add')}" type="button" class="btn btn-orange btnpublish" data-toggle="tooltip" data-placement="top" title="发布商品">
+		<button id="creategoods" url="{:U('/add',null,true,true)}" type="button" class="btn btn-orange btnpublish" data-toggle="tooltip" data-placement="top" title="发布商品">
 			<span class="glyphicon glyphicon-plus"></span>
 		</button>
 	</div>
@@ -16,12 +16,12 @@
 			<div class="panel panel-default">
 				<div class="panel-body">
 					<if condition="$usermodel eq null">
-						<a href="{:U('/u/login')}" class="btn btn-orange btn-lg btn-block hightlight">打卡签到</a>
+						<a href="{:U('/u/login',null,true,true)}" class="btn btn-orange btn-lg btn-block hightlight">打卡签到</a>
 						<else/>
 						<if condition="$isclockin eq 1">
 							<button  class="btn btn-orange btn-lg btn-block hightlight disabled">已连续打卡 {:getclockincount(null)} 天</button>
 							<else/>
-							<form id="clockinform" action="{:U('Home/Index/clockin')}" method="post" onsubmit="return ajaxclockin()">
+							<form id="clockinform" action="{:U('Home/Index/clockin',null,true,true)}" method="post" onsubmit="return ajaxclockin()">
 								<button id="clockinbtn"  type="submit" class="btn btn-orange btn-lg btn-block hightlight" data-loading-text="签到中..." autocomplete="off">打卡签到</button>
 							</form>
 						</if>
@@ -32,7 +32,7 @@
 						<hr>
 						<ul class="list-group">
 							<foreach name="clist" item="v">
-								<a href="{:U('/c/'.$v['Id'])}" class="list-group-item">
+								<a href="{:U('/c/'.$v['Id'],null,true,true)}" class="list-group-item">
 									<span class="badge">{$v['Hot']}</span>
 									{$v['Title']}
 								</a>
@@ -47,7 +47,7 @@
 							<hr>
 							<div class="media">
 								<if condition="($v[Href] eq null) or ($v[Href] eq '')">
-									<a class="pull-left" href="{:U('/f/'.$v['Id'])}" target="_blank">
+									<a class="pull-left" href="{:U('/f/'.$v['Id'],null,true,true)}" target="_blank">
 										<else/>
 										<a class="pull-left" href="{$v[Href]}" target="_blank"></if>
 
@@ -56,7 +56,7 @@
 										<h5 class="media-heading">{$v['Title']}</h5>
 										<p>{$v['Presentation']}</p>
 										<if condition="($v[Href] eq null) or ($v[Href] eq '')">
-											<a class="btn btn-success" href="{:U('/f/'.$v['Id'])}" target="_blank">参与活动</a>
+											<a class="btn btn-success" href="{:U('/f/'.$v['Id'],null,true,true)}" target="_blank">参与活动</a>
 											<else/>
 											<a class="btn btn-success" href="{$v[Href]}" target="_blank">参与活动</a>
 										</if>
@@ -86,7 +86,7 @@
 										<div class="tabuser hidden-xs">
 											<dl class="dl-horizontal">
 												<dt>
-													<a href="{:U('/user/'.$v['Nick'],null,null)}" target="_blank">
+													<a href="{:U('/user/'.$v['Nick'],null,null,true)}" target="_blank">
 														<img src="{:getFileUrl($v['URL'],'40x40')}" alt="{$v[Nick]}" class="img-circle">
 														<span>{$v[Nick]}</span>
 													</a>
@@ -102,7 +102,7 @@
 										</div>
 
 										<div class="tabuser visible-xs">
-											<a href="{:U('/user/'.$v['Nick'],null,null)}" target="_blank">
+											<a href="{:U('/user/'.$v['Nick'],null,null,true)}" target="_blank">
 												<img src="{:getFileUrl($v['URL'],'40x40')}" alt="{$v[Nick]}" class="img-circle">
 												<span>{$v[Nick]}</span>
 											</a>
@@ -123,7 +123,7 @@
 										<div class="tabuser  hidden-xs">
 											<dl class="dl-horizontal">
 												<dt>
-													<a href="{:U('/user/'.$v['Nick'],null,null)}" target="_blank">
+													<a href="{:U('/user/'.$v['Nick'],null,null,true)}" target="_blank">
 														<img src="{:getFileUrl($v['URL'],'40x40')}" alt="头像" class="img-circle">
 														<span>{$v[Nick]}</span>
 													</a>
@@ -135,7 +135,7 @@
 										</div>
 
 										<div class="tabuser visible-xs">
-											<a href="{:U('/user/'.$v['Nick'],null,null)}" target="_blank">
+											<a href="{:U('/user/'.$v['Nick'],null,null,true)}" target="_blank">
 												<img src="{:getFileUrl($v['URL'],'40x40')}" alt="{$v[Nick]}" class="img-circle">
 												<span>{$v[Nick]}</span>
 											</a>

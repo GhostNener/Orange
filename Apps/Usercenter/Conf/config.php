@@ -24,9 +24,9 @@ return array (
 		'ALIPAY' => array (
 				'SUBMIT' => array (
 						// 加密key，开通支付宝账户后给予
-						'key' => '942kr5aoh515g1vje1raj1s4wzv369n1',
+						'key' => 'kbutlg03l4u2anhkgk5frao0jjlyxr7h',
 						// 合作者ID，支付宝有该配置，开通易宝账户后给予
-						'partner' => '2088702698188573',
+						'partner' => '2088712129704087',
 						'sign_type' => strtoupper ( 'MD5' ),
 						'input_charset' => strtolower ( 'utf-8' ),
 						'transport' => 'http',
@@ -34,11 +34,11 @@ return array (
 				),
 				'PARAM' => array (
 						"service" => "trade_create_by_buyer",
-						"partner" => '2088702698188573',
+						"partner" => '2088712129704087',
 						"payment_type" => '1',
 						"notify_url" => 'http://bigoranger.com/u/Public/handlealipay', // 回调地址
 						"return_url" => 'http://bigoranger.com/u/Pay/handlealipay', // 跳转地址
-						"seller_email" => '15519541782', // 收款人
+						"seller_email" => 'leecinwell@qq.com', // 收款人
 						"out_trade_no" => '', // 订单号
 						"subject" => '大橘子', // 单位名称
 						"price" => 0, // 付款金额
