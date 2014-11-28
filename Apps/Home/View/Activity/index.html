@@ -4,7 +4,7 @@
 
 		<volist name="list" id="v" empty="$empty">
 			<if condition="($v[Href] eq null) or ($v[Href] eq '')">
-				<a class="col-md-12 thumbnail" href="{:U('/f/'.$v[Id])}">
+				<a class="col-md-12 thumbnail" href="{:U('/f/'.$v[Id],null,true,true)}">
 					<img src="{:getFileUrl($v[ImgURL]),'800x300'}" alt="{$v[Title]}"></a>
 				<else/>
 				<a class="col-md-12 thumbnail" href="{$v[Href]}">

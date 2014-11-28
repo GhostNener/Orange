@@ -13,7 +13,7 @@
 						</div>
 						<div class="ratings">
 							<if condition="$usermodel eq null">
-								<a class="btn btn-success " href="{:U('/u/login')}">兑换</a>
+								<a class="btn btn-success " href="{:U('/u/login',null,true,true)}">兑换</a>
 								<else/>
 								<button class="btn btn-success ajaxpost" data-toggle="modal" data-amount='{$v[Amount]}' data-price='{$v[Price]}' data-giftid='{$v[Id]}'>兑换</button>
 							</if>

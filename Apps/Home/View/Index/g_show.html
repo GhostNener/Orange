@@ -29,7 +29,7 @@
 						</div>
 						<hr/>	
 						<if condition="(($usermodel eq null) or ($usermodel['Id'] eq  null))">
-							<a href="{:U('/u/login')}" class="btn btn-danger">
+							<a href="{:U('/u/login',null,true,true)}" class="btn btn-danger">
 								<span class="glyphicon glyphicon-heart"></span>
 								&nbsp心愿单
 							</a>
@@ -40,7 +40,7 @@
 							</button>
 						</if>
 						<if condition="(($usermodel eq null) or ($usermodel['Id'] eq  null))">
-							<a href="{:U('/u/login')}"  class="btn btn-primary " >
+							<a href="{:U('/u/login',null,true,true)}"  class="btn btn-primary " >
 								<span class="glyphicon glyphicon-comment"></span>
 								&nbsp留言
 							</a>
@@ -109,7 +109,7 @@
 						<div class="row">
 							<div class="col-md-12">
 								<h4 class="pull-right message">{:date('Y-m-d H:i:s',$goods['CreateTime'])}</h4>
-									<a href="{:U('/user/'.$goods['Nick'],null,null)}">
+									<a href="{:U('/user/'.$goods['Nick'],null,null,true)}">
 									<img class="img-circle" src="{:getFileUrl($goods['avatarURL'],'40x40')}" alt="头像">	
 
 									<span>{$goods['Nick']}</span>
@@ -138,16 +138,16 @@
 											<div class="timeline-label">
 												<span class="pull-right time">{:date('Y-m-d H:i:s',$v['CreateTime'])}</span>
 												<h2>
-													<a href="{:U('/user/'.$v['Critics'])}">{$v['Critics']}</a>
+													<a href="{:U('/user/'.$v['Critics'],null,null,true)}">{$v['Critics']}</a>
 													<if condition="(($v['UserId'] eq $v['AssesseeId']) or ($v['AssesseeId'] eq null)) or ($v['AssesseeId'] eq 0)">
 														<else/>	
 														<span>回复</span>
-														<a href="{:U('/user/'.$v['Reply'])}">{$v['Reply']}</a>
+														<a href="{:U('/user/'.$v['Reply'],null,null,true)}">{$v['Reply']}</a>
 													</if>
 												</h2>
 												<p class="content">{$v['Content']}</p>
 												<if condition="(($usermodel eq null) or ($usermodel['Id'] eq  null))">
-													<a href="{:U('/u/login')}"  class="replay " >回复</a>
+													<a href="{:U('/u/login',null,true,true)}"  class="replay " >回复</a>
 													<else/>	
 													<a href="javascript:void(0)" uid="{$v['UserId']}" nick="{$v['Critics']}" class="replay" data-toggle="modal" data-target="#refModal" replyid="{$v['Id']}">回复</a>
 												</if>
@@ -209,7 +209,7 @@
 						</div>
 						<hr/>	
 						<if condition="(($usermodel eq null) or ($usermodel['Id'] eq  null))">
-							<a href="{:U('/u/login')}" class="btn btn-danger">
+							<a href="{:U('/u/login',null,true,true)}" class="btn btn-danger">
 								<span class="glyphicon glyphicon-heart"></span>
 								&nbsp心愿单
 							</a>
@@ -220,7 +220,7 @@
 							</button>
 						</if>
 						<if condition="(($usermodel eq null) or ($usermodel['Id'] eq  null))">
-							<a href="{:U('/u/login')}" class="btn btn-primary " >
+							<a href="{:U('/u/login',null,true,true)}" class="btn btn-primary " >
 								<span class="glyphicon glyphicon-comment"></span>
 								&nbsp留言
 							</a>
