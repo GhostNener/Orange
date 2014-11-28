@@ -114,13 +114,19 @@ class IndexController extends LoginController {
 	 * @author LongG
 	 */
 	public function buyorder() {
-		/* 购买的订单 */
+		if (! IS_POST || ! I ( 'p' )) {
+			$p = 1;
+		}
+		$p = I('p');
+		$limit = 3;
 		$model = new view_goods_order_listModel ();
-		$arr = $model->getbuyorder(1,5);
+		$number = $model -> getbuyorder(2);
+		$p = $number>$limit*((int)$p-1)?$p:$p-1;
+		$arr = $number>0?$model -> getbuyorder(1, $limit, '/u/order', false, array('p'=>$p)):0;
 		if (! $arr) {
 			$this->error ( '没有购买记录' );
 		} else {
-			$this->success ( json_encode ( $arr ) );
+			$this->success( json_encode( array('list' => $arr['list'], 'page' => $arr['page'], 'uid'=>cookie('_uid') )));
 		}
 	}
 
@@ -206,18 +212,16 @@ class IndexController extends LoginController {
 		$model = new goods_orderModel();
 		$rst = $model -> cancelorder(I('OId'));
 		if ($rst['status'] == 0) {
-			$this->error ( $rst['msg'] );
+			$this->error ( "取消失败" );
 		} else {
-			/* ajax局部刷新 返回更新后的订单   page ，list ，number   */
 			$m = new view_goods_order_listModel();
 			$number = $m -> getorder( 2 );
 			$p = $number>$limit*((int)$p-1)?$p:$p-1;
 			$arr = $number>0?$m -> getorder(1, $limit, '/u/order', false, array('p'=>$p)):0;
-			$this->success( json_encode( array('list' => $arr['list'], 'page' => $arr['page'], 'number'=>$number,'uid'=>cookie('_uid')) ));
+			$this->success( json_encode( array('list' => $arr['list'], 'page' => $arr['page'], 'uid'=>cookie('_uid')) ));
 		}
 
 	}
-
 
 	/**
 	 * 评价
@@ -243,15 +247,15 @@ class IndexController extends LoginController {
 		
 		/* 用户总信誉修改 */
 		$user = new userModel();
-		$c = $user -> updatecredit(cookie('_uid'), I ( 'count' ));
-		if (! $rst['status'] || ! $c['status']) {
+		$c = $user -> updatecredit(cookie('_uid'), I ( 'count' ),1);
+		if (! $rst['status'] || ! $c) {
 			// 失败 回滚
 			$dal->rollback ();
 			$this->error ( '评价失败' );
 		} else {
 			// 操作成功 提交事务
 			$dal->commit ();
-			$this->success ( '修改正确' );
+			$this->success ( 1);
 		}
 	}
 	

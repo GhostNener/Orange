@@ -312,12 +312,22 @@ class goodsModel extends Model {
 	 * 
 	 * @param $goodsId, $userid        	
 	 */
-	public function del($goodsId, $userid) {
+	public function del($goodsId, $userid,$type=1) {
+		switch ((int)$type) {
+			case 1 :
+				$st = 40;
+				break;
+			case 2 :
+				$st = 10;
+				break;
+			default :
+				return false;
+		}
 		$rst = $this->where ( array (
 				'UserId' => $userid,
 				'Id' => $goodsId 
 		) )->save ( array (
-				'Status' => 40 
+				'Status' => $st 
 		) );
 		if ($rst) {
 			return array (

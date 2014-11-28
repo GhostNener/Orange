@@ -61,11 +61,11 @@
 								<th>卖家</th>
 								<th width="80px">评分</th>
 							</thead>
-							<tbody class="addbuyorder" ty="2" addbuy>
+							<tbody class="addbuyorder" ty="2">
 							</tbody>
 						</table>
 					</div>
-					<div class="page" pagetype="addbuyorder" act="{:U('/u/Index/querybuy')}" >{$pagebuy}</div>
+					<div class="page" pagetype="addbuyorder" act="{:U('/u/Index/buyorder')}" >{$pagebuy}</div>
 				</div>
 				
 				<div role="tabpanel" class="tab-pane" id="tab3">
@@ -78,7 +78,7 @@
 								<th>买家</th>
 								<th width="80px">评分</th>
 							</thead>
-							<tbody class="addsellorder" ty="3" addsell>
+							<tbody class="addsellorder" ty="3">
 							</tbody>
 						</table>
 					</div>
@@ -155,11 +155,11 @@ function queryorder(_p, _url) {
                 if (!data) {
                     return;
                 }
-                var _tbody = $('.addorder');
+                var _tbody = $('tbody[class="addorder"]');
                 _tbody.html('');
                 var _uid = parseInt(data['uid']);
                 $(data['list']).each(function(i, v) {
-                    _tbody.append("<tr><td>" + OrderType(v['BuyerId'], v['SellerId'], _uid) + "</td><td>" + v['Title'] + "</td><td>" + v['Price'] + "</td><td>" + Gettradewaytxt(v['TradeWay']) + "</td><td>" + OrderContacts(v, _uid) + "</td><td>" + fuzhi(v, _uid) + "</td></tr>");
+                     appendhtml(_tbody, v, _uid);
                 });
                 $('div[pageorder="addorder"]').html(data['page']);
                 initPagination('div[pageorder="addorder"]');
@@ -332,7 +332,7 @@ $(function() {
                     _tbody.html('');
                     var _uid = parseInt(data['uid']);
                     $(data['list']).each(function(i, v) {
-                    	 _tbody.append("<tr><td>" + v['Title'] + "</td><td>" + v['Price'] + "</td><td>" + Gettradewaytxt(v['TradeWay']) + "</td><td><a>" + v['BuyNick'] + "</a></td><td class='text-orange'>" + Star(v['BuyerStar']) + "</td></tr>");
+                    	  appendhtml(_tbody, v, _uid);
                     });
                     $('div[pagetype="addsellorder"]').html(data['page']); 
                     initPagination('div[pagetype="addsellorder"]');
@@ -344,8 +344,7 @@ $(function() {
         return true;
     });
     /*购买界面*/
-    $('.buyorder').live('click',
-    function(e) {
+    $('.buyorder').live('click', function(e) {
         $.ajax({
             type: 'post',
             cache: false,
@@ -354,25 +353,23 @@ $(function() {
                 showerrormsg('网络错误', 100, 1000);
                 return false;               
             },
-            success:  
-            function(data) {
+            success: function(data) {
                 data = JSON.parse(data.info);
-                if (data.status == 1) {
-                    if (!data) {
-                        showerrormsg('还没购买商品呦！', 100, 1000);
-                        return;
-                    }
-                    $('.addbuyorder').html('');
-                    var _tbody = $('.addbuyorder');
-                    $(data['list']).each(function(i, v) {
-                        _tbody.append("<tr><td>" + v['Title'] + "</td><td>" + v['Price'] + "</td><td>" + Gettradewaytxt(v['TradeWay']) + "</td><td><a>" + v['SellNick'] + "</a></td><td class='text-orange'>" + Star(v['SellerStar']) + "</td></tr>");
-                    });
-                    $('div[pagetype="addbuyorder"]').html(data['page']);
-                    initPagination('div[pagetype="addbuyorder"]');
-                    removepagehref() ;
-                    return true;
-                }               
-            }
+                if (!data || !data['list']) {
+                    showerrormsg('还没购买商品呦！', 100, 1000);
+                    return;
+                }
+                var _tbody = $('tbody[class="addbuyorder"]');
+                _tbody.html('');
+                var _uid = parseInt(data['uid']);
+                $(data['list']).each(function(i, v) {
+                	appendhtml(_tbody, v, _uid);
+                });
+                $('div[pagetype="addbuyorder"]').html(data['page']);
+                initPagination('div[pagetype="addbuyorder"]');
+                removepagehref() ;
+                return true;
+            }, commpete: removeloading()
         })
         return true;
     })
@@ -400,8 +397,7 @@ $(function() {
                 showerrormsg('网络错误', 100, 1000);
                 return false;               
             },
-            success:  
-            function(data) {
+            success: function(data) {
                 if (data.status == 0) {
                     showerrormsg(data.info, 100, 1000);
                     return false;
@@ -410,12 +406,11 @@ $(function() {
                     if (!data) {
                         return;
                     }
-                    var uid = parseInt(data['uid']);
-                    $('.addorder').html('');
                     var _uid = parseInt(data['uid']);
-                    var _tbody = $('.addorder');
+                    var _tbody = $('tbody[class="addorder"]');
+                    _tbody.html('');
                     $(data['list']).each(function(i, v) {
-                        _tbody.append("<tr><td>" + OrderType(v['BuyerId'], v['SellerId'], uid) + "</td><td>" + v['Title'] + "</td><td>" + v['Price'] + "</td><td>" + Gettradewaytxt(v['TradeWay']) + "</td><td>" + OrderContacts(v, _uid) + "</td><td>" + fuzhi(v, uid) + "</td></tr>");
+                         appendhtml(_tbody, v, _uid);
                     });
                     $('div[pageorder="addorder"]').html(data['page']);
                     initPagination('div[pageorder="addorder"]');
@@ -423,9 +418,9 @@ $(function() {
                     return false;
                 }                
             }
-        })
+        });
         return false;
-    })
+    });
     /* 点击评价后将 订单Id 传个弹出的界面 */
     $('.pingfen').live('click',function(e) {
         resetform();
@@ -460,26 +455,26 @@ $(function() {
                     showerrormsg(data.info, 100, 1000);
                     return false;
                 } else {
-                    data = JSON.parse(data.info);
+                	data = JSON.parse(data.info);
                     if (!data) {
                         return;
                     }
-                    var uid = parseInt(data['uid']);
-                    $('.addorder').html('');
+                    showsuccessmsg('取消成功',100,1000);
+                    var _tbody = $('tbody[class="addorder"]');
+                    _tbody.html('');
                     var _uid = parseInt(data['uid']);
-                    var _tbody = $('.addorder');
                     $(data['list']).each(function(i, v) {
-                        _tbody.append("<tr><td>" + OrderType(v['BuyerId'], v['SellerId'], uid) + "</td><td>" + v['Title'] + "</td><td>" + v['Price'] + "</td><td>" + Gettradewaytxt(v['TradeWay']) + "</td><td>" + OrderContacts(v, _uid) + "</td><td>" + fuzhi(v, uid) + "</td></tr>");
+                         appendhtml(_tbody, v, _uid);
                     });
                     $('div[pageorder="addorder"]').html(data['page']);
                     initPagination('div[pageorder="addorder"]');
                     removepagehref() ;
                     return false;
                 }                
-            }
+             }
         })
         return false;
-    })
+    });
      /*翻页*/
     $('.pagination').find('a').live('click',function(e) {
         var _pp=$(this).parent('li').parent('ul').parent('div');
@@ -526,14 +521,12 @@ $(function() {
                     $(data['list']).each(function(i, v) {
                         appendhtml(_tbody, v, _uid);
                     });
-                    //$('div[pageorder]').html('');
                     _pagep.html(data['page']);
                     initPagination('div[pagetype="'+_pp+'"]');
                     removepagehref();
                     return false;
                 }
-            },
-            commpete: removeloading()
+            }, commpete: removeloading()
         })
     })
 });

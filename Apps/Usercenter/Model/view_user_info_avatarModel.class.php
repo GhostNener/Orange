@@ -28,6 +28,7 @@ class view_user_info_avatarModel extends Model {
 		) )->find ();
 		$credit = $model ['Credit'] / ($model ['TradeCount'] * 5) * 100;
 		$credit = $credit > 0 ? $credit : 100;
+		$credit=(int)$model['Credit']<0?($credit+$model['Credit']):$credit;
 		$m=new userModel();
 		$rank=$m->getranking($model['Id']);
 		$model['Ranking']=$rank;

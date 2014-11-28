@@ -50,6 +50,7 @@ class view_goods_order_listModel extends Model{
 	 *        
 	 */
 	public function getbuyorder($type = 1, $limit = 6, $baseurl=ACTION_NAME, $defaultpar = true, $param=null) {
+		$type = (int)$type;
 		$wherearr = array (
 				'BuyerId' => cookie('_uid'),
 				'Status' => 22

@@ -1,5 +1,7 @@
 <?php
 namespace Usercenter\Model;
+use Home\Model\goodsModel;
+
 use Think\Model;
 use Usercenter\Model\userModel;
 class goods_orderModel extends Model {
@@ -123,26 +125,31 @@ class goods_orderModel extends Model {
 		$m = M();
 		$m->startTrans();
 		$model = new userModel();
-		/* 线上交易 还回买家E-money */
-		if ($msg['TradeWay'] == 1) {
-			$saveMoney = $model->where(array('Id'=>$msg['BuyerId']))->setInc('E-Money',$msg['Price']);
+		/* 线上交易 还买家E-money */
+		if ((int)$msg['TradeWay'] == 1) {
+			$saveMoney = $model->where( array('Id'=>$msg['BuyerId']) )->setInc('E-Money',$msg['Price']);
 		}else{
-			$savestar = true;
+			$saveMoney = 1;
 		}
-		/* 减少信誉度 */
+		/* 减少信誉度 1点*/
 		$credit = $model -> updatecredit($uid, 1, 2);
+		/* 删除该账单 */
 		$rst = $this -> where( array( 'Id' => $oid ) ) -> delete();
-		if ($savestar && $credit && $rst) {
+		/* 将商品 状态还原为在售 */
+		$goods = new goodsModel();
+		$g = $goods->del($msg['GoodsId'], $msg['SellerId'],2);
+		
+		if ($saveMoney && $credit && $rst && $g['status']) {
 			$m -> commit();
 			return array (
 					'status' => 1,
-					'msg' => "操作成功" 
+					'msg' => $g['status'] 
 			);
 		}else{
 			$m -> rollback();
 			return array (
 					'status' => 0,
-					'msg' => "操作失败" 
+					'msg' => "操作失败"
 			);
 		}
 	}
