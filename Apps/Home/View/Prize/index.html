@@ -1,0 +1,239 @@
+<include file="./Tpl/Public/header.html"/>
+<div id="main" class="full-container">
+	<div class="activity-lottery-winning">
+		<div class="main">
+			<div id="outercont">
+				<div id="outer-cont">
+					<div id="outer" style="-webkit-transform: rotate(330deg);">
+						<img src="__PUBLIC__/Img/activity-lottery-1.png" width="310px"></div>
+				</div>
+				<div id="inner-cont">
+					<div id="inner">
+						<img src="__PUBLIC__/Img/activity-lottery-2.png"></div>
+				</div>
+			</div>
+			<div class="content" >
+				<div class="boxcontent boxyellow">
+					<div class="box">
+						<div class="title-green">
+							<span>奖项设置：</span>
+						</div>
+						<div class="Detail">
+							<p>一等奖：网时奖励200小时 。奖品数量：3</p>
+							<p>二等奖：网时奖励100小时 。奖品数量：5</p>
+							<p>三等奖：广播台免费点首歌 。奖品数量：10</p>
+						</div>
+					</div>
+				</div>
+				<div class="boxcontent boxyellow">
+					<div class="box">
+						<div class="title-green">活动说明：</div>
+						<div class="Detail">
+							<p>本次活动每人可以转 3 次</p>
+							<p>我们的中奖率高达33.3%！！</p>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="prizeModal" tabindex="-1" role="dialog" aria-labelledby="prizeModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+					<span class="sr-only">Close</span>
+				</button>
+				<h1 class="modal-title hightlight" id="prizeModalLabel">恭喜你中奖了</h1>
+
+			</div>
+			<div class="modal-body">
+				<h4>
+					你中了：
+					<span class="red" id="prizetype"></span>
+				</h4>
+			</div>
+
+			<div class="modal-footer">
+				<button type="button" class="btn btn-success" data-dismiss="modal">确认</button>
+			</div>
+		</div>
+	</div>
+</div>
+<include file="./Tpl/Public/footer.html"/>
+
+<block name="css">
+	<link href="__PUBLIC__/css/activity-style.css" rel="stylesheet"></block>
+<block name="js">
+	<script type="text/javascript">
+/*var loadingObj = new loading(document.getElementById('loading'),{radius:20,circleLineWidth:8});   
+    loadingObj.show();  */ 
+</script>
+
+	<script type="text/javascript">
+$(function() {
+    window.requestAnimFrame = (function() {
+        return window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame ||
+        function(callback) {
+            window.setTimeout(callback, 1000 / 60)
+        }
+    })();
+    var totalDeg = 360 * 3 + 0;
+    var steps = [];
+    var lostDeg = [36, 66, 96, 156, 186, 216, 276, 306, 336];
+    var prizeDeg = [6, 126, 246];
+    var prize, sncode;
+    var count = 0;
+    var now = 0;
+    var a = 0.01;
+    var outter, inner, timer, running = false;
+    function countSteps() {
+        var t = Math.sqrt(2 * totalDeg / a);
+        var v = a * t;
+        for (var i = 0; i < t; i++) {
+            steps.push((2 * v * i - a * i * i) / 2)
+        }
+        steps.push(totalDeg)
+    }
+    function step() {
+        outter.style.webkitTransform = 'rotate(' + steps[now++] + 'deg)';
+        outter.style.MozTransform = 'rotate(' + steps[now++] + 'deg)';
+        if (now < steps.length) {
+            requestAnimFrame(step)
+        } else {
+            running = false;
+            setTimeout(function() {
+                if (prize != null) {
+                    $("#sncode").text(sncode);
+                    var type = "";
+                    if (prize == 1) {
+                        type = "一等奖"
+                    } else if (prize == 2) {
+                        type = "二等奖"
+                    } else if (prize == 3) {
+                        type = "三等奖"
+                    }
+                    $("#prizetype").text(type);
+                    $("#prizeModal").modal('show');
+                   // $("#outercont").slideUp(500)
+                } else {
+                    alert("谢谢您的参与，下次再接再厉")
+                }
+            },
+            200)
+        }
+    }
+    function start(deg) {
+        deg = deg || lostDeg[parseInt(lostDeg.length * Math.random())];
+        running = true;
+        clearInterval(timer);
+        totalDeg = 360 * 5 + deg;
+        steps = [];
+        now = 0;
+        countSteps();
+        requestAnimFrame(step)
+    }
+    window.start = start;
+    outter = document.getElementById('outer');
+    inner = document.getElementById('inner');
+    i = 10;
+    $("#inner").click(function() {
+        if (running) return;
+        if (count >= 3) {
+            alert("您已经抽了 3 次奖。");
+            return
+        }
+        if (prize != null) {
+            alert("亲，你不能再参加本次活动了喔！下次再来吧~");
+            return
+        }
+        $.ajax({
+            url: "index.php",
+            dataType: "json",
+            data: {
+                token: "o7MB9ji5fQRsE0ZoVAMU7SlnRyMI",
+                ac: "activityuser",
+                tid: "5",
+                t: Math.random()
+            },
+            beforeSend: function() {
+                running = true;
+                timer = setInterval(function() {
+                    i += 5;
+                    outter.style.webkitTransform = 'rotate(' + i + 'deg)';
+                    outter.style.MozTransform = 'rotate(' + i + 'deg)'
+                },
+                1)
+            },
+            success: function(data) {
+                if (data.error == "invalid") {
+                    alert("您已经抽了 3 次奖。");
+                    count = 3;
+                    clearInterval(timer);
+                    return
+                }
+                if (data.error == "getsn") {
+                    alert('本次活动你已经中过奖，本次只显示你上次抽奖结果!兑奖SN码为:' + data.sn);
+                    count = 3;
+                    clearInterval(timer);
+                    prize = 1;
+                    sncode = data.sn;
+                    start(prizeDeg[data.prizetype - 1]);
+                    return
+                }
+                if (data.success) {
+                    prize = null;
+                    sncode = data.sn;
+                    start(prizeDeg[data.prizetype - 1])
+                } else {
+                    prize = null;
+                    start()
+                }
+                running = false;
+                count++
+            },
+            error: function() {
+                prize = null;
+                start();
+                running = false;
+                count++
+            },
+            timeout: 4000
+        })
+    })
+});
+$("#save-btn").bind("click",
+function() {
+    var btn = $(this);
+    var tel = $("#tel").val();
+    if (tel == '') {
+        alert("请输入手机号码");
+        return
+    }
+    var regu = /^[1][0-9]{10}$/;
+    var re = new RegExp(regu);
+    if (!re.test(tel)) {
+        alert("请输入正确手机号码");
+        return
+    }
+    var submitData = {
+        tid: 5,
+        code: $("#sncode").text(),
+        tel: tel,
+        action: "setTel"
+    };
+    $.post('index.php?ac=activityuser', submitData,
+    function(data) {
+        if (data.success == true) {
+            alert("提交成功，谢谢您的参与");
+            return
+        } else {}
+    },
+    "json")
+});
+</script>
+</block>
