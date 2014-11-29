@@ -3,14 +3,14 @@ body, div, dl, dt, dd, ul, ol, li, pre, code, form, fieldset, legend, input, tex
 	padding: 0;color: #444444;
 	font: 14px/1.5 Microsoft YaHei, Helvitica, Verdana, Arial, san-serif;
 }
-.activity-lottery-winning{ background: url(http://www.wxapi.cn/index/images/activity/activity-lottery-bg2.jpg) #2a8a00;margin-top: 40px;padding-bottom: 20px;}
-.activity-lottery-end{ background: url(http://www.wxapi.cn/index/images/activity/activity-lottery-bg2.jpg) #2a8a00;}
+.activity-lottery-winning{ background: url(http://bigoranger.com/Public/Img/activity-lottery-bg2.jpg) #2a8a00;margin-top: 40px;padding-bottom: 20px;}
+.activity-lottery-end{ background: url(http://bigoranger.com/Public/Img/activity-lottery-bg2.jpg) #2a8a00;}
 .activity-coupon-winning{ background-color:#8d0001;}
 .activity-coupon-end{ background-color:#8d0001;}
-.activity-scratch-card-winning{background: url(http://www.wxapi.cn/index/images/activity/activity-scratch-card-bg.jpg) #944f20;}
-.activity-scratch-card-end{background: url(http://www.wxapi.cn/index/images/activity/activity-scratch-card-bg.jpg) #944f20;}
+.activity-scratch-card-winning{background: url(http://bigoranger.com/Public/Img/activity-scratch-card-bg.jpg) #944f20;}
+.activity-scratch-card-end{background: url(http://bigoranger.com/Public/Img/activity-scratch-card-bg.jpg) #944f20;}
 .activity-lottery-winning .main{
-	background: url(http://www.wxapi.cn/index/images/activity/activity-lottery-bg.png) no-repeat top center;
+	background: url(http://bigoranger.com/Public/Img/activity-lottery-bg.png) no-repeat top center;
 }
 
 #outer-cont {
@@ -109,7 +109,7 @@ body, div, dl, dt, dd, ul, ol, li, pre, code, form, fieldset, legend, input, tex
 }
 .box .title-red {
 	padding: 0 5px 0px 10px;
-	background:url(http://www.wxapi.cn/index/images/activity/title-bg-red.png) no-repeat 0 0;
+	background:url(http://bigoranger.com/Public/Img/title-bg-red.png) no-repeat 0 0;
 	border-radius: 3px 3px 3px 0;
 	color:#ffffff;
 	height:22px;
@@ -119,7 +119,7 @@ body, div, dl, dt, dd, ul, ol, li, pre, code, form, fieldset, legend, input, tex
 }
 .box .title-orange {
 	padding: 0 5px 0px 10px;
-	background:url(http://www.wxapi.cn/index/images/activity/title-bg-orange.png) no-repeat 0 0;
+	background:url(http://bigoranger.com/Public/Img/title-bg-orange.png) no-repeat 0 0;
 	border-radius: 3px 3px 3px 0;
 	color:#ffffff;
 	height:22px;
@@ -129,7 +129,7 @@ body, div, dl, dt, dd, ul, ol, li, pre, code, form, fieldset, legend, input, tex
 }
 .box .title-green {
 	padding: 0 5px 0px 10px;
-	background:url(http://www.wxapi.cn/index/images/activity/title-bg-green.png) no-repeat 0 0;
+	background:url(http://bigoranger.com/Public/Img/title-bg-green.png) no-repeat 0 0;
 	border-radius: 3px 3px 3px 0;
 	color:#ffffff;
 	height:22px;
@@ -139,7 +139,7 @@ body, div, dl, dt, dd, ul, ol, li, pre, code, form, fieldset, legend, input, tex
 }
 .box .title-brown {
 	padding: 0 5px 0px 10px;
-	background:url(http://www.wxapi.cn/index/images/activity/title-bg-brown.png) no-repeat 0 0;
+	background:url(http://bigoranger.com/Public/Img/title-bg-brown.png) no-repeat 0 0;
 	border-radius: 3px 3px 3px 0;
 	color:#ffffff;
 	height:22px;

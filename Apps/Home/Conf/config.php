@@ -9,7 +9,8 @@ return array (
 				'c/:id' => 'Home/Index/cggoods?Id=:1', // 分类
 				'f/:id' => 'Home/Activity/detail?id=:1', // 发现
 				'o$' => 'Home/Order/index',  // 订单
-				'buysuccess$'=>'Home/Order/createorder'
+				'buysuccess$'=>'Home/Order/createorder',
+				'lottery$'=>'Home/Prize/index'//抽奖
 		     )
 		 
 );

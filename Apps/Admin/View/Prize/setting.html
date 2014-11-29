@@ -1,0 +1,129 @@
+<extend name="Public/prize"/>
+<block name="content">
+	<div class="col-md-9">
+		<div class="panel panel-orange">
+			<div class="panel-heading">
+				<button class="btn btn-warning btnadd" data-toggle="modal" data-backdrop="static" modaltitle='添加礼品' data-target="#addModal">添加</button>
+			</div>
+			<div class="table-responsive">
+				<table class="table table-striped">
+					<thead>
+						<th>编号</th>
+						<th>标识</th>
+						<th>奖项名称</th>
+						<th>内容</th>
+						<th>最小角度</th>
+						<th>最大角度</th>
+						<th>概率</th>
+						<th>总量</th>
+						<th>库存</th>
+						<th>操作</th>
+					</thead>
+					<tbody>
+						<foreach name='list' item='v'>
+							<tr >
+								<td>{$v[Id]}</td>
+								<td>{$v[PraiseFeild]}</td>
+								<td>{$v[PraiseName]}</td>
+								<td>{$v[PraiseContent]}</td>
+								<td>{$v[MinDeg]}</td>
+								<td>{$v[MaxDeg]}</td>
+								<td>{$v[Chance]}</td>
+								<td>{$v[PraiseNumber]}</td>
+								<td>{$v[PraiseCount]}</td>
+								<td>
+									<a href="javascript:void(0)" class="btn btn-primary btn-small edit" action="{:U('Prize/getset',array('Id'=>$v['Id']))}" >编辑</a>
+									<a href="javascript:void(0)" class="btn btn-danger btn-small btndel" ction="{:U('Prize/delset',array('Id'=>$v['Id']))}">删除</a>
+								</td>
+							</tr>
+						</foreach>
+					</tbody>
+				</table>
+			</div>
+			<div class="page pull-right">{$page}</div>
+		</div>
+	</div>
+	<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">
+						<span aria-hidden="true">&times;</span>
+						<span class="sr-only">Close</span>
+					</button>
+					<h4 class="modal-title hightlight" id="myModalLabel">添加奖品</h4>
+				</div>
+
+				<form class="form-horizontal" action="{:U('Prize/saveset')}" onsubmit="syncsubmit()" method="post" enctype="multipart/form-data">
+					<div class="modal-body">
+
+						<input type="hidden" class="form-control " name="modif" value="add">
+						<input type="hidden" class="form-control " name="Id" value="0">
+
+						<div class="form-group">
+							<label class="col-sm-2 control-label">标识</label>
+							<div class="col-sm-10">
+								<input type="number" class="form-control" id="PraiseFeild" name="PraiseFeild"  required></div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-sm-2 control-label">奖项名称</label>
+							<div class="col-sm-10">
+								<input type="text" class="form-control" id="PraiseName" name="PraiseName" required></div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-sm-2 control-label">内容</label>
+							<div class="col-sm-10">
+								<input type="text" class="form-control" id="PraiseContent" name="PraiseContent" required></div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-sm-2 control-label">最小角度</label>
+							<div class="col-sm-10">
+								<input type="text" class="form-control" id="MinDeg" name="MinDeg" required></div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">最大角度</label>
+							<div class="col-sm-10">
+								<input type="text" class="form-control" id="MaxDeg" name="MaxDeg" required></div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">概率</label>
+							<div class="col-sm-10">
+								<input type="text" class="form-control" id="Chance" name="Chance" required></div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">总量</label>
+							<div class="col-sm-10">
+								<input type="number" class="form-control" id="PraiseNumber" name="PraiseNumber" required></div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">库存</label>
+							<div class="col-sm-10">
+								<input type="number" class="form-control" id="PraiseCount" name="PraiseCount" required></div>
+						</div>
+
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-danger" data-dismiss="modal">关闭</button>
+						<button type="reset" class="btn btn-warning">清空</button>
+						<button type="submit" class="btn btn-primary loading">保存</button>
+					</div>
+				</form>
+
+			</div>
+		</div>
+	</div>
+</block>
+<block name="js">
+	<script>
+$(function(){
+	$('.btnadd').click(function(e){
+		$('#myModalLabel').text('添加奖品');
+		$('#addModal').find('form')[0].reset();
+		$('#modif').val('add');
+	})
+})
+	</script>
+</block>

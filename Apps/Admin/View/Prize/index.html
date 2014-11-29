@@ -1,0 +1,33 @@
+<extend name="Public/prize"/>
+<block name="content">
+	<div class="col-md-9">
+		<div class="panel panel-orange">
+			<div class="panel-heading">抽奖记录</div>
+			<div class="table-responsive">
+				<table class="table table-striped">
+					<thead>
+						<th>编号</th>
+						<th>用户</th>
+						<th>时间</th>
+						<th>状态</th>
+						<th>操作</th>
+					</thead>
+					<tbody>
+						<foreach name='list' item='v'>
+							<tr class="{$v[Enabled]?null:warning}">
+								<td>{$v[TradeNo]}</td>
+								<td>{$v[Name]}</td>
+								<td>{$v[Amount]}</td>
+								<td>{$v[Remark]}</td>
+								<td>{$v[Status]}</td>
+								<td>{$v[Enabled]?已充值:未使用}</td>
+								<td>{$v[CreateTime]|date="y-m-d H:i",###}</td>
+							</tr>
+						</foreach>
+					</tbody>
+				</table>
+			</div>
+			<div class="page pull-right">{$page}</div>
+		</div>
+	</div>
+</block>

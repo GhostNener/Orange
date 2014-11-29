@@ -5,7 +5,6 @@ use Usercenter\Model\userModel;
 use Org\Util\String;
 use Home\Model\noticeModel;
 use Home\Model\logsModel;
-use Usercenter\Model\user_addressModel;
 require_once './ORG/qiniu/qiniu.class.php';
 /**
  * 检测用户是否激活
@@ -19,7 +18,7 @@ function isactivated() {
 
 /**
  * 创建系统通知（批量，单个）
- * 
+ *
  * @param array $arruid
  *        	收件人 可以是数组
  * @param unknown $title
@@ -40,11 +39,11 @@ function CSYSN($arruid, $title, $content) {
  *        	内容
  * @param int $type
  *        	1: 商品（发布、购买、下架等），2: 用户行为（登录、修改密码、注册、激活），3: 订单（下单、完成订单），4: 充值, 5: 其他
- *			默认类型为'其他'
+ *        	默认类型为'其他'
  */
-function logs($contents, $type=5){
-	$log = new logsModel();
-	$log->log($contents,$type);
+function logs($contents, $type = 5) {
+	$log = new logsModel ();
+	$log->log ( $contents, $type );
 }
 
 /**
@@ -110,7 +109,7 @@ function checkfile_exists($path, $type = 1) {
  * @return string
  */
 function getdefaultimg($type = 1) {
-	switch ((int)$type) {
+	switch (( int ) $type) {
 		case 1 :
 			$r = C ( 'DEFAULT_GOODS_IMG' );
 			return $r ['G_320'];
@@ -322,7 +321,7 @@ function gettradewaytxt($wayid) {
 	if (! $wayid) {
 		return '';
 	}
-	switch ((int)$wayid) {
+	switch (( int ) $wayid) {
 		case 1 :
 			$rst = '线上';
 			break;
@@ -915,7 +914,7 @@ function rotateimg($filename, $savesrc, $degrees = 90) {
 	if ($data == false)
 		return false;
 		// 读取格式
-	switch ((int)$data [2]) {
+	switch (( int ) $data [2]) {
 		case 1 :
 			$src_f = imagecreatefromgif ( $filename );
 			break;
@@ -952,7 +951,7 @@ function getexif($filename) {
 	if (! $r) {
 		return true;
 	}
-	switch ((int)$r) {
+	switch (( int ) $r) {
 		case 3 :
 			$degrees = 180;
 			break;
@@ -1151,18 +1150,23 @@ function send_activate_mail($usermail, $url) {
 
 /**
  * 获得下一个等级
- * @param unknown $grade  */
-function getNextGrade($grade){
-	$m=new user_gradeModel();
-	$m=$m->nextGrade((int)$grade);
-	return $m['Title'];
+ *
+ * @param unknown $grade        	
+ */
+function getNextGrade($grade) {
+	$m = new user_gradeModel ();
+	$m = $m->nextGrade ( ( int ) $grade );
+	return $m ['Title'];
 }
 
 /**
  * 获得等级
- * @param int $EXP
- * @param number $type 1:等级名称，2：等级
- * @return Ambigous <>  */
+ *
+ * @param int $EXP        	
+ * @param number $type
+ *        	1:等级名称，2：等级
+ * @return Ambigous <>
+ */
 function getgrade($EXP, $type = 1) {
 	$whereArr ['MinEXP'] = array (
 			'elt',
@@ -1194,7 +1198,7 @@ function qiniuDelFile($key) {
 }
 function delgoodsimg($id, $key = null) {
 	$qiniu = new \qiniu ();
-	return $qiniu->del ( $id,$key );
+	return $qiniu->del ( $id, $key );
 }
 /**
  * 获得token
@@ -1218,10 +1222,12 @@ function qiniuGetToken($action) {
  * @param string $isclockin
  *        	是不是签到，默认不是
  * @return
+ *
+ *
  */
 function handleEXP($uid = null, $type = 1, $isInc = true, $isclockin = false) {
-	$m=new userModel();
-	return $m-> handleEXP($uid, $type, $isInc, $isclockin);
+	$m = new userModel ();
+	return $m->handleEXP ( $uid, $type, $isInc, $isclockin );
 }
 
 /**
@@ -1229,33 +1235,47 @@ function handleEXP($uid = null, $type = 1, $isInc = true, $isclockin = false) {
  *
  * @author LongL
  */
-function fuzhi($v){
-	$oid = $v['Id'];
-	switch ((int)$v['Status']) {
-	case 10 :
-		if ($v['BuyerId'] == cookie('_uid')) {
-			return "<button class='btn btn-warning ' disabled='true'>未发货</button>&nbsp;<button class='btn btn-danger btncancel' nid='".$oid."' >取消购买</button>";
-		}else{
-			return "<button nid='".$oid."' otype='1' class='btn btn-success sendgoods' data-loading-text='提交中...' autocomplete='off'>发货</button>";
-		}
-		break;
-	case 21 :
-		if ($v['BuyerId'] == cookie('_uid')) {
-			return "<button nid='".$oid."' otype='2' class='btn btn-success sendgoods' data-loading-text='提交中...' autocomplete='off'>收货</button>";
-		}else{
-			return "<button class='btn btn-warning ' disabled='true'>已发货</button>";
-		}
-		break;
-	case 22 :
-		if ($v['BuyerId'] == cookie('_uid')) {
-		 	return "<button nid='".$oid."' otype='2' class='btn btn-success pingfen' data-toggle='modal' data-backdrop='static' modaltitle='评分' data-target='#addModal'>评分</button>";
-		}else{
-			return "<button nid='".$oid."' otype='1' class='btn btn-success pingfen' data-toggle='modal' data-backdrop='static' modaltitle='评分' data-target='#addModal'>评分</button>";
-		}
-		break;
-	default :
-		return "";
-		break;
+function fuzhi($v) {
+	$oid = $v ['Id'];
+	switch (( int ) $v ['Status']) {
+		case 10 :
+			if ($v ['BuyerId'] == cookie ( '_uid' )) {
+				return "<button class='btn btn-warning ' disabled='true'>未发货</button>&nbsp;<button class='btn btn-danger btncancel' nid='" . $oid . "' >取消购买</button>";
+			} else {
+				return "<button nid='" . $oid . "' otype='1' class='btn btn-success sendgoods' data-loading-text='提交中...' autocomplete='off'>发货</button>";
+			}
+			break;
+		case 21 :
+			if ($v ['BuyerId'] == cookie ( '_uid' )) {
+				return "<button nid='" . $oid . "' otype='2' class='btn btn-success sendgoods' data-loading-text='提交中...' autocomplete='off'>收货</button>";
+			} else {
+				return "<button class='btn btn-warning ' disabled='true'>已发货</button>";
+			}
+			break;
+		case 22 :
+			if ($v ['BuyerId'] == cookie ( '_uid' )) {
+				return "<button nid='" . $oid . "' otype='2' class='btn btn-success pingfen' data-toggle='modal' data-backdrop='static' modaltitle='评分' data-target='#addModal'>评分</button>";
+			} else {
+				return "<button nid='" . $oid . "' otype='1' class='btn btn-success pingfen' data-toggle='modal' data-backdrop='static' modaltitle='评分' data-target='#addModal'>评分</button>";
+			}
+			break;
+		default :
+			return "";
+			break;
+	}
 }
+/**
+ * 检查是否可以抽奖
+ * @param unknown $uid
+ * @return boolean true 可以 */
+function checkprize($uid) {
+	$m = M ( 'prize_record' );
+	$row = $m->where ( array (
+			'UserId' => $uid 
+	) )->find ();
+	if(!$row){
+		return true;
+	}
+	return false;
 }
 ?>

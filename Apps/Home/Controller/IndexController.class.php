@@ -154,8 +154,6 @@ class IndexController extends BaseController {
 		if (( int ) $rst ['status'] == 0) {
 			$this->error ( $rst ['msg'] );
 		} else {
-			$m = new goodsModel ();
-			$m->VCChhandle ( $postarr ['GoodsId'], 3 );
 			$this->success ( 1 );
 		}
 	}

@@ -68,6 +68,8 @@ class goods_commentModel extends Model {
 			if($today<=$EXP){
 				handleEXP($uid);
 			}
+			$m = new goodsModel ();
+			$m->VCChhandle ( $data ['GoodsId'], 3 );
 			$data ['Id'] = $rst;
 			$this->createnotice ( $data );
 			return array (
