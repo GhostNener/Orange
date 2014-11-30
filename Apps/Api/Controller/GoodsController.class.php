@@ -304,7 +304,7 @@ class GoodsController extends LoginBaseController {
 		$arr ['Code'] = date ( 'YmdHis', time () ) . $arr ['GoodsId'];
 		$arr ['CreateTime'] = time ();
 		$m = new goods_orderModel ();
-		$rst = $m->createone ( $arr );
+		$rst = $m->createone ( $arr,api_get_uid() );
 		if (( int ) $rst ['status'] == 0) {
 			echo json_encode ( $rst );
 		} else {

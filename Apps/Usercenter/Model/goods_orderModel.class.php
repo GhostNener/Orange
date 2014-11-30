@@ -41,8 +41,6 @@ class goods_orderModel extends Model {
 				break;
 		}
 		$c = $this -> where(array('Id' => $orderId)) -> find();
-		handleEXP($c['SellerId'],4);
-		handleEXP($c['BuyerId'],5);
 		$m = M();
 		$m->startTrans();
 		$rst = $this->where( $wherearr )->save( $where );
@@ -56,13 +54,19 @@ class goods_orderModel extends Model {
 					$sellmsg=true;
 				}				
 				$r3=M('user')->where(array('Id'=>$uid))->setInc('TradeCount',1);
+				$r4=M('user')->where(array('Id'=>$c['SellerId']))->setInc('TradeCount',1);
 			}
 		}else{
 			$sellmsg = true;
 			$r3=true;
+			$r4=true;
 		}
-		if ($rst && $sellmsg&&$r3) {
+		if ($rst && $sellmsg&&$r3&&$r4) {
 			$m -> commit();
+			if ($Type == 2) {
+				handleEXP($c['SellerId'],4);
+				handleEXP($c['BuyerId'],5);
+			}
 			return array (
 					'status' => 1,
 					'msg' => "操作成功" 

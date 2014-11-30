@@ -38,6 +38,10 @@ class OrderController extends LoginController {
 			$this->error ( '商品不存在或已下架', U ( 'Home/Index/index' ) );
 			die ();
 		}
+		if((int)$goods['UserId']==(int)cookie('_uid')){
+			$this->error ( '你不能购买自己出售的商品', U ( 'Home/Index/index' ) );
+			return false;
+		}
 		/* 订单code */
 		$arrcode = array (
 				'code' => date ( 'YmdHis' ) . $goods ['Id'],

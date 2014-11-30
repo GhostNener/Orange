@@ -61,7 +61,7 @@ class goods_orderModel extends Model {
 		$m = new view_goods_listModel ();
 		$m = $m->getgoodsdetails ( ( int ) $data ['GoodsId'], 2 );
 		$cdata ['Title'] = $m ['Title'];
-		$cdata ['GURL'] = U ( '/g/'.( int ) $data ['GoodsId'] );
+		$cdata ['GURL'] = U ( '/g/' . ( int ) $data ['GoodsId'] );
 		/* 卖家信息 */
 		$selldata = $this->CBSN ( $data ['SellerAddId'] );
 		/* 买家信息 */
@@ -95,8 +95,7 @@ class goods_orderModel extends Model {
 				'AddId' => ( int ) $uaid 
 		) )->find ();
 		$cdata ['Nick'] = $m ['Nick'];
-		$cdata ['UURL'] = U ( '/user/'. $m ['Nick'] 
-		 );
+		$cdata ['UURL'] = U ( '/user/' . $m ['Nick'] );
 		$cdata ['Tel'] = $m ['Tel'];
 		$cdata ['Content'] = $m ['Contacts'] . '&nbsp;' . $m ['Address'];
 		return $cdata;
@@ -112,7 +111,7 @@ class goods_orderModel extends Model {
 	 * @author NENER
 	 *        
 	 */
-	public function createone($data, $uid = -1) {
+	public function createone($data, $uid = null) {
 		$msg ['status'] = 0;
 		$m = new goodsModel ();
 		$model = $m->findone ( $data ['GoodsId'] );
@@ -120,16 +119,22 @@ class goods_orderModel extends Model {
 			$msg ['msg'] = '商品已下架或不存在！';
 			return $msg;
 		}
-		$waylist = createtradeway ( $model ['TradeWay'], 2 );
-		if (! in_array ( $data ['TradeWay'], $waylist )) {
-			$msg ['msg'] = '交易方式不合法';
-			return $msg;
-		}
 		if (! $uid || $uid == - 1) {
 			$data ['BuyerId'] = cookie ( '_uid' );
 		} else {
 			$data ['BuyerId'] = $uid;
 		}
+		if (( int ) $model ['UserId'] == ( int ) $uid) {
+			$msg ['msg'] = '你不能购买自己出售的东西';
+			return $msg;
+		}
+		
+		$waylist = createtradeway ( $model ['TradeWay'], 2 );
+		if (! in_array ( $data ['TradeWay'], $waylist )) {
+			$msg ['msg'] = '交易方式不合法';
+			return $msg;
+		}
+		
 		$data ['Price'] = $model ['Price'];
 		$data ['SellerId'] = $model ['UserId'];
 		$data ['SellerAddId'] = $model ['AddressId'];
