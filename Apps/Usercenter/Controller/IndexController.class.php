@@ -238,23 +238,11 @@ class IndexController extends LoginController {
 			$this->error ( '还没有打分哦！！' );
 			return false;
 		}
-		$dal = M ();
-		// 开始事务
-		$dal->startTrans ();
-		/* 添加订单表的评价 */
 		$model = new goods_orderModel();
 		$rst = $model -> savestar( I( 'oid' ), I ( 'count' ));
-		
-		/* 用户总信誉修改 */
-		$user = new userModel();
-		$c = $user -> updatecredit(cookie('_uid'), I ( 'count' ),1);
-		if (! $rst['status'] || ! $c) {
-			// 失败 回滚
-			$dal->rollback ();
+		if (! $rst['status']) {
 			$this->error ( '评价失败' );
 		} else {
-			// 操作成功 提交事务
-			$dal->commit ();
 			$this->success ( 1);
 		}
 	}

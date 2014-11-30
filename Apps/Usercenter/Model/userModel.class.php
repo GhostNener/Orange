@@ -1408,9 +1408,9 @@ class userModel extends Model {
 	/**
 	 * 用户信誉度的修改
 	 * 
-	 * @param $userid, 
-	 * @param $start 信誉度 
-	 * @param $type 
+	 * @param int $userid, 
+	 * @param int $start 信誉度 
+	 * @param int $type 
 	 *   		1.增加  2.减少  	
 	 * @author LongG
 	 */
