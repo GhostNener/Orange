@@ -87,7 +87,7 @@ class goods_orderModel extends Model {
 				handleEXP ( $c ['SellerId'], 4 );
 				handleEXP ( $c ['BuyerId'], 5 );
 			}else {
-				CSYSN($c['SellerId'], '卖家已发货','你购买的&nbsp;<a href="javascript:void(0)" class="text-orange">'.$goods['Title'].'</a>&nbsp;已经发货。');
+				CSYSN($c['BuyerId'], '卖家已发货','你购买的&nbsp;<a href="javascript:void(0)" class="text-orange">'.$goods['Title'].'</a>&nbsp;已经发货了。');
 			}
 			return array (
 					'status' => 1,
