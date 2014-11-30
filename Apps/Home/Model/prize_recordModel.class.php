@@ -3,6 +3,7 @@
 namespace Home\Model;
 
 use Think\Model;
+use Usercenter\Model\userModel;
 
 class prize_recordModel extends Model {
 	
@@ -62,6 +63,25 @@ class prize_recordModel extends Model {
 				'status' => 1,
 				'msg' => '抽奖成功' 
 		);
+	}
+	/**
+	 * 代金券充值
+	 * @param unknown $rid
+	 * @param unknown $uid
+	 * @param unknown $count */
+	public function recharge($rid,$uid,$count){
+		$dal=M();
+		$m=new userModel();
+		$r1=$m->recharge($uid, $count);
+		$r2=$this->where(array('Id'=>$rid,'Status'=>10))->save(array('UpdateTime'=>time(),'Status'=>-1));
+		if(!$r1||!$r2){
+			$dal->rollback();
+			return false;
+		}
+		$dal->commit();
+		CSYSN($uid, '兑换奖品', '你已使用代金券'.$count.'元成功兑换金橘。');
+		logs('代金券充值：'.$count,4);
+		return true;
 	}
 }
 

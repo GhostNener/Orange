@@ -10,7 +10,8 @@ return array (
 				'f/:id' => 'Home/Activity/detail?id=:1', // 发现
 				'o$' => 'Home/Order/index',  // 订单
 				'buysuccess$'=>'Home/Order/createorder',
-				'lottery$'=>'Home/Prize/index'//抽奖
+				'lottery$'=>'Home/Prize/index',//抽奖
+				'recharge$'=>'Home/Prize/recharge'//代金券兑换
 		     )
 		 
 );

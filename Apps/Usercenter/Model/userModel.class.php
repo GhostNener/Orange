@@ -1435,5 +1435,12 @@ class userModel extends Model {
 		$ranking = $ranking [0] ['ranking'];
 		return $ranking;
 	}
+	/**
+	 * 充值
+	 * @param unknown $uid
+	 * @param unknown $count  */
+	public function recharge($uid,$count){
+		return $this->where(array('Id'=>$uid))->setInc('E-Money',$count);
+	}
 }
 ?>

@@ -1,0 +1,26 @@
+<extend name="./Tpl/layout.html"/>
+<block name="content">
+    <div id="main" class="container">
+        <div class="col-md-6 col-md-offset-3">
+            <div class="panel panel-default login-panel">
+                <div class="panel-body">
+                    <form id="resetpwdform" class="form-horizontal" role="form" method="post" action="{:U('Home/Prize/postrecharge')}" onsubmit="return ajaxsubmit()">
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label for="UserName" class="col-sm-3 control-label">兑换码</label>
+                                <div class="col-sm-9">
+                                    <input type="text" name="code"  class="form-control" placeholder="礼品兑换码" required ></div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit"  class="btn btn-success"  >兑换</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</block>
+<block name="js">
+
+</block>

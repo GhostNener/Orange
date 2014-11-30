@@ -1,81 +1,86 @@
 <include file="./Tpl/Public/header.html"/>
 <div id="main" class="full-container">
-	<div class="activity-lottery-winning">
-		<div class="main">
-			<div id="outercont">
-				<div id="outer-cont">
-					<div id="outer" style="-webkit-transform: rotate(330deg);">
-						<img src="__PUBLIC__/Img/activity-lottery-1.png" width="310px"></div>
-				</div>
-				<div id="inner-cont">
-					<div id="inner">
-						<img src="__PUBLIC__/Img/activity-lottery-2.png"></div>
-				</div>
-			</div>
-			<div class="content" >
-				<div class="boxcontent boxyellow">
-					<div class="box">
-						<div class="title-green">
-							<span>奖项设置：</span>
-						</div>
-						<div class="Detail">
-							<foreach name="plist" item="v">
-								<p>
-									{$v['PraiseName']}：{$v['PraiseContent']} 。奖品数量：{$v['PraiseNumber']}。剩余：{$v['PraiseCount']}
-								
-								</p>
-							</foreach>
-						</div>
-					</div>
-				</div>
-				<div class="boxcontent boxyellow">
-					<div class="box">
-						<div class="title-green">活动说明：</div>
-						<div class="Detail">
-							<p>本次活动每人可参与一次</p>
-							<p>兑奖地址：贵州财经大学创业园-指尖科技(笃行楼B栋101-F)</p>
-							<p>最终解释权：贵州财经大学创业园-指尖科技</p>
-						</div>
-					</div>
-				</div>
-			</div>
+    <div class="activity-lottery-winning">
+        <div class="main">
+            <div id="outercont">
+                <div id="outer-cont">
+                    <div id="outer" style="-webkit-transform: rotate(15deg);">
+                        <img src="__PUBLIC__/Img/activity-lottery-1.png" width="310px"></div>
+                </div>
+                <div id="inner-cont">
+                    <div id="inner">
+                        <img src="__PUBLIC__/Img/activity-lottery-2.png"></div>
+                </div>
+            </div>
+            <div class="content" >
+                <div class="boxcontent boxyellow">
+                    <div class="box">
+                        <div class="title-green">
+                            <span>奖项设置：</span>
+                        </div>
+                        <div class="Detail">
+                            <foreach name="plist" item="v">
+                                <p>
+                                    {$v['PraiseName']}：{$v['PraiseContent']} 。奖品数量：{$v['PraiseNumber']}。剩余：{$v['PraiseCount']}
+                                </p>
+                            </foreach>
+                        </div>
+                    </div>
+                </div>
+                <div class="boxcontent boxyellow">
+                    <div class="box">
+                        <div class="title-green">活动说明：</div>
+                        <div class="Detail">
+                            <p>本次活动每人可参与一次</p>
+                            <p>兑奖地址：贵州财经大学创业园-指尖科技(笃行楼B栋101-F)</p>
+                            <p>最终解释权：贵州财经大学创业园-指尖科技</p>
+                            <p>
+                                <a href="{:U('/recharge')}" target="_blank">代金券兑换地址</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-		</div>
-	</div>
+        </div>
+    </div>
 </div>
 <div class="modal fade" id="prizeModal" tabindex="-1" role="dialog" aria-labelledby="prizeModalLabel" aria-hidden="true">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal">
-					<span aria-hidden="true">&times;</span>
-					<span class="sr-only">Close</span>
-				</button>
-				<h1 class="modal-title hightlight" id="prizeModalLabel">恭喜你中奖了</h1>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h1 class="modal-title hightlight" id="prizeModalLabel">恭喜你中奖了</h1>
 
-			</div>
-			<div class="modal-body">
-				<h4>
-					你中了：
-					<span class="red" id="prizetype"></span>
-					&nbsp;&nbsp;&nbsp;&nbsp;奖品：
-					<span style="color: #fa7d3c" id="pcontent"></span>
-				</h4>
-			</div>
-
-			<div class="modal-footer">
-				<button type="button" class="btn btn-success" data-dismiss="modal">确认</button>
-			</div>
-		</div>
-	</div>
+            </div>
+            <div class="modal-body">
+                <h4>
+                    你中了：
+                    <span class="red" id="prizetype"></span>
+                    &nbsp;&nbsp;&nbsp;&nbsp;奖品：
+                    <span style="color: #fa7d3c" id="pcontent"></span>
+                </h4>
+                <h4>
+                    兑换码：
+                    <span id="code"></span>
+                </h4>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" data-dismiss="modal">确认</button>
+            </div>
+        </div>
+    </div>
 </div>
 <input type="hidden" pcount value="{$pcount}" act="{:U('Home/Prize/getprize')}">
 <include file="./Tpl/Public/footer.html"/>
 
 <block name="css">
-	<link href="__PUBLIC__/css/activity-style.css" rel="stylesheet"></block>
+    <link href="__PUBLIC__/css/activity-style.css" rel="stylesheet"></block>
 <block name="js">
-	<script type="text/javascript">
+    <script type="text/javascript">
 $(function() {
     window.requestAnimFrame = (function() {
         return window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame ||
@@ -85,8 +90,7 @@ $(function() {
     })();
     var totalDeg = 360 * 3 + 0;
     var steps = [];
-    var lostDeg = [36, 66, 96, 156, 186, 216, 276, 306, 336];
-    var prizeDeg = [6, 126, 246];
+    var lostDeg = [15];
     var prize;
     var count = parseInt($('input[pcount]').val());
     var now = 0;
@@ -111,6 +115,7 @@ $(function() {
                 if (prize != null) {
                     $("#prizetype").text(prize.name);
                     $('#pcontent').text(prize.content);
+                    $('#code').text(prize.code);
                     $("#prizeModal").modal('show');
                 }
             },
@@ -138,7 +143,7 @@ $(function() {
             return false;
         }
         $.ajax({
-        	type:'post',
+            type:'post',
             url: $('input[pcount]').attr('act'),
             dataType: "json",
             beforeSend: function() {
@@ -151,17 +156,17 @@ $(function() {
                 1)
             },
             success: function(data) {
-            	if(data.status==0){
-            		prize = null;
-            		count++;
-            		alert(data.msg);
-            		clearInterval(timer);
-            		start(lostDeg[1]);
-            		return false;
-            	}else{
-            		prize=data.res;
-            		start(prize.deg);
-            	}
+                if(data.status==0){
+                    prize = null;
+                    count++;
+                    alert(data.msg);
+                    clearInterval(timer);
+                    start(lostDeg[1]);
+                    return false;
+                }else{
+                    prize=data.res;
+                    start(prize.deg);
+                }
                 running = false;
                 count++
             },

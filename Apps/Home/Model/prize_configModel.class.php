@@ -16,6 +16,10 @@ class prize_configModel extends Model {
 		$prize_arr = $this->getprize ();
 		return $this->getResult ( $prize_arr, $uid );
 	}
+	/**
+	 * 保存配置
+	 * @param array $data
+	 * @return  */
 	public function saveone($data) {
 		$arr=array (
 					'PraiseFeild'=>$data['PraiseFeild'],
@@ -91,7 +95,7 @@ class prize_configModel extends Model {
 				'Id' => $rid 
 		), 2 ); // 中奖项
 		$m = new prize_recordModel ();
-		$code = uniqid ( true );
+		$code = uniqid ( randstr(7) );
 		$r = $m->addone ( $uid, $res ['Id'], $code );
 		if ($r ['status'] == 0) {
 			return array (
@@ -110,7 +114,11 @@ class prize_configModel extends Model {
 		$result ['name'] = $res ['PraiseName'];
 		$result ['content'] = $res ['PraiseContent'];
 		$result ['type'] = $res ['PraiseFeild'];
-		CSYSN ( $uid, '你中奖了', '你在抽奖活动中中了：' . $res ['PraiseName'] . '。奖品：' . $res ['PraiseContent'] . '。请及时兑奖。<br>兑奖地址：贵州财经大学创业园-指尖科技(笃行楼B栋101-F)' );
+		$result ['code']=$code;
+		if((int)$res ['PraiseFeild']==1||(int)$res ['PraiseFeild']==8){
+			$url='<br><a href="'.U('/recharge').'" class="btn btn-success" target="_blak">代金券兑换</a>';
+		}
+		CSYSN ( $uid, '你中奖了', '你在抽奖活动中中了：' . $res ['PraiseName'] . '。奖品：' . $res ['PraiseContent'] . '。兑换码：'.$code.'。请及时兑奖。<br>兑奖地址：贵州财经大学创业园-指尖科技(笃行楼B栋101-F)。'.$url );
 		return array (
 				'status' => 1,
 				'msg' => $r ['msg'],

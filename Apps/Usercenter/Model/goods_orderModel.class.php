@@ -14,13 +14,16 @@ class goods_orderModel extends Model {
 	 * @return array
 	 * @author LongG
 	 */
-	public function update( $orderId, $Type=1 ){
+	public function update( $orderId,$Type=1, $uid=null){
+		if(!$uid){
+			$uid=cookie('_uid');
+		}
 		$Type= (int)$Type;
 		switch ($Type){
 			case 1:
 				$wherearr = array(
 						'Id' => $orderId,
-						'SellerId' => cookie('_uid'),
+						'SellerId' => $uid,
 						'Status' => 10
 				);
 				$where = array( 'Status' => 21 );
@@ -28,7 +31,7 @@ class goods_orderModel extends Model {
 			case 2:
 				$wherearr = array(
 						'Id' => $orderId,
-						'BuyerId' => cookie('_uid'),
+						'BuyerId' => $uid,
 						'Status' => 21
 				);
 				$where = array( 'Status' => 22 );
@@ -51,12 +54,14 @@ class goods_orderModel extends Model {
 					$sellmsg = $model->where(array('Id' => $c['SellerId']))->setInc('E-Money',$c['Price']); 
 				}else{
 					$sellmsg=true;
-				}
+				}				
+				$r3=M('user')->where(array('Id'=>$uid))->setInc('TradeCount',1);
 			}
 		}else{
 			$sellmsg = true;
+			$r3=true;
 		}
-		if ($rst && $sellmsg) {
+		if ($rst && $sellmsg&&$r3) {
 			$m -> commit();
 			return array (
 					'status' => 1,
