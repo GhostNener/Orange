@@ -50,7 +50,7 @@ class prize_recordModel extends Model {
 		$r2 = $m->where ( array (
 				'Id' => (int)$pid 
 		) )->setDec ( 'PraiseCount', 1 );
-		if (! $r1||$r2 ) {
+		if (! $r1||!$r2 ) {
 			$dal->rollback ();
 			return array (
 					'status' => 0,

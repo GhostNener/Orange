@@ -2,26 +2,42 @@
 <block name="content">
 	<div class="col-md-9">
 		<div class="panel panel-orange">
-			<div class="panel-heading">抽奖记录</div>
+			<div class="panel-heading">
+				<form class="form-inline" role="form" action="{:U('index')}">
+					<div class="form-group">
+						<input type="text" class="form-control" name="nick" value="{$nick}" placeholder="用户"></div>
+					<div class="form-group">
+						<button type="submit" class="btn btn-default btn-expend">搜索</button>
+					</div>
+				</form>
+			</div>
 			<div class="table-responsive">
 				<table class="table table-striped">
 					<thead>
 						<th>编号</th>
 						<th>用户</th>
-						<th>时间</th>
+						<th>奖项</th>
+						<th>奖品</th>
+						<th>抽奖时间</th>
+						<th>兑奖时间</th>
 						<th>状态</th>
 						<th>操作</th>
 					</thead>
 					<tbody>
 						<foreach name='list' item='v'>
-							<tr class="{$v[Enabled]?null:warning}">
-								<td>{$v[TradeNo]}</td>
-								<td>{$v[Name]}</td>
-								<td>{$v[Amount]}</td>
-								<td>{$v[Remark]}</td>
-								<td>{$v[Status]}</td>
-								<td>{$v[Enabled]?已充值:未使用}</td>
-								<td>{$v[CreateTime]|date="y-m-d H:i",###}</td>
+							<tr class="{$v['Status']==-1?warning:''}">
+								<td>{$v['Code']}</td>
+								<td>{$v['Nick']}</td>
+								<td>{$v['PraiseName']}</td>
+								<td>{$v['PraiseContent']}</td>
+								<td>{:date('y-m-d H:i:s',$v['CreateTime'])}</td>
+								<td>{$v['UpdateTime']==0?'':date('y-m-d H:i:s',$v['UpdateTime'])}</td>
+								<td>{$v['Status']==-1?'已兑换':'未兑换'}</td>
+								<td>
+									<if condition="$v['Status'] eq 10">
+										<a href="javascript:void(0)" class="btn btn-success btn-small save" action="{:U('Prize/saveprize',array('Id'=>$v['Id']))}" >兑奖</a>
+									</if>
+								</td>
 							</tr>
 						</foreach>
 					</tbody>

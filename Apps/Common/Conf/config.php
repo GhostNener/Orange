@@ -1,6 +1,7 @@
 <?php
 return array (
 		// '配置项'=>'配置值'
+
 		'DB_TYPE' => 'mysql',
 		'DB_HOST' => '10.200.10.90',
 		'DB_NAME' => 'juzidb',

@@ -3,7 +3,7 @@
 	<div class="col-md-9">
 		<div class="panel panel-orange">
 			<div class="panel-heading">
-				<button class="btn btn-warning btnadd" data-toggle="modal" data-backdrop="static" modaltitle='添加礼品' data-target="#addModal">添加</button>
+				<button class="btn btn-warning btnadd" data-toggle="modal" data-backdrop="static" modaltitle='添加奖品' data-target="#addModal">添加</button>
 			</div>
 			<div class="table-responsive">
 				<table class="table table-striped">
@@ -33,7 +33,7 @@
 								<td>{$v[PraiseCount]}</td>
 								<td>
 									<a href="javascript:void(0)" class="btn btn-primary btn-small edit" action="{:U('Prize/getset',array('Id'=>$v['Id']))}" >编辑</a>
-									<a href="javascript:void(0)" class="btn btn-danger btn-small btndel" ction="{:U('Prize/delset',array('Id'=>$v['Id']))}">删除</a>
+									<a href="javascript:void(0)" class="btn btn-danger btn-small save" action="{:U('Prize/delset',array('Id'=>$v['Id']))}">删除</a>
 								</td>
 							</tr>
 						</foreach>

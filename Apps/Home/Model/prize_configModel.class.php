@@ -110,7 +110,7 @@ class prize_configModel extends Model {
 		$result ['name'] = $res ['PraiseName'];
 		$result ['content'] = $res ['PraiseContent'];
 		$result ['type'] = $res ['PraiseFeild'];
-		CSYSN ( $uid, '你中奖了', '你在抽奖活动中中了：' . $res ['PraiseName'] . '。奖品：' . $res ['PraiseContent'] . '。请及时兑奖。<br>兑奖地址：贵州财经大学创业园-指尖科技(笃行楼B栋101F)' );
+		CSYSN ( $uid, '你中奖了', '你在抽奖活动中中了：' . $res ['PraiseName'] . '。奖品：' . $res ['PraiseContent'] . '。请及时兑奖。<br>兑奖地址：贵州财经大学创业园-指尖科技(笃行楼B栋101-F)' );
 		return array (
 				'status' => 1,
 				'msg' => $r ['msg'],
