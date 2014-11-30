@@ -266,7 +266,7 @@ class IndexController extends LoginController {
 		/* 模板赋值 */
 		$this->assign ( 'likelist', $likelist ['list'] );
 		$this->assign ( 'page', $likelist ['page'] );
-		$this->assign ( 'empty', '<h3 class="text-center text-import">暂无商品</h3>' );
+		$this->assign ( 'empty', '<h3 class="text-center text-import">暂无在售商品</h3>' );
 		$this->getcommon ();
 		$this->display ();
 	}

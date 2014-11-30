@@ -691,7 +691,7 @@ class userModel extends Model {
 			$msgarr ['user'] = $rst;
 			$msgarr ['status'] = 1;
 		} else {
-			$msgarr ['msg'] = "查询失败";
+			$msgarr ['msg'] = "获取用户信息失败";
 			$msgarr ['status'] = 0;
 		}
 		if ($type == 2) {

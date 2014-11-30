@@ -5,6 +5,7 @@ namespace Usercenter\Model;
 use Home\Model\goodsModel;
 use Think\Model;
 use Usercenter\Model\userModel;
+use Home\Model\view_goods_listModel;
 
 class goods_orderModel extends Model {
 	/**
@@ -77,9 +78,16 @@ class goods_orderModel extends Model {
 		}
 		if ($rst && $sellmsg && $r3 && $r4) {
 			$m->commit ();
+			$m=new userModel();
+			$goods=new view_goods_listModel();
+			$goods=$goods->getgoodsdetails($c['GoodsId'],2);
 			if ($Type == 2) {
+				$m=$m->finduser($uid,2);
+				CSYSN($c['SellerId'], '确认收货','<a href="/user/'.$m['Nick'].'" class="text-orange">@'.$m['Nick'].'</a>&nbsp;已对你出售的&nbsp;<a href="javascript:void(0)" class="text-orange">'.$goods['Title'].'</a>&nbsp;进行确认收货。');
 				handleEXP ( $c ['SellerId'], 4 );
 				handleEXP ( $c ['BuyerId'], 5 );
+			}else {
+				CSYSN($c['SellerId'], '卖家已发货','你购买的&nbsp;<a href="javascript:void(0)" class="text-orange">'.$goods['Title'].'</a>&nbsp;已经发货。');
 			}
 			return array (
 					'status' => 1,
@@ -96,7 +104,7 @@ class goods_orderModel extends Model {
 	
 	/**
 	 * 评价 操作
-	 * 
+	 *
 	 * @param int $oid        	
 	 * @param int $Star        	
 	 * @param int $uid        	
@@ -159,6 +167,7 @@ class goods_orderModel extends Model {
 	 * @param string $uid        	
 	 * @return
 	 *
+	 *
 	 */
 	public function cancelorder($oid, $uid = null) {
 		if (! $uid) {
@@ -195,8 +204,9 @@ class goods_orderModel extends Model {
 		/* 将商品 状态还原为在售 */
 		$goods = new goodsModel ();
 		$g = $goods->del ( $msg ['GoodsId'], $msg ['SellerId'], 2 );
-		
 		if ($saveMoney && $credit && $rst && $g ['status']) {
+			$model = $model->finduser ( $uid, 2 );
+			CSYSN ( $msg ['UserId'], '取消交易', '<a href="/user/' . $model ['Nick'] . '.html" class="text-orange">@' . $model ['Nick'] . '</a>&nbsp;已取消购买你出售&nbsp;<a href="/g/' . $msg ['Id'] . '.html" class="text-orange">' . $msg ['Title'] . '</a>' );
 			$m->commit ();
 			return array (
 					'status' => 1,
