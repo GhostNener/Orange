@@ -40,7 +40,7 @@
 									<td>{$v['Price']}</td>
 									<td star>{:gettradewaytxt($v['TradeWay'])}</td>
 									<td>
-										<if condition="$v['BuyerId'] eq cookie('_uid')">{$v['SellNick']}:{$v['SellTel']}<br/>{$v['SellAddress']}<else/>{$v['BuyNick']}:{$v['BuyTel']}<br/>{$v['BuyAddress']}</if>
+										<if condition="$v['BuyerId'] eq cookie('_uid')">{$v['SellContacts']}:{$v['SellTel']}<br/>{$v['SellAddress']}<else/>{$v['BuyContacts']}:{$v['BuyTel']}<br/>{$v['BuyAddress']}</if>
 									</td>
 									<td>{:fuzhi($v)}</td>
 								</tr>
