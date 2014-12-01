@@ -18,6 +18,7 @@ return array (
 				'lostpaypwd$' => 'u/Index/lostpaypwd',
 				'resetpwd/:key' => 'u/User/resetpwd?key=:1',
 				'resetpaypwd/:key' => 'u/Index/resetpaypwd?key=:1',
+				'myprize$'=>'u/Index/prize',
 				':Id$' => 'u/User/u_show?Id=:1' 
 		),
 		/*支付宝接口  */

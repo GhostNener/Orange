@@ -1,0 +1,59 @@
+<extend name="./Tpl/layout.html"/>
+<block name="content">
+    <div id="main" class="container">
+        <div class="col-md-6 col-md-offset-3">
+            <div class="panel panel-default login-panel">
+                <div class="panel-body">
+                    <div class="modal-header">
+                        <h4>中奖记录</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row form-group">
+                            <label  class="col-sm-3 control-label">兑换码</label>
+                            <div class="col-sm-9">
+                                <span class="text-orange">{$prize['Code']}</span>
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <label  class="col-sm-3 control-label">奖项</label>
+                            <div class="col-sm-9">
+                                <span class="text-orange">{$prize['PraiseName']}</span>
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <label  class="col-sm-3 control-label">奖品</label>
+                            <div class="col-sm-9">
+                                <span class="text-orange">{$prize['PraiseContent']}</span>
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <label  class="col-sm-3 control-label">状态</label>
+                            <div class="col-sm-9">
+                                <span class="text-orange">{$prize['Status']==-1?'已兑换':'未兑换'}</span>
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <label  class="col-sm-3 control-label">获奖时间</label>
+                            <div class="col-sm-9">
+                                <span class="text-orange">{:date('Y-m-d H:i:s',$prize['CreateTime'])}</span>
+                            </div>
+                        </div>
+                        <if condition="$prize['Status'] eq -1">
+                            <div class="row form-group">
+                                <label  class="col-sm-3 control-label">兑奖时间</label>
+                                <div class="col-sm-9">
+                                    <span class="text-orange">{:date('Y-m-d H:i:s',$prize['UpdateTime'])}</span>
+                                </div>
+                            </div>
+                        </if>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="pull-right">
+                            <a href="{:U('/recharge')}" class="btn btn-success" target="_blak" >代金券兑换</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</block>

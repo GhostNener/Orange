@@ -16,6 +16,7 @@ use Usercenter\Model\attentionModel;
 use Usercenter\Model\userModel;
 use Usercenter\Model\user_gradeModel;
 use Usercenter\Model\user_avatarModel;
+use Home\Model\view_prize_record_listModel;
 
 /**
  * 用户个人中心
@@ -44,6 +45,7 @@ class IndexController extends LoginController {
 			$this->display ();
 		}
 	}
+	
 	/**
 	 * 发送激活邮件
 	 *
@@ -75,7 +77,6 @@ class IndexController extends LoginController {
 		$this->display ();
 	}
 	
-
 	/**
 	 * 编辑个人信息页面
 	 *
@@ -100,7 +101,7 @@ class IndexController extends LoginController {
 	public function order() {
 		/* 获得未完成的订单 */
 		$model = new view_goods_order_listModel ();
-		$arr = $model -> getorder ( 1, 5);
+		$arr = $model->getorder ( 1, 5 );
 		/* 模板赋值 */
 		$this->assign ( 'order', $arr ['list'] );
 		$this->assign ( 'pageorder', $arr ['page'] );
@@ -117,19 +118,25 @@ class IndexController extends LoginController {
 		if (! IS_POST || ! I ( 'p' )) {
 			$p = 1;
 		}
-		$p = I('p');
+		$p = I ( 'p' );
 		$limit = 8;
 		$model = new view_goods_order_listModel ();
-		$number = $model -> getbuyorder(2);
-		$p = $number>$limit*((int)$p-1)?$p:$p-1;
-		$arr = $number>0?$model -> getbuyorder(1, $limit, '/u/order', false, array('p'=>$p)):0;
+		$number = $model->getbuyorder ( 2 );
+		$p = $number > $limit * (( int ) $p - 1) ? $p : $p - 1;
+		$arr = $number > 0 ? $model->getbuyorder ( 1, $limit, '/u/order', false, array (
+				'p' => $p 
+		) ) : 0;
 		if (! $arr) {
 			$this->error ( '没有购买记录' );
 		} else {
-			$this->success( json_encode( array('list' => $arr['list'], 'page' => $arr['page'], 'uid'=>cookie('_uid') )));
+			$this->success ( json_encode ( array (
+					'list' => $arr ['list'],
+					'page' => $arr ['page'],
+					'uid' => cookie ( '_uid' ) 
+			) ) );
 		}
 	}
-
+	
 	/**
 	 * 出售订单管理
 	 *
@@ -139,16 +146,22 @@ class IndexController extends LoginController {
 		if (! IS_POST || ! I ( 'p' )) {
 			$p = 1;
 		}
-		$p = I('p');
+		$p = I ( 'p' );
 		$limit = 8;
 		$model = new view_goods_order_listModel ();
-		$number = $model -> getsellorder( 2 );
-		$p = $number>$limit*((int)$p-1)?$p:$p-1;
-		$arr = $number>0?$model -> getsellorder(1, $limit, '/u/order', false, array('p'=>$p)):0;
+		$number = $model->getsellorder ( 2 );
+		$p = $number > $limit * (( int ) $p - 1) ? $p : $p - 1;
+		$arr = $number > 0 ? $model->getsellorder ( 1, $limit, '/u/order', false, array (
+				'p' => $p 
+		) ) : 0;
 		if (! $arr) {
 			$this->error ( '没有出售记录' );
 		} else {
-			$this->success( json_encode( array('list' => $arr['list'], 'page' => $arr['page'], 'uid'=>cookie('_uid') )));
+			$this->success ( json_encode ( array (
+					'list' => $arr ['list'],
+					'page' => $arr ['page'],
+					'uid' => cookie ( '_uid' ) 
+			) ) );
 		}
 	}
 	
@@ -157,20 +170,27 @@ class IndexController extends LoginController {
 	 *
 	 * @author LongG
 	 */
-	public function queryorder(){
+	public function queryorder() {
 		if (! IS_POST || ! I ( 'p' )) {
 			$this->error ( '页面不存在' );
 			die ();
 		}
 		$p = I ( 'p' );
 		$limit = 5;
-		$m = new view_goods_order_listModel();
-		$number = $m -> getorder( 2 );
-		$p = $number>$limit*((int)$p-1)?$p:$p-1;
-		$arr = $number>0?$m -> getorder(1, $limit, '/u/order', false, array('p'=>$p)):0;
-		$this->success( json_encode( array('list' => $arr['list'], 'page' => $arr['page'], 'number'=>$number,'uid'=>cookie('_uid')) ));
+		$m = new view_goods_order_listModel ();
+		$number = $m->getorder ( 2 );
+		$p = $number > $limit * (( int ) $p - 1) ? $p : $p - 1;
+		$arr = $number > 0 ? $m->getorder ( 1, $limit, '/u/order', false, array (
+				'p' => $p 
+		) ) : 0;
+		$this->success ( json_encode ( array (
+				'list' => $arr ['list'],
+				'page' => $arr ['page'],
+				'number' => $number,
+				'uid' => cookie ( '_uid' ) 
+		) ) );
 	}
-
+	
 	/**
 	 * 发货 收货
 	 *
@@ -183,17 +203,24 @@ class IndexController extends LoginController {
 		}
 		$p = I ( 'p' );
 		$limit = 5;
-		$model = new goods_orderModel();
-		$set = $model -> update(I ('OId'), I('OType'));
-		if ($set['status'] == 0) {
-			$this->error ( $set['msg'] );
+		$model = new goods_orderModel ();
+		$set = $model->update ( I ( 'OId' ), I ( 'OType' ) );
+		if ($set ['status'] == 0) {
+			$this->error ( $set ['msg'] );
 		} else {
-			/* ajax局部刷新 返回更新后的订单   page ，list ，number   */
-			$m = new view_goods_order_listModel();
-			$number = $m -> getorder( 2 );
-			$p = $number>$limit*((int)$p-1)?$p:$p-1;
-			$arr = $number>0?$m -> getorder(1, $limit, '/u/order', false, array('p'=>$p)):0;
-			$this->success( json_encode( array('list' => $arr['list'], 'page' => $arr['page'], 'number'=>$number,'uid'=>cookie('_uid')) ));
+			/* ajax局部刷新 返回更新后的订单 page ，list ，number */
+			$m = new view_goods_order_listModel ();
+			$number = $m->getorder ( 2 );
+			$p = $number > $limit * (( int ) $p - 1) ? $p : $p - 1;
+			$arr = $number > 0 ? $m->getorder ( 1, $limit, '/u/order', false, array (
+					'p' => $p 
+			) ) : 0;
+			$this->success ( json_encode ( array (
+					'list' => $arr ['list'],
+					'page' => $arr ['page'],
+					'number' => $number,
+					'uid' => cookie ( '_uid' ) 
+			) ) );
 		}
 	}
 	
@@ -202,48 +229,53 @@ class IndexController extends LoginController {
 	 *
 	 * @author LongG
 	 */
-	public function cancelorder(){
-		if (!IS_POST || !I('OId')) {
-			$this -> error('页面不存在');
-			die();
+	public function cancelorder() {
+		if (! IS_POST || ! I ( 'OId' )) {
+			$this->error ( '页面不存在' );
+			die ();
 		}
-		$p = I('p');
+		$p = I ( 'p' );
 		$limit = 5;
-		$model = new goods_orderModel();
-		$rst = $model -> cancelorder(I('OId'));
-		if ($rst['status'] == 0) {
+		$model = new goods_orderModel ();
+		$rst = $model->cancelorder ( I ( 'OId' ) );
+		if ($rst ['status'] == 0) {
 			$this->error ( "取消失败" );
 		} else {
-			$m = new view_goods_order_listModel();
-			$number = $m -> getorder( 2 );
-			$p = $number>$limit*((int)$p-1)?$p:$p-1;
-			$arr = $number>0?$m -> getorder(1, $limit, '/u/order', false, array('p'=>$p)):0;
-			$this->success( json_encode( array('list' => $arr['list'], 'page' => $arr['page'], 'uid'=>cookie('_uid')) ));
+			$m = new view_goods_order_listModel ();
+			$number = $m->getorder ( 2 );
+			$p = $number > $limit * (( int ) $p - 1) ? $p : $p - 1;
+			$arr = $number > 0 ? $m->getorder ( 1, $limit, '/u/order', false, array (
+					'p' => $p 
+			) ) : 0;
+			$this->success ( json_encode ( array (
+					'list' => $arr ['list'],
+					'page' => $arr ['page'],
+					'uid' => cookie ( '_uid' ) 
+			) ) );
 		}
-
 	}
-
+	
 	/**
 	 * 评价
 	 *
 	 * @author LongG
 	 */
 	public function savestar() {
-		if (! IS_POST ) {
+		if (! IS_POST) {
 			$this->error ( '页面不存在' );
 			die ();
 		}
-		$star=(int)I ( 'count' );
-		if(!$star||$star<=0){
+		$star = ( int ) I ( 'count' );
+		if (! $star || $star <= 0) {
 			$this->error ( '还没有打分哦！！' );
 			return false;
 		}
-		$model = new goods_orderModel();
-		$rst = $model -> savestar( I( 'oid' ), I ( 'count' ));
-		if (! $rst['status']) {
+		$model = new goods_orderModel ();
+		$rst = $model->savestar ( I ( 'oid' ), I ( 'count' ) );
+		if (! $rst ['status']) {
 			$this->error ( '评价失败' );
 		} else {
-			$this->success ( 1);
+			$this->success ( 1 );
 		}
 	}
 	
@@ -262,7 +294,7 @@ class IndexController extends LoginController {
 		);
 		/* 获得在售商品 */
 		$model = new view_goods_listModel ();
-		$likelist = $model->getlist ( $whereall, $limit,'/u/sell',false );
+		$likelist = $model->getlist ( $whereall, $limit, '/u/sell', false );
 		/* 模板赋值 */
 		$this->assign ( 'likelist', $likelist ['list'] );
 		$this->assign ( 'page', $likelist ['page'] );
@@ -305,7 +337,7 @@ class IndexController extends LoginController {
 		);
 		/* 获得关注 */
 		$model = new view_user_attention_listModel ();
-		$arr = $model->getattention ( $whereall, $limit, '/u/f', false);
+		$arr = $model->getattention ( $whereall, $limit, '/u/f', false );
 		/* 模板赋值 */
 		$this->assign ( 'attention', $arr ['list'] );
 		$this->assign ( 'page', $arr ['page'] );
@@ -332,7 +364,7 @@ class IndexController extends LoginController {
 		$userModel = new userModel ();
 		$bool = $userModel->checkuserid ( I ( 'AttentionId' ) );
 		if (! $bool) {
-			$this->redirect ( U('/') );
+			$this->redirect ( U ( '/' ) );
 		}
 		/* 添加关注 */
 		$model = new attentionModel ();
@@ -397,7 +429,7 @@ class IndexController extends LoginController {
 		);
 		/* 获得心愿单 */
 		$model = new view_favorite_listModel ();
-		$arr = $model->getlist ( $whereall, $limit, '/u/like', false);
+		$arr = $model->getlist ( $whereall, $limit, '/u/like', false );
 		/* 模板赋值 */
 		$this->assign ( 'likelist', $arr ['list'] );
 		$this->assign ( 'page', $arr ['page'] );
@@ -597,20 +629,18 @@ class IndexController extends LoginController {
 		}
 	}
 	
-	
 	/**
 	 * 未读信息
 	 */
 	public function msg() {
 		$model = new noticeModel ();
-		$all = $model->getunread ( null, 1, 10,'/u/msg',false ,null);
+		$all = $model->getunread ( null, 1, 10, '/u/msg', false, null );
 		$this->assign ( 'urnl', $all ['list'] );
 		$this->assign ( 'page', $all ['page'] );
 		$this->assign ( 'empty', '<h3 class="text-import text-center">没有更多未读消息</h3>' );
 		$this->getCommon ();
 		$this->display ();
 	}
-	
 	
 	/**
 	 * 删除通知
@@ -619,7 +649,7 @@ class IndexController extends LoginController {
 	 */
 	public function delnotice() {
 		$Id = I ( 'Id' );
-		$p=(int)I('p');
+		$p = ( int ) I ( 'p' );
 		if (! IS_POST || ! $Id) {
 			$this->error ( '页面不存在' );
 			return;
@@ -630,10 +660,16 @@ class IndexController extends LoginController {
 		if (! $m) {
 			$this->error ( '删除失败' );
 		} else {
-			/*ajax局部刷新 返回剩下的通知  page ，list ，number  */
-			$number=$model->getunread(null,2);
-			$arr=$number>0?$model->getunread ( null, 1, 10,'/u/msg',false,array('p'=>$p) ):0;
-			$this->success (json_encode( array('list'=>$arr['list'],'page'=>$arr['page'],'number'=>$number) ));
+			/* ajax局部刷新 返回剩下的通知 page ，list ，number */
+			$number = $model->getunread ( null, 2 );
+			$arr = $number > 0 ? $model->getunread ( null, 1, 10, '/u/msg', false, array (
+					'p' => $p 
+			) ) : 0;
+			$this->success ( json_encode ( array (
+					'list' => $arr ['list'],
+					'page' => $arr ['page'],
+					'number' => $number 
+			) ) );
 		}
 	}
 	
@@ -689,18 +725,15 @@ class IndexController extends LoginController {
 		$r = $m->sendbundlingmail ( $mail, cookie ( '_uid' ) );
 		if (( int ) $r ['status'] == 1) {
 			$this->success ( 1 );
-			
+		} else {
+			$this->error ( $r ['msg'] );
 		}
-		else{
-			$this->error($r['msg']);
-		} 
-		
 	}
 	/**
 	 * 帐号绑定（邮件）
-	 *  */
+	 */
 	public function bundlmail() {
-		$arr=I('get.');
+		$arr = I ( 'get.');
 		$m=new userModel();
 		$r=$m->bundling($arr);
 		if((int)$r['status']==1){
@@ -722,6 +755,19 @@ class IndexController extends LoginController {
 		} else {
 			$this->success ( json_encode ( $r ) );
 		}
+	}
+	/**
+	 * 个人中奖记录查询  */
+	public function prize(){
+		$uid=cookie('_uid');
+		$m=new view_prize_record_listModel();
+		$r=$m->where(array('UserId'=>(int)$uid))->find();
+		if(!$r){
+			$this->error('你还没有中奖哦！');
+			return false;
+		}
+		$this->assign('prize',$r);
+		$this->display();
 	}
 }
 ?>

@@ -44,10 +44,13 @@ class PrizeController extends BaseController {
 		$this->assign ( 'nick', $nick);
 		$this->display ();
 	}
+	/**
+	 * 兑奖操作
+	 * @param unknown $Id  */
 	public function saveprize($Id) {
 		$m = new prize_recordModel ();
 		$r = $m->where ( array (
-				'Id' => $Id 
+				'Id' => (int)$Id 
 		) )->save ( array (
 				'Status' => - 1,
 				'UpdateTime' => time () 
@@ -55,9 +58,14 @@ class PrizeController extends BaseController {
 		if (! $r) {
 			$this->error ( '兑奖失败' );
 		} else {
+			$m=new view_prize_record_listModel();
+			$r=$m->where(array('Id'=>$Id))->find();
+			CSYSN($r['UserId'], '兑奖成功', '你已成功兑换 &nbsp;<span class="text-orange">'.$r['PraiseName'].'</span>&nbsp;奖品：<span class="text-orange">'.$r['PraiseContent'].'</span>');
 			$this->success ( '兑奖成功' );
 		}
 	}
+	/**
+	 * 抽奖配置  */
 	public function setting() {
 		$m = new prize_configModel ();
 		$list = $m->getprize ( array (
@@ -66,6 +74,9 @@ class PrizeController extends BaseController {
 		$this->assign ( 'list', $list );
 		$this->display ();
 	}
+	/**
+	 * 保存抽奖配置
+	 * @return boolean  */
 	public function saveset() {
 		if (! IS_POST) {
 			$this->error ( '不要瞎搞' );
@@ -82,7 +93,7 @@ class PrizeController extends BaseController {
 	/**
 	 * 异步获取数据
 	 *
-	 * @param unknown $Id        	
+	 * @param int $Id        	
 	 */
 	public function getset($Id) {
 		$m = new prize_configModel ();
@@ -102,7 +113,7 @@ class PrizeController extends BaseController {
 	/**
 	 * 异步删除
 	 *
-	 * @param unknown $Id        	
+	 * @param int $Id        	
 	 */
 	public function delset($Id) {
 		$m = new prize_configModel ();
