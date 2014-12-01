@@ -242,6 +242,7 @@ class UserController extends BaseController {
 	}
 	public function lostpwd() {
 		$this->assign ( 'findurl', U ( 'u/User/findpwdmail' ) );
+		$this->assign ( 'header', '找回登录密码' );
 		$this->display ();
 	}
 	/**
@@ -290,6 +291,7 @@ class UserController extends BaseController {
 		cookie ( '_fkey', $key );
 		$this->assign ( 'fmodel', $u );
 		$this->assign ( 'reseturl', U ( 'u/User/u_resetpwd' ) );
+		$this->assign ( 'header', '重置登录密码' );
 		$this->display ();
 	}
 	/**

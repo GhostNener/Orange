@@ -500,6 +500,7 @@ class IndexController extends LoginController {
 	}
 	public function lostpaypwd() {
 		$this->assign ( 'findurl', U ( 'u/Index/findpaypwdmail' ) );
+		$this->assign ( 'header', '找回支付密码' );
 		$this->display ( 'User/lostpwd' );
 	}
 	
@@ -548,6 +549,7 @@ class IndexController extends LoginController {
 		cookie ( '_fkey', $key );
 		$this->assign ( 'fmodel', $u );
 		$this->assign ( 'reseturl', U ( 'u/Index/u_resetpwd' ) );
+		$this->assign ( 'header', '重置支付密码' );
 		$this->display ( 'User/resetpwd' );
 	}
 	
