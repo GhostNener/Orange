@@ -153,10 +153,19 @@ class goods_orderModel extends Model {
 				'Id' => $oid 
 		) )->save ( $wherearr );
 		if($Star==5){
-			return array (
-					'status' => 1,
-					'msg' => "评价成功"
-			);
+			if($rst){
+				$dal->commit ();
+				return array (
+						'status' => 1,
+						'msg' => "评价成功"
+				);
+			}else{
+				$dal->rollback ();
+				return array (
+						'status' => 0,
+						'msg' => "评价失败" 
+				);
+			}
 		}
 		$Star=5-$Star;
 		if ($msg ['BuyerId'] == $uid) {

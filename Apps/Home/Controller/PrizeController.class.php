@@ -59,6 +59,7 @@ class PrizeController extends LoginController {
 	 */
 	public function postrecharge() {
 		$code = I ( 'code' );
+		$code=trim($code);
 		if (! IS_POST | ! $code) {
 			$this->error ( '不要瞎搞', U ( '/' ) );
 			return false;
