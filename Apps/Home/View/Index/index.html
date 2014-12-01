@@ -155,3 +155,14 @@
 		</div>
 	</div>
 </block>
+<block name="js">
+	<script>
+$(function  () {
+	$('.carousel-inner').find('a').each(function(){
+		var _h=$(this).attr('href');
+		$(this).attr('href',_h.replace('//f','/f'));
+	});
+});
+
+	</script>
+</block>

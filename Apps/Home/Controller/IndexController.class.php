@@ -56,7 +56,7 @@ class IndexController extends BaseController {
 		$activitylist = $model->getlist ( array (
 				'Status' => 10,
 				'IsTop' => 1 
-		) );
+		),6 );
 		/* 模板赋值 */
 		$this->assign ( 'topimg', $activitylist );
 		$this->assign ( 'toplist', $toplist );
