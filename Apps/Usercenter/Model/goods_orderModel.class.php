@@ -70,13 +70,18 @@ class goods_orderModel extends Model {
 				$r4 = M ( 'user' )->where ( array (
 						'Id' => $c ['SellerId'] 
 				) )->setInc ( 'TradeCount', 1 );
+				$us=new userModel();
+				$r5=$us->updatecredit($c ['SellerId'],5,1);
+				$r6=$us->updatecredit($c ['BuyerId'],5,1);
 			}
 		} else {
 			$sellmsg = true;
 			$r3 = true;
 			$r4 = true;
+			$r5=true;
+			$r6=true;
 		}
-		if ($rst && $sellmsg && $r3 && $r4) {
+		if ($rst && $sellmsg && $r3 && $r4&&$r5&&$r6) {
 			$m->commit ();
 			$m=new userModel();
 			$goods=new view_goods_listModel();
@@ -124,6 +129,12 @@ class goods_orderModel extends Model {
 					'msg' => "评价失败" 
 			);
 		}
+		if($Star<=0||$Star>5){
+			return array (
+					'status' => 0,
+					'msg' => "评价失败:请确保评分在1-5之间"
+			);
+		}
 		if ($msg ['BuyerId'] == $uid) {
 			$wherearr = array (
 					'SellerStar' => $Star,
@@ -141,10 +152,17 @@ class goods_orderModel extends Model {
 		$rst = $this->where ( array (
 				'Id' => $oid 
 		) )->save ( $wherearr );
+		if($Star==5){
+			return array (
+					'status' => 1,
+					'msg' => "评价成功"
+			);
+		}
+		$Star=5-$Star;
 		if ($msg ['BuyerId'] == $uid) {
-			$c = $user->updatecredit ( ( int ) $msg ['SellerId'], $Star, 1 );
+			$c = $user->updatecredit ( ( int ) $msg ['SellerId'], $Star, 2 );
 		} else {
-			$c = $user->updatecredit ( ( int ) $msg ['BuyerId'], $Star, 1 );
+			$c = $user->updatecredit ( ( int ) $msg ['BuyerId'], $Star, 2);
 		}
 		if (! $rst || ! $c) {
 			$dal->rollback ();

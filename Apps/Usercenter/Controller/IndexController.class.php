@@ -118,7 +118,7 @@ class IndexController extends LoginController {
 			$p = 1;
 		}
 		$p = I('p');
-		$limit = 3;
+		$limit = 8;
 		$model = new view_goods_order_listModel ();
 		$number = $model -> getbuyorder(2);
 		$p = $number>$limit*((int)$p-1)?$p:$p-1;
@@ -140,7 +140,7 @@ class IndexController extends LoginController {
 			$p = 1;
 		}
 		$p = I('p');
-		$limit = 3;
+		$limit = 8;
 		$model = new view_goods_order_listModel ();
 		$number = $model -> getsellorder( 2 );
 		$p = $number>$limit*((int)$p-1)?$p:$p-1;
