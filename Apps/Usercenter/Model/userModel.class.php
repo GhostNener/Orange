@@ -1429,7 +1429,7 @@ class userModel extends Model {
 	public function getranking($uid){
 		$ranking = $this->query ( 'select ranking from(
 								select @rownum := @rownum +1 AS ranking,Id from `user`, (SELECT@rownum :=0) r
-								where `Status` = 10 ORDER BY Credit desc,EXP desc,ClockinCount desc,`E-Money` desc ) M
+								where `Status` = 10 ORDER BY Credit desc,TradeCount desc,EXP desc,ClockinCount desc,`E-Money` desc ) M
 								WHERE Id = ' . (int)$uid );
 		
 		$ranking = $ranking [0] ['ranking'];

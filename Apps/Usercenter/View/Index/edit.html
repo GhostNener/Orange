@@ -28,12 +28,12 @@
 							<div class="form-group">
 								<label for="NickName" class="col-sm-2 control-label" >昵称</label>
 								<div class="col-sm-4">
-									<input type="text" class="form-control" name="Nick" id="Nick" maxlength="30" value="{$user['Nick']}"></div>
+									<input type="text" class="form-control none-radius" name="Nick" id="Nick" maxlength="30" value="{$user['Nick']}"></div>
 							</div>
 							<div class="form-group">
 								<label for="RealName" class="col-sm-2 control-label" >真实姓名</label>
 								<div class="col-sm-4">
-									<input type="text" class="form-control" name="RealName" id="RealName" maxlength="10" value="{$user['RealName']}"></div>
+									<input type="text" class="form-control none-radius" name="RealName" id="RealName" maxlength="10" value="{$user['RealName']}"></div>
 							</div>
 							<div class="form-group">
 								<label for="Sex" class="col-sm-2 control-label">性别</label>
@@ -54,7 +54,7 @@
 								<label for="Birthday" class="col-sm-2 control-label">生日</label>
 								<div class="col-sm-4">
 									<div class="input-group">
-										<input type="datetime" class="form-control" name="Birthday" id="Birthday" onclick="calendar.show(this);" value="{$user['Birthday']|substr=0,10}" readonly="readonly" placeholder="点击选择日期">
+										<input type="datetime" class="form-control none-radius" name="Birthday" id="Birthday" onclick="calendar.show(this);" value="{$user['Birthday']|substr=0,10}" readonly="readonly" placeholder="点击选择日期">
 										<span class="input-group-addon">
 											<a class="glyphicon glyphicon-calendar" onclick="calendar.show(Birthday);"></a>
 										</span>
@@ -64,13 +64,13 @@
 							<div class="form-group">
 								<label for="QQ" class="col-sm-2 control-label">QQ</label>
 								<div class="col-sm-4">
-									<input type="text" class="form-control" name="QQ" id="QQ" value="{$user['TP_QQ']}"></div>
+									<input type="text" class="form-control none-radius" name="QQ" id="QQ" value="{$user['TP_QQ']}"></div>
 							</div>
 
 							<div class="form-group">
 								<label for="Name" class="col-sm-2 control-label">手机</label>
 								<div class="col-sm-4">
-									<input type="tel" class="form-control" name="Name" id="Name" value="{$user['Name']}" {$user['Name']?"disabled='disabled'":''} ></div>
+									<input type="tel" class="form-control none-radius" name="Name" id="Name" value="{$user['Name']}" {$user['Name']?"disabled='disabled'":''} ></div>
 								<div class="col-sm-2">
 									<button class="btn btn-primary activetel" type="button"  {$user['Name']?"disabled='disabled'":''}>{$user['Name']?"已验证":'验证'}</button>
 								</div>
@@ -79,7 +79,7 @@
 							<div class="form-group">
 								<label for="Email" class="col-sm-2 control-label">邮箱</label>
 								<div class="col-sm-4">
-									<input type="email" class="form-control" name="Email" id="Email" value="{$user['E-Mail']}" {$user['E-Mail']?"disabled='disabled'":''} ></div>
+									<input type="email" class="form-control none-radius" name="Email" id="Email" value="{$user['E-Mail']}" {$user['E-Mail']?"disabled='disabled'":''} ></div>
 
 								<div class="col-sm-2">
 									<button class="btn btn-primary activemail" type="button"  {$user['E-Mail']?"disabled='disabled'":''}>{$user['E-Mail']?"已验证":'验证'}</button>
@@ -129,18 +129,18 @@
 							<div class="form-group">
 								<label for="OldPassword" class="col-sm-2 control-label">原密码</label>
 								<div class="col-sm-4">
-									<input type="password" pwd class="form-control" name="OldPassword"  required maxlength="18" ></div>
+									<input type="password" pwd class="form-control none-radius" name="OldPassword"  required maxlength="18" ></div>
 							</div>
 							<div class="form-group">
 								<label for="NewPassword" class="col-sm-2 control-label">新密码</label>
 								<div class="col-sm-4">
-									<input type="password" pwd class="form-control" name="NewPassword"  required maxlength="18" ></div>
+									<input type="password" pwd class="form-control none-radius" name="NewPassword"  required maxlength="18" ></div>
 							</div>
 
 							<div class="form-group">
 								<label for="ConfirmPwd" class="col-sm-2 control-label">确认密码</label>
 								<div class="col-sm-4">
-									<input type="password" pwd class="form-control" name="ConfirmPwd" required maxlength="18" ></div>
+									<input type="password" pwd class="form-control none-radius" name="ConfirmPwd" required maxlength="18" ></div>
 							</div>
 
 							<div class="form-group">
@@ -155,18 +155,18 @@
 							<div class="form-group">
 								<label for="OldPassword" class="col-sm-2 control-label">原密码</label>
 								<div class="col-sm-4">
-									<input type="password" pwd class="form-control " name="OldPassword" required maxlength="18" ></div>
+									<input type="password" pwd class="form-control none-radius " name="OldPassword" required maxlength="18" ></div>
 							</div>
 							<div class="form-group">
 								<label for="NewPassword"  class="col-sm-2 control-label">新密码</label>
 								<div class="col-sm-4">
-									<input type="password" pwd class="form-control " name="NewPassword"  required maxlength="18" ></div>
+									<input type="password" pwd class="form-control none-radius " name="NewPassword"  required maxlength="18" ></div>
 							</div>
 
 							<div class="form-group">
 								<label for="ConfirmPwd" class="col-sm-2 control-label">确认密码</label>
 								<div class="col-sm-4">
-									<input type="password" pwd class="form-control " name="ConfirmPwd"  required maxlength="18" ></div>
+									<input type="password" pwd class="form-control none-radius " name="ConfirmPwd"  required maxlength="18" ></div>
 							</div>
 
 							<div class="form-group">
@@ -202,22 +202,22 @@
 						<div class="form-group">
 							<label for="Contacts" class="col-sm-2 control-label" >联系人</label>
 							<div class="col-sm-10" id="ccc">
-								<input type="text" name="Contacts" id="Contacts" class="form-control" placeholder="联系人" required></div>
+								<input type="text" name="Contacts" id="Contacts" class="form-control none-radius" placeholder="联系人" required></div>
 						</div>
 						<div class="form-group">
 							<label for="Tel" class="col-sm-2 control-label">联系电话</label>
 							<div class="col-sm-10">
-								<input type="tel" name="Tel" id="Tel" class="form-control" placeholder="联系电话" required></div>
+								<input type="tel" name="Tel" id="Tel" class="form-control none-radius" placeholder="联系电话" required></div>
 						</div>
 						<div class="form-group">
 							<label for="QQ" class="col-sm-2 control-label">QQ</label>
 							<div class="col-sm-10">
-								<input type="text" name="QQ" id="QQ" class="form-control" placeholder="QQ" ></div>
+								<input type="text" name="QQ" id="QQ" class="form-control none-radius" placeholder="QQ" ></div>
 						</div>
 						<div class="form-group">
 							<label for="Address" class="col-sm-2 control-label">联系地址</label>
 							<div class="col-sm-10">
-								<input type="text" name="Address" id="Address" class="form-control" placeholder="联系地址" required></div>
+								<input type="text" name="Address" id="Address" class="form-control none-radius" placeholder="联系地址" required></div>
 						</div>
 						<div class="form-group">
 							<div class="col-sm-offset-2 col-sm-10">
@@ -255,7 +255,7 @@
 						<div class="form-group">
 							<label  class="col-sm-2 control-label" tel >手机</label>
 							<div class="col-sm-6" >
-								<input type="tel" name="tel" tel  class="form-control" placeholder="手机号码" required maxlength="11" disabled="disabled"></div>
+								<input type="tel" name="tel" tel  class="form-control none-radius" placeholder="手机号码" required maxlength="11" disabled="disabled"></div>
 							<div class="col-sm-4" >
 								<button type="button" class="btn btn-success sencode">发送验证码</button>
 							</div>
@@ -263,7 +263,7 @@
 						<div class="form-group">
 							<label  class="col-sm-2 control-label">验证码</label>
 							<div class="col-sm-6">
-								<input type="number" name="code"  class="form-control" placeholder="验证码" maxlength="4" required></div>
+								<input type="number" name="code"  class="form-control none-radius" placeholder="验证码" maxlength="4" required></div>
 						</div>
 					</div>
 					<div class="modal-footer">
@@ -290,7 +290,7 @@
 						<div class="form-group">
 							<label  class="col-sm-2 control-label"  >邮箱</label>
 							<div class="col-sm-6" >
-								<input type="email" name="mail" mail  class="form-control" placeholder="邮箱地址" required disabled="disabled"></div>
+								<input type="email" name="mail" mail  class="form-control none-radius" placeholder="邮箱地址" required disabled="disabled"></div>
 						</div>
 					</div>
 					<div class="modal-footer">

@@ -45,19 +45,19 @@
 				<form class="form-horizontal" action="{:U('/gift/exchange')}" method="post">
 					<div class="modal-body">
 
-						<input type="hidden" class="form-control" id="giftid" name="giftid">
+						<input type="hidden" class="form-control none-radius" id="giftid" name="giftid">
 
 						<div class="form-group">
 							<label class="col-sm-2 control-label">数量</label>
 							<div class="col-sm-10">
-								<input type="number" class="form-control" id="Amount" name="Amount" value="1" required></div>
+								<input type="number" class="form-control none-radius" id="Amount" name="Amount" value="1" required></div>
 						</div>
 
 						<div class="form-group">
 							<label class="col-sm-2 control-label">联系人</label>
 							<div class="col-sm-10">
 								<div class="input-group">
-									<select class="form-control" id="AddressId" name="AddressId" required></select>
+									<select class="form-control none-radius" id="AddressId" name="AddressId" required></select>
 									<span class="input-group-btn">
 										<a class="btn btn-default btn-expend ajaxpost" data-toggle="tooltip" data-placement="top" title="刷新地址" data-container="body" refreshAddress>
 											<span class="glyphicon glyphicon-refresh"></span>
@@ -105,17 +105,17 @@
 						<div class="form-group">
 							<label for="Contacts" class="col-sm-2 control-label">联系人</label>
 							<div class="col-sm-10">
-								<input type="text" name="Contacts" id="Contacts" class="form-control"></div>
+								<input type="text" name="Contacts" id="Contacts" class="form-control none-radius"></div>
 						</div>
 						<div class="form-group">
 							<label for="Tel" class="col-sm-2 control-label">联系电话</label>
 							<div class="col-sm-10">
-								<input type="tel" name="Tel" id="Tel" class="form-control" required></div>
+								<input type="tel" name="Tel" id="Tel" class="form-control none-radius" required></div>
 						</div>
 						<div class="form-group">
 							<label for="Address" class="col-sm-2 control-label">联系地址</label>
 							<div class="col-sm-10">
-								<input type="text" name="Address" id="Address" class="form-control"></div>
+								<input type="text" name="Address" id="Address" class="form-control none-radius"></div>
 						</div>
 						<div class="form-group">
 							<div class="col-sm-offset-2 col-sm-10">
