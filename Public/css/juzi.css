@@ -981,6 +981,23 @@ form{
 	    height: 70px;
 	    width: 70px;
 	}
+/* 导航搜索 */
+        .none-radius{
+        border-radius: 0px;
+    }
+    .btnnavsera{
+
+        border: 0px;
+        position: absolute;
+        z-index: 100;
+        right: 1px;
+        top: 1px;
+        bottom: 1px;
+    }
+.btnnavsera:hover{
+    background-color: transparent;
+
+}
 	/*脚页*/
 	footer {
 	    margin-top: -170px; /* negative value of footer height */
