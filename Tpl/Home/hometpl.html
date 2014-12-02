@@ -180,7 +180,9 @@ function ajaxclockin() {
                 return false;
             } else {
                 showsuccessmsg(data.info, 10, 1000);
-                location.href=location.href;
+                setTimeout(function(){
+                	location.href=location.href;
+                },200)
                 return false;
             }                
         }

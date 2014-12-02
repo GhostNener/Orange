@@ -856,7 +856,8 @@ class userModel extends Model {
 		} else {
 			$dal->commit ();
 			$this->handleEXP ( $uid, $c, true, true );
-			return '签到成功，已连续签到' . $c . '天';
+			$exp = $c <= C ( 'MAX_CLOCKIN_EXP' ) ? $c: C ( 'MAX_CLOCKIN_EXP' );
+			return '签到成功，已连续签到' . $c . '天，经验增加'.$exp;
 		}
 	}
 	/**
