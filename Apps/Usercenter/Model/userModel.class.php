@@ -311,6 +311,7 @@ class userModel extends Model {
 		$dal = M ();
 		$dal->startTrans ();
 		$data ['PayPwd'] = $data ['Password'];
+		$data['ModifKey']=createonekey($data['Nick'],11,11);
 		$user = $this->create ( $data );
 		if (! $user) {
 			$msg ['msg'] = $this->getError ();
@@ -325,7 +326,8 @@ class userModel extends Model {
 				'Status',
 				'E-Mail',
 				'Nick',
-				'PayPwd' 
+				'PayPwd' ,
+				'ModifKey'
 		) )->add ( $user );
 		if (! $rst) {
 			$msg ['msg'] = '注册失败';
@@ -394,7 +396,7 @@ class userModel extends Model {
 		if ($send ['E-Mail']) {
 			$key = $this->getnewkey ( $send ['E-Mail'] );
 			
-			$url = U ( 'Usercenter/User/active', array (
+			$url = U ( 'u/User/active', array (
 					'key' => $key,
 					'uid' => time () 
 			), true, true );
@@ -404,7 +406,8 @@ class userModel extends Model {
 			if (! $this->where ( array (
 					'Id' => $uid 
 			) )->save ( array (
-					'UserKey' => $key,
+					'ModifKey' => $key,
+					'UserKey'=>$this->getnewkey($key),
 					'LastKeyTime' => NOW_TIME 
 			) )) {
 				return false;
@@ -436,7 +439,7 @@ class userModel extends Model {
 		}
 		$isl = isloin ();
 		$rst = $this->where ( array (
-				'UserKey' => $arr ['key'],
+				'ModifKey' => $arr ['key'],
 				'Status' => 101 
 		) )->find ();
 		if (! $rst) {
@@ -449,6 +452,7 @@ class userModel extends Model {
 				'Id' => $rst ['Id'] 
 		) )->save ( array (
 				'UserKey' => $newkey,
+				'ModifKey'=>uniqid(randstr(8),true),
 				'Status' => 10 
 		) )) {
 			$msg ['msg'] = '激活失败';
@@ -1037,6 +1041,7 @@ class userModel extends Model {
 				'Status' => 10 
 		) )->save ( array (
 				$filed => $npwd,
+				//'UserKey'=>$this->getnewkey($uid),
 				'LastKeyTime' => $kt 
 		) );
 		if (! $rs) {
@@ -1135,7 +1140,7 @@ class userModel extends Model {
 		}
 		$u = $this->where ( array (
 				'Id' => $uid,
-				'UserKey' => $key 
+				'ModifKey' => $key 
 		) )->find ();
 		if (! $u) {
 			return array (
@@ -1163,6 +1168,7 @@ class userModel extends Model {
 		) )->save ( array (
 				'LastKeyTime' => time (),
 				'E-Mail' => $mail,
+				'ModifKey'=>uniqid(randstr(8),true),
 				'UserKey' => $nkey 
 		) );
 		if (! $r) {
@@ -1216,7 +1222,7 @@ class userModel extends Model {
 		$r1 = $this->where ( array (
 				'Id' => $uid 
 		) )->save ( array (
-				'UserKey' => $key,
+				'ModifKey' => $key,
 				'LastKeyTime' => time () 
 		) );
 		if (! $r1) {
@@ -1231,7 +1237,7 @@ class userModel extends Model {
 		$content = str_replace ( '[$_URL_$]', U ( '/u/bundlmail/' . $key . '/' . base64_encode ( $mail ), '', true, true ), $content );
 		if (sendEmail ( '帐号绑定', $content, $mail )) {
 			$d->commit ();
-			cookie ( "_key", $key );
+			//cookie ( "_key", $key );
 			return array (
 					'status' => 1,
 					'msg' => 'ok' 
@@ -1269,7 +1275,7 @@ class userModel extends Model {
 		if (! $this->where ( array (
 				'Id' => $m ['Id'] 
 		) )->save ( array (
-				'UserKey' => $key,
+				'ModifKey' => $key,
 				'LastKeyTime' => time () 
 		) )) {
 			return array (
@@ -1289,7 +1295,7 @@ class userModel extends Model {
 		
 		if (sendEmail ( $title, $content, $email )) {
 			if ($type == 2) {
-				cookie ( '_key', $key );
+				//cookie ( '_key', $key );
 			}
 			return array (
 					'status' => 1,
@@ -1311,7 +1317,7 @@ class userModel extends Model {
 	 */
 	public function resetpwd($arr, $key, $type = 1) {
 		$u = $this->where ( array (
-				'UserKey' => $key,
+				'ModifKey' => $key,
 				'Status' => array (
 						'neq',
 						- 1 
@@ -1345,6 +1351,7 @@ class userModel extends Model {
 		) )->save ( array (
 				$filed => $pwd,
 				'UserKey' => $key,
+				'ModifKey'=>uniqid(randstr(8),true),
 				'LastKeyTime' => time () 
 		) )) {
 			cookie ( '_uid', $u ['Id'] );

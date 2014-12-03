@@ -274,18 +274,18 @@ class UserController extends BaseController {
 			redirect ( U ( '/' ) );
 		}
 		$u = M ( 'user' )->where ( array (
-				'UserKey' => $key,
+				'ModifKey' => $key,
 				'Status' => array (
 						'neq',
 						- 1 
 				) 
 		) )->find ();
 		if (! $u) {
-			$this->error ( '链接已过期', U ( '/' ) );
+			$this->error ( '链接已失效', U ( '/' ) );
 			die ();
 		}
 		if ((time () - $u ['LastKeyTime']) > C ( 'RESET_PWD_MAIL_TIME' )) {
-			$this->error ( '链接已过期', U ( '/' ) );
+			$this->error ( '链接已失效', U ( '/' ) );
 			die ();
 		}
 		cookie ( '_fkey', $key );
