@@ -179,4 +179,8 @@ class IndexController extends BaseController {
 			$this->success ( $arr ['msg'] );
 		}
 	}
+	/*头衔征集*/
+	public function collect(){
+		$this->display();
+	}
 }

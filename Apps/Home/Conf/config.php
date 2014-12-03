@@ -11,6 +11,7 @@ return array (
 				'o$' => 'Home/Order/index',  // 订单
 				'buysuccess$'=>'Home/Order/createorder',
 				'lottery$'=>'Home/Prize/index',//抽奖
+				'collect$'=>'Home/Index/collect',//头衔征集
 				'recharge$'=>'Home/Prize/recharge'//代金券兑换
 		     )
 		 
