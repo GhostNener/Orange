@@ -982,11 +982,12 @@ form{
 	    width: 70px;
 	}
 /* 导航搜索 */
-        .none-radius{
+    .none-radius{
         border-radius: 0px;
     }
     .btnnavsera{
-
+        font-size: 18px;
+        color: #555;
         border: 0px;
         position: absolute;
         z-index: 100;
@@ -995,8 +996,16 @@ form{
         bottom: 1px;
     }
 .btnnavsera:hover{
+    color: #fa7d3c;
     background-color: transparent;
 
+}
+.btnnavsera:active{
+    color: #fa7d3c;
+    background-color: transparent;
+     border: 0px;
+    -webkit-box-shadow: none;
+    box-shadow: none;
 }
 	/*脚页*/
 	footer {

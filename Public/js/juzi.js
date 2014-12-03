@@ -128,3 +128,11 @@ function randomString(len) {　　len = len || 32;　　
     }　　
     return pwd;
 }
+ function submitserach(){
+     var _v=$.trim($('input[serach]').val());
+     if(!_v){
+        return false;
+     }else{
+        return true;
+     }
+ }
