@@ -321,9 +321,9 @@ function getbalance(isshowmsg){
                 return false;
             } else {
             	if(isshowmsg){showsuccessmsg('刷新余额成功',100,500);}
-            	$('#embalance').children('span').html(data.info+'.00');
+            	$('#embalance').children('span').html(data.info+'');
             	$('#embalance').show();
-            	var _b=parseInt(data.info);
+            	var _b=data.info;
             	if($('#goodsprice').val()>_b){
             		$('#rechargebtn').show();
             		$('#surebuybtn').attr('disabled',true);

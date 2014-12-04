@@ -198,7 +198,7 @@ class userModel extends Model {
 			);
 		} else {
 			if ($type == 2) {
-				return ( int ) $r ['E-Money'];
+				return  $r ['E-Money'];
 			}
 			return array (
 					'status' => 1,
