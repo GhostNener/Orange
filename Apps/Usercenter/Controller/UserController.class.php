@@ -145,7 +145,9 @@ class UserController extends BaseController {
 		$rst = $model->regist ( $arr );
 		if (! ( int ) $rst ['status']) {
 			$this->error ( $rst ['msg'] );
+			return ;
 		}
+		logs ( '注册成功', 2 );
 		$this->success ( $rst ['msg'] );
 	}
 	

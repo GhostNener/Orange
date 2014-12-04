@@ -437,7 +437,7 @@ class userModel extends Model {
 		if (! $arr ['key']) {
 			return $msg;
 		}
-		$isl = isloin ();
+		//$isl = isloin ();
 		$rst = $this->where ( array (
 				'ModifKey' => $arr ['key'],
 				'Status' => 101 
@@ -462,9 +462,10 @@ class userModel extends Model {
 			$msg ['msg'] = '激活成功';
 			$msg ['status'] = 1;
 			$dal->commit ();
-			if ($isl) {
+			//if ($isl) {
 				cookie ( '_key', $newkey );
-			}
+				cookie('_uid',$rst ['Id']);
+			//}
 			return $msg;
 		}
 		return $msg;
