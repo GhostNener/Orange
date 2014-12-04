@@ -42,7 +42,7 @@ class MemberController extends LoginBaseController {
 	public function getoneaddress() {
 		$m = new user_addressModel ();
 		$arr = file_get_contents ( 'php://input' );
-		$arr = json_encode ( $arr, true );
+		$arr = json_decode ( $arr, true );
 		if (! $arr || ! $arr ['Id']) {
 			echo json_encode ( array (
 					'status' => 0,
@@ -83,7 +83,7 @@ class MemberController extends LoginBaseController {
 		}
 		
 		$arr = file_get_contents ( 'php://input' );
-		$arr = json_encode ( $arr, true );
+		$arr = json_decode ( $arr, true );
 		if (! $arr) {
 			echo json_encode ( array (
 					'status' => 0,
@@ -110,7 +110,7 @@ class MemberController extends LoginBaseController {
 			return;
 		}
 		$arr = file_get_contents ( 'php://input' );
-		$arr = json_encode ( $arr, true );
+		$arr = json_decode ( $arr, true );
 		if (! $arr || ! $arr ['Id']) {
 			echo json_encode ( array (
 					'status' => 0,
@@ -140,14 +140,14 @@ class MemberController extends LoginBaseController {
 	 */
 	public function checkpaypwd() {
 		if (! IS_POST) {
-			echo json_decode ( array (
+			echo json_encode ( array (
 					'status' => 0,
 					'msg' => '非法访问' 
 			) );
 			return;
 		}
 		$arr = file_get_contents ( 'php://input' );
-		$arr = json_encode ( $arr, true );
+		$arr = json_decode ( $arr, true );
 		if (! $arr || ! $arr ['pwd']) {
 			echo json_encode ( array (
 					'status' => 0,
@@ -157,7 +157,7 @@ class MemberController extends LoginBaseController {
 		}
 		$m = new userModel ();
 		$r = $m->checkpaypwd ( $arr ['pwd'] );
-		echo json_decode ( $r );
+		echo json_encode ( $r );
 	}
 	/**
 	 * 获得个人基本信息
