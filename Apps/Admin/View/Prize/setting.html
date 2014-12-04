@@ -32,8 +32,8 @@
 								<td>{$v[PraiseNumber]}</td>
 								<td>{$v[PraiseCount]}</td>
 								<td>
-									<a href="javascript:void(0)" class="btn btn-primary btn-small edit" action="{:U('Prize/getset',array('Id'=>$v['Id']))}" >编辑</a>
-									<a href="javascript:void(0)" class="btn btn-danger btn-small save" action="{:U('Prize/delset',array('Id'=>$v['Id']))}">删除</a>
+									<a href="javascript:void(0)" class="btn btn-primary btn-small edit" action="{:U('juzi/Prize/getset',array('Id'=>$v['Id']))}" >编辑</a>
+									<a href="javascript:void(0)" class="btn btn-danger btn-small save" action="{:U('juzi/Prize/delset',array('Id'=>$v['Id']))}">删除</a>
 								</td>
 							</tr>
 						</foreach>
@@ -54,7 +54,7 @@
 					<h4 class="modal-title hightlight" id="myModalLabel">添加奖品</h4>
 				</div>
 
-				<form class="form-horizontal" action="{:U('Prize/saveset')}" onsubmit="syncsubmit()" method="post" enctype="multipart/form-data">
+				<form class="form-horizontal" action="{:U('juzi/Prize/saveset')}" onsubmit="syncsubmit()" method="post" enctype="multipart/form-data">
 					<div class="modal-body">
 
 						<input type="hidden" class="form-control " name="modif" value="add">

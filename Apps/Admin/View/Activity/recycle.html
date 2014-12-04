@@ -25,8 +25,8 @@
 								<td>
 									<?php echo date("Y-m-d H:i:s ", $v[CreateTime]); ?></td>
 								<td>
-									<a class="btn btn-danger btn-small save" action="{:U(clear,array('Id'=>$v['Id']))}">清除</a>
-									<a class="btn btn-primary btn-small edit" action="{:U(update,array('Id'=>$v['Id']))}"  modaltitle="编辑资讯">编辑</a>
+									<a class="btn btn-danger btn-small save" action="{:U('juzi/Activity/clear',array('Id'=>$v['Id']))}">清除</a>
+									<a class="btn btn-primary btn-small edit" action="{:U('juzi/Activity/update',array('Id'=>$v['Id']))}"  modaltitle="编辑资讯">编辑</a>
 								</td>
 							</tr>
 						</foreach>

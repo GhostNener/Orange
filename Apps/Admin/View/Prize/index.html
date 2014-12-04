@@ -3,7 +3,7 @@
 	<div class="col-md-9">
 		<div class="panel panel-orange">
 			<div class="panel-heading">
-				<form class="form-inline" role="form" action="{:U('index')}">
+				<form class="form-inline" role="form" action="{:U('juzi/Prize/index')}">
 					<div class="form-group">
 						<input type="text" class="form-control" name="nick" value="{$nick}" placeholder="用户"></div>
 					<div class="form-group">
@@ -35,7 +35,7 @@
 								<td>{$v['Status']==-1?'已兑换':'未兑换'}</td>
 								<td>
 									<if condition="$v['Status'] eq 10">
-										<a href="javascript:void(0)" class="btn btn-success btn-small save" action="{:U('Prize/saveprize',array('Id'=>$v['Id']))}" >兑奖</a>
+										<a href="javascript:void(0)" class="btn btn-success btn-small save" action="{:U('juzi/Prize/saveprize',array('Id'=>$v['Id']))}" >兑奖</a>
 									</if>
 								</td>
 							</tr>

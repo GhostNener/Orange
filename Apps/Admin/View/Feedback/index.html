@@ -20,7 +20,7 @@
 								<td>{$v.Contents}</td>
 								<td>{:date("Y-m-d H:i:s ", $v[Time])}</td>
 								<td>
-									<a class="btn btn-primary btn-small edit" action="{:U(update,array('Id'=>$v['Id']))}"  modaltitle="回复反馈">回复</a>
+									<a class="btn btn-primary btn-small edit" action="{:U('juzi/Feedback/update',array('Id'=>$v['Id']))}"  modaltitle="回复反馈">回复</a>
 								</td>
 							</tr>
 						</foreach>
@@ -42,7 +42,7 @@
 					<h4 class="modal-title hightlight" id="myModalLabel">回复反馈</h4>
 				</div>
 
-				<form class="form-horizontal" action="{:U('reply')}" onsubmit="return ajaxsubmit()" method="post">
+				<form class="form-horizontal" action="{:U('juzi/Feedback/reply')}" onsubmit="return ajaxsubmit()" method="post">
 					<div class="modal-body">
 
 						<input type="hidden" class="form-control " name="Id" id="Id">

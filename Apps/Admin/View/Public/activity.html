@@ -3,12 +3,12 @@
 	<div class="col-md-3">
 		<label>活动分类</label>
 		<ul class="list-group">
-			<a class="list-group-item" href="{:U('index')}">全部</a>
-			<a class="list-group-item" href="{:U('index',array(type=>'IsTop'))}">置顶轮播</a>
-			<a class="list-group-item" href="{:U('index',array(type=>'IsHot'))}">热门活动</a>
+			<a class="list-group-item" href="{:U('juzi/Activity/index')}">全部</a>
+			<a class="list-group-item" href="{:U('juzi/Activity/index',array(type=>'IsTop'))}">置顶轮播</a>
+			<a class="list-group-item" href="{:U('juzi/Activity/index',array(type=>'IsHot'))}">热门活动</a>
 		</ul>
 		<ul class="list-group">
-			<a class="list-group-item" href="{:U('recycle')}">回收站</a>
+			<a class="list-group-item" href="{:U('juzi/Activity/recycle')}">回收站</a>
 		</ul>
 	</div>
 
@@ -24,7 +24,7 @@
 					<h4 class="modal-title hightlight" id="myModalLabel">添加资讯</h4>
 				</div>
 
-				<form class="form-horizontal" action="{:U('save')}" onsubmit="syncsubmit()" method="post" enctype="multipart/form-data">
+				<form class="form-horizontal" action="{:U('juzi/Activity/save')}" onsubmit="syncsubmit()" method="post" enctype="multipart/form-data">
 					<div class="modal-body">
 
 						<input type="hidden" class="form-control " name="modif" value="add">

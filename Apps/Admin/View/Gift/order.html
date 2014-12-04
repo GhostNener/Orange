@@ -23,7 +23,7 @@
 								<td>
 									<?php echo date("Y-m-d H:i:s ", $v[CreateTime]); ?></td>
 								<td>
-									<a class="btn btn-danger btn-small save" action="{:U(ordercomplete,array('Id'=>$v['Id']))}">完成</a>
+									<a class="btn btn-danger btn-small save" action="{:U('juzi/Gift/ordercomplete',array('Id'=>$v['Id']))}">完成</a>
 								</td>
 							</tr>
 						</foreach>

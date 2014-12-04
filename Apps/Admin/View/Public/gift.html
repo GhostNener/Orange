@@ -3,14 +3,14 @@
 	<div class="col-md-3">
 		<label>礼品管理</label>
 		<ul class="list-group">
-			<a class="list-group-item" href="{:U('index')}">礼品列表</a>
-			<a class="list-group-item" href="{:U('recycle')}">回收站</a>
+			<a class="list-group-item" href="{:U('juzi/Gift/index')}">礼品列表</a>
+			<a class="list-group-item" href="{:U('juzi/Gift/recycle')}">回收站</a>
 		</ul>
 
 		<label>订单管理</label>
 		<ul class="list-group">
-			<a class="list-group-item" href="{:U('order')}">未处理</a>
-			<a class="list-group-item" href="{:U('complete')}">历史订单</a>
+			<a class="list-group-item" href="{:U('juzi/Gift/order')}">未处理</a>
+			<a class="list-group-item" href="{:U('juzi/Gift/complete')}">历史订单</a>
 		</ul>
 	</div>
 
@@ -26,7 +26,7 @@
 					<h4 class="modal-title hightlight" id="myModalLabel">添加礼品</h4>
 				</div>
 
-				<form class="form-horizontal" action="{:U('save')}" onsubmit="syncsubmit()" method="post" enctype="multipart/form-data">
+				<form class="form-horizontal" action="{:U('juzi/Gift/save')}" onsubmit="syncsubmit()" method="post" enctype="multipart/form-data">
 					<div class="modal-body">
 
 						<input type="hidden" class="form-control " name="modif" value="add">

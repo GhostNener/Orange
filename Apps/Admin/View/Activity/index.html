@@ -25,7 +25,7 @@
 								<td>
 									<?php echo date("Y-m-d H:i:s ", $v[CreateTime]); ?></td>
 								<td>
-									<a class="btn btn-danger btn-small save" action="{:U(del,array('Id'=>$v['Id']))}">删除</a>
+									<a class="btn btn-danger btn-small save" action="{:U('juzi/Activity/del',array('Id'=>$v['Id']))}">删除</a>
 
 									<if condition="($v[Href] eq null) or ($v[Href] eq '')">
 										<a class="btn btn-info btn-small" href="{:U('/f/'.$v['Id'])}" target="_blank">查看</a>
@@ -35,7 +35,7 @@
 
 									</if>
 
-									<a class="btn btn-primary btn-small edit" action="{:U(update,array('Id'=>$v['Id']))}"  modaltitle="编辑资讯">编辑</a>
+									<a class="btn btn-primary btn-small edit" action="{:U('juzi/Activity/update',array('Id'=>$v['Id']))}"  modaltitle="编辑资讯">编辑</a>
 								</td>
 							</tr>
 						</foreach>

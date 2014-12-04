@@ -20,9 +20,9 @@
 								<td>{$v.Keyword}</td>
 								<td>{$v[Status]==10?启用:禁用}</td>
 								<td>
-									<a class="btn btn-danger btn-small save" action="{:U(del,array('Id'=>$v['Id'], 'CategoryId'=>$v['CategoryId']))}">删除</a>
-									<a class="btn btn-info btn-small save" action="{:U(SaveTempKey,array('Id'=>$v['Id']))}" modaltitle="收录关键字">收录</a>
-									<a class="btn btn-primary btn-small edit" action="{:U(update,array('Id'=>$v['Id']))}" modaltitle="编辑关键字">编辑</a>
+									<a class="btn btn-danger btn-small save" action="{:U('juzi/Category/del',array('Id'=>$v['Id'], 'CategoryId'=>$v['CategoryId']))}">删除</a>
+									<a class="btn btn-info btn-small save" action="{:U('juzi/Category/SaveTempKey',array('Id'=>$v['Id']))}" modaltitle="收录关键字">收录</a>
+									<a class="btn btn-primary btn-small edit" action="{:U('juzi/Category/update',array('Id'=>$v['Id']))}" modaltitle="编辑关键字">编辑</a>
 								</td>
 							</tr>
 						</foreach>
@@ -45,7 +45,7 @@
 					<h4 class="modal-title hightlight" id="myModalLabel">添加关键字</h4>
 				</div>
 
-				<form class="form-horizontal" action="{:U('save')}" method="POST" onsubmit="return ajaxsubmit()">
+				<form class="form-horizontal" action="{:U('juzi/Category/save')}" method="POST" onsubmit="return ajaxsubmit()">
 					<div class="modal-body">
 
 						<input type="hidden" class="form-control " name="modif" value="update">

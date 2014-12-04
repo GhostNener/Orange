@@ -14,14 +14,16 @@ return array (
 		'MODULE_ALLOW_LIST' => array (
 				'Home',
 				'Api',
-				'Admin',
+				//'Admin',
 				'Usercenter',
 				'u',
-				'user' 
+				'user' ,
+				'juzi'
 		),
 		'URL_MODULE_MAP' => array (
 				'u' => 'Usercenter',
-				'user' => 'Usercenter' 
+				'user' => 'Usercenter' ,
+				'juzi'=>'Admin'
 		),
 		
 		'URL_ROUTER_ON' => true,
@@ -134,6 +136,9 @@ return array (
 		/*定制成功以及错误模板  */
 		'TMPL_ACTION_ERROR' => './Tpl/jump.html',
 		'TMPL_ACTION_SUCCESS' => './Tpl/jump.html',
+		'TMPL_EXCEPTION_FILE' =>'./Tpl/exception.html',
+		 'ERROR_MESSAGE'      =>  '哎呀，你访问的页面不存在！',
+		 'ERROR_PAGE'  =>'http://www.bigoranger.com/',
 		/*七牛OSS*/
 		'FILE_SIZE_SEPARATOR' => '-', // 分隔符
 		'UPLOAD_SITEIMG_QINIU' => array (

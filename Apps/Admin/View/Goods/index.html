@@ -48,7 +48,7 @@
 					<h4 class="modal-title hightlight" id="myModalLabel">下架理由</h4>
 				</div>
 
-				<form class="form-horizontal" action="{:U(update,array('Id'=>$v['Id'],'status'=>50))}" method="post" onsubmit="return ajaxsubmit()">
+				<form class="form-horizontal" action="{:U('juzi/Goods/update',array('Id'=>$v['Id'],'status'=>50))}" method="post" onsubmit="return ajaxsubmit()">
 					<div class="modal-body">
 
 						<div class="form-group">

@@ -20,7 +20,7 @@
 					<div class="row">
 						<div class="col-md-4">
 							<dl class="dl-horizontal">
-								<a href="{:U('Gift/order')}">
+								<a href="{:U('juzi/Gift/order')}">
 									<dt>礼品订单</dt>
 									<dd>{$giftCount?$giftCount:0}</dd>
 								</a>
@@ -28,7 +28,7 @@
 						</div>
 						<div class="col-md-4">
 							<dl class="dl-horizontal">
-								<a href="{:U('Goods/index',array('status'=>
+								<a href="{:U('juzi/Goods/index',array('status'=>
 									-1))}">
 									<dt>商品投诉</dt>
 									<dd>{$complainCount?$complainCount:0}</dd>
@@ -38,7 +38,7 @@
 
 						<div class="col-md-4">
 							<dl class="dl-horizontal">
-								<a href="{:U('Feedback/index')}">
+								<a href="{:U('juzi/Feedback/index')}">
 									<dt>问题反馈</dt>
 									<dd>{$fbCount?$fbCount:0}</dd>
 								</a>
@@ -72,7 +72,7 @@
 						共计
 						<span>{$userCount?$userCount:0}</span>
 						人
-						<a href="{:U('User/index')}" class="btn btn-success">更多</a>
+						<a href="{:U('juzi/User/index')}" class="btn btn-success">更多</a>
 					</div>
 				</div>
 			</div>
@@ -101,7 +101,7 @@
 						共计
 						<span>{$goodsCount?$goodsCount:0}</span>
 						件
-						<a href="{:U('Goods/index')}" class="btn btn-info">更多</a>
+						<a href="{:U('juzi/Goods/index')}" class="btn btn-info">更多</a>
 					</div>
 				</div>
 			</div>
@@ -131,7 +131,7 @@
 						共计
 						<span>{$logCount[0]['pay']?$logCount[0]['pay']:0}</span>
 						元
-						<a href="{:U('Logs/index',array('type'=>'pay'))}" class="btn btn-warning">更多</a>
+						<a href="{:U('juzi/Logs/index',array('type'=>'pay'))}" class="btn btn-warning">更多</a>
 					</div>
 				</div>
 			</div>

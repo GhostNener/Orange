@@ -3,7 +3,7 @@
 	<div class="col-md-9">
 		<div class="panel panel-danger">
 			<div class="panel-heading">
-				<button class="btn btn-danger save" action="{:U(clear)}">全部清空</button>
+				<button class="btn btn-danger save" action="{:U('juzi/Gift/clear')}">全部清空</button>
 			</div>
 			<div class="table-responsive">
 				<table class="table table-striped">
@@ -25,8 +25,8 @@
 								<td>
 									<?php echo date("Y-m-d H:i:s ", $v[CreateTime]); ?></td>
 								<td>
-									<a class="btn btn-danger btn-small save" action="{:U(clear,array('Id'=>$v['Id']))}">删除</a>
-									<a class="btn btn-primary btn-small edit" action="{:U(update,array('Id'=>$v['Id']))}"  modaltitle="编辑礼品">编辑</a>
+									<a class="btn btn-danger btn-small save" action="{:U('juzi/Gift/clear',array('Id'=>$v['Id']))}">删除</a>
+									<a class="btn btn-primary btn-small edit" action="{:U('juzi/Gift/update',array('Id'=>$v['Id']))}"  modaltitle="编辑礼品">编辑</a>
 
 								</td>
 							</tr>
