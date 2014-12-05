@@ -156,7 +156,7 @@ class MemberController extends LoginBaseController {
 			return;
 		}
 		$m = new userModel ();
-		$r = $m->checkpaypwd ( $arr ['pwd'] );
+		$r = $m->checkpaypwd ( $arr ['pwd'] ,api_get_uid());
 		echo json_encode ( $r );
 	}
 	/**
