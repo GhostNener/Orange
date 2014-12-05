@@ -38,7 +38,7 @@ class PrizeController extends BaseController {
 			);
 		}
 		$m = new view_prize_record_listModel ();
-		$r = $m->getlist ( $wa, 20 );
+		$r = $m->getlist ( $wa, 10 );
 		$this->assign ( 'list', $r ['list'] );
 		$this->assign ( 'page', $r ['page'] );
 		$this->assign ( 'nick', $nick);

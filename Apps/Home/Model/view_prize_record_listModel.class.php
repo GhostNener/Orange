@@ -17,14 +17,14 @@ class view_prize_record_listModel extends Model {
 	 * @param unknown $wa
 	 * @param number $limit
 	 * @return multitype:unknown  */
-	public function getlist($wa = array('Status'=>array('gt',-2)), $limit = 6) {
+	public function getlist($wa = array('Status'=>array('gt',-2)), $limit = 10) {
 		$count = $this->where ( $wa )->order ( 'CreateTime DESC' )->count ();
-		$page = new \Think\Page ( $count, $limit );
-		$page = $page->show ();
+		$Page = new \Think\Page ( $count, $limit );
+		$showpage = $Page->show ();
 		$list = $this->where ( $wa )->limit ( $Page->firstRow . ',' . $Page->listRows )->order ( 'CreateTime DESC' )->select ();
 		return array (
 				'list' => $list,
-				'page' => $page 
+				'page' => $showpage 
 		);
 	}
 }

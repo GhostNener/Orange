@@ -15,13 +15,13 @@
 				<table class="table table-striped">
 					<thead>
 						<th>编号</th>
-						<th>用户</th>
-						<th>奖项</th>
-						<th>奖品</th>
-						<th>抽奖时间</th>
-						<th>兑奖时间</th>
-						<th>状态</th>
-						<th>操作</th>
+						<th >用户</th>
+						<th >奖项</th>
+						<th >奖品</th>
+						<th >抽奖时间</th>
+						<th style="min-width: 80px;">兑奖时间</th>
+						<th >状态</th>
+						<th >操作</th>
 					</thead>
 					<tbody>
 						<foreach name='list' item='v'>
@@ -31,7 +31,9 @@
 								<td>{$v['PraiseName']}</td>
 								<td>{$v['PraiseContent']}</td>
 								<td>{:date('y-m-d H:i:s',$v['CreateTime'])}</td>
-								<td>{$v['UpdateTime']==0?'':date('y-m-d H:i:s',$v['UpdateTime'])}</td>
+								<td>
+									{$v['UpdateTime']==0?'':date('y-m-d H:i:s',$v['UpdateTime'])}
+								</td>
 								<td>{$v['Status']==-1?'已兑换':'未兑换'}</td>
 								<td>
 									<if condition="$v['Status'] eq 10">
