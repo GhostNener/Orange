@@ -15,6 +15,7 @@ use Home\Model\prize_recordModel;
 class PrizeController extends BaseController {
 	public function index() {
 		$nick = I ( 'nick' );
+		$code=I('code');
 		$s = I ( 's' );
 		if (! $s) {
 			$wa = array (
@@ -31,17 +32,22 @@ class PrizeController extends BaseController {
 					'Status' => ( int ) $s 
 			);
 		}
+		
 		if ($nick) {
 			$wa ['Nick'] = array (
 					'like',
 					'%' . $nick . '%' 
 			);
 		}
+		if($code){
+			$wa ['Code']=array('like','%' . $code . '%' );
+		}
 		$m = new view_prize_record_listModel ();
 		$r = $m->getlist ( $wa, 10 );
 		$this->assign ( 'list', $r ['list'] );
 		$this->assign ( 'page', $r ['page'] );
 		$this->assign ( 'nick', $nick);
+		$this->assign ( 'prizecode', $code);
 		$this->display ();
 	}
 	/**

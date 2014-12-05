@@ -1084,7 +1084,7 @@ function randstr($length = 8) {
 	if ($length <= 0) {
 		return null;
 	}
-	$pattern = '1234567890abcdefghijklmnopqrstuvwxyz_ABCDEFGHIJKLOMNOPQRSTUVWXYZ'; // 字符池
+	$pattern = '1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLOMNOPQRSTUVWXYZ'; // 字符池
 	$end = strlen ( $pattern ) - 1;
 	$rst = '';
 	for($i = 0; $i < $length; $i ++) {

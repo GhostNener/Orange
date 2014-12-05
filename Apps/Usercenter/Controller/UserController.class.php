@@ -164,7 +164,7 @@ class UserController extends BaseController {
 		}
 		$model = new userModel ();
 		$rst = $model->active ( $arr );
-		if ($rst ['status'] == 1) {		
+		if ((int)$rst ['status'] == 1) {		
 			$this->success ( '激活成功', U ( '/' ) );
 		} else {
 			$this->error ( '链接已失效', U ( '/' ) );
