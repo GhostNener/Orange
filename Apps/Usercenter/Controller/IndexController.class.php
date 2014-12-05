@@ -60,6 +60,7 @@ class IndexController extends LoginController {
 		if (! $r) {
 			$this->error ( '发送失败' );
 		} else {
+			logs ( '发送激活邮件', 2 );
 			$this->success ( '发送成功' );
 		}
 	}

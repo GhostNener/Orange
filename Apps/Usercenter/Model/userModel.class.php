@@ -24,20 +24,6 @@ class userModel extends Model {
 					self::EXISTS_VALIDATE 
 			),
 			array (
-					'Nick',
-					'checknull',
-					'昵称不能为空！',
-					self::EXISTS_VALIDATE,
-					'function' 
-			),
-			array (
-					'Nick',
-					'',
-					'昵称已被使用！',
-					self::EXISTS_VALIDATE,
-					'unique' 
-			),
-			array (
 					'E-Mail',
 					'',
 					'帐号已注册！',
@@ -78,6 +64,20 @@ class userModel extends Model {
 					'确认密码不一致',
 					self::EXISTS_VALIDATE,
 					'confirm' 
+			),
+			array (
+					'Nick',
+					'checknull',
+					'昵称不能为空！',
+					self::EXISTS_VALIDATE,
+					'function' 
+			),
+			array (
+					'Nick',
+					'',
+					'昵称已被使用！',
+					self::EXISTS_VALIDATE,
+					'unique' 
 			) 
 	);
 	
@@ -198,7 +198,7 @@ class userModel extends Model {
 			);
 		} else {
 			if ($type == 2) {
-				return  $r ['E-Money'];
+				return $r ['E-Money'];
 			}
 			return array (
 					'status' => 1,
@@ -300,18 +300,18 @@ class userModel extends Model {
 			$str = str_replace ( '@', 'at', $str );
 			$str = str_replace ( '.', '_', $str );
 			$data ['Nick'] = C ( 'RAND_NICK_PREFIX' ) . $str;
-
+			
 			unset ( $data ['Name'] );
 		} else {
 			if (! $data ['Nick']) {
 				$data ['Nick'] = C ( 'RAND_NICK_PREFIX' ) . $data ['Name'];
 			}
 		}
-
+		
 		$dal = M ();
 		$dal->startTrans ();
 		$data ['PayPwd'] = $data ['Password'];
-		$data['ModifKey']=createonekey($data['Nick'],11,11);
+		$data ['ModifKey'] = createonekey ( $data ['Nick'], 11, 11 );
 		$user = $this->create ( $data );
 		if (! $user) {
 			$msg ['msg'] = $this->getError ();
@@ -326,8 +326,8 @@ class userModel extends Model {
 				'Status',
 				'E-Mail',
 				'Nick',
-				'PayPwd' ,
-				'ModifKey'
+				'PayPwd',
+				'ModifKey' 
 		) )->add ( $user );
 		if (! $rst) {
 			$msg ['msg'] = '注册失败';
@@ -373,6 +373,7 @@ class userModel extends Model {
 			$add->adddefefault ( $um ['Id'] );
 			cookie ( '_uid', $um ['Id'] );
 			cookie ( '_key', $um ['UserKey'] );
+			logs ( '注册成功', 2 );
 			$dal->commit ();
 		}
 		return $msg;
@@ -407,7 +408,7 @@ class userModel extends Model {
 					'Id' => $uid 
 			) )->save ( array (
 					'ModifKey' => $key,
-					'UserKey'=>$this->getnewkey($key),
+					'UserKey' => $this->getnewkey ( $key ),
 					'LastKeyTime' => NOW_TIME 
 			) )) {
 				return false;
@@ -437,7 +438,7 @@ class userModel extends Model {
 		if (! $arr ['key']) {
 			return $msg;
 		}
-		//$isl = isloin ();
+		// $isl = isloin ();
 		$rst = $this->where ( array (
 				'ModifKey' => $arr ['key'],
 				'Status' => 101 
@@ -452,7 +453,7 @@ class userModel extends Model {
 				'Id' => $rst ['Id'] 
 		) )->save ( array (
 				'UserKey' => $newkey,
-				'ModifKey'=>uniqid(randstr(8),true),
+				'ModifKey' => uniqid ( randstr ( 8 ), true ),
 				'Status' => 10 
 		) )) {
 			$msg ['msg'] = '激活失败';
@@ -462,10 +463,11 @@ class userModel extends Model {
 			$msg ['msg'] = '激活成功';
 			$msg ['status'] = 1;
 			$dal->commit ();
-			//if ($isl) {
-				cookie ( '_key', $newkey );
-				cookie('_uid',$rst ['Id']);
-			//}
+			// if ($isl) {
+			cookie ( '_key', $newkey );
+			cookie ( '_uid', $rst ['Id'] );
+			// }
+			logs ( '激活成功', 2 );
 			return $msg;
 		}
 		return $msg;
@@ -552,6 +554,11 @@ class userModel extends Model {
 		$msgarr ['status'] = 1;
 		$msgarr ['_uid'] = $rst ['Id'];
 		$msgarr ['_uname'] = base64_encode ( $rst ['Nick'] );
+		if ($arr ['isadmin']) {
+			logs ( '管理员' . $msgarr ['msg'], 2 );
+		} else {
+			logs ( $msgarr ['msg'], 2 );
+		}
 		return $msgarr;
 	}
 	/**
@@ -601,6 +608,10 @@ class userModel extends Model {
 			if ($isadmin) {
 				$_key = cookie ( 'admin_key' );
 				$_id = cookie ( 'admin_uid' );
+				if($_key!=cookie ( '_key' )||$_id!=cookie ( '_uid' )){
+					cookie(null);
+					return false;
+				}
 			} else {
 				$_key = cookie ( '_key' );
 				$_id = cookie ( '_uid' );
@@ -861,8 +872,8 @@ class userModel extends Model {
 		} else {
 			$dal->commit ();
 			$this->handleEXP ( $uid, $c, true, true );
-			$exp = $c <= C ( 'MAX_CLOCKIN_EXP' ) ? $c: C ( 'MAX_CLOCKIN_EXP' );
-			return '签到成功，已连续签到' . $c . '天，经验增加'.$exp;
+			$exp = $c <= C ( 'MAX_CLOCKIN_EXP' ) ? $c : C ( 'MAX_CLOCKIN_EXP' );
+			return '签到成功，已连续签到' . $c . '天，经验增加' . $exp;
 		}
 	}
 	/**
@@ -1042,7 +1053,7 @@ class userModel extends Model {
 				'Status' => 10 
 		) )->save ( array (
 				$filed => $npwd,
-				//'UserKey'=>$this->getnewkey($uid),
+				// 'UserKey'=>$this->getnewkey($uid),
 				'LastKeyTime' => $kt 
 		) );
 		if (! $rs) {
@@ -1051,6 +1062,7 @@ class userModel extends Model {
 					'msg' => '修改失败' 
 			);
 		} else {
+			logs ( '修改密码', 2 );
 			return array (
 					'status' => 1,
 					'msg' => '修改成功' . $ms 
@@ -1073,6 +1085,7 @@ class userModel extends Model {
 	 *
 	 *
 	 *
+	 *
 	 */
 	public function handleEXP($uid = null, $type = 1, $isInc = true, $isclockin = false) {
 		if (! $uid) {
@@ -1086,7 +1099,7 @@ class userModel extends Model {
 			return $this->where ( $wa )->setInc ( 'EXP', ( int ) $type );
 		}
 		$n = 1;
-		switch ((int)$type) {
+		switch (( int ) $type) {
 			case 1 : // 留言收藏
 				$n = 1;
 				break;
@@ -1169,7 +1182,7 @@ class userModel extends Model {
 		) )->save ( array (
 				'LastKeyTime' => time (),
 				'E-Mail' => $mail,
-				'ModifKey'=>uniqid(randstr(8),true),
+				'ModifKey' => uniqid ( randstr ( 8 ), true ),
 				'UserKey' => $nkey 
 		) );
 		if (! $r) {
@@ -1179,6 +1192,7 @@ class userModel extends Model {
 			);
 		} else {
 			cookie ( '_key', $nkey );
+			logs ( '绑定帐号', 2 );
 			return array (
 					'status' => 1,
 					'msg' => 'ok' 
@@ -1238,7 +1252,8 @@ class userModel extends Model {
 		$content = str_replace ( '[$_URL_$]', U ( '/u/bundlmail/' . $key . '/' . base64_encode ( $mail ), '', true, true ), $content );
 		if (sendEmail ( '帐号绑定', $content, $mail )) {
 			$d->commit ();
-			//cookie ( "_key", $key );
+			// cookie ( "_key", $key );
+			logs ( '发送帐号绑定邮件', 2 );
 			return array (
 					'status' => 1,
 					'msg' => 'ok' 
@@ -1296,8 +1311,9 @@ class userModel extends Model {
 		
 		if (sendEmail ( $title, $content, $email )) {
 			if ($type == 2) {
-				//cookie ( '_key', $key );
+				// cookie ( '_key', $key );
 			}
+			logs ( '发送邮件（密码找回）', 2 );
 			return array (
 					'status' => 1,
 					'msg' => '发送成功' 
@@ -1352,11 +1368,12 @@ class userModel extends Model {
 		) )->save ( array (
 				$filed => $pwd,
 				'UserKey' => $key,
-				'ModifKey'=>uniqid(randstr(8),true),
+				'ModifKey' => uniqid ( randstr ( 8 ), true ),
 				'LastKeyTime' => time () 
 		) )) {
 			cookie ( '_uid', $u ['Id'] );
 			cookie ( '_key', $key );
+			logs ( '重置密码', 2 );
 			return array (
 					'status' => 1,
 					'msg' => '保存成功' 
@@ -1416,40 +1433,51 @@ class userModel extends Model {
 	
 	/**
 	 * 用户信誉度的修改
-	 * 
-	 * @param int $userid, 
-	 * @param int $start 信誉度 
-	 * @param int $type 
-	 *   		1.增加  2.减少  	
+	 *
+	 * @param int $userid,        	
+	 * @param int $start
+	 *        	信誉度
+	 * @param int $type
+	 *        	1.增加 2.减少
 	 * @author LongG
 	 */
-	public function updatecredit($userid, $star = 0,$type = 1) {
-		if ((int)$type == 1) {
-			return $this -> where( array('Id' => $userid) )->setInc('Credit', $star); 
+	public function updatecredit($userid, $star = 0, $type = 1) {
+		if (( int ) $type == 1) {
+			return $this->where ( array (
+					'Id' => $userid 
+			) )->setInc ( 'Credit', $star );
 		} else {
-			return $this -> where( array('Id' => $userid) )->setDec('Credit', $star);
+			return $this->where ( array (
+					'Id' => $userid 
+			) )->setDec ( 'Credit', $star );
 		}
 	}
 	
 	/**
 	 * 获得综合排名
-	 * @param int $uid
-	 * @return int  */
-	public function getranking($uid){
+	 * 
+	 * @param int $uid        	
+	 * @return int
+	 */
+	public function getranking($uid) {
 		$ranking = $this->query ( 'select ranking from(
 								select @rownum := @rownum +1 AS ranking,Id from `user`, (SELECT@rownum :=0) r
 								where `Status` = 10 ORDER BY Credit desc,TradeCount desc,EXP desc,ClockinCount desc,`E-Money` desc ) M
-								WHERE Id = ' . (int)$uid );
+								WHERE Id = ' . ( int ) $uid );
 		
 		$ranking = $ranking [0] ['ranking'];
 		return $ranking;
 	}
 	/**
 	 * 充值
-	 * @param unknown $uid
-	 * @param unknown $count  */
-	public function recharge($uid,$count){
-		return $this->where(array('Id'=>$uid))->setInc('E-Money',$count);
+	 * 
+	 * @param unknown $uid        	
+	 * @param unknown $count        	
+	 */
+	public function recharge($uid, $count) {
+		return $this->where ( array (
+				'Id' => $uid 
+		) )->setInc ( 'E-Money', $count );
 	}
 }
 ?>

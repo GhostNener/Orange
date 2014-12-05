@@ -12,7 +12,7 @@ class LogsController extends BaseController {
 	
 	public function index() {
 
-		$model = M ( 'logs' );
+		$model = M ( 'view_logs_list' );
 		// 查询条件
 		if(I('UserName')){
 			$map['UserName'] = I('UserName');

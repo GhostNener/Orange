@@ -111,7 +111,6 @@ class UserController extends BaseController {
 			cookie ( '_key', $rst ['_key'], C ( 'COOKIE_REMEMBER_TIME' ) );
 			cookie ( '_uid', $rst ['_uid'], C ( 'COOKIE_REMEMBER_TIME' ) );
 			cookie ( '_uname', $rst ['_uname'], C ( 'COOKIE_REMEMBER_TIME' ) );
-			logs ( $rst ['msg'], 2 );
 		}
 		if ($isadmin) {
 			cookie ( 'admin_key', $rst ['_key'] );
@@ -120,7 +119,6 @@ class UserController extends BaseController {
 			cookie ( '_key', $rst ['_key'], C ( 'COOKIE_REMEMBER_TIME' ) );
 			cookie ( '_uid', $rst ['_uid'], C ( 'COOKIE_REMEMBER_TIME' ) );
 			cookie ( '_uname', $rst ['_uname'], C ( 'COOKIE_REMEMBER_TIME' ) );
-			logs ( '管理员' . $rst ['msg'], 2 );
 		}
 		/* cookie ( '_lastLTK', createonekey ( microtime ( true ), 20, 10 ) ); */
 		session ( $rst ['_uid'], $rst ['_key'], $rst ['_uname'] );
@@ -146,8 +144,7 @@ class UserController extends BaseController {
 		if (! ( int ) $rst ['status']) {
 			$this->error ( $rst ['msg'] );
 			return ;
-		}
-		logs ( '注册成功', 2 );
+		}	
 		$this->success ( $rst ['msg'] );
 	}
 	
@@ -167,10 +164,7 @@ class UserController extends BaseController {
 		}
 		$model = new userModel ();
 		$rst = $model->active ( $arr );
-		if ($rst ['status'] == 1) {
-			
-			logs ( '激活成功', 2 );
-			
+		if ($rst ['status'] == 1) {		
 			$this->success ( '激活成功', U ( '/' ) );
 		} else {
 			$this->error ( '链接已失效', U ( '/' ) );
