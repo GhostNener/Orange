@@ -14,15 +14,17 @@ class view_goods_order_listModel extends Model{
 	/**
 	 * 查询未完成订单
 	 *
-	 * @param $type  
+	 * @param int $type 
 	 * 			1：获取 列表   2：获取 数量 
-	 * @param $limit 分页显示个数
+	 * @param int $limit 分页显示个数
 	 * @return array or number
 	 * @author LongG
 	 *        
 	 */
-	public function getorder($type = 1, $limit = 6, $baseurl=ACTION_NAME, $defaultpar = true, $param=null) {
-		$uid = cookie('_uid'); 		
+	public function getorder($type = 1, $limit = 6, $baseurl=ACTION_NAME, $defaultpar = true, $param=null,$uid=null) {
+		if(!$uid){
+			$uid = cookie('_uid');
+		}	
 		$sql = '`Status` >1 and `Status` < 23 and (( BuyerId = '.$uid.' and IsBuyEvaluate = 0 )or( SellerId = '.$uid.' and IsSellEvaluate = 0))';
 		if ($type == 2) {
 			return ($this->where ( $sql )->count ());
@@ -42,17 +44,20 @@ class view_goods_order_listModel extends Model{
 	/**
 	 * 查询购买订单
 	 *
-	 * @param $type
+	 * @param int $type
 	 * 			  1：获取 列表  2：获取 数量
-	  * @param $limit 分页显示个数
+	  * @param int $limit 分页显示个数
 	 * @return array or number
 	 * @author LongG
 	 *        
 	 */
-	public function getbuyorder($type = 1, $limit = 6, $baseurl=ACTION_NAME, $defaultpar = true, $param=null) {
+	public function getbuyorder($type = 1, $limit = 6, $baseurl=ACTION_NAME, $defaultpar = true, $param=null,$uid=null) {
+		if(!$uid){
+			$uid = cookie('_uid');
+		}
 		$type = (int)$type;
 		$wherearr = array (
-				'BuyerId' => cookie('_uid'),
+				'BuyerId' => $uid,
 				'Status' => 22
 		);
 		if ($type == 2) {
@@ -73,16 +78,19 @@ class view_goods_order_listModel extends Model{
 	/**
 	 * 查询出售订单
 	 *
-	 * @param $type
+	 * @param int $type
 	 * 			  1：获取 列表  2：获取 数量
-	 * @param $limit 分页显示个数
+	 * @param int $limit 分页显示个数
 	 * @return array or number
 	 * @author LongG
 	 *        
 	 */
-	public function getsellorder($type = 1, $limit = 6, $baseurl=ACTION_NAME, $defaultpar = true, $param=null) {
+	public function getsellorder($type = 1, $limit = 6, $baseurl=ACTION_NAME, $defaultpar = true, $param=null,$uid=null) {
+		if(!$uid){
+			$uid = cookie('_uid');
+		}
 		$wherearr = array (
-				'SellerId' => cookie('_uid'),
+				'SellerId' => $uid,
 				'Status' => 22
 		);
 		if ($type == 2) {

@@ -1,8 +1,6 @@
 <?php
 
 namespace Usercenter\Controller;
-
-use Usercenter\Model\goods_orderModel;
 use Home\Model\noticeModel;
 use Home\Model\goodsModel;
 use Usercenter\Model\view_favorite_listModel;
@@ -17,6 +15,7 @@ use Usercenter\Model\userModel;
 use Usercenter\Model\user_gradeModel;
 use Usercenter\Model\user_avatarModel;
 use Home\Model\view_prize_record_listModel;
+use Home\Model\goods_orderModel;
 
 /**
  * 用户个人中心
@@ -204,7 +203,7 @@ class IndexController extends LoginController {
 		}
 		$p = I ( 'p' );
 		$limit = 5;
-		$model = new goods_orderModel ();
+		$model = new goods_orderModel();
 		$set = $model->update ( I ( 'OId' ), I ( 'OType' ) );
 		if ($set ['status'] == 0) {
 			$this->error ( $set ['msg'] );
@@ -271,7 +270,7 @@ class IndexController extends LoginController {
 			$this->error ( '还没有打分哦！！' );
 			return false;
 		}
-		$model = new goods_orderModel ();
+		$model = new goods_orderModel();
 		$rst = $model->savestar ( I ( 'oid' ), I ( 'count' ) );
 		if (! $rst ['status']) {
 			$this->error ( '评价失败' );

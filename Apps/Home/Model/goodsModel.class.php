@@ -307,11 +307,12 @@ class goodsModel extends Model {
 		}
 	}
 	
-	/**
-	 * 商品下架
-	 * 
-	 * @param $goodsId, $userid        	
-	 */
+/**
+ * 商品下架/上架
+ * @param int $goodsId
+ * @param int $userid
+ * @param int $type 1，为下架，2上架
+ * @return array status，msg*/
 	public function del($goodsId, $userid,$type=1) {
 		switch ((int)$type) {
 			case 1 :

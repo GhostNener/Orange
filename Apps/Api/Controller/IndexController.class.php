@@ -6,6 +6,7 @@ use Home\Model\view_goods_listModel;
 use Home\Model\goods_categoryModel;
 use Home\Model\activityModel;
 use Home\Model\view_goods_comment_listModel;
+use Home\Model\view_search_listModel;
 
 /**
  * 首页控制器
@@ -113,6 +114,75 @@ class IndexController extends BaseController {
 				'satus' => 1,
 				'msg' => 'ok',
 				'commentlist' => $r ['list'] 
+		) );
+	}
+	/**
+	 * 搜索商品
+	 * 2014-12-11
+	 * get
+	 *
+	 * @param
+	 *        	string wd 关键字，p，第几页
+	 * @return array status,msg,list
+	 *        
+	 */
+	public function search() {
+		$title = I ( 'wd' );
+		if (! $title) {
+			echo json_encode ( array (
+					'satus' => 0,
+					'msg' => '关键字为空' 
+			) );
+			return;
+		}
+		$model = new view_search_listModel ();
+		$arr = $model->getsearchlist ( $title, 10 );
+		if (count ( $arr ['list'] ) <= 0) {
+			echo json_encode ( array (
+					'satus' => 0,
+					'msg' => '没有搜到符合的商品' 
+			) );
+			return;
+		}
+		echo json_encode ( array (
+				'satus' => 1,
+				'msg' => 'ok',
+				'list' => $arr ['list'] 
+		) );
+		return;
+	}
+	/**
+	 * 获得指定分类的商品列表
+	 * 2014-12-11
+	 * get
+	 * 
+	 * @param
+	 *        	string cid 分类Id，p 第几页
+	 * @return array status,msg,list
+	 *        
+	 */
+	public function cggoods() {
+		$id = I ( 'cid' );
+		$cmodel = D ( 'goods_category' )->where ( array (
+				'Status' => 10,
+				'Id' => $id 
+		) )->find ();
+		if (! $id || ! is_numeric ( $id ) || ! $cmodel) {
+			echo json_encode ( array (
+					'satus' => 0,
+					'msg' => '分类不存在' 
+			) );
+			return;
+		}
+		$m = new view_goods_listModel ();
+		$arr = $m->getlist ( array (
+				'Status' => 10,
+				'CategoryId' => $id 
+		), 10 );
+		echo json_encode ( array (
+				'satus' => 1,
+				'msg' => 'ok',
+				'list' => $arr ['list'] 
 		) );
 	}
 }
