@@ -222,6 +222,13 @@ class MemberController extends LoginBaseController {
 			) );
 			return;
 		}
+		if(empty($_FILES)){
+			echo json_encode ( array (
+					'status' => 0,
+					'msg' => '空数据' 
+			) );
+			return;
+		}
 		$setting = C ( 'UPLOAD_SITEIMG_QINIU' );
 		$setting ['savePath'] = 'Avatar/';
 		$Upload = new \Think\Upload ( $setting );
