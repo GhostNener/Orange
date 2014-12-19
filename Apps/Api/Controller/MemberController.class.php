@@ -237,7 +237,7 @@ class MemberController extends LoginBaseController {
 		if (! $filename) {
 			echo json_encode ( array (
 					'status' => 0,
-					'msg' => '上传失败' 
+					'msg' => '上传失败:获取文件名失败！' 
 			) );
 			return;
 		}

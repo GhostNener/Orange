@@ -51,7 +51,6 @@ class user_avatarModel extends Model {
 		$am = $this->where ( array (
 				'UserId' => $uid 
 		) )->find ();
-		
 		if (! $am) {
 			$r1 = 1;
 		} else {
