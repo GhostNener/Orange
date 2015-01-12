@@ -72,7 +72,7 @@
 						<!-- 选择线上交易的时候显示余额 -->
 						<span id="embalance">
 							金橘余额:
-							<span class="text-orange">.00</span>
+							<span class="text-orange"></span>
 							<button id="refbalance" type="button" class="btn btn-success btn-xs" title="刷新余额">
 								<span class="glyphicon glyphicon-refresh"></span>
 							</button>
@@ -323,8 +323,8 @@ function getbalance(isshowmsg){
             	if(isshowmsg){showsuccessmsg('刷新余额成功',100,500);}
             	$('#embalance').children('span').html(data.info+'');
             	$('#embalance').show();
-            	var _b=data.info;
-            	if($('#goodsprice').val()>_b){
+            	var _b=parseFloat(data.info);
+            	if(parseFloat($('#goodsprice').val())>_b){
             		$('#rechargebtn').show();
             		$('#surebuybtn').attr('disabled',true);
             	}else{
